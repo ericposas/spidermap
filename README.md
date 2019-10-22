@@ -8,6 +8,7 @@ Tech Stack:
 
 Current Deployment Method:
 - Develop API on local machine
+- If adding new Content Types, you'll need to do that locally and then update the server application
 - Push commits to github
 - Push updates manually via scp or rsync to ec2 instance
 

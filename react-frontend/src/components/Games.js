@@ -18,7 +18,7 @@ class Games extends Component {
   }
   getData = async () => {
     const { dispatch } = this.props
-    let url = 'http://127.0.0.1/games'
+    let url = `http://${process.env.IP}:${process.env.PORT}/games`
     try {
       let data = await axios.get(url)
       let gamesList = data.data.map(game => (
