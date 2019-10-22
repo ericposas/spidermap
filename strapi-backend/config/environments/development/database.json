@@ -1,0 +1,20 @@
+{
+  "defaultConnection": "default",
+  "connections": {
+    "default": {
+      "connector": "strapi-hook-mongoose",
+      "settings": {
+        "database": "spidermap",
+        "host": "cluster0-taijg.mongodb.net",
+        "srv": "true",
+        "port": 27017,
+        "username": "root",
+        "password": "root"
+      },
+      "options": {
+        "authenticationDatabase": "admin",
+        "ssl": true
+      }
+    }
+  }
+}

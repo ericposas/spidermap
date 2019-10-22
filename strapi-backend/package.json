@@ -1,0 +1,36 @@
+{
+  "name": "spidermap",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A Strapi application",
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "strapi": "3.0.0-beta.17.3",
+    "strapi-admin": "3.0.0-beta.17.3",
+    "strapi-utils": "3.0.0-beta.17.3",
+    "strapi-plugin-settings-manager": "3.0.0-beta.17.3",
+    "strapi-plugin-content-type-builder": "3.0.0-beta.17.3",
+    "strapi-plugin-content-manager": "3.0.0-beta.17.3",
+    "strapi-plugin-users-permissions": "3.0.0-beta.17.3",
+    "strapi-plugin-email": "3.0.0-beta.17.3",
+    "strapi-plugin-upload": "3.0.0-beta.17.3",
+    "strapi-hook-mongoose": "3.0.0-beta.17.3"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "strapi": {
+    "uuid": "e92145e1-d2cc-4a83-9b1d-6251cf0a6234"
+  },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
