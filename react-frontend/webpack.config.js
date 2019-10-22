@@ -4,7 +4,7 @@ const htmlPlugin = require('html-webpack-plugin')
 module.exports = {
   entry: [ '@babel/polyfill', './src/index.js' ],
   output: {
-    path: path.resolve(`${__dirname}/../backend/public`),
+    path: path.resolve(`${__dirname}/../strapi-backend/public`),
     filename: 'index.js'
   },
   watchOptions: {
