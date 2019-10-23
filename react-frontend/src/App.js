@@ -5,11 +5,6 @@ import Games from './components/Games'
 
 const App = ({ content }) => (
   <>
-    <BrowserRouter>
-      <Switch>
-        <Route path='/admin'/>
-      </Switch>
-    </BrowserRouter>
     <Router>
       <Switch>
         <Route exact path='/' render={() => (<div>{content}</div>)}/>
