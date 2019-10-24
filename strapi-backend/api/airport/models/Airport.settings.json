@@ -1,34 +1,30 @@
 {
   "connection": "default",
-  "collectionName": "airport",
+  "collectionName": "",
   "info": {
     "name": "airport",
-    "description": "full name, region, code, latitude, longitude, legal, comments"
+    "description": ""
   },
   "options": {
-    "timestamps": [
-      "createdAt",
-      "updatedAt"
-    ]
+    "timestamps": true
   },
   "attributes": {
-    "fullname": {
-      "type": "string",
-      "unique": true,
-      "required": true
-    },
-    "region": {
-      "type": "string",
-      "required": true
-    },
     "code": {
-      "type": "string",
-      "unique": true
-    },
-    "legal": {
       "type": "string"
     },
-    "comments": {
+    "fullname": {
+      "type": "string",
+      "required": true
+    },
+    "four_digit_code": {
+      "type": "string"
+    },
+    "region": {
+      "required": true,
+      "type": "string"
+    },
+    "city": {
+      "required": true,
       "type": "string"
     },
     "latitude": {
@@ -36,14 +32,6 @@
     },
     "longitude": {
       "type": "float"
-    },
-    "four_digit_code": {
-      "type": "string"
-    },
-    "city": {
-      "type": "string",
-      "unique": true,
-      "required": true
     }
   }
 }

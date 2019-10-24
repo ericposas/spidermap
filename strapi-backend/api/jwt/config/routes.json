@@ -1,0 +1,62 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/jwts/getByUserId",
+      "handler": "Jwt.getByUserId"
+    },
+    {
+      "method": "GET",
+      "path": "/jwts",
+      "handler": "Jwt.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/jwts/count",
+      "handler": "Jwt.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/jwts/:id",
+      "handler": "Jwt.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/jwts",
+      "handler": "Jwt.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/jwts/:id",
+      "handler": "Jwt.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/jwts/:id",
+      "handler": "Jwt.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/jwts/deleteByUserId",
+      "handler": "Jwt.deleteByUserId"
+    }
+  ]
+}
