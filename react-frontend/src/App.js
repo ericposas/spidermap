@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { HashRouter as Router, BrowserRouter, Route, Switch } from 'react-router-dom'
-import SpecificGame from './components/SpecificGame'
-import Games from './components/Games'
+import LoginPage from './components/Login/LoginPage'
+import TestProtectedRoute from './components/Pages/TestProtectedRoute'
 
-const App = ({ content }) => (
+const App = ({ ...props }) => (
   <>
     <Router>
       <Switch>
-        <Route exact path='/' render={() => (<div>{content}</div>)}/>
-        <Route path='/games' component={Games}/>
-        <Route path='/test' render={() => (<div>Test Route.</div>)}/>
+        <Route exact path='/' component={LoginPage}/>
+        <Route path='/testProtectedRoute' component={TestProtectedRoute}/>
       </Switch>
     </Router>
   </>
