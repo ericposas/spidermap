@@ -5,7 +5,7 @@ const axios = require('axios')
 const dotenv = require('dotenv')
 dotenv.config()
 let url
-if (process.env.NODE_ENV == 'development') {
+if (process.env.MODE == 'development') {
   url = `http://${process.env.DEV_IP}:${process.env.PORT}/airports`
 } else {
   url = `http://${process.env.PROD_IP}/airports`
@@ -64,7 +64,6 @@ inputStream
     rowObj.four_digit_code = row[5] != '\\N' ? row[5] : null
     rowObj.latitude = row[6]
     rowObj.longitude = row[7]
-    // console.log(rowObj)
     rows.push(rowObj)
   })
   .on('end', data => {

@@ -24,7 +24,7 @@ class SpecificGame extends Component {
     const { dispatch } = this.props
     let id = this.props.match.params.id
     let url
-    if (process.env.NODE_ENV == 'development') url = `http://${process.env.DEV_IP}:${process.env.PORT}/games/${id}`
+    if (process.env.MODE == 'development') url = `http://${process.env.DEV_IP}:${process.env.PORT}/games/${id}`
     else url = `http://${process.env.PROD_IP}/games/${id}`
     try {
       let data = await axios.get(url)

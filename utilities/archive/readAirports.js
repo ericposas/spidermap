@@ -29,7 +29,7 @@ const logLine = async line => {
 const postLine = async line => {
   try {
     let url
-    if (process.env.NODE_ENV == 'development') {
+    if (process.env.MODE == 'development') {
       url = `http://${DEV_IP}:${PORT}/airports`
     } else {
       url = `http://${PROD_IP}/airports`
