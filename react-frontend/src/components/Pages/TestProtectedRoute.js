@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Redirect, history } from 'react-router'
 import { withRouter } from 'react-router-dom'
-import { getUser, checkAuth } from '../../localStore'
+import checkAuth from '../../checkAuth'
+
+let session
 
 const TestProtectedRoute = ({ ...props }) => {
 
@@ -15,8 +17,9 @@ const TestProtectedRoute = ({ ...props }) => {
     )
   }
 
-  if (checkAuth()) {
-    let user = getUser().user.username
+  useEffect(() => { session = checkAuth() }, [])
+
+  if (session && session.sessionStatus == 'retrieved') {
     console.log('user is authenticated, you are free to continue.')
     return (
       <>

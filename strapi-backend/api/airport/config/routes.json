@@ -12,8 +12,18 @@
     },
     {
       "method": "POST",
-      "path": "/cookie",
-      "handler": "Session.cookie"
+      "path": "/logout",
+      "handler": "Session.logout"
+    },
+    {
+      "method": "POST",
+      "path": "/setCookie",
+      "handler": "Session.setCookie"
+    },
+    {
+      "method": "GET",
+      "path": "/getCookie",
+      "handler": "Session.getCookie"
     },
     {
       "method": "GET",

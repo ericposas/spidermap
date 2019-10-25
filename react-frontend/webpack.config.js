@@ -22,6 +22,7 @@ module.exports = () => {
       poll: true,
       ignored: /node_modules/
     },
+    mode: 'development',
     module: {
       rules: [
         {

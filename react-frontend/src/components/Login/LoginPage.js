@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SignIn from './SignIn'
 import url from '../../url'
 import axios from 'axios'
+// import checkAuth from '../../checkAuth'
 // import SignUp from './SignUp'
 
 const LoginPage = ({ ...props }) => {
@@ -10,22 +11,32 @@ const LoginPage = ({ ...props }) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  useEffect(() => handleLoginChange())
+  useEffect(() => {
+    handleLoginChange()
+  }, [])
 
-  const handleLogout = e => {
-    localStorage.removeItem('appUser')
+  const handleLogout = async e => {
+    // localStorage.removeItem('appUser')
+    let request = await axios.post(`${url}/logout`)
+    console.log(request)
     handleLoginChange()
   }
 
-  const handleLoginChange = () => {
+  const handleLoginChange = async () => {
     // check user loggedIn
-    let userData = JSON.parse(localStorage.getItem('appUser'))
-    if (userData) {
-      setIsLoggedIn(true)
-      setUser(userData.data.user.username)
-    } else {
-      setIsLoggedIn(false)
-      setUser('')
+    // let userData = JSON.parse(localStorage.getItem('appUser'))
+    try {
+      let session = await axios.get(`${url}/getSession`)
+      console.log(session)
+      if (session) {
+        setIsLoggedIn(true)
+        setUser(session.user.username)
+      } else {
+        setIsLoggedIn(false)
+        setUser('')
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 

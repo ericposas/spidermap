@@ -8,11 +8,22 @@ const SignIn = ({ ...props }) => {
 
   const [password, setPassword] = useState('')
 
-  const setLocalStorageLogin = data => {
+  const setSession = async data => {
     const { triggerLoginChange } = props
-    localStorage.setItem('appUser', JSON.stringify({ data: data }))
-    triggerLoginChange()
+    try {
+      let result = await axios.post(`${url}/setSession`, { user: data.user, jwt: data.jwt })
+      console.log('session set', result)
+      triggerLoginChange()
+    } catch (e) {
+      console.log(e)
+    }
   }
+  
+  // const setLocalStorageLogin = data => {
+  //   const { triggerLoginChange } = props
+  //   localStorage.setItem('appUser', JSON.stringify({ data: data }))
+  //   triggerLoginChange()
+  // }
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -20,7 +31,8 @@ const SignIn = ({ ...props }) => {
       let result = await axios.post(`${url}/auth/local`, { identifier: email, password: password })
       let data = result.data
       if (data.jwt && data.user) {
-        setLocalStorageLogin(data)
+        // setLocalStorageLogin(data)
+        setSession(data)
       }
     } catch (e) {
       console.log(e)
