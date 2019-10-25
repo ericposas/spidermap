@@ -1,8 +1,11 @@
 # Spidermap Application for American Airlines
 
+To do:
+- Set a time limit on the sessionStorage -- auto logout()
+
 Tech Stack:
 - ec2 compute instance
-- nginx server with reverse proxy 
+- nginx server with reverse proxy
 - strapi api backend
 - react frontend
 
@@ -14,4 +17,5 @@ Current Deployment Method:
 
 Scaling:
 - Upgrade ec2 instance before production
-- Upgrade mongodb replica set before production 
+- Increase elastic block storage on ec2 instance before production
+- Upgrade mongodb replica set before production
