@@ -8,7 +8,6 @@ const cookie = require('cookie')
 module.exports = {
 
   cookie: async ctx => {
-    // console.log(ctx.session)
     if (ctx.request.body && ctx.request.body.jwt) {
       let jwt = ctx.request.body.jwt
       ctx.response.set('Set-Cookie', cookie.serialize('jwt', String(jwt), {
@@ -20,11 +19,24 @@ module.exports = {
 
   },
 
-  session: async ctx => {
+  getSession: async ctx => {
+    if (ctx.session && ctx.session.jwt) {
+      ctx.send({ sessionStatus: 'retrieved' })
+    }
+  },
 
-    console.log(ctx.request.body)
-    // ctx.session.jwt
+  setSession: async ctx => {
+    if (ctx.request.body && ctx.request.body.jwt) {
+      ctx.session.jwt = ctx.request.body.jwt
+      ctx.send({ sessionStatus: 'saved' })
+    }
+  },
 
+  logout: async ctx => {
+    if (ctx.session.jwt) {
+      ctx.session.jwt = null
+      ctx.send({ sessionStatus: 'unset' })
+    }
   }
 
 };
