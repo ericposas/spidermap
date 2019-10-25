@@ -4,6 +4,9 @@ import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import App from './App'
 
+window.beforeunload = () => { localStorage.removeItem(process.env.APP_NAME) }
+window.unload = () => { localStorage.removeItem(process.env.APP_NAME) }
+
 const root = document.getElementById('root')
 const rootReducer = combineReducers({})
 const store = createStore(rootReducer)

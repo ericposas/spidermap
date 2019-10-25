@@ -16,11 +16,10 @@ const LoginPage = ({ ...props }) => {
     localStorage.removeItem(process.env.APP_NAME)
     handleLoginChange()
   }
-
+  
   const handleLoginChange = () => {
     // check user loggedIn
     let userData = JSON.parse(localStorage.getItem(process.env.APP_NAME))
-    console.log(userData)
     if (userData) {
       setIsLoggedIn(true)
       setUser(userData.data.user.username)
