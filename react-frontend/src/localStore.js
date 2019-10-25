@@ -1,7 +1,7 @@
 const checkAuth = () => {
-  if (localStorage.getItem('appUser')) {
-    let appUser = JSON.parse(localStorage.getItem('appUser'))
-    if (appUser.data.user.role.type == 'authenticated') {      
+  if (localStorage.getItem(process.env.APP_NAME)) {
+    let appUser = JSON.parse(localStorage.getItem(process.env.APP_NAME))
+    if (appUser.data.user.role.type == 'authenticated') {
       return true
     } else {
       return false
@@ -12,7 +12,7 @@ const checkAuth = () => {
 
 const getUser = () => {
   if (checkAuth()) {
-    let appUser = JSON.parse(localStorage.getItem('appUser'))
+    let appUser = JSON.parse(localStorage.getItem(process.env.APP_NAME))
     return appUser.data
   }
 }

@@ -10,7 +10,7 @@ const SignIn = ({ ...props }) => {
 
   const setLocalStorageLogin = data => {
     const { triggerLoginChange } = props
-    localStorage.setItem('appUser', JSON.stringify({ data: data }))
+    localStorage.setItem(process.env.APP_NAME, JSON.stringify({ data: data }))
     triggerLoginChange()
   }
 

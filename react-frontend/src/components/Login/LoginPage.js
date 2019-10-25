@@ -10,16 +10,17 @@ const LoginPage = ({ ...props }) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  useEffect(() => handleLoginChange())
+  useEffect(() => handleLoginChange(), [])
 
   const handleLogout = e => {
-    localStorage.removeItem('appUser')
+    localStorage.removeItem(process.env.APP_NAME)
     handleLoginChange()
   }
 
   const handleLoginChange = () => {
     // check user loggedIn
-    let userData = JSON.parse(localStorage.getItem('appUser'))
+    let userData = JSON.parse(localStorage.getItem(process.env.APP_NAME))
+    console.log(userData)
     if (userData) {
       setIsLoggedIn(true)
       setUser(userData.data.user.username)
