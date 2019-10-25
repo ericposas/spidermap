@@ -3,12 +3,12 @@
     {
       "method": "POST",
       "path": "/session",
-      "handler": "Airport.session"
+      "handler": "Session.session"
     },
     {
       "method": "GET",
       "path": "/cookie",
-      "handler": "Airport.cookie"
+      "handler": "Session.cookie"
     },
     {
       "method": "GET",
