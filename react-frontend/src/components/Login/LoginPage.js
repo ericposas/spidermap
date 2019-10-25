@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
 import SignIn from './SignIn'
+import SignUpPrompt from './SignUpPrompt'
 import url from '../../url'
 import axios from 'axios'
-// import SignUp from './SignUp'
 
 const LoginPage = ({ ...props }) => {
+
+  const { history } = props
 
   const [user, setUser] = useState('')
 
@@ -23,10 +26,15 @@ const LoginPage = ({ ...props }) => {
     if (userData) {
       setIsLoggedIn(true)
       setUser(userData.data.user.username)
+      // we'll redirect here to a <Dashboard/> Component 
     } else {
       setIsLoggedIn(false)
       setUser('')
     }
+  }
+
+  const handleSignUpClick = () => {
+    history.push('/signUp')
   }
 
   if (isLoggedIn) {
@@ -41,11 +49,11 @@ const LoginPage = ({ ...props }) => {
       <>
         <SignIn triggerLoginChange={handleLoginChange}/>
         <br/>
-        {/*<SignUp/>*/}
+        <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
       </>
     )
   }
 
 }
 
-export default LoginPage
+export default withRouter(LoginPage)
