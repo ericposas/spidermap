@@ -9,7 +9,7 @@ const TestProtectedRoute = ({ ...props }) => {
   const [isLoggedIn, setIsLoggedIn] = useState()
 
   const checkLogin = () => {
-    let userData = JSON.parse(localStorage.getItem(process.env.APP_NAME))
+    let userData = JSON.parse(sessionStorage.getItem(process.env.APP_NAME))
     if (userData) {
       setIsLoggedIn(true)
       setAppUser(userData.data.user.username)

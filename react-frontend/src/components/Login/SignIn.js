@@ -8,9 +8,9 @@ const SignIn = ({ ...props }) => {
 
   const [password, setPassword] = useState('')
 
-  const setLocalStorageLogin = data => {
+  const setsessionStorageLogin = data => {
     const { triggerLoginChange } = props
-    localStorage.setItem(process.env.APP_NAME, JSON.stringify({ data: data }))
+    sessionStorage.setItem(process.env.APP_NAME, JSON.stringify({ data: data }))
     triggerLoginChange()
   }
 
@@ -20,7 +20,7 @@ const SignIn = ({ ...props }) => {
       let result = await axios.post(`${url}/auth/local`, { identifier: email, password: password })
       let data = result.data
       if (data.jwt && data.user) {
-        setLocalStorageLogin(data)
+        setsessionStorageLogin(data)
       }
     } catch (e) {
       console.log(e)
