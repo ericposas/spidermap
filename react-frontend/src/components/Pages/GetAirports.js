@@ -1,11 +1,19 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { getUser } from '../../localStore'
+import { withRouter } from 'react-router-dom'
+import { getUser, checkAuth } from '../../localStore'
 import url from '../../url'
 import axios from 'axios'
 
 const GetAirports = ({ ...props }) => {
 
+  const { history } = props
+
   const [airports, setAirports] = useState(null)
+
+  useEffect(() => {
+    if (checkAuth()) getAirports()
+    else history.push('/')
+  }, [])
 
   const getAirports = async () => {
     try {
@@ -22,8 +30,6 @@ const GetAirports = ({ ...props }) => {
     }
   }
 
-  useEffect(() => { getAirports() }, [])
-
   return (
     <>
       <div>{airports}</div>
@@ -32,4 +38,4 @@ const GetAirports = ({ ...props }) => {
 
 }
 
-export default GetAirports
+export default withRouter(GetAirports)

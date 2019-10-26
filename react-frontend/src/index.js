@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import App from './App'
+import './globalStyles.scss'
 
 window.beforeunload = () => { sessionStorage.removeItem(process.env.APP_NAME) }
 window.unload = () => { sessionStorage.removeItem(process.env.APP_NAME) }

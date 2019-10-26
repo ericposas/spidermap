@@ -1,0 +1,18 @@
+
+.warning-required {
+  font-size: .75rem;
+  color: red;
+}
+
+.modal-registered,
+.modal-errored {
+  padding: 40px;
+}
+
+.modal-registered {
+  background-color: blue;
+}
+
+.modal-errored {
+  background-color: red;
+}

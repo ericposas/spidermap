@@ -9,6 +9,10 @@ const SignIn = ({ ...props }) => {
 
   const [password, setPassword] = useState('')
 
+  const [validEmail, setValidEmail] = useState(false)
+
+  const [validPassword, setValidPassword] = useState(false)
+
   const setsessionStorageLogin = data => {
     const { triggerLoginChange } = props
     sessionStorage.setItem(process.env.APP_NAME, JSON.stringify({ data: data }))
@@ -28,16 +32,28 @@ const SignIn = ({ ...props }) => {
     }
   }
 
-  const handleChangeEmail = e => setEmail(e.target.value)
+  const handleChangeEmail = e => {
+    let value = e.target.value
+    setEmail(value)
+    if (validator.isEmail(value)) setValidEmail(true)
+    else setValidEmail(false)
+  }
 
-  const handleChangePassword = e => setPassword(e.target.value)
+  const handleChangePassword = e => {
+    let value = e.target.value
+    setPassword(value)
+    if (value.toString().trim().length) setValidPassword(true)
+    else setValidPassword(false)
+  }
 
   return (
     <>
       <div>Please sign-in to continue</div>
       <form>
         <input type='text' name='email' value={email} onChange={handleChangeEmail} />
-        <input type='text' name='password' value={password} onChange={handleChangePassword} />
+        { validEmail ? '' : <><div className='warning-required'>valid email required</div></> }
+        <input type='password' name='password' value={password} onChange={handleChangePassword} />
+        { validPassword ? '' : <><div className='warning-required'>required</div></> }
         <input type='submit' name='submit' value='submit' onClick={handleSubmit} />
       </form>
     </>

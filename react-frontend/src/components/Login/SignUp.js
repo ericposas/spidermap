@@ -22,6 +22,8 @@ const SignUp = ({ ...props }) => {
 
   const [regModalVis, setRegModalVis] = useState(false)
 
+  const [errorModalVis, setErrorModalVis] = useState(false)
+
   const registerUser = async e => {
     e.preventDefault()
     console.log('registering user')
@@ -38,14 +40,14 @@ const SignUp = ({ ...props }) => {
         setRegModalVis(true)
         setTimeout(() => { history.push('/') }, 2000)
       }
-      // if fail..
-      // need to capture some sort of 'failed' status to show the user 
-
     } catch (e) {
-      console.log(e)
+      // console.log(e)
+      console.log(e.message)
+      setErrorModalVis(true)
+      setTimeout(() => { setErrorModalVis(false) }, 2500)
     }
   }
-
+  
   const checkUsernameInput = e => {
     let value = e.target.value
     setUsername(value)
@@ -71,9 +73,14 @@ const SignUp = ({ ...props }) => {
     <>
       {
         regModalVis
-        ? <><div style={{backgroundColor:'blue',padding:'40px'}}>User has been registered, please login to continue</div></>
+        ? <><div className='modal-registered'>User has been registered, please login to continue</div></>
         : ''
-       }
+      }
+      {
+        errorModalVis
+        ? <><div className='modal-errored'>A user with the supplied credentials already exists or you have supplied invalid credentials</div></>
+        : ''
+      }
       <div>Register</div>
       <form>
         <input type='text' value={username} onChange={checkUsernameInput}/>

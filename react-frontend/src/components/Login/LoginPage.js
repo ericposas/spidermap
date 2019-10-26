@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import SignIn from './SignIn'
 import SignUpPrompt from './SignUpPrompt'
+import Dashboard from '../Pages/Dashboard'
 import url from '../../url'
 import axios from 'axios'
 
@@ -26,7 +27,6 @@ const LoginPage = ({ ...props }) => {
     if (userData) {
       setIsLoggedIn(true)
       setUser(userData.data.user.username)
-      // we'll redirect here to a <Dashboard/> Component
     } else {
       setIsLoggedIn(false)
       setUser('')
@@ -41,35 +41,15 @@ const LoginPage = ({ ...props }) => {
     <>
       {
         isLoggedIn
-        ? (<>
-            <div>Welcome {user}</div>
-            <button style={{float:'right'}} onClick={handleLogout}>logout</button>
-           </>)
-        : (<>
+        ? <Dashboard user={user} logoutHandler={handleLogout}/>
+        : <>
             <SignIn triggerLoginChange={handleLoginChange}/>
             <br/>
             <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
-          </>)
+          </>
       }
     </>
   )
-  
-  // if (isLoggedIn) {
-  //   return (
-  //     <>
-  //       <div>Welcome {user}</div>
-  //       <button style={{float:'right'}} onClick={handleLogout}>logout</button>
-  //     </>
-  //   )
-  // } else {
-  //   return (
-  //     <>
-  //       <SignIn triggerLoginChange={handleLoginChange}/>
-  //       <br/>
-  //       <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
-  //     </>
-  //   )
-  // }
 
 }
 
