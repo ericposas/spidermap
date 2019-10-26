@@ -2,6 +2,14 @@
   "routes": [
     {
       "method": "GET",
+      "path": "/airports/byCode",
+      "handler": "Airport.findByCode",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/airports",
       "handler": "Airport.find",
       "config": {

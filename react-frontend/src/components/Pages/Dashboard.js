@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import Dropdown_SearchByCode from '../Dropdowns/Dropdown_SearchByCode'
 import { LAST_LOCATION } from '../../constants/constants'
 
 const Dashboard = ({ ...props }) => {
@@ -36,6 +37,10 @@ const Dashboard = ({ ...props }) => {
       <div>See airports list</div>
       <button className='button-plain' onClick={airportsPageButtonHandler}>Airports</button>
       <button className='button-logout' onClick={handleLogout}>logout</button>
+      <br/>
+      <br/>
+      <div>Testing Search bars..</div>
+      <div style={{display:'inline-block'}}>search by airport code: &nbsp;</div><Dropdown_SearchByCode/>
     </>
   )
 
