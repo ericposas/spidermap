@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SignIn from './SignIn'
 import SignUpPrompt from './SignUpPrompt'
@@ -16,30 +17,34 @@ const LoginPage = ({ ...props }) => {
 
   const [ifLoggedOut, setIfLoggedOut] = useState(false)
 
-  useEffect(() => handleLoginChange(), [isLoggedIn])
+  const lastLocation = useSelector(state => state.lastLocation)
 
-  const handleLogout = e => {
-    sessionStorage.removeItem(process.env.APP_NAME)
-    handleLoginChange()
-    setIfLoggedOut(true)
-    setTimeout(() => setIfLoggedOut(false), 1500)
-  }
+  useEffect(() => handleLoginChange(), [])
+
+  // const handleLogout = e => {
+  //   sessionStorage.removeItem(process.env.APP_NAME)
+  //   handleLoginChange()
+  //   setIfLoggedOut(true)
+  //   setTimeout(() => setIfLoggedOut(false), 1500)
+  // }
 
   const handleLoginChange = () => {
     // check user loggedIn
     let userData = JSON.parse(sessionStorage.getItem(process.env.APP_NAME))
     if (userData) {
       setIsLoggedIn(true)
-      setUser(userData.data.user.username)
+      history.push('/dashboard')
+      // <Dashboard user={user} logoutHandler={handleLogout}/>
+      // setUser(userData.data.user.username)
     } else {
+      // show user logged out if done so recently
+      if (lastLocation) { setIfLoggedOut(true); setTimeout(() => setIfLoggedOut(false), 1500); }
       setIsLoggedIn(false)
-      setUser('')
+      // setUser('')
     }
   }
-
-  const handleSignUpClick = () => {
-    history.push('/signUp')
-  }
+  
+  const handleSignUpClick = () => history.push('/signUp')
 
   return (
     <>
@@ -47,13 +52,12 @@ const LoginPage = ({ ...props }) => {
         ifLoggedOut ? (<><div className='modal-loggedout'>You've been logged out.</div></>) : ''
       }
       {
-        isLoggedIn
-        ? <Dashboard user={user} logoutHandler={handleLogout}/>
-        : <>
+        !isLoggedIn
+        ? (<>
             <SignIn triggerLoginChange={handleLoginChange}/>
             <br/>
             <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
-          </>
+          </>) : ''
       }
     </>
   )
