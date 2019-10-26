@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import Dropdown_SearchByCode from '../Dropdowns/Dropdown_SearchByCode'
+import Dropdown from '../Dropdowns/Dropdown'
 import { LAST_LOCATION } from '../../constants/constants'
 
 const Dashboard = ({ ...props }) => {
@@ -40,7 +40,9 @@ const Dashboard = ({ ...props }) => {
       <br/>
       <br/>
       <div>Testing Search bars..</div>
-      <div style={{display:'inline-block'}}>search by airport code: &nbsp;</div><Dropdown_SearchByCode/>
+      <div style={{display:'inline-block'}}>search by airport code: &nbsp;</div><Dropdown type='code'/><br/>
+      <div style={{display:'inline-block'}}>search by region: &nbsp;</div><Dropdown type='region'/>
+
     </>
   )
 
