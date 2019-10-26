@@ -26,7 +26,7 @@ const LoginPage = ({ ...props }) => {
     if (userData) {
       setIsLoggedIn(true)
       setUser(userData.data.user.username)
-      // we'll redirect here to a <Dashboard/> Component 
+      // we'll redirect here to a <Dashboard/> Component
     } else {
       setIsLoggedIn(false)
       setUser('')
@@ -37,22 +37,39 @@ const LoginPage = ({ ...props }) => {
     history.push('/signUp')
   }
 
-  if (isLoggedIn) {
-    return (
-      <>
-        <div>Welcome {user}</div>
-        <button style={{float:'right'}} onClick={handleLogout}>logout</button>
-      </>
-    )
-  } else {
-    return (
-      <>
-        <SignIn triggerLoginChange={handleLoginChange}/>
-        <br/>
-        <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
-      </>
-    )
-  }
+  return (
+    <>
+      {
+        isLoggedIn
+        ? (<>
+            <div>Welcome {user}</div>
+            <button style={{float:'right'}} onClick={handleLogout}>logout</button>
+           </>)
+        : (<>
+            <SignIn triggerLoginChange={handleLoginChange}/>
+            <br/>
+            <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
+          </>)
+      }
+    </>
+  )
+  
+  // if (isLoggedIn) {
+  //   return (
+  //     <>
+  //       <div>Welcome {user}</div>
+  //       <button style={{float:'right'}} onClick={handleLogout}>logout</button>
+  //     </>
+  //   )
+  // } else {
+  //   return (
+  //     <>
+  //       <SignIn triggerLoginChange={handleLoginChange}/>
+  //       <br/>
+  //       <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
+  //     </>
+  //   )
+  // }
 
 }
 

@@ -2,6 +2,10 @@
 
 To do:
 - Set a time limit on the sessionStorage -- auto logout()
+- Use setTimeout() with a timer of 15 minutes or so
+- Every time the user interacts with the application, reset the timer
+- Upon timer run out, invalidate the jwt by deleting the sessionStorage variable
+- Upon timer run out, redirect user to a "you have been logged out page"
 
 Tech Stack:
 - ec2 compute instance

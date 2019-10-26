@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import url from '../../url'
 import axios from 'axios'
+import validator from 'validator'
 
 const SignIn = ({ ...props }) => {
 
