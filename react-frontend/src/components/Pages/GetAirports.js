@@ -15,15 +15,15 @@ const GetAirports = ({ ...props }) => {
 
   useEffect(() => {
     if (checkAuth()) {
-      getAirports()
-    }
-    else {
+      if (!airports) getAirports()
+    } else {
       setAirports(<><div>Error: user is not logged in</div></>)
       setTimeout(() => history.push('/'), 1500)
     }
-  }, [])
+  }, [airports])
 
   const getAirports = async () => {
+    console.log('getting airports...')
     try {
       // proper auth route options
       // let create = await axios.post(`${url}/airports/`, { code: 'DFW', fullname: 'Dallas / Ft. Worth', region: 'North America', city: 'Dallas', latitude: 0.0, longitude: 0.0 }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
