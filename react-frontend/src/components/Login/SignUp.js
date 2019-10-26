@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import url from '../../url'
 import axios from 'axios'
 import validator from 'validator'
+import { LAST_LOCATION } from '../../constants/constants'
 
 const SignUp = ({ ...props }) => {
 
@@ -46,7 +47,7 @@ const SignUp = ({ ...props }) => {
         setRegModalVis(true)
         setTimeout(() => {
           setSubmitVis(true)
-          dispatch({ type: 'LAST_LOCATION', payload: 'signup' })
+          dispatch({ type: LAST_LOCATION, payload: 'signup' })
           history.push('/')
         }, 2000)
       }

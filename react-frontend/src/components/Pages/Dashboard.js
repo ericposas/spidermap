@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { LAST_LOCATION } from '../../constants/constants'
 
 const Dashboard = ({ ...props }) => {
 
@@ -12,13 +13,13 @@ const Dashboard = ({ ...props }) => {
 
   const airportsPageButtonHandler = () => {
     history.push('/getAirports')
-    dispatch({ type: 'LAST_LOCATION', payload: 'dashboard' })
+    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
   }
 
   const handleLogout = e => {
     sessionStorage.removeItem(process.env.APP_NAME)
     setTimeout(() => {
-      dispatch({ type: 'LAST_LOCATION', payload: 'dashboard' })
+      dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
       history.push('/')
     }, 0)
   }

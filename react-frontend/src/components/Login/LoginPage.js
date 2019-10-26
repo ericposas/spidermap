@@ -6,6 +6,7 @@ import SignUpPrompt from './SignUpPrompt'
 import Dashboard from '../Pages/Dashboard'
 import url from '../../url'
 import axios from 'axios'
+import { LAST_LOCATION } from '../../constants/constants'
 
 const LoginPage = ({ ...props }) => {
 
@@ -28,7 +29,7 @@ const LoginPage = ({ ...props }) => {
     let userData = JSON.parse(sessionStorage.getItem(process.env.APP_NAME))
     if (userData) {
       setIsLoggedIn(true)
-      dispatch({ type: 'LAST_LOCATION', payload: 'login' })
+      dispatch({ type: LAST_LOCATION, payload: 'login' })
       history.push('/dashboard')
     } else {
       // show user logged out if done so recently
@@ -39,7 +40,7 @@ const LoginPage = ({ ...props }) => {
 
   const handleSignUpClick = () => {
     history.push('/signUp')
-    dispatch({ type: 'LAST_LOCATION', payload: 'login' })
+    dispatch({ type: LAST_LOCATION, payload: 'login' })
   }
 
   return (
