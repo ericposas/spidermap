@@ -23,13 +23,6 @@ const LoginPage = ({ ...props }) => {
 
   useEffect(() => handleLoginChange(), [])
 
-  // const handleLogout = e => {
-  //   sessionStorage.removeItem(process.env.APP_NAME)
-  //   handleLoginChange()
-  //   setIfLoggedOut(true)
-  //   setTimeout(() => setIfLoggedOut(false), 1500)
-  // }
-
   const handleLoginChange = () => {
     // check user loggedIn
     let userData = JSON.parse(sessionStorage.getItem(process.env.APP_NAME))
@@ -37,13 +30,10 @@ const LoginPage = ({ ...props }) => {
       setIsLoggedIn(true)
       dispatch({ type: 'LAST_LOCATION', payload: 'login' })
       history.push('/dashboard')
-      // <Dashboard user={user} logoutHandler={handleLogout}/>
-      // setUser(userData.data.user.username)
     } else {
       // show user logged out if done so recently
       if (lastLocation) { setIfLoggedOut(true); setTimeout(() => setIfLoggedOut(false), 1500); }
       setIsLoggedIn(false)
-      // setUser('')
     }
   }
 
@@ -56,7 +46,7 @@ const LoginPage = ({ ...props }) => {
     <>
       {
         ifLoggedOut
-        ? (<><div className='modal-loggedout'>logged out.</div></>)
+        ? (<><div className='modal-loggedout'>not logged in.</div></>)
         : ''
       }
       {
