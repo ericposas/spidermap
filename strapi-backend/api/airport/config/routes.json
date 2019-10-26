@@ -1,16 +1,6 @@
 {
   "routes": [
     {
-      "method": "POST",
-      "path": "/session",
-      "handler": "Session.session"
-    },
-    {
-      "method": "GET",
-      "path": "/cookie",
-      "handler": "Session.cookie"
-    },
-    {
       "method": "GET",
       "path": "/airports",
       "handler": "Airport.find",
