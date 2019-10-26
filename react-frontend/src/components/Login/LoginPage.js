@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SignIn from './SignIn'
 import SignUpPrompt from './SignUpPrompt'
@@ -17,6 +17,8 @@ const LoginPage = ({ ...props }) => {
 
   const [ifLoggedOut, setIfLoggedOut] = useState(false)
 
+  const dispatch = useDispatch()
+
   const lastLocation = useSelector(state => state.lastLocation)
 
   useEffect(() => handleLoginChange(), [])
@@ -33,6 +35,7 @@ const LoginPage = ({ ...props }) => {
     let userData = JSON.parse(sessionStorage.getItem(process.env.APP_NAME))
     if (userData) {
       setIsLoggedIn(true)
+      dispatch({ type: 'LAST_LOCATION', payload: 'login' })
       history.push('/dashboard')
       // <Dashboard user={user} logoutHandler={handleLogout}/>
       // setUser(userData.data.user.username)
@@ -43,13 +46,18 @@ const LoginPage = ({ ...props }) => {
       // setUser('')
     }
   }
-  
-  const handleSignUpClick = () => history.push('/signUp')
+
+  const handleSignUpClick = () => {
+    history.push('/signUp')
+    dispatch({ type: 'LAST_LOCATION', payload: 'login' })
+  }
 
   return (
     <>
       {
-        ifLoggedOut ? (<><div className='modal-loggedout'>You've been logged out.</div></>) : ''
+        ifLoggedOut
+        ? (<><div className='modal-loggedout'>logged out.</div></>)
+        : ''
       }
       {
         !isLoggedIn

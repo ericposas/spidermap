@@ -10,7 +10,10 @@ const Dashboard = ({ ...props }) => {
 
   const { logoutHandler, history } = props
 
-  const airportsPageButtonHandler = () => history.push('/getAirports')
+  const airportsPageButtonHandler = () => {
+    history.push('/getAirports')
+    dispatch({ type: 'LAST_LOCATION', payload: 'dashboard' })
+  }
 
   const handleLogout = e => {
     sessionStorage.removeItem(process.env.APP_NAME)

@@ -46,6 +46,7 @@ const SignUp = ({ ...props }) => {
         setRegModalVis(true)
         setTimeout(() => {
           setSubmitVis(true)
+          dispatch({ type: 'LAST_LOCATION', payload: 'signup' })
           history.push('/')
         }, 2000)
       }

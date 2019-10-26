@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { getUser, checkAuth } from '../../localStore'
 import url from '../../url'
 import axios from 'axios'
@@ -9,6 +10,8 @@ const GetAirports = ({ ...props }) => {
   const { history } = props
 
   const [airports, setAirports] = useState(null)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (checkAuth()) {
