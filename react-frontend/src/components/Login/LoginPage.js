@@ -14,7 +14,7 @@ const LoginPage = ({ ...props }) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  useEffect(() => handleLoginChange(), [])
+  useEffect(() => handleLoginChange(), [isLoggedIn])
 
   const handleLogout = e => {
     sessionStorage.removeItem(process.env.APP_NAME)

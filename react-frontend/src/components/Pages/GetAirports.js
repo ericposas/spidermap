@@ -11,8 +11,13 @@ const GetAirports = ({ ...props }) => {
   const [airports, setAirports] = useState(null)
 
   useEffect(() => {
-    if (checkAuth()) getAirports()
-    else history.push('/')
+    if (checkAuth()) {
+      getAirports()
+    }
+    else {
+      setAirports(<><div>Error: user is not logged in</div></>)
+      setTimeout(() => history.push('/'), 1500)
+    }
   }, [])
 
   const getAirports = async () => {

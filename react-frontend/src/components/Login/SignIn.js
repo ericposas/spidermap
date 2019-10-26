@@ -13,10 +13,21 @@ const SignIn = ({ ...props }) => {
 
   const [validPassword, setValidPassword] = useState(false)
 
-  const setsessionStorageLogin = data => {
+  const [successModalVis, setSuccessModalVis] = useState(false)
+
+  const [failModalVis, setFailModalVis] = useState(false)
+
+  const [submitVis, setSubmitVis] = useState(true)
+
+  const setSessionStorageLogin = data => {
     const { triggerLoginChange } = props
     sessionStorage.setItem(process.env.APP_NAME, JSON.stringify({ data: data }))
-    triggerLoginChange()
+    setSubmitVis(false)
+    setTimeout(() => {
+      setSubmitVis(true)
+      setSuccessModalVis(false)
+      triggerLoginChange()
+    }, 2000)
   }
 
   const handleSubmit = async e => {
@@ -25,13 +36,24 @@ const SignIn = ({ ...props }) => {
       let result = await axios.post(`${url}/auth/local`, { identifier: email, password: password })
       let data = result.data
       if (data.jwt && data.user) {
-        setsessionStorageLogin(data)
+        setEmail('')
+        setPassword('')
+        setSessionStorageLogin(data)
+        setSuccessModalVis(true)
       }
     } catch (e) {
       console.log(e)
+      setEmail('')
+      setPassword('')
+      setFailModalVis(true)
+      setSubmitVis(false)
+      setTimeout(() => {
+        setSubmitVis(true)
+        setFailModalVis(false)
+      }, 1500)
     }
   }
-
+  
   const handleChangeEmail = e => {
     let value = e.target.value
     setEmail(value)
@@ -48,13 +70,15 @@ const SignIn = ({ ...props }) => {
 
   return (
     <>
+      { successModalVis ? <><div className='modal-success'>Sign-in successful!</div></> : '' }
+      { failModalVis ? <><div className='modal-errored'>Sign-in failed.</div></> : '' }
       <div>Please sign-in to continue</div>
       <form>
         <input type='text' name='email' value={email} onChange={handleChangeEmail} />
         { validEmail ? '' : <><div className='warning-required'>valid email required</div></> }
         <input type='password' name='password' value={password} onChange={handleChangePassword} />
         { validPassword ? '' : <><div className='warning-required'>required</div></> }
-        <input type='submit' name='submit' value='submit' onClick={handleSubmit} />
+        { submitVis ? <input type='submit' name='submit' value='submit' onClick={handleSubmit} /> : '' }
       </form>
     </>
   )

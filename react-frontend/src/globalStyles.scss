@@ -4,9 +4,14 @@
   color: red;
 }
 
+.modal-success,
 .modal-registered,
 .modal-errored {
   padding: 40px;
+}
+
+.modal-success {
+  background-color: green;
 }
 
 .modal-registered {
