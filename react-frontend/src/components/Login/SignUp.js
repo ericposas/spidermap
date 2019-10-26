@@ -24,6 +24,10 @@ const SignUp = ({ ...props }) => {
 
   const [errorModalVis, setErrorModalVis] = useState(false)
 
+  const [submitVis, setSubmitVis] = useState(true)
+
+  const [submitted, setSubmitted] = useState(false)
+
   const registerUser = async e => {
     e.preventDefault()
     console.log('registering user')
@@ -37,17 +41,26 @@ const SignUp = ({ ...props }) => {
       // redirect upon successful register, else show a failed modal
       // console.log(result.data)
       if (result.data.user.confirmed == true) {
+        setSubmitted(true)
+        setSubmitVis(false)
         setRegModalVis(true)
-        setTimeout(() => { history.push('/') }, 2000)
+        setTimeout(() => {
+          setSubmitVis(true)
+          history.push('/')
+        }, 2000)
       }
     } catch (e) {
       // console.log(e)
       console.log(e.message)
+      setSubmitVis(false)
       setErrorModalVis(true)
-      setTimeout(() => { setErrorModalVis(false) }, 2500)
+      setTimeout(() => {
+        setSubmitVis(true)
+        setErrorModalVis(false)
+      }, 2500)
     }
   }
-  
+
   const checkUsernameInput = e => {
     let value = e.target.value
     setUsername(value)
@@ -81,16 +94,21 @@ const SignUp = ({ ...props }) => {
         ? <><div className='modal-errored'>A user with the supplied credentials already exists or you have supplied invalid credentials</div></>
         : ''
       }
-      <div>Register</div>
-      <form>
-        <input type='text' value={username} onChange={checkUsernameInput}/>
-        { usernameValid ? '' : <><div>required</div></> }
-        <input type='text' value={email} onChange={checkEmailInput}/>
-        { emailValid ? '' : <><div>valid email required</div></> }
-        <input type='password' value={password} onChange={checkPasswordInput}/>
-        <input type='submit' value='submit' onClick={registerUser}/>
-        { passwordValid ? '' : <><div>password required</div></> }
-      </form>
+    {
+      !submitted
+      ? (<>
+          <div>Register</div>
+          <form>
+            <input type='text' value={username} onChange={checkUsernameInput} placeholder='username'/><br/>
+            { usernameValid ? '' : <><div className='warning-required'>required</div></> }
+            <input type='text' value={email} onChange={checkEmailInput} placeholder='email'/><br/>
+            { emailValid ? '' : <><div className='warning-required'>valid email required</div></> }
+            <input type='password' value={password} onChange={checkPasswordInput} placeholder='password'/><br/>
+            { passwordValid ? '' : <><div className='warning-required'>password required</div><br/></> }
+            { submitVis ? <><input type='submit' value='submit' onClick={registerUser}/></> : '' }
+          </form>
+        </>) : ''
+    }
     </>
   )
 

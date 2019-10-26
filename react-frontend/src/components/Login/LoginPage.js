@@ -44,11 +44,7 @@ const LoginPage = ({ ...props }) => {
   return (
     <>
       {
-        ifLoggedOut
-        ? (<>
-            <div className='modal-loggedout'>You've been logged out.</div>
-          </>)
-        : ''
+        ifLoggedOut ? (<><div className='modal-loggedout'>You've been logged out.</div></>) : ''
       }
       {
         isLoggedIn

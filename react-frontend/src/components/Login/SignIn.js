@@ -53,7 +53,7 @@ const SignIn = ({ ...props }) => {
       }, 1500)
     }
   }
-  
+
   const handleChangeEmail = e => {
     let value = e.target.value
     setEmail(value)
@@ -74,9 +74,9 @@ const SignIn = ({ ...props }) => {
       { failModalVis ? <><div className='modal-errored'>Sign-in failed.</div></> : '' }
       <div>Please sign-in to continue</div>
       <form>
-        <input type='text' name='email' value={email} onChange={handleChangeEmail} />
+        <input type='text' name='email' value={email} onChange={handleChangeEmail} placeholder='email address'/><br/>
         { validEmail ? '' : <><div className='warning-required'>valid email required</div></> }
-        <input type='password' name='password' value={password} onChange={handleChangePassword} />
+        <input type='password' name='password' value={password} onChange={handleChangePassword} placeholder='password'/><br/>
         { validPassword ? '' : <><div className='warning-required'>required</div></> }
         { submitVis ? <input type='submit' name='submit' value='submit' onClick={handleSubmit} /> : '' }
       </form>
