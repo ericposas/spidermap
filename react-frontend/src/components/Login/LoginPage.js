@@ -14,11 +14,15 @@ const LoginPage = ({ ...props }) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
+  const [ifLoggedOut, setIfLoggedOut] = useState(false)
+
   useEffect(() => handleLoginChange(), [isLoggedIn])
 
   const handleLogout = e => {
     sessionStorage.removeItem(process.env.APP_NAME)
     handleLoginChange()
+    setIfLoggedOut(true)
+    setTimeout(() => setIfLoggedOut(false), 1500)
   }
 
   const handleLoginChange = () => {
@@ -39,6 +43,13 @@ const LoginPage = ({ ...props }) => {
 
   return (
     <>
+      {
+        ifLoggedOut
+        ? (<>
+            <div className='modal-loggedout'>You've been logged out.</div>
+          </>)
+        : ''
+      }
       {
         isLoggedIn
         ? <Dashboard user={user} logoutHandler={handleLogout}/>

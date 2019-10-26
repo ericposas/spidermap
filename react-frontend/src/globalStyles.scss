@@ -4,6 +4,7 @@
   color: red;
 }
 
+.modal-loggedout,
 .modal-success,
 .modal-registered,
 .modal-errored {
@@ -20,4 +21,8 @@
 
 .modal-errored {
   background-color: red;
+}
+
+.modal-loggedout {
+  background-color: yellow;
 }
