@@ -1,51 +1,66 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import SignIn from './SignIn'
+import SignUpPrompt from './SignUpPrompt'
+import Dashboard from '../Pages/Dashboard'
 import url from '../../url'
 import axios from 'axios'
-// import SignUp from './SignUp'
+import { LAST_LOCATION } from '../../constants/constants'
 
 const LoginPage = ({ ...props }) => {
+
+  const { history } = props
 
   const [user, setUser] = useState('')
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  useEffect(() => handleLoginChange())
+  const [ifLoggedOut, setIfLoggedOut] = useState(false)
 
-  const handleLogout = e => {
-    localStorage.removeItem('appUser')
-    handleLoginChange()
-  }
+  const dispatch = useDispatch()
+
+  const lastLocation = useSelector(state => state.lastLocation)
+
+  useEffect(() => handleLoginChange(), [])
 
   const handleLoginChange = () => {
     // check user loggedIn
-    let userData = JSON.parse(localStorage.getItem('appUser'))
+    let userData = JSON.parse(sessionStorage.getItem(process.env.APP_NAME))
     if (userData) {
       setIsLoggedIn(true)
-      setUser(userData.data.user.username)
+      dispatch({ type: LAST_LOCATION, payload: 'login' })
+      history.push('/dashboard')
     } else {
+      // show user logged out if done so recently
+      if (lastLocation) { setIfLoggedOut(true); setTimeout(() => setIfLoggedOut(false), 1500); }
       setIsLoggedIn(false)
-      setUser('')
     }
   }
 
-  if (isLoggedIn) {
-    return (
-      <>
-        <div>Welcome {user}</div>
-        <button style={{float:'right'}} onClick={handleLogout}>logout</button>
-      </>
-    )
-  } else {
-    return (
-      <>
-        <SignIn triggerLoginChange={handleLoginChange}/>
-        <br/>
-        {/*<SignUp/>*/}
-      </>
-    )
+  const handleSignUpClick = () => {
+    history.push('/signUp')
+    dispatch({ type: LAST_LOCATION, payload: 'login' })
   }
+
+  return (
+    <>
+      {
+        ifLoggedOut
+        ? (<><div className='modal-loggedout'>not logged in.</div></>)
+        : ''
+      }
+      {
+        !isLoggedIn
+        ? (<>
+            <SignIn triggerLoginChange={handleLoginChange}/>
+            <br/>
+            <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
+          </>) : ''
+      }
+    </>
+  )
 
 }
 
-export default LoginPage
+export default withRouter(LoginPage)

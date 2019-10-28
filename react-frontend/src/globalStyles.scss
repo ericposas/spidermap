@@ -1,0 +1,55 @@
+$default-button-color: #1B85BF;
+$default-button-text-color: #FFF;
+$plain-button-color: #FFF;
+$plain-button-text-color: #000;
+
+.button-default {
+  border: none;
+  color: $default-button-text-color;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 4px;
+  background-color: $default-button-color;
+}
+
+.button-plain {
+  @extend .button-default;
+  border: 1px solid #CCC;
+  color: $plain-button-text-color;
+  background-color: $plain-button-color;
+}
+
+.button-logout {
+  @extend .button-default;
+  position: absolute;
+  top: .5rem; right: .5rem;
+}
+
+.warning-required {
+  font-size: .75rem;
+  color: red;
+}
+
+.modal-loggedout,
+.modal-success,
+.modal-registered,
+.modal-errored {
+  padding: 40px;
+}
+
+.modal-success {
+  background-color: green;
+}
+
+.modal-registered {
+  background-color: $default-button-color;
+}
+
+.modal-errored {
+  background-color: red;
+}
+
+.modal-loggedout {
+  background-color: yellow;
+}

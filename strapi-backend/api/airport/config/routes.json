@@ -2,18 +2,11 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/getSession",
-      "handler": "Session.getSession"
-    },
-    {
-      "method": "POST",
-      "path": "/setSession",
-      "handler": "Session.setSession"
-    },
-    {
-      "method": "POST",
-      "path": "/cookie",
-      "handler": "Session.cookie"
+      "path": "/airports/byCode",
+      "handler": "Airport.findByCode",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "GET",
