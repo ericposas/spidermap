@@ -1,12 +1,15 @@
 {
   "connection": "default",
-  "collectionName": "",
+  "collectionName": "airport",
   "info": {
     "name": "airport",
     "description": ""
   },
   "options": {
-    "timestamps": true
+    "timestamps": [
+      "createdAt",
+      "updatedAt"
+    ]
   },
   "attributes": {
     "code": {
@@ -16,7 +19,7 @@
       "type": "string",
       "required": true
     },
-    "four_digit_code": {
+    "icao": {
       "type": "string"
     },
     "region": {

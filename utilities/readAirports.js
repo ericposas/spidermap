@@ -25,7 +25,7 @@ const pushToDB = async row => {
     let result = await axios.post(url, {
       code: row.code,
       fullname: row.fullname,
-      four_digit_code: row.four_digit_code,
+      icao: row.four_digit_code,
       region: row.region,
       city: row.city,
       latitude: row.latitude,
