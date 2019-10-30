@@ -17,6 +17,9 @@ const Dropdown = ({ ...props }) => {
 
   const [selection, setSelection] = useState([])
 
+  const [airportsPerCategory, setAirportsPerCategory] = useState({})
+  // let airportsPerCategory = {}
+
   useEffect(() => {
     if (checkAuth()) {
       if (options.length == 0) {
@@ -44,7 +47,7 @@ const Dropdown = ({ ...props }) => {
 
   const createOptionsFromCategory = async () => {
     try {
-      let airportsPerCategory = {}
+      let apPerCategory = {}
       let result = await axios.get(`${url}/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
       setData(result.data)
       // get category fields, then sort alphabetically
@@ -54,10 +57,11 @@ const Dropdown = ({ ...props }) => {
         return 0
       })
       result.data.forEach(ap => {
-        if (!airportsPerCategory[ap.category]) airportsPerCategory[ap.category] = []
-        airportsPerCategory[ap.category].push({ code: ap.code, lat: ap.latitude, long: ap.longitude })
+        if (!apPerCategory[ap.category]) apPerCategory[ap.category] = []
+        apPerCategory[ap.category].push(ap)
+        // apPerCategory[ap.category].push({ code: ap.code, lat: ap.latitude, long: ap.longitude })
       })
-      // console.log(airportsPerCategory)
+      setAirportsPerCategory(apPerCategory) // setting default after data load
       // display categories in options dropdown
       let filteredCategories = categories.filter((c, i) => categories.indexOf(c) == i)
       let options = filteredCategories.map(item => <Fragment key={item}><option>{item}</option></Fragment>)
@@ -105,9 +109,13 @@ const Dropdown = ({ ...props }) => {
     let value = e.target.value
     if (type == 'code') setSingleSelection(value)
     else if (type == 'category') {
-      data.forEach(obj => {
-
-
+      let category = airportsPerCategory[value]
+      category.forEach(obj => {
+        if (obj.category == value) {
+          if (_.includes(selection, obj) == false) {
+            setSelection(selection => selection.concat(obj))
+          }
+        }
       })
     }
   }
@@ -115,6 +123,7 @@ const Dropdown = ({ ...props }) => {
   return (
     <>
       <select onChange={selectionHandler}>
+        <option>select:</option>
         {options}
       </select>
       <div>
