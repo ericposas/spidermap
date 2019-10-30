@@ -16,7 +16,7 @@ module.exports = () => {
     entry: [ '@babel/polyfill', './src/index.js' ],
     output: {
       path: path.resolve(`${__dirname}/../strapi-backend/public`),
-      filename: 'index.js'
+      filename: 'bundle.js'
     },
     watchOptions: {
       poll: true,
