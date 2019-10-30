@@ -17,7 +17,7 @@ const GetAirports = ({ ...props }) => {
     if (checkAuth()) {
       if (!airports) getAirports()
     } else {
-      setAirports(<><div>Error: user is not logged in</div></>)
+      // setAirports(<><div>Error: user is not logged in</div></>)
       setTimeout(() => history.push('/'), 1500)
     }
   }, [airports])
@@ -41,7 +41,11 @@ const GetAirports = ({ ...props }) => {
 
   return (
     <>
-      <div>{airports}</div>
+      <div>{
+          airports
+          ? airports
+          : <><div>Error: user is not logged in</div></>
+        }</div>
     </>
   )
 
