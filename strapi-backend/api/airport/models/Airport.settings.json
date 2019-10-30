@@ -23,7 +23,6 @@
       "type": "string"
     },
     "region": {
-      "required": true,
       "type": "string"
     },
     "city": {
@@ -34,7 +33,12 @@
       "type": "float"
     },
     "longitude": {
-      "type": "float"
+      "type": "float",
+      "required": true
+    },
+    "category": {
+      "required": true,
+      "type": "string"
     }
   }
 }
