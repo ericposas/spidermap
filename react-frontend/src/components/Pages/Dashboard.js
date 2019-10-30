@@ -41,7 +41,7 @@ const Dashboard = ({ ...props }) => {
       <br/>
       <div>Testing Search bars..</div>
       <div style={{display:'inline-block'}}>search by airport code: &nbsp;</div><Dropdown type='code'/><br/>
-      <div style={{display:'inline-block'}}>search by region: &nbsp;</div><Dropdown type='region'/>
+      <div style={{display:'inline-block'}}>search by region: &nbsp;</div><Dropdown type='category'/>
 
     </>
   )
