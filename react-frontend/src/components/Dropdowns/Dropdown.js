@@ -99,8 +99,20 @@ const Dropdown = ({ ...props }) => {
   const setSingleSelection = value => {
     data.forEach(obj => {
       if (obj.code == value) {
-        // console.log(_.includes(selection, obj))
-        if (_.includes(selection, obj) == false) setSelection(selection => selection.concat(obj))
+        if (_.includes(selection, obj) == false) {
+          setSelection(selection => selection.concat(obj))
+        }
+      }
+    })
+  }
+
+  const setCategorySelection = value => {
+    let category = airportsPerCategory[value]
+    category.forEach(obj => {
+      if (obj.category == value) {
+        if (_.includes(selection, obj) == false) {
+          setSelection(selection => selection.concat(obj))
+        }
       }
     })
   }
@@ -108,16 +120,7 @@ const Dropdown = ({ ...props }) => {
   const selectionHandler = e => {
     let value = e.target.value
     if (type == 'code') setSingleSelection(value)
-    else if (type == 'category') {
-      let category = airportsPerCategory[value]
-      category.forEach(obj => {
-        if (obj.category == value) {
-          if (_.includes(selection, obj) == false) {
-            setSelection(selection => selection.concat(obj))
-          }
-        }
-      })
-    }
+    else if (type == 'category') setCategorySelection(value)
   }
 
   return (
