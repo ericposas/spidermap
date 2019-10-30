@@ -39,11 +39,6 @@ const Dropdown = ({ ...props }) => {
       })
       let filteredRegions = regions.filter((r, i) => regions.indexOf(r) == i)
       let options = filteredRegions.map(region => <Fragment key={region}><option>{region}</option></Fragment>)
-      // filter for uniqueness
-      // let regions = resultArr.map((region, idx) => {
-      //   // region != resultArr[idx]
-      //   console.log(region, resultArr[idx])
-      // })
       setOptions(options)
     } catch (e) {
       console.log(e)
