@@ -1,11 +1,16 @@
 # Spidermap Application for American Airlines
 
 To do:
-  Searchable Dropdowns and CSV option:
+  CSV option:
+    - CSV upload option
+    - decide on a CSV format
+    - format should delimit origins and destinations
+    - use npm csv-reader
+    - create route that can parse the data -- and send to the frontend to generate the ski/spider map 
+  Searchable Dropdowns
     - Create searchable dropdowns for the following..
     - Search by Code
     - Search by Region
-    - CSV upload option
   Timer:
     - Set a time limit on the sessionStorage -- auto logout()
     - Use setTimeout() with a timer of 15 minutes or so
