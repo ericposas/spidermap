@@ -6,7 +6,7 @@ import Dropdown from '../Dropdowns/Dropdown'
 import { checkAuth } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
 
-const Pointmap = ({ ...props }) => {
+const ListView = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
@@ -22,7 +22,7 @@ const Pointmap = ({ ...props }) => {
 
   const backButtonHandler = () => {
     props.history.push(`/${lastLocation}`)
-    dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
+    dispatch({ type: LAST_LOCATION, payload: 'listview' })
   }
 
   return (
@@ -32,15 +32,15 @@ const Pointmap = ({ ...props }) => {
               onClick={backButtonHandler}>Back</button>
       <br/>
       <br/>
-      <div>Create a Point-to-Point Map</div>
+      <div>Create a List View of Destinations</div>
       <br/>
       <br/>
-      <div style={{display:'inline-block'}}>select Origins by airport code: &nbsp;</div>
+      {/* }<div style={{display:'inline-block'}}>select Origins by airport code: &nbsp;</div>
       <Dropdown type='code' output='origins'/>
       <br/>
       <div style={{display:'inline-block'}}>select Origins by category: &nbsp;</div>
       <Dropdown type='category' output='origins'/>
-      <br/>
+      <br/> */}
       <br/>
       <div style={{display:'inline-block'}}>select Destinations by airport code: &nbsp;</div>
       <Dropdown type='code' output='destinations'/>
@@ -49,11 +49,11 @@ const Pointmap = ({ ...props }) => {
       <Dropdown type='category' output='destinations'/>
       <br/>
       <br/>
-      <SelectionView type='origins'/>
+      {/* <SelectionView type='origins'/> */}
       <SelectionView type='destinations'/>
     </>
   )
 
 }
 
-export default withRouter(Pointmap)
+export default withRouter(ListView)

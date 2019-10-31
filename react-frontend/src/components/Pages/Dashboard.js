@@ -12,11 +12,26 @@ const Dashboard = ({ ...props }) => {
 
   const { logoutHandler, history } = props
 
-  const airportsPageButtonHandler = () => {
-    history.push('/getAirports')
+  // const airportsPageButtonHandler = () => {
+  //   history.push('/getAirports')
+  //   dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
+  // }
+
+  const pointmapButtonHandler = () => {
+    history.push('/pointmap')
     dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
   }
 
+  const spidermapButtonHandler = () => {
+    history.push('/spidermap')
+    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
+  }
+
+  const listViewButtonHandler = () => {
+    history.push('/listView')
+    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
+  }
+  
   const handleLogout = e => {
     sessionStorage.removeItem(process.env.APP_NAME)
     setTimeout(() => {
@@ -27,8 +42,9 @@ const Dashboard = ({ ...props }) => {
 
   useEffect(() => {
     let sessionData = JSON.parse(sessionStorage.getItem(process.env.APP_NAME))
-    if (sessionData) setUser(sessionData.data.user.username)
-    else history.push('/')
+    if (sessionData) {
+      setUser(sessionData.data.user.username)
+    } else { history.push('/') }
   }, [])
 
   return (
@@ -36,7 +52,15 @@ const Dashboard = ({ ...props }) => {
       <div>Welcome {user}</div>
       <br/>
       <div>See airports list</div>
-      <button className='button-plain' onClick={airportsPageButtonHandler}>Airports</button>
+      <button style={{margin:'10px'}}
+              className='button-plain'
+              onClick={spidermapButtonHandler}>Spider Map</button>
+      <button style={{margin:'10px'}}
+              className='button-plain'
+              onClick={pointmapButtonHandler}>Point Map</button>
+      <button style={{margin:'10px'}}
+              className='button-plain'
+              onClick={listViewButtonHandler}>List View</button>
       <button className='button-logout' onClick={handleLogout}>logout</button>
     </>
   )

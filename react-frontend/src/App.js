@@ -7,6 +7,7 @@ import GetAirports from './components/Pages/GetAirports' // requires auth
 import Dashboard from './components/Pages/Dashboard'
 import Spidermap from './components/Pages/Spidermap'
 import Pointmap from './components/Pages/Pointmap'
+import ListView from './components/Pages/ListView'
 // import SelectionView from './components/Views/SelectionView'
 
 const App = ({ ...props }) => (
@@ -22,6 +23,7 @@ const App = ({ ...props }) => (
         </Route>
         <Route path='/spidermap' component={Spidermap}/>
         <Route path='/pointmap' component={Pointmap}/>
+        <Route path='/listview' component={ListView}/>
         <Route path='/signUp' component={SignUp}/>
         <Route path='/testProtectedRoute' component={TestProtectedRoute}/>
         <Route path='/getAirports' component={GetAirports}/>
