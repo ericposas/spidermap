@@ -2,10 +2,9 @@
 
 ##To do:
   Setting Origins and Destinations:
+    - Add a quick "loading" graphic or animation when lists are getting data from the server
     - Create a "Clear list" button that clears the selectedOrigin, selectedOrigins and selectedDestinations arrays
-    - Possibly create more reducers for more specificity: e.g. selectedDestinationsPointmap, selectedDestinationsSpidermap, and selectedDestinationsListView
-    - With the above logic, the selectedOrigin and selectedOrigins reducers should be able to stay the same since only pointmap uses multiple origins and spidermap uses a single origin
-    - Create an <Origin/> and <Destination/> component
+    - Create an <Origin/> and <Destination/> component (the labeled destination airport codes)
     - Add an X button that removes the destination or origin from the list
 
   Charting:
