@@ -31,7 +31,7 @@ const Dashboard = ({ ...props }) => {
     history.push('/listView')
     dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
   }
-  
+
   const handleLogout = e => {
     sessionStorage.removeItem(process.env.APP_NAME)
     setTimeout(() => {
@@ -57,7 +57,7 @@ const Dashboard = ({ ...props }) => {
               onClick={spidermapButtonHandler}>Spider Map</button>
       <button style={{margin:'10px'}}
               className='button-plain'
-              onClick={pointmapButtonHandler}>Point Map</button>
+              onClick={pointmapButtonHandler}>Point-to-Point Map</button>
       <button style={{margin:'10px'}}
               className='button-plain'
               onClick={listViewButtonHandler}>List View</button>
