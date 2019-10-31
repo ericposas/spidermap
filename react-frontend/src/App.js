@@ -5,6 +5,7 @@ import SignUp from './components/Login/SignUp'
 import TestProtectedRoute from './components/Pages/TestProtectedRoute'
 import GetAirports from './components/Pages/GetAirports' // requires auth
 import Dashboard from './components/Pages/Dashboard'
+import SelectionView from './components/Views/SelectionView'
 
 const App = ({ ...props }) => (
   <>
@@ -14,7 +15,10 @@ const App = ({ ...props }) => (
           <Redirect to='/login'/>
         </Route>
         <Route path='/login' component={LoginPage}/>
-        <Route path='/dashboard' component={Dashboard}/>
+        <Route path='/dashboard'>
+          <Dashboard/>
+          <SelectionView/>
+        </Route>
         <Route path='/signUp' component={SignUp}/>
         <Route path='/testProtectedRoute' component={TestProtectedRoute}/>
         <Route path='/getAirports' component={GetAirports}/>

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, Fragment } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { SET_SELECTED_LOCATIONS } from '../../constants/constants'
 import { checkAuth, getUser } from '../../localStore'
 import url from '../../url'
 import axios from 'axios'
 import _ from 'lodash'
-
-// const airportsPerCategory = {}
-
+// import SelectionView from '../Views/SelectionView' // temporary, will move to a panel later
 
 const Dropdown = ({ ...props }) => {
 
@@ -15,10 +15,13 @@ const Dropdown = ({ ...props }) => {
 
   const [options, setOptions] = useState([])
 
-  const [selection, setSelection] = useState([])
+  // const [selection, setSelection] = useState([])
 
   const [airportsPerCategory, setAirportsPerCategory] = useState({})
-  // let airportsPerCategory = {}
+
+  const dispatch = useDispatch()
+
+  const selectedLocations = useSelector(state => state.selectedLocations)
 
   useEffect(() => {
     if (checkAuth()) {
@@ -87,20 +90,22 @@ const Dropdown = ({ ...props }) => {
   //   }
   // }
 
-  const showSelections = () => {
-    let arr = selection.map((item, i) => (
-      <Fragment key={item.id}>
-        <div>{item.id} {item.code} {item.region} {item.category}</div>
-      </Fragment>
-    ))
-    return arr
-  }
+  // const showSelections = () => {
+  //   let arr = selection.map((item, i) => (
+  //     <Fragment key={item.id}>
+  //       <div>{item.id} {item.code} {item.region} {item.category}</div>
+  //     </Fragment>
+  //   ))
+  //   return arr
+  // }
 
   const setSingleSelection = value => {
     data.forEach(obj => {
       if (obj.code == value) {
-        if (_.includes(selection, obj) == false) {
-          setSelection(selection => selection.concat(obj))
+        console.log(_.includes(selectedLocations, obj))
+        if (_.includes(selectedLocations, obj) == false) {
+          // setSelection(selection => selection.concat(obj))
+          dispatch({ type: SET_SELECTED_LOCATIONS, payload: obj })
         }
       }
     })
@@ -110,8 +115,10 @@ const Dropdown = ({ ...props }) => {
     let category = airportsPerCategory[value]
     category.forEach(obj => {
       if (obj.category == value) {
-        if (_.includes(selection, obj) == false) {
-          setSelection(selection => selection.concat(obj))
+        console.log(_.includes(selectedLocations, obj))
+        if (_.includes(selectedLocations, obj) == false) {
+          // setSelection(selection => selection.concat(obj))
+          dispatch({ type: SET_SELECTED_LOCATIONS, payload: obj }) //selection.concat(obj) })
         }
       }
     })
@@ -129,13 +136,6 @@ const Dropdown = ({ ...props }) => {
         <option>select:</option>
         {options}
       </select>
-      <div>
-        {
-          selection
-          ? showSelections()
-          : ''
-        }
-      </div>
     </>
   )
 
