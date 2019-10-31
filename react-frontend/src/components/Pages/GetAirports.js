@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { getUser, checkAuth } from '../../localStore'
+import { getUser, checkAuth } from '../../sessionStore'
 import url from '../../url'
 import axios from 'axios'
 

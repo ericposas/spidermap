@@ -34,30 +34,10 @@ const Dashboard = ({ ...props }) => {
   return (
     <>
       <div>Welcome {user}</div>
+      <br/>
       <div>See airports list</div>
       <button className='button-plain' onClick={airportsPageButtonHandler}>Airports</button>
       <button className='button-logout' onClick={handleLogout}>logout</button>
-      <br/>
-      <br/>
-      <div>Testing Search bars..</div>
-      <br/>
-      <div style={{display:'inline-block'}}>select Origin by airport code: &nbsp;</div>
-      <Dropdown type='code' output='origin'/>
-      <br/>
-      <br/>
-      <div style={{display:'inline-block'}}>select Origins by airport code: &nbsp;</div>
-      <Dropdown type='code' output='origins'/>
-      <br/>
-      <div style={{display:'inline-block'}}>select Origins by category: &nbsp;</div>
-      <Dropdown type='category' output='origins'/>
-      <br/>
-      <br/>
-      <div style={{display:'inline-block'}}>select Destinations by airport code: &nbsp;</div>
-      <Dropdown type='code' output='destinations'/>
-      <br/>
-      <div style={{display:'inline-block'}}>select Destinations by category: &nbsp;</div>
-      <Dropdown type='category' output='destinations'/>
-
     </>
   )
 

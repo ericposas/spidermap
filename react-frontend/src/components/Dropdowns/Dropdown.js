@@ -4,7 +4,7 @@ import {
   SET_ORIGIN,
   SET_ORIGIN_LOCATIONS,
   SET_DESTINATION_LOCATIONS } from '../../constants/constants'
-import { checkAuth, getUser } from '../../localStore'
+import { checkAuth, getUser } from '../../sessionStore'
 import url from '../../url'
 import axios from 'axios'
 import _ from 'lodash'
