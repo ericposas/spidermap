@@ -1,6 +1,9 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { SET_SELECTED_LOCATIONS } from '../../constants/constants'
+import {
+  SET_ORIGIN,
+  SET_ORIGIN_LOCATIONS,
+  SET_DESTINATION_LOCATIONS } from '../../constants/constants'
 import { checkAuth, getUser } from '../../localStore'
 import url from '../../url'
 import axios from 'axios'
@@ -20,13 +23,14 @@ const Dropdown = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
-  const selectedLocations = useSelector(state => state.selectedLocations)
+  const selectedOrigins = useSelector(state => state.selectedOrigins)
+
+  const selectedDestinations = useSelector(state => state.selectedDestinations)
 
   useEffect(() => {
     if (checkAuth()) {
       if (options.length == 0) {
         if (props.type == 'code') createOptionsFromCodes()
-        // else if (props.type == 'region') createOptionsFromRegions()
         else if (props.type == 'category') createOptionsFromCategory()
       }
     }
@@ -35,9 +39,7 @@ const Dropdown = ({ ...props }) => {
   const createOptionsFromCodes = async () => {
     try {
       let result = await axios.get(`${url}/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-      // console.log(result)
       setData(result.data)
-      // console.log(data)
       let resultArr = result.data.map(ap => {
         if (ap.code != null) return <Fragment key={ap.code}><option>{ap.code}</option></Fragment>
       })
@@ -61,7 +63,6 @@ const Dropdown = ({ ...props }) => {
       result.data.forEach(ap => {
         if (!apPerCategory[ap.category]) apPerCategory[ap.category] = []
         apPerCategory[ap.category].push(ap)
-        // apPerCategory[ap.category].push({ code: ap.code, lat: ap.latitude, long: ap.longitude })
       })
       setAirportsPerCategory(apPerCategory) // setting default after data load
       // display categories in options dropdown
@@ -73,31 +74,47 @@ const Dropdown = ({ ...props }) => {
     }
   }
 
-  const setSingleSelection = value => {
+  const setSingleSelection = (value, outputType) => {
     data.forEach(obj => {
       if (obj.code == value) {
-        if (_.some(selectedLocations, obj) == false) {
-          dispatch({ type: SET_SELECTED_LOCATIONS, payload: obj })
+        if (outputType == 'origins') {
+          if (_.some(selectedOrigins, obj) == false) {
+            dispatch({ type: SET_ORIGIN_LOCATIONS, payload: obj })
+          }
         }
+        if (outputType == 'destinations') {
+          if (_.some(selectedDestinations, obj) == false) {
+            dispatch({ type: SET_DESTINATION_LOCATIONS, payload: obj })
+          }
+        }
+        
       }
     })
   }
 
-  const setCategorySelection = value => {
+  const setCategorySelection = (value, outputType) => {
     let category = airportsPerCategory[value]
     category.forEach(obj => {
       if (obj.category == value) {
-        if (_.some(selectedLocations, obj) == false) {
-          dispatch({ type: SET_SELECTED_LOCATIONS, payload: obj })
+        if (outputType == 'origins') {
+          if (_.some(selectedOrigins, obj) == false) {
+            dispatch({ type: SET_ORIGIN_LOCATIONS, payload: obj })
+          }
         }
+        if (outputType == 'destinations') {
+          if (_.some(selectedDestinations, obj) == false) {
+            dispatch({ type: SET_DESTINATION_LOCATIONS, payload: obj })
+          }
+        }
+
       }
     })
   }
 
   const selectionHandler = e => {
     let value = e.target.value
-    if (type == 'code') setSingleSelection(value)
-    else if (type == 'category') setCategorySelection(value)
+    if (type == 'code') setSingleSelection(value, props.output)
+    else if (type == 'category') setCategorySelection(value, props.output)
   }
 
   return (

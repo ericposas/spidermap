@@ -4,17 +4,40 @@ import _ from 'lodash'
 
 const SelectionView = ({ ...props }) => {
 
-  const selectedLocations = useSelector(state => state.selectedLocations)
+  const selectedOrigins = useSelector(state => state.selectedOrigins)
+
+  const selectedDestinations = useSelector(state => state.selectedDestinations)
+
+  const label = () => {
+    switch (props.type) {
+      case 'origin':
+        return (<><div>Origin</div></>)
+        break;
+      case 'origins':
+        return (<><div>Origins</div></>)
+        break;
+      case 'destinations':
+        return (<><div>Destinations</div></>)
+        break;
+      default:
+        return (<><div>Selection View</div></>)
+    }
+  }
 
   return (
     <>
       <br/>
       <br/>
-      <div>Selection View</div>
+      <div>{label()}</div>
       <div>
         {
-          selectedLocations
-          ? selectedLocations.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          (props.type == 'origins' && selectedOrigins)
+          ? selectedOrigins.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          : null
+        }
+        {
+          (props.type == 'destinations' && selectedDestinations)
+          ? selectedDestinations.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
           : null
         }
       </div>

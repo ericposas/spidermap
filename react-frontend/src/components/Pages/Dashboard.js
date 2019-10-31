@@ -40,9 +40,20 @@ const Dashboard = ({ ...props }) => {
       <br/>
       <br/>
       <div>Testing Search bars..</div>
-      <div style={{display:'inline-block'}}>select by airport code: &nbsp;</div><Dropdown type='code'/><br/>
-      <div style={{display:'inline-block'}}>select by category: &nbsp;</div><Dropdown type='category'/>
-      
+      <br/>
+      <div style={{display:'inline-block'}}>select Origins by airport code: &nbsp;</div>
+      <Dropdown type='code' output='origins'/>
+      <br/>
+      <div style={{display:'inline-block'}}>select Origins by category: &nbsp;</div>
+      <Dropdown type='category' output='origins'/>
+      <br/>
+      <br/>
+      <div style={{display:'inline-block'}}>select Destinations by airport code: &nbsp;</div>
+      <Dropdown type='code' output='destinations'/>
+      <br/>
+      <div style={{display:'inline-block'}}>select Destinations by category: &nbsp;</div>
+      <Dropdown type='category' output='destinations'/>
+
     </>
   )
 
