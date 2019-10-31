@@ -6,20 +6,19 @@ const SelectionView = ({ ...props }) => {
 
   const selectedLocations = useSelector(state => state.selectedLocations)
 
-  const showSelections = () => {
-    // console.log(selectedLocations)
-    let arr = selectedLocations.map((item, i) => (
-      <Fragment key={item.id}>
-        <div>{item.id} {item.code} {item.region} {item.category}</div>
-      </Fragment>
-    ))
-    return arr
-  }
-
   return (
-    <div>
-      { selectedLocations ? showSelections() : '' }
-    </div>
+    <>
+      <br/>
+      <br/>
+      <div>Selection View</div>
+      <div>
+        {
+          selectedLocations
+          ? selectedLocations.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          : null
+        }
+      </div>
+    </>
   )
 
 }
