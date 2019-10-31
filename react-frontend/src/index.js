@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import lastLocation from './reducers/lastLocation'
+import selectedOrigin from './reducers/selectedOrigin'
 import selectedOrigins from './reducers/selectedOrigins'
 import selectedDestinations from './reducers/selectedDestinations'
 import App from './App'
@@ -13,7 +14,7 @@ window.unload = () => { sessionStorage.removeItem(process.env.APP_NAME) }
 
 const root = document.getElementById('root')
 const rootReducer = combineReducers({
-  lastLocation, selectedOrigins, selectedDestinations
+  lastLocation, selectedOrigin, selectedOrigins, selectedDestinations
 })
 const store = createStore(rootReducer)
 

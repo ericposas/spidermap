@@ -17,6 +17,7 @@ const App = ({ ...props }) => (
         <Route path='/login' component={LoginPage}/>
         <Route path='/dashboard'>
           <Dashboard/>
+          <SelectionView type='origin'/>
           <SelectionView type='origins'/>
           <SelectionView type='destinations'/>
         </Route>

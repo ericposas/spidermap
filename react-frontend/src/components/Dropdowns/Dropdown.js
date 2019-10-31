@@ -23,6 +23,8 @@ const Dropdown = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
+  const selectedOrigin = useSelector(state => state.selectedOrigin)
+
   const selectedOrigins = useSelector(state => state.selectedOrigins)
 
   const selectedDestinations = useSelector(state => state.selectedDestinations)
@@ -77,6 +79,11 @@ const Dropdown = ({ ...props }) => {
   const setSingleSelection = (value, outputType) => {
     data.forEach(obj => {
       if (obj.code == value) {
+        if (outputType == 'origin') {
+          if (_.some(selectedOrigin, obj) == false) {
+            dispatch({ type: SET_ORIGIN, payload: obj })
+          }
+        }
         if (outputType == 'origins') {
           if (_.some(selectedOrigins, obj) == false) {
             dispatch({ type: SET_ORIGIN_LOCATIONS, payload: obj })
@@ -87,7 +94,6 @@ const Dropdown = ({ ...props }) => {
             dispatch({ type: SET_DESTINATION_LOCATIONS, payload: obj })
           }
         }
-        
       }
     })
   }
@@ -106,7 +112,6 @@ const Dropdown = ({ ...props }) => {
             dispatch({ type: SET_DESTINATION_LOCATIONS, payload: obj })
           }
         }
-
       }
     })
   }
