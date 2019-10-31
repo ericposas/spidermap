@@ -1,9 +1,11 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  SET_ORIGIN,
-  SET_ORIGIN_LOCATIONS,
-  SET_DESTINATION_LOCATIONS } from '../../constants/constants'
+  SET_ORIGIN_SPIDERMAP,
+  SET_DESTINATION_LOCATIONS_SPIDERMAP,
+  SET_ORIGIN_LOCATIONS_POINTMAP,
+  SET_DESTINATION_LOCATIONS_POINTMAP,
+  SET_DESTINATION_LOCATIONS_LISTVIEW } from '../../constants/constants'
 import { checkAuth, getUser } from '../../sessionStore'
 import url from '../../url'
 import axios from 'axios'
@@ -23,11 +25,15 @@ const Dropdown = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
-  const selectedOrigin = useSelector(state => state.selectedOrigin)
+  const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
 
-  const selectedOrigins = useSelector(state => state.selectedOrigins)
+  const selectedOriginsPointmap = useSelector(state => state.selectedOriginsPointmap)
 
-  const selectedDestinations = useSelector(state => state.selectedDestinations)
+  const selectedDestinationsSpidermap = useSelector(state => state.selectedDestinationsSpidermap)
+
+  const selectedDestinationsPointmap = useSelector(state => state.selectedDestinationsPointmap)
+
+  const selectedDestinationsListView = useSelector(state => state.selectedDestinationsListView)
 
   useEffect(() => {
     if (checkAuth()) {
@@ -76,43 +82,44 @@ const Dropdown = ({ ...props }) => {
     }
   }
 
-  const setSingleSelection = (value, outputType) => {
-    data.forEach(obj => {
-      if (obj.code == value) {
-        if (outputType == 'origin') {
-          if (_.some(selectedOrigin, obj) == false) {
-            dispatch({ type: SET_ORIGIN, payload: obj })
-          }
-        }
-        if (outputType == 'origins') {
-          if (_.some(selectedOrigins, obj) == false) {
-            dispatch({ type: SET_ORIGIN_LOCATIONS, payload: obj })
-          }
-        }
-        if (outputType == 'destinations') {
-          if (_.some(selectedDestinations, obj) == false) {
-            dispatch({ type: SET_DESTINATION_LOCATIONS, payload: obj })
-          }
+  const dispatchProperOutputType = (item, value, property, outputType) => {
+    if (item[property] == value) {
+      if (outputType == 'spidermap-origin') {
+        dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: item })
+      }
+      if (outputType == 'pointmap-origins') {
+        if (_.some(selectedOriginsPointmap, item) == false) {
+          dispatch({ type: SET_ORIGIN_LOCATIONS_POINTMAP, payload: item })
         }
       }
+      if (outputType == 'spidermap-destinations') {
+        if (_.some(selectedDestinationsSpidermap, item) == false) {
+          dispatch({ type: SET_DESTINATION_LOCATIONS_SPIDERMAP, payload: item })
+        }
+      }
+      if (outputType == 'pointmap-destinations') {
+        if (_.some(selectedDestinationsPointmap, item) == false) {
+          dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP, payload: item })
+        }
+      }
+      if (outputType == 'listview-destinations') {
+        if (_.some(selectedDestinationsListView, item) == false) {
+          dispatch({ type: SET_DESTINATION_LOCATIONS_LISTVIEW, payload: item })
+        }
+      }
+    }
+  }
+
+  const setSingleSelection = (value, outputType) => {
+    data.forEach(item => {
+      dispatchProperOutputType(item, value, 'code', outputType)
     })
   }
 
   const setCategorySelection = (value, outputType) => {
     let category = airportsPerCategory[value]
-    category.forEach(obj => {
-      if (obj.category == value) {
-        if (outputType == 'origins') {
-          if (_.some(selectedOrigins, obj) == false) {
-            dispatch({ type: SET_ORIGIN_LOCATIONS, payload: obj })
-          }
-        }
-        if (outputType == 'destinations') {
-          if (_.some(selectedDestinations, obj) == false) {
-            dispatch({ type: SET_DESTINATION_LOCATIONS, payload: obj })
-          }
-        }
-      }
+    category.forEach(item => {
+      dispatchProperOutputType(item, value, 'category', outputType)
     })
   }
 

@@ -34,20 +34,19 @@ const Spidermap = ({ ...props }) => {
       <br/>
       <div>Create a Spidermap</div>
       <br/>
-      <br/>
       <div style={{display:'inline-block'}}>select Origin by airport code: &nbsp;</div>
-      <Dropdown type='code' output='origin'/>
+      <Dropdown type='code' output='spidermap-origin'/>
       <br/>
       <br/>
       <div style={{display:'inline-block'}}>select Destinations by code: &nbsp;</div>
-      <Dropdown type='code' output='destinations'/>
+      <Dropdown type='code' output='spidermap-destinations'/>
       <br/>
       <div style={{display:'inline-block'}}>select Destinations by category: &nbsp;</div>
-      <Dropdown type='category' output='destinations'/>
+      <Dropdown type='category' output='spidermap-destinations'/>
       <br/>
       <br/>
-      <SelectionView type='origin'/>
-      <SelectionView type='destinations'/>
+      <SelectionView type='spidermap-origin'/>
+      <SelectionView type='spidermap-destinations'/>
     </>
   )
 

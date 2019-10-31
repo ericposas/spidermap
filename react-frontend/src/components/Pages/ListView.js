@@ -33,8 +33,6 @@ const ListView = ({ ...props }) => {
       <br/>
       <br/>
       <div>Create a List View of Destinations</div>
-      <br/>
-      <br/>
       {/* }<div style={{display:'inline-block'}}>select Origins by airport code: &nbsp;</div>
       <Dropdown type='code' output='origins'/>
       <br/>
@@ -43,14 +41,14 @@ const ListView = ({ ...props }) => {
       <br/> */}
       <br/>
       <div style={{display:'inline-block'}}>select Destinations by airport code: &nbsp;</div>
-      <Dropdown type='code' output='destinations'/>
+      <Dropdown type='code' output='listview-destinations'/>
       <br/>
       <div style={{display:'inline-block'}}>select Destinations by category: &nbsp;</div>
-      <Dropdown type='category' output='destinations'/>
+      <Dropdown type='category' output='listview-destinations'/>
       <br/>
       <br/>
       {/* <SelectionView type='origins'/> */}
-      <SelectionView type='destinations'/>
+      <SelectionView type='listview-destinations'/>
     </>
   )
 

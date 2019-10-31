@@ -34,23 +34,22 @@ const Pointmap = ({ ...props }) => {
       <br/>
       <div>Create a Point-to-Point Map</div>
       <br/>
-      <br/>
       <div style={{display:'inline-block'}}>select Origins by airport code: &nbsp;</div>
-      <Dropdown type='code' output='origins'/>
+      <Dropdown type='code' output='pointmap-origins'/>
       <br/>
       <div style={{display:'inline-block'}}>select Origins by category: &nbsp;</div>
-      <Dropdown type='category' output='origins'/>
+      <Dropdown type='category' output='pointmap-origins'/>
       <br/>
       <br/>
       <div style={{display:'inline-block'}}>select Destinations by airport code: &nbsp;</div>
-      <Dropdown type='code' output='destinations'/>
+      <Dropdown type='code' output='pointmap-destinations'/>
       <br/>
       <div style={{display:'inline-block'}}>select Destinations by category: &nbsp;</div>
-      <Dropdown type='category' output='destinations'/>
+      <Dropdown type='category' output='pointmap-destinations'/>
       <br/>
       <br/>
-      <SelectionView type='origins'/>
-      <SelectionView type='destinations'/>
+      <SelectionView type='pointmap-origins'/>
+      <SelectionView type='pointmap-destinations'/>
     </>
   )
 

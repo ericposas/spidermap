@@ -4,21 +4,27 @@ import _ from 'lodash'
 
 const SelectionView = ({ ...props }) => {
 
-  const selectedOrigin = useSelector(state => state.selectedOrigin)
+  const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
 
-  const selectedOrigins = useSelector(state => state.selectedOrigins)
+  const selectedOriginsPointmap = useSelector(state => state.selectedOriginsPointmap)
 
-  const selectedDestinations = useSelector(state => state.selectedDestinations)
+  const selectedDestinationsSpidermap = useSelector(state => state.selectedDestinationsSpidermap)
+
+  const selectedDestinationsPointmap = useSelector(state => state.selectedDestinationsPointmap)
+
+  const selectedDestinationsListView = useSelector(state => state.selectedDestinationsListView)
 
   const label = () => {
     switch (props.type) {
-      case 'origin':
+      case 'spidermap-origin':
         return (<><div>Origin</div></>)
         break;
-      case 'origins':
+      case 'pointmap-origins':
         return (<><div>Origins</div></>)
         break;
-      case 'destinations':
+      case 'spidermap-destinations':
+      case 'pointmap-destinations':
+      case 'listview-destinations':
         return (<><div>Destinations</div></>)
         break;
       default:
@@ -33,18 +39,28 @@ const SelectionView = ({ ...props }) => {
       <div>{label()}</div>
       <div>
         {
-          (props.type == 'origin' && selectedOrigin)
-          ? (<Fragment key={selectedOrigin.id}><div>{selectedOrigin.code}</div></Fragment>)
+          (props.type == 'spidermap-origin' && selectedOriginSpidermap)
+          ? (<Fragment key={selectedOriginSpidermap.id}><div>{selectedOriginSpidermap.code}</div></Fragment>)
           : null
         }
         {
-          (props.type == 'origins' && selectedOrigins)
-          ? selectedOrigins.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          (props.type == 'pointmap-origins' && selectedOriginsPointmap)
+          ? selectedOriginsPointmap.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
           : null
         }
         {
-          (props.type == 'destinations' && selectedDestinations)
-          ? selectedDestinations.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          (props.type == 'spidermap-destinations' && selectedDestinationsSpidermap)
+          ? selectedDestinationsSpidermap.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          : null
+        }
+        {
+          (props.type == 'pointmap-destinations' && selectedDestinationsPointmap)
+          ? selectedDestinationsPointmap.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          : null
+        }
+        {
+          (props.type == 'listview-destinations' && selectedDestinationsListView)
+          ? selectedDestinationsListView.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
           : null
         }
       </div>
