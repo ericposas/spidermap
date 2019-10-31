@@ -1,6 +1,10 @@
 # Spidermap Application for American Airlines
 
 ##To do:
+  Setting Origins and Destinations:
+    - Create an <Origin/> and <Destination/> component
+    - Add an X button that removes the destination or origin from the list
+
   Charting:
     - Point-to-point map logic is in a great place
     - Need to port the point-to-point mapping from d3-testing to React component
