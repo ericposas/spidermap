@@ -51,7 +51,6 @@ const Dashboard = ({ ...props }) => {
     <>
       <div>Welcome {user}</div>
       <br/>
-      <div>See airports list</div>
       <button style={{margin:'10px'}}
               className='button-plain'
               onClick={spidermapButtonHandler}>Spider Map</button>
