@@ -28,10 +28,15 @@ const SelectionView = ({ ...props }) => {
         return (<><div>Origin</div></>)
         break;
       case 'pointmap-origins':
-        return (<><div>Origins</div></>)
+        return (<>
+          <div>Origins</div>
+          {selectedOriginsPointmap ? <div style={{fontSize:'.85rem'}}>Tap on each Origin to set Destinations</div> : null}
+        </>)
+        break;
+      case 'pointmap-destinations':
+        return (<><div>Destinations for {currentlySelectedOriginPointmap}</div></>)
         break;
       case 'spidermap-destinations':
-      case 'pointmap-destinations':
       case 'listview-destinations':
         return (<><div>Destinations</div></>)
         break;
