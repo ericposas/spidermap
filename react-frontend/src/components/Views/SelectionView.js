@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP } from '../../constants/constants'
 import SelectableOriginPointmapElement from '../LocationElements/SelectableOriginPointmapElement'
 import DestinationPointmapElement from '../LocationElements/DestinationPointmapElement'
+import DestinationSpidermapElement from '../LocationElements/DestinationSpidermapElement'
 import _ from 'lodash'
 
 const SelectionView = ({ ...props }) => {
@@ -74,7 +75,11 @@ const SelectionView = ({ ...props }) => {
         }
         {
           (props.type == 'spidermap-destinations' && selectedDestinationsSpidermap)
-          ? selectedDestinationsSpidermap.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          ? selectedDestinationsSpidermap.map(location => (
+            <Fragment key={location.id}>
+              <DestinationSpidermapElement destinationObject={location} code={location.code}/>
+              {/*<div>{location.code}</div>*/}
+            </Fragment>))
           : null
         }
         {
