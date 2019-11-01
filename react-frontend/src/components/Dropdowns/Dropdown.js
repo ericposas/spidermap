@@ -35,6 +35,8 @@ const Dropdown = ({ ...props }) => {
 
   const selectedDestinationsListView = useSelector(state => state.selectedDestinationsListView)
 
+  const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
+
   useEffect(() => {
     if (checkAuth()) {
       if (options.length == 0) {
@@ -98,8 +100,10 @@ const Dropdown = ({ ...props }) => {
         }
       }
       if (outputType == 'pointmap-destinations') {
-        if (_.some(selectedDestinationsPointmap, item) == false) {
-          dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP, payload: item })
+        if (currentlySelectedOriginPointmap && selectedDestinationsPointmap) {
+          if (_.some(selectedDestinationsPointmap[currentlySelectedOriginPointmap], item) == false) {
+            dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP, payload: { origin: currentlySelectedOriginPointmap, item } })
+          }
         }
       }
       if (outputType == 'listview-destinations') {

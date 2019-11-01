@@ -2,6 +2,7 @@
 
 ##To do:
   Setting Origins and Destinations:
+    - Create reducer that tracks each Origin's Destinations list for Pointmap
     - Add a quick "loading" graphic or animation when lists are getting data from the server
     - Create a "Clear list" button that clears the selectedOrigin, selectedOrigins and selectedDestinations arrays
     - Create an <Origin/> and <Destination/> component (the labeled destination airport codes)

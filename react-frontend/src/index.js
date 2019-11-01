@@ -8,6 +8,7 @@ import selectedOriginsPointmap from './reducers/selectedOriginsPointmap'
 import selectedDestinationsPointmap from './reducers/selectedDestinationsPointmap'
 import selectedDestinationsSpidermap from './reducers/selectedDestinationsSpidermap'
 import selectedDestinationsListView from './reducers/selectedDestinationsListView'
+import currentlySelectedOriginPointmap from './reducers/currentlySelectedOriginPointmap'
 import App from './App'
 import './globalStyles.scss'
 
@@ -18,7 +19,7 @@ const root = document.getElementById('root')
 const rootReducer = combineReducers({
   lastLocation, selectedOriginSpidermap, selectedOriginsPointmap,
   selectedDestinationsPointmap, selectedDestinationsSpidermap,
-  selectedDestinationsListView
+  selectedDestinationsListView, currentlySelectedOriginPointmap
 })
 const store = createStore(rootReducer)
 

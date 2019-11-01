@@ -1,8 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP } from '../../constants/constants'
+import SelectableOriginPointmap from './SelectableOriginPointmap'
 import _ from 'lodash'
 
 const SelectionView = ({ ...props }) => {
+
+  const dispatch = useDispatch()
 
   const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
 
@@ -13,6 +17,10 @@ const SelectionView = ({ ...props }) => {
   const selectedDestinationsPointmap = useSelector(state => state.selectedDestinationsPointmap)
 
   const selectedDestinationsListView = useSelector(state => state.selectedDestinationsListView)
+
+  const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
+
+  // const [selectedOriginStyle, setSelectedOriginStyle] = useState({ color: 'black', fontFamily: 'arial' })
 
   const label = () => {
     switch (props.type) {
@@ -32,6 +40,11 @@ const SelectionView = ({ ...props }) => {
     }
   }
 
+  // const setCurrentSelectedOriginPointmap = location => {
+  //   setSelectedOriginStyle({ color: 'white', backgroundColor: 'lightblue', border: '2px solid darkblue' })
+  //   dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: location.code })
+  // }
+
   return (
     <>
       <br/>
@@ -45,7 +58,10 @@ const SelectionView = ({ ...props }) => {
         }
         {
           (props.type == 'pointmap-origins' && selectedOriginsPointmap)
-          ? selectedOriginsPointmap.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          ? selectedOriginsPointmap.map(location => (
+            <Fragment key={location.id}>
+              <SelectableOriginPointmap code={location.code}/>
+            </Fragment>))
           : null
         }
         {
@@ -54,8 +70,8 @@ const SelectionView = ({ ...props }) => {
           : null
         }
         {
-          (props.type == 'pointmap-destinations' && selectedDestinationsPointmap)
-          ? selectedDestinationsPointmap.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          (props.type == 'pointmap-destinations' && selectedDestinationsPointmap && selectedDestinationsPointmap[currentlySelectedOriginPointmap])
+          ? selectedDestinationsPointmap[currentlySelectedOriginPointmap].map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
           : null
         }
         {
