@@ -12,6 +12,8 @@ const Spidermap = ({ ...props }) => {
 
   const lastLocation = useSelector(state => state.lastLocation)
 
+  const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
+
   useEffect(() => {
     if (!checkAuth()) {
       setTimeout(() => props.history.push('/'))
@@ -38,13 +40,17 @@ const Spidermap = ({ ...props }) => {
       <Dropdown type='code' output='spidermap-origin'/>
       <br/>
       <br/>
-      <div style={{display:'inline-block'}}>select Destinations by code: &nbsp;</div>
-      <Dropdown type='code' output='spidermap-destinations'/>
-      <br/>
-      <div style={{display:'inline-block'}}>select Destinations by category: &nbsp;</div>
-      <Dropdown type='category' output='spidermap-destinations'/>
-      <br/>
-      <br/>
+      { selectedOriginSpidermap ?
+        (<>
+          <div style={{display:'inline-block'}}>select Destinations by code: &nbsp;</div>
+          <Dropdown type='code' output='spidermap-destinations'/>
+          <br/>
+          <div style={{display:'inline-block'}}>select Destinations by category: &nbsp;</div>
+          <Dropdown type='category' output='spidermap-destinations'/>
+          <br/>
+          <br/>
+        </>) : null
+      }
       <SelectionView type='spidermap-origin'/>
       <SelectionView type='spidermap-destinations'/>
     </>

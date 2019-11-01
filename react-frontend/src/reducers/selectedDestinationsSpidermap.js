@@ -1,6 +1,7 @@
 import {
   SET_DESTINATION_LOCATIONS_SPIDERMAP,
-  REMOVE_A_DESTINATION_SPIDERMAP
+  REMOVE_A_DESTINATION_SPIDERMAP,
+  REMOVE_ALL_DESTINATIONS_SPIDERMAP
 } from '../constants/constants'
 
 const selectedDestinationsSpidermap = (state = [], action) => {
@@ -17,6 +18,9 @@ const selectedDestinationsSpidermap = (state = [], action) => {
       return newState
     }
       break;
+    case REMOVE_ALL_DESTINATIONS_SPIDERMAP: {
+      return []
+    }
     default:
       return state
   }
