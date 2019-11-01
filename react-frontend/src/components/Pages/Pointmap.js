@@ -4,7 +4,10 @@ import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
 import { checkAuth } from '../../sessionStore'
-import { LAST_LOCATION } from '../../constants/constants'
+import {
+  LAST_LOCATION,
+  SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP
+} from '../../constants/constants'
 
 const Pointmap = ({ ...props }) => {
 
@@ -24,6 +27,7 @@ const Pointmap = ({ ...props }) => {
 
   const backButtonHandler = () => {
     props.history.push(`/${lastLocation}`)
+    dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: null })
     dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
   }
 

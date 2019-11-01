@@ -40,7 +40,6 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
     if (currentlySelectedOriginPointmap == null) {
       return defaultStyle
     } else if (selectedOriginCode == currentlySelectedOriginPointmap) {
-      // setSelectedOriginCode('')
       return selectedStyle
     } else {
       return defaultStyle

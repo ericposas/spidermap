@@ -25,6 +25,8 @@ const Dropdown = ({ ...props }) => {
 
   const [airportsPerCategory, setAirportsPerCategory] = useState({})
 
+  const [values, setValues] = useState([])
+
   const dispatch = useDispatch()
 
   const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
@@ -131,18 +133,32 @@ const Dropdown = ({ ...props }) => {
     })
   }
 
-  const selectionHandler = e => {
-    let value = e.target.value
-    if (type == 'code') setSingleSelection(value, props.output)
-    else if (type == 'category') setCategorySelection(value, props.output)
+  const setOptionsValues = e => {
+    let { selectedOptions } = e.target
+    selectedOptions = [].slice.call(selectedOptions)
+    selectedOptions = selectedOptions.map(val => val.innerHTML)
+    setValues(selectedOptions)
   }
 
+  const selectionHandler = () => {
+    if (type == 'code') {
+      values.forEach(val => {
+        setSingleSelection(val, props.output)
+      })
+    }
+    else if (type == 'category') {
+      values.forEach(val => {
+        setCategorySelection(val, props.output)
+      })
+    }
+  }
+  
   return (
     <>
-      <select onChange={selectionHandler}>
-        <option>select:</option>
+      <select onChange={setOptionsValues} multiple>
         {options}
       </select>
+      <button onClick={selectionHandler}>Ok</button>
     </>
   )
 

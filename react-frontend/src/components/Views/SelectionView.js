@@ -1,9 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP } from '../../constants/constants'
+import OriginSpidermapElement from '../LocationElements/OriginSpidermapElement'
 import SelectableOriginPointmapElement from '../LocationElements/SelectableOriginPointmapElement'
-import DestinationPointmapElement from '../LocationElements/DestinationPointmapElement'
 import DestinationSpidermapElement from '../LocationElements/DestinationSpidermapElement'
+import DestinationPointmapElement from '../LocationElements/DestinationPointmapElement'
+import DestinationListViewElement from '../LocationElements/DestinationListViewElement'
 import _ from 'lodash'
 
 const SelectionView = ({ ...props }) => {
@@ -21,8 +23,6 @@ const SelectionView = ({ ...props }) => {
   const selectedDestinationsListView = useSelector(state => state.selectedDestinationsListView)
 
   const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
-
-  // const [selectedOriginStyle, setSelectedOriginStyle] = useState({ color: 'black', fontFamily: 'arial' })
 
   const label = () => {
     switch (props.type) {
@@ -47,11 +47,6 @@ const SelectionView = ({ ...props }) => {
     }
   }
 
-  // const setCurrentSelectedOriginPointmap = location => {
-  //   setSelectedOriginStyle({ color: 'white', backgroundColor: 'lightblue', border: '2px solid darkblue' })
-  //   dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: location.code })
-  // }
-
   return (
     <>
       <br/>
@@ -61,7 +56,7 @@ const SelectionView = ({ ...props }) => {
         {
           (props.type == 'spidermap-origin' && selectedOriginSpidermap)
           ? (<Fragment key={selectedOriginSpidermap.id}>
-              <div>{selectedOriginSpidermap.code}</div>
+              <OriginSpidermapElement originObject={selectedOriginSpidermap} code={selectedOriginSpidermap.code}/>
              </Fragment>)
           : null
         }
@@ -78,7 +73,6 @@ const SelectionView = ({ ...props }) => {
           ? selectedDestinationsSpidermap.map(location => (
             <Fragment key={location.id}>
               <DestinationSpidermapElement destinationObject={location} code={location.code}/>
-              {/*<div>{location.code}</div>*/}
             </Fragment>))
           : null
         }
@@ -92,7 +86,10 @@ const SelectionView = ({ ...props }) => {
         }
         {
           (props.type == 'listview-destinations' && selectedDestinationsListView)
-          ? selectedDestinationsListView.map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          ? selectedDestinationsListView.map(location => (
+            <Fragment key={location.id}>
+              <DestinationListViewElement destinationObject={location} code={location.code}/>
+            </Fragment>))
           : null
         }
       </div>

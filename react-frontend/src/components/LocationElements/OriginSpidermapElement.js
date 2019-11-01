@@ -1,14 +1,14 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { REMOVE_A_DESTINATION_SPIDERMAP } from '../../constants/constants'
+import { REMOVE_AN_ORIGIN_SPIDERMAP } from '../../constants/constants'
 
-const DestinationSpidermapElement = ({ ...props }) => {
+const OriginSpidermapElement = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
   const removeElementHandler = () => {
-    const { destinationObject } = props
-    dispatch({ type: REMOVE_A_DESTINATION_SPIDERMAP, payload: destinationObject })
+    const { originObject } = props
+    dispatch({ type: REMOVE_AN_ORIGIN_SPIDERMAP, payload: originObject })
   }
 
   const xBtnStyle = {
@@ -28,4 +28,4 @@ const DestinationSpidermapElement = ({ ...props }) => {
 
 }
 
-export default DestinationSpidermapElement
+export default OriginSpidermapElement
