@@ -65,7 +65,7 @@ const SelectionView = ({ ...props }) => {
           (props.type == 'pointmap-origins' && selectedOriginsPointmap)
           ? selectedOriginsPointmap.map(location => (
             <Fragment key={location.id}>
-              <SelectableOriginPointmap code={location.code}/>
+              <SelectableOriginPointmap originObject={location} code={location.code}/>
             </Fragment>))
           : null
         }

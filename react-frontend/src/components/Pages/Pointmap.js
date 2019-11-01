@@ -10,6 +10,8 @@ const Pointmap = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
+  const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
+
   const lastLocation = useSelector(state => state.lastLocation)
 
   useEffect(() => {
@@ -41,11 +43,17 @@ const Pointmap = ({ ...props }) => {
       <Dropdown type='category' output='pointmap-origins'/>
       <br/>
       <br/>
-      <div style={{display:'inline-block'}}>select Destinations by airport code: &nbsp;</div>
-      <Dropdown type='code' output='pointmap-destinations'/>
-      <br/>
-      <div style={{display:'inline-block'}}>select Destinations by category: &nbsp;</div>
-      <Dropdown type='category' output='pointmap-destinations'/>
+      {
+        currentlySelectedOriginPointmap
+        ?
+        (<>
+          <div style={{display:'inline-block'}}>select Destinations by airport code: &nbsp;</div>
+          <Dropdown type='code' output='pointmap-destinations'/>
+          <br/>
+          <div style={{display:'inline-block'}}>select Destinations by category: &nbsp;</div>
+          <Dropdown type='category' output='pointmap-destinations'/>
+        </>) : null
+      }
       <br/>
       <br/>
       <SelectionView type='pointmap-origins'/>
