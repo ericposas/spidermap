@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP,
   REMOVE_AN_ORIGIN_FOR_POINTMAP,
-  REMOVE_DESTINATIONS_FOR_AN_ORIGIN_FOR_POINTMAP
+  REMOVE_ALL_DESTINATIONS_FOR_AN_ORIGIN_FOR_POINTMAP
 } from '../../constants/constants'
 import _ from 'lodash'
 
-const SelectableOriginPointmap = ({ ...props }) => {
+const SelectableOriginPointmapElement = ({ ...props }) => {
 
   const defaultStyle = { color: 'black', fontFamily: 'arial', display: 'inline-block' }
 
@@ -29,7 +29,7 @@ const SelectableOriginPointmap = ({ ...props }) => {
   const removeElementHandler = () => {
     if (selectedOriginsPointmap && _.some(selectedOriginsPointmap, props.originObject) == true) {
       dispatch({ type: REMOVE_AN_ORIGIN_FOR_POINTMAP, payload: props.originObject })
-      dispatch({ type: REMOVE_DESTINATIONS_FOR_AN_ORIGIN_FOR_POINTMAP, payload: props.code })
+      dispatch({ type: REMOVE_ALL_DESTINATIONS_FOR_AN_ORIGIN_FOR_POINTMAP, payload: props.code })
     }
     if (currentlySelectedOriginPointmap == props.originObject.code) {
       dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: null })
@@ -64,4 +64,4 @@ const SelectableOriginPointmap = ({ ...props }) => {
 
 }
 
-export default SelectableOriginPointmap
+export default SelectableOriginPointmapElement

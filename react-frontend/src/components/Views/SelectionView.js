@@ -1,7 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP } from '../../constants/constants'
-import SelectableOriginPointmap from './SelectableOriginPointmap'
+import SelectableOriginPointmapElement from '../LocationElements/SelectableOriginPointmapElement'
+import DestinationPointmapElement from '../LocationElements/DestinationPointmapElement'
 import _ from 'lodash'
 
 const SelectionView = ({ ...props }) => {
@@ -58,14 +59,16 @@ const SelectionView = ({ ...props }) => {
       <div>
         {
           (props.type == 'spidermap-origin' && selectedOriginSpidermap)
-          ? (<Fragment key={selectedOriginSpidermap.id}><div>{selectedOriginSpidermap.code}</div></Fragment>)
+          ? (<Fragment key={selectedOriginSpidermap.id}>
+              <div>{selectedOriginSpidermap.code}</div>
+             </Fragment>)
           : null
         }
         {
           (props.type == 'pointmap-origins' && selectedOriginsPointmap)
           ? selectedOriginsPointmap.map(location => (
             <Fragment key={location.id}>
-              <SelectableOriginPointmap originObject={location} code={location.code}/>
+              <SelectableOriginPointmapElement originObject={location} code={location.code}/>
             </Fragment>))
           : null
         }
@@ -76,7 +79,10 @@ const SelectionView = ({ ...props }) => {
         }
         {
           (props.type == 'pointmap-destinations' && selectedDestinationsPointmap && selectedDestinationsPointmap[currentlySelectedOriginPointmap])
-          ? selectedDestinationsPointmap[currentlySelectedOriginPointmap].map(location => (<Fragment key={location.id}><div>{location.code}</div></Fragment>))
+          ? selectedDestinationsPointmap[currentlySelectedOriginPointmap].map(location => (
+            <Fragment key={location.id}>
+              <DestinationPointmapElement destinationObject={location} code={location.code}/>
+            </Fragment>))
           : null
         }
         {

@@ -11,6 +11,8 @@ import url from '../../url'
 import axios from 'axios'
 import _ from 'lodash'
 
+// const url = 'http://127.0.0.1'
+
 const Dropdown = ({ ...props }) => {
 
   const { type } = props
@@ -48,7 +50,9 @@ const Dropdown = ({ ...props }) => {
 
   const createOptionsFromCodes = async () => {
     try {
+      console.log(url)
       let result = await axios.get(`${url}/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+      // let result = await axios.get(`${url}/airports/byCode`)
       setData(result.data)
       let resultArr = result.data.map(ap => {
         if (ap.code != null) return <Fragment key={ap.code}><option>{ap.code}</option></Fragment>
