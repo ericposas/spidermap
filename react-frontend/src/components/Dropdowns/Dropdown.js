@@ -140,6 +140,12 @@ const Dropdown = ({ ...props }) => {
     setValues(selectedOptions)
   }
 
+  const selectionHandlerSingleOrigin = e => {
+    if (type == 'code') {
+      setSingleSelection(e.target.value, props.output)
+    }
+  }
+
   const selectionHandler = () => {
     if (type == 'code') {
       values.forEach(val => {
@@ -152,13 +158,18 @@ const Dropdown = ({ ...props }) => {
       })
     }
   }
-  
+
   return (
     <>
-      <select onChange={setOptionsValues} multiple>
+      <select onChange={props.output != 'spidermap-origin' ? setOptionsValues : selectionHandlerSingleOrigin}
+              multiple={props.output != 'spidermap-origin' ? 'multiple' : false}>
         {options}
       </select>
-      <button onClick={selectionHandler}>Ok</button>
+      {
+        props.output != 'spidermap-origin'
+        ? <button onClick={selectionHandler}>Ok</button>
+        : null
+      }
     </>
   )
 
