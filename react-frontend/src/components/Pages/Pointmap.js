@@ -9,6 +9,13 @@ import { checkAuth } from '../../sessionStore'
 import {
   LAST_LOCATION,
   SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP,
+  HIDE_SELECT_BY_CODE_ORIGINS,
+  HIDE_SELECT_BY_CATEGORY_ORIGINS,
+  HIDE_SELECT_BY_CODE_DESTINATIONS,
+  HIDE_SELECT_BY_CATEGORY_DESTINATIONS,
+  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS,
+  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS,
+  HIDE_DESTINATION_PANEL
 } from '../../constants/constants'
 
 const Pointmap = ({ ...props }) => {
@@ -41,10 +48,23 @@ const Pointmap = ({ ...props }) => {
     }
   }, [])
 
+  const resetPanels = () => {
+    dispatch({ type: HIDE_SELECT_BY_CODE_ORIGINS })
+    dispatch({ type: HIDE_SELECT_BY_CATEGORY_ORIGINS })
+    dispatch({ type: HIDE_SELECT_BY_CODE_DESTINATIONS })
+    dispatch({ type: HIDE_SELECT_BY_CATEGORY_DESTINATIONS })
+    dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS })
+    dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS })
+    dispatch({ type: HIDE_DESTINATION_PANEL })
+  }
+
   const backButtonHandler = () => {
     props.history.push(`/${lastLocation}`)
-    dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: null })
-    dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
+    batch(() => {
+      dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: null })
+      dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
+      resetPanels()
+    })
   }
 
   return (
