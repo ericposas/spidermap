@@ -2,10 +2,14 @@ import React, { useState, useEffect, Fragment } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import {
   SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP,
-  SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL,
-  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL,
-  HIDE_SELECT_BY_CODE,
-  HIDE_SELECT_BY_CATEGORY,
+  SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS,
+  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS,
+  SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS,
+  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS,
+  HIDE_SELECT_BY_CODE_DESTINATIONS,
+  HIDE_SELECT_BY_CATEGORY_DESTINATIONS,
+  HIDE_SELECT_BY_CODE_ORIGINS,
+  HIDE_SELECT_BY_CATEGORY_ORIGINS,
   HIDE_DESTINATION_PANEL
 } from '../../constants/constants'
 import OriginSpidermapElement from '../LocationElements/OriginSpidermapElement'
@@ -13,6 +17,8 @@ import SelectableOriginPointmapElement from '../LocationElements/SelectableOrigi
 import DestinationSpidermapElement from '../LocationElements/DestinationSpidermapElement'
 import DestinationPointmapElement from '../LocationElements/DestinationPointmapElement'
 import DestinationListViewElement from '../LocationElements/DestinationListViewElement'
+import AddEditOriginsButton from '../Buttons/AddEditOriginsButton'
+import AddEditDestinationsButton from '../Buttons/AddEditDestinationsButton'
 import _ from 'lodash'
 
 const SelectionView = ({ ...props }) => {
@@ -30,6 +36,10 @@ const SelectionView = ({ ...props }) => {
   const selectedDestinationsListView = useSelector(state => state.selectedDestinationsListView)
 
   const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
+
+  // const selectBy_OriginsVisibility = useSelector(state => state.selectBy_OriginsVisibility)
+
+  const selectBy_DestinationsVisibility = useSelector(state => state.selectBy_DestinationsVisibility)
 
   const label = () => {
     switch (props.type) {
@@ -101,19 +111,10 @@ const SelectionView = ({ ...props }) => {
             : null
           }
           {
+            /* conditionally show the Add/Edit Destinations button if selectBy_DestinationsVisibility panel is open, then hide the button */
             props.type.search('-destinations') > -1
-            ? <button onClick={() => {
-                dispatch({ type: SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL })
-              }}>+ Add / Edit Destinations</button>
-              : <button onClick={() => {
-                batch(() => {
-                  dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: null })
-                  dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL })
-                  dispatch({ type: HIDE_SELECT_BY_CATEGORY })
-                  dispatch({ type: HIDE_SELECT_BY_CODE })
-                  dispatch({ type: HIDE_DESTINATION_PANEL })
-                })
-              }}>+ Add / Edit Origins</button>
+            ? selectBy_DestinationsVisibility ? null : <AddEditDestinationsButton/>
+            : <AddEditOriginsButton/>
             }
         </div>
       </div>

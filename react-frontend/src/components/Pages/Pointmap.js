@@ -3,14 +3,12 @@ import { useDispatch, useSelector, batch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
+import SelectBy_Origins from '../Views/SelectBy_Origins'
+import SelectBy_Destinations from '../Views/SelectBy_Destinations'
 import { checkAuth } from '../../sessionStore'
 import {
   LAST_LOCATION,
   SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP,
-  SHOW_SELECT_BY_CODE,
-  HIDE_SELECT_BY_CODE,
-  SHOW_SELECT_BY_CATEGORY,
-  HIDE_SELECT_BY_CATEGORY,
 } from '../../constants/constants'
 
 const Pointmap = ({ ...props }) => {
@@ -21,11 +19,17 @@ const Pointmap = ({ ...props }) => {
 
   const destinationPanelVisibility = useSelector(state => state.destinationPanelVisibility)
 
-  const selectByCategoryOrCodePanelVisibility = useSelector(state => state.selectByCategoryOrCodePanelVisibility)
+  const selectBy_OriginsVisibility = useSelector(state => state.selectBy_OriginsVisibility)
 
-  const selectByCode = useSelector(state => state.selectByCode)
+  const selectBy_DestinationsVisibility = useSelector(state => state.selectBy_DestinationsVisibility)
 
-  const selectByCategory = useSelector(state => state.selectByCategory)
+  const selectByCodeOrigins = useSelector(state => state.selectByCodeOrigins)
+
+  const selectByCategoryOrigins = useSelector(state => state.selectByCategoryOrigins)
+
+  const selectByCodeDestinations = useSelector(state => state.selectByCodeDestinations)
+
+  const selectByCategoryDestinations = useSelector(state => state.selectByCategoryDestinations)
 
   const lastLocation = useSelector(state => state.lastLocation)
 
@@ -62,43 +66,36 @@ const Pointmap = ({ ...props }) => {
            (<div className='col-med' style={{height:'100vh'}}>
              <SelectionView type='pointmap-destinations'/>
            </div>)
-          :
+          : null
+        }
+        {
+          selectBy_OriginsVisibility ? <SelectBy_Origins/> : null
+        }
+        {
+          selectByCodeOrigins == true
+          ?
            (<>
              <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
                <div>select Origins by airport code: &nbsp;</div>
                <Dropdown type='code' output='pointmap-origins'/>
-               <br/>
-               <div>select Origins by category: &nbsp;</div>
-               <Dropdown type='category' output='pointmap-origins'/>
              </div>
-           </>)
+           </>) : null
         }
         {
-          selectByCategoryOrCodePanelVisibility
+          selectByCategoryOrigins == true
           ?
            (<>
-              <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'#60d7ff'}}>
-                <button onClick={() => {
-                    batch(() => {
-                      dispatch({ type: SHOW_SELECT_BY_CODE })
-                      dispatch({ type: HIDE_SELECT_BY_CATEGORY })
-                    })
-                  }}>Select By Code</button>
-                <br/>
-                <br/>
-                <button onClick={() => {
-                    batch(() => {
-                      dispatch({ type: SHOW_SELECT_BY_CATEGORY })
-                      dispatch({ type: HIDE_SELECT_BY_CODE })
-                    })
-                  }}>Select By Category</button>
-              </div>
-           </>)
-          : null
+             <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
+               <div>select Origins by airport code: &nbsp;</div>
+               <Dropdown type='category' output='pointmap-origins'/>
+             </div>
+           </>) : null
         }
-
         {
-          selectByCode == true
+          selectBy_DestinationsVisibility ? <SelectBy_Destinations/> : null
+        }
+        {
+          selectByCodeDestinations == true
           ?
            (<>
              <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
@@ -109,7 +106,7 @@ const Pointmap = ({ ...props }) => {
           : null
         }
         {
-          selectByCategory == true
+          selectByCategoryDestinations == true
           ?
            (<>
              <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
