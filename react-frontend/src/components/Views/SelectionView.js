@@ -1,6 +1,13 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP } from '../../constants/constants'
+import { useDispatch, useSelector, batch } from 'react-redux'
+import {
+  SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP,
+  SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL,
+  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL,
+  HIDE_SELECT_BY_CODE,
+  HIDE_SELECT_BY_CATEGORY,
+  HIDE_DESTINATION_PANEL
+} from '../../constants/constants'
 import OriginSpidermapElement from '../LocationElements/OriginSpidermapElement'
 import SelectableOriginPointmapElement from '../LocationElements/SelectableOriginPointmapElement'
 import DestinationSpidermapElement from '../LocationElements/DestinationSpidermapElement'
@@ -32,7 +39,7 @@ const SelectionView = ({ ...props }) => {
       case 'pointmap-origins':
         return (<>
           <div>Origins</div>
-          {selectedOriginsPointmap ? <div style={{fontSize:'.85rem'}}>Tap on each Origin to set Destinations</div> : null}
+          { selectedOriginsPointmap ? <div style={{display:'inline-block',fontSize:'.85rem'}}>Tap on each Origin to set Destinations</div> : null }
         </>)
         break;
       case 'pointmap-destinations':
@@ -51,47 +58,64 @@ const SelectionView = ({ ...props }) => {
     <>
       <br/>
       <br/>
-      <div>{label()}</div>
-      <div>
-        {
-          (props.type == 'spidermap-origin' && selectedOriginSpidermap)
-          ? (<Fragment key={selectedOriginSpidermap.id}>
-              <OriginSpidermapElement originObject={selectedOriginSpidermap} code={selectedOriginSpidermap.code}/>
-             </Fragment>)
-          : null
-        }
-        {
-          (props.type == 'pointmap-origins' && selectedOriginsPointmap)
-          ? selectedOriginsPointmap.map(location => (
-            <Fragment key={location.id}>
-              <SelectableOriginPointmapElement originObject={location} code={location.code}/>
-            </Fragment>))
-          : null
-        }
-        {
-          (props.type == 'spidermap-destinations' && selectedDestinationsSpidermap)
-          ? selectedDestinationsSpidermap.map(location => (
-            <Fragment key={location.id}>
-              <DestinationSpidermapElement destinationObject={location} code={location.code}/>
-            </Fragment>))
-          : null
-        }
-        {
-          (props.type == 'pointmap-destinations' && selectedDestinationsPointmap && selectedDestinationsPointmap[currentlySelectedOriginPointmap])
-          ? selectedDestinationsPointmap[currentlySelectedOriginPointmap].map(location => (
-            <Fragment key={location.id}>
-              <DestinationPointmapElement destinationObject={location} code={location.code}/>
-            </Fragment>))
-          : null
-        }
-        {
-          (props.type == 'listview-destinations' && selectedDestinationsListView)
-          ? selectedDestinationsListView.map(location => (
-            <Fragment key={location.id}>
-              <DestinationListViewElement destinationObject={location} code={location.code}/>
-            </Fragment>))
-          : null
-        }
+      <div style={{backgroundColor:'cyan',height:'100vh',margin:'-48px 0 0 20px'}}>
+        <div>{label()}</div>
+        <div>
+          {
+            (props.type == 'spidermap-origin' && selectedOriginSpidermap)
+            ? (<Fragment key={selectedOriginSpidermap.id}>
+                <OriginSpidermapElement originObject={selectedOriginSpidermap} code={selectedOriginSpidermap.code}/>
+               </Fragment>)
+            : null
+          }
+          {
+            (props.type == 'pointmap-origins' && selectedOriginsPointmap)
+            ? selectedOriginsPointmap.map(location => (
+              <Fragment key={location.id}>
+                <SelectableOriginPointmapElement originObject={location} code={location.code}/>
+              </Fragment>))
+            : null
+          }
+          {
+            (props.type == 'spidermap-destinations' && selectedDestinationsSpidermap)
+            ? selectedDestinationsSpidermap.map(location => (
+              <Fragment key={location.id}>
+                <DestinationSpidermapElement destinationObject={location} code={location.code}/>
+              </Fragment>))
+            : null
+          }
+          {
+            (props.type == 'pointmap-destinations' && selectedDestinationsPointmap && selectedDestinationsPointmap[currentlySelectedOriginPointmap])
+            ? selectedDestinationsPointmap[currentlySelectedOriginPointmap].map(location => (
+              <Fragment key={location.id}>
+                <DestinationPointmapElement destinationObject={location} code={location.code}/>
+              </Fragment>))
+            : null
+          }
+          {
+            (props.type == 'listview-destinations' && selectedDestinationsListView)
+            ? selectedDestinationsListView.map(location => (
+              <Fragment key={location.id}>
+                <DestinationListViewElement destinationObject={location} code={location.code}/>
+              </Fragment>))
+            : null
+          }
+          {
+            props.type.search('-destinations') > -1
+            ? <button onClick={() => {
+                dispatch({ type: SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL })
+              }}>+ Add / Edit Destinations</button>
+              : <button onClick={() => {
+                batch(() => {
+                  dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: null })
+                  dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL })
+                  dispatch({ type: HIDE_SELECT_BY_CATEGORY })
+                  dispatch({ type: HIDE_SELECT_BY_CODE })
+                  dispatch({ type: HIDE_DESTINATION_PANEL })
+                })
+              }}>+ Add / Edit Origins</button>
+            }
+        </div>
       </div>
     </>
   )

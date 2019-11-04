@@ -1,26 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, combineReducers } from 'redux'
-import lastLocation from './reducers/lastLocation'
-import selectedOriginSpidermap from './reducers/selectedOriginSpidermap'
-import selectedOriginsPointmap from './reducers/selectedOriginsPointmap'
-import selectedDestinationsPointmap from './reducers/selectedDestinationsPointmap'
-import selectedDestinationsSpidermap from './reducers/selectedDestinationsSpidermap'
-import selectedDestinationsListView from './reducers/selectedDestinationsListView'
-import currentlySelectedOriginPointmap from './reducers/currentlySelectedOriginPointmap'
+import { createStore } from 'redux'
+import rootReducer from './reducers/rootReducer'
 import App from './App'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './globalStyles.scss'
 
 window.beforeunload = () => { sessionStorage.removeItem(process.env.APP_NAME) }
 window.unload = () => { sessionStorage.removeItem(process.env.APP_NAME) }
 
 const root = document.getElementById('root')
-const rootReducer = combineReducers({
-  lastLocation, selectedOriginSpidermap, selectedOriginsPointmap,
-  selectedDestinationsPointmap, selectedDestinationsSpidermap,
-  selectedDestinationsListView, currentlySelectedOriginPointmap
-})
 const store = createStore(rootReducer)
 
 store.subscribe(() => {

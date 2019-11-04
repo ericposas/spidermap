@@ -1,9 +1,14 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import {
   SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP,
   REMOVE_AN_ORIGIN_FOR_POINTMAP,
-  REMOVE_ALL_DESTINATIONS_FOR_AN_ORIGIN_FOR_POINTMAP
+  REMOVE_ALL_DESTINATIONS_FOR_AN_ORIGIN_FOR_POINTMAP,
+  SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL,
+  SHOW_DESTINATION_PANEL,
+  HIDE_SELECT_BY_CODE,
+  HIDE_SELECT_BY_CATEGORY,
+  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL
 } from '../../constants/constants'
 import _ from 'lodash'
 
@@ -23,13 +28,21 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
 
   const setCurrentSelectedOriginPointmap = () => {
     setSelectedOriginCode(props.code)
-    dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: props.code })
+    batch(() => {
+      dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: props.code })
+      dispatch({ type: SHOW_DESTINATION_PANEL })
+      dispatch({ type: HIDE_SELECT_BY_CODE })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL })
+    })
   }
 
   const removeElementHandler = () => {
     if (selectedOriginsPointmap && _.some(selectedOriginsPointmap, props.originObject) == true) {
-      dispatch({ type: REMOVE_AN_ORIGIN_FOR_POINTMAP, payload: props.originObject })
-      dispatch({ type: REMOVE_ALL_DESTINATIONS_FOR_AN_ORIGIN_FOR_POINTMAP, payload: props.code })
+      batch(() => {
+        dispatch({ type: REMOVE_AN_ORIGIN_FOR_POINTMAP, payload: props.originObject })
+        dispatch({ type: REMOVE_ALL_DESTINATIONS_FOR_AN_ORIGIN_FOR_POINTMAP, payload: props.code })
+      })
     }
     if (currentlySelectedOriginPointmap == props.originObject.code) {
       dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: null })
