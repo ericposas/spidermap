@@ -10,7 +10,7 @@ const selectedDestinationsPointmap = (state = {}, action) => {
       let { origin, item } = action.payload
       let newState = Object.assign({}, state)
       if (!newState[origin]) newState[origin] = []
-      newState[origin] = newState[origin].concat(item)
+      if (origin != item.code) newState[origin] = newState[origin].concat(item)
       return newState
     }
       break;
