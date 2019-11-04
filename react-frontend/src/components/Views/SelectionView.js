@@ -115,7 +115,7 @@ const SelectionView = ({ ...props }) => {
             props.type.search('-destinations') > -1
             ? selectBy_DestinationsVisibility ? null : <AddEditDestinationsButton/>
             : <AddEditOriginsButton/>
-            }
+          }
         </div>
       </div>
     </>
