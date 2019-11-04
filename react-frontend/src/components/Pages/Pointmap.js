@@ -49,22 +49,24 @@ const Pointmap = ({ ...props }) => {
   }, [])
 
   const resetPanels = () => {
-    dispatch({ type: HIDE_SELECT_BY_CODE_ORIGINS })
-    dispatch({ type: HIDE_SELECT_BY_CATEGORY_ORIGINS })
-    dispatch({ type: HIDE_SELECT_BY_CODE_DESTINATIONS })
-    dispatch({ type: HIDE_SELECT_BY_CATEGORY_DESTINATIONS })
-    dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS })
-    dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS })
-    dispatch({ type: HIDE_DESTINATION_PANEL })
+    batch(() => {
+      dispatch({ type: HIDE_SELECT_BY_CODE_ORIGINS })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY_ORIGINS })
+      dispatch({ type: HIDE_SELECT_BY_CODE_DESTINATIONS })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY_DESTINATIONS })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS })
+      dispatch({ type: HIDE_DESTINATION_PANEL })
+    })
   }
-
+  
   const backButtonHandler = () => {
     props.history.push(`/${lastLocation}`)
     batch(() => {
       dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: null })
       dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
-      resetPanels()
     })
+    resetPanels()
   }
 
   return (
