@@ -5,7 +5,8 @@ import {
   SET_DESTINATION_LOCATIONS_SPIDERMAP,
   SET_ORIGIN_LOCATIONS_POINTMAP,
   SET_DESTINATION_LOCATIONS_POINTMAP,
-  SET_DESTINATION_LOCATIONS_LISTVIEW } from '../../constants/constants'
+  SET_DESTINATION_LOCATIONS_LISTVIEW
+} from '../../constants/constants'
 import { checkAuth, getUser } from '../../sessionStore'
 import url from '../../url'
 import axios from 'axios'
@@ -106,7 +107,7 @@ const Dropdown = ({ ...props }) => {
       }
       if (outputType == 'spidermap-destinations') {
         if (_.some(selectedDestinationsSpidermap, item) == false) {
-          dispatch({ type: SET_DESTINATION_LOCATIONS_SPIDERMAP, payload: item })
+          dispatch({ type: SET_DESTINATION_LOCATIONS_SPIDERMAP, payload: { origin: selectedOriginSpidermap, item } })
         }
       }
       if (outputType == 'pointmap-destinations') {
@@ -171,12 +172,15 @@ const Dropdown = ({ ...props }) => {
          (<select style={{ margin: '0 0 0 20px'}}
                   onChange={ setOptionsValues }
                   multiple={ 'multiple' }>
+            <option></option>
             {options}
           </select>)
        :
-         (<select style={{ margin: '0 0 0 20px'}}
+         (<select value={ selectedOriginSpidermap ? selectedOriginSpidermap.code : '' }
+                  style={{ margin: '0 0 0 20px'}}
                   onChange={ selectionHandlerSingleOrigin }
                   multiple={ false }>
+            <option></option>
             {options}
           </select>)
 

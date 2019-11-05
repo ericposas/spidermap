@@ -9,13 +9,13 @@ import { checkAuth } from '../../sessionStore'
 import {
   LAST_LOCATION,
   SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP,
-  HIDE_SELECT_BY_CODE_ORIGINS,
-  HIDE_SELECT_BY_CATEGORY_ORIGINS,
-  HIDE_SELECT_BY_CODE_DESTINATIONS,
-  HIDE_SELECT_BY_CATEGORY_DESTINATIONS,
-  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS,
-  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS,
-  HIDE_DESTINATION_PANEL
+  HIDE_SELECT_BY_CODE_ORIGINS_POINTMAP,
+  HIDE_SELECT_BY_CATEGORY_ORIGINS_POINTMAP,
+  HIDE_SELECT_BY_CODE_DESTINATIONS_POINTMAP,
+  HIDE_SELECT_BY_CATEGORY_DESTINATIONS_POINTMAP,
+  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_POINTMAP,
+  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_POINTMAP,
+  HIDE_DESTINATION_PANEL_POINTMAP
 } from '../../constants/constants'
 
 const Pointmap = ({ ...props }) => {
@@ -24,19 +24,19 @@ const Pointmap = ({ ...props }) => {
 
   const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
 
-  const destinationPanelVisibility = useSelector(state => state.destinationPanelVisibility)
+  const pointmap_destinationPanelVisibility = useSelector(state => state.pointmap_destinationPanelVisibility)
 
-  const selectBy_OriginsVisibility = useSelector(state => state.selectBy_OriginsVisibility)
+  const pointmap_selectBy_OriginsVisibility = useSelector(state => state.pointmap_selectBy_OriginsVisibility)
 
-  const selectBy_DestinationsVisibility = useSelector(state => state.selectBy_DestinationsVisibility)
+  const pointmap_selectBy_DestinationsVisibility = useSelector(state => state.pointmap_selectBy_DestinationsVisibility)
 
-  const selectByCodeOrigins = useSelector(state => state.selectByCodeOrigins)
+  const pointmap_selectByCodeOrigins = useSelector(state => state.pointmap_selectByCodeOrigins)
 
-  const selectByCategoryOrigins = useSelector(state => state.selectByCategoryOrigins)
+  const pointmap_selectByCategoryOrigins = useSelector(state => state.pointmap_selectByCategoryOrigins)
 
-  const selectByCodeDestinations = useSelector(state => state.selectByCodeDestinations)
+  const pointmap_selectByCodeDestinations = useSelector(state => state.pointmap_selectByCodeDestinations)
 
-  const selectByCategoryDestinations = useSelector(state => state.selectByCategoryDestinations)
+  const pointmap_selectByCategoryDestinations = useSelector(state => state.pointmap_selectByCategoryDestinations)
 
   const lastLocation = useSelector(state => state.lastLocation)
 
@@ -83,7 +83,7 @@ const Pointmap = ({ ...props }) => {
           <SelectionView type='pointmap-origins'/>
         </div>
         {
-          destinationPanelVisibility
+          pointmap_destinationPanelVisibility
           ?
            (<div className='col-med' style={{height:'100vh'}}>
              <SelectionView type='pointmap-destinations'/>
@@ -91,10 +91,10 @@ const Pointmap = ({ ...props }) => {
           : null
         }
         {
-          selectBy_OriginsVisibility ? <SelectBy_Origins/> : null
+          pointmap_selectBy_OriginsVisibility ? <SelectBy_Origins type='pointmap'/> : null
         }
         {
-          selectByCodeOrigins == true
+          pointmap_selectByCodeOrigins == true
           ?
            (<>
              <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
@@ -104,7 +104,7 @@ const Pointmap = ({ ...props }) => {
            </>) : null
         }
         {
-          selectByCategoryOrigins == true
+          pointmap_selectByCategoryOrigins == true
           ?
            (<>
              <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
@@ -114,10 +114,10 @@ const Pointmap = ({ ...props }) => {
            </>) : null
         }
         {
-          selectBy_DestinationsVisibility ? <SelectBy_Destinations/> : null
+          pointmap_selectBy_DestinationsVisibility ? <SelectBy_Destinations type='pointmap'/> : null
         }
         {
-          selectByCodeDestinations == true
+          pointmap_selectByCodeDestinations == true
           ?
            (<>
              <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
@@ -128,7 +128,7 @@ const Pointmap = ({ ...props }) => {
           : null
         }
         {
-          selectByCategoryDestinations == true
+          pointmap_selectByCategoryDestinations == true
           ?
            (<>
              <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>

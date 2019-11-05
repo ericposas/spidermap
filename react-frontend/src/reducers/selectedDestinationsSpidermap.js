@@ -7,7 +7,9 @@ import {
 const selectedDestinationsSpidermap = (state = [], action) => {
   switch (action.type) {
     case SET_DESTINATION_LOCATIONS_SPIDERMAP: {
-      return state.concat(action.payload)
+      let { origin, item } = action.payload
+      if (origin.code != item.code) return state.concat(item)
+      else return state
     }
       break;
     case REMOVE_A_DESTINATION_SPIDERMAP: {

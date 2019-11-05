@@ -1,8 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import {
   REMOVE_AN_ORIGIN_SPIDERMAP,
-  REMOVE_ALL_DESTINATIONS_SPIDERMAP
+  REMOVE_ALL_DESTINATIONS_SPIDERMAP,
+  HIDE_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP,
+  HIDE_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP,
+  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP
 } from '../../constants/constants'
 
 const OriginSpidermapElement = ({ ...props }) => {
@@ -11,8 +14,13 @@ const OriginSpidermapElement = ({ ...props }) => {
 
   const removeElementHandler = () => {
     const { originObject } = props
-    dispatch({ type: REMOVE_AN_ORIGIN_SPIDERMAP, payload: originObject })
-    dispatch({ type: REMOVE_ALL_DESTINATIONS_SPIDERMAP })
+    batch(() => {
+      dispatch({ type: REMOVE_AN_ORIGIN_SPIDERMAP, payload: originObject })
+      dispatch({ type: REMOVE_ALL_DESTINATIONS_SPIDERMAP })
+      dispatch({ type: HIDE_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP })
+    })
   }
 
   const xBtnStyle = {

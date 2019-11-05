@@ -15,11 +15,12 @@ const Spidermap = ({ ...props }) => {
 
   const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
 
-  const selectByCodeDestinations = useSelector(state => state.selectByCodeDestinations)
+  const spidermap_selectBy_DestinationsVisibility = useSelector(state => state.spidermap_selectBy_DestinationsVisibility)
 
-  const selectByCategoryDestinations = useSelector(state => state.selectByCategoryDestinations)
+  const spidermap_selectByCodeDestinations = useSelector(state => state.spidermap_selectByCodeDestinations)
 
-  const selectBy_DestinationsVisibility = useSelector(state => state.selectBy_DestinationsVisibility)
+  const spidermap_selectByCategoryDestinations = useSelector(state => state.spidermap_selectByCategoryDestinations)
+
 
   useEffect(() => {
     if (!checkAuth()) {
@@ -59,12 +60,12 @@ const Spidermap = ({ ...props }) => {
              </div>) : null
         }
         {
-          selectBy_DestinationsVisibility
-          ? <SelectBy_Destinations/>
+          spidermap_selectBy_DestinationsVisibility && selectedOriginSpidermap
+          ? <SelectBy_Destinations type='spidermap'/>
           : null
         }
         {
-          selectByCodeDestinations == true
+          spidermap_selectByCodeDestinations && selectedOriginSpidermap
           ?
            (<>
              <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
@@ -75,7 +76,7 @@ const Spidermap = ({ ...props }) => {
           : null
         }
         {
-          selectByCategoryDestinations == true
+          spidermap_selectByCategoryDestinations && selectedOriginSpidermap
           ?
            (<>
              <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>

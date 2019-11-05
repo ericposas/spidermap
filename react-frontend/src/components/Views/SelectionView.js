@@ -113,11 +113,14 @@ const SelectionView = ({ ...props }) => {
           {
             /* conditionally show the Add/Edit Destinations button if selectBy_DestinationsVisibility panel is open, then hide the button */
             props.type.search('-destinations') > -1
-            ? selectBy_DestinationsVisibility ? null : <AddEditDestinationsButton/>
+            ? selectBy_DestinationsVisibility
+              ? null
+              : props.type.search('spidermap-') > -1
+                ? <AddEditDestinationsButton type='spidermap'/> : <AddEditDestinationsButton type='pointmap'/>
             :
               props.type.search('spidermap-') > -1
               ? null
-              : <AddEditOriginsButton/>
+              : <AddEditOriginsButton type='pointmap'/>
           }
         </div>
       </div>
