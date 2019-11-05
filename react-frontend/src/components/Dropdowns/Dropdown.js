@@ -57,7 +57,11 @@ const Dropdown = ({ ...props }) => {
       // let result = await axios.get(`${url}/airports/byCode`)
       setData(result.data)
       let resultArr = result.data.map(ap => {
-        if (ap.code != null) return <Fragment key={ap.code}><option>{ap.code}</option></Fragment>
+        if (ap.code != null) {
+          return (<Fragment key={ap.code}>
+                    <option>{ap.code}</option>
+                  </Fragment>)
+        }
       })
       setOptions(resultArr)
     } catch (e) {
@@ -161,10 +165,22 @@ const Dropdown = ({ ...props }) => {
 
   return (
     <>
-      <select onChange={props.output != 'spidermap-origin' ? setOptionsValues : selectionHandlerSingleOrigin}
-              multiple={props.output != 'spidermap-origin' ? 'multiple' : false}>
-        {options}
-      </select>
+     {
+       props.output != 'spidermap-origin'
+       ?
+         (<select style={{ margin: '0 0 0 20px'}}
+                  onChange={ setOptionsValues }
+                  multiple={ 'multiple' }>
+            {options}
+          </select>)
+       :
+         (<select style={{ margin: '0 0 0 20px'}}
+                  onChange={ selectionHandlerSingleOrigin }
+                  multiple={ false }>
+            {options}
+          </select>)
+
+      }
       {
         props.output != 'spidermap-origin'
         ? <button onClick={selectionHandler}>Ok</button>
