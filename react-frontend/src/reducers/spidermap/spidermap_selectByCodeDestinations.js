@@ -1,7 +1,7 @@
 import {
   SHOW_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP,
   HIDE_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP
-} from '../constants/constants'
+} from '../../constants/spidermap'
 
 const spidermap_selectByCodeDestinations = (state = false, action) => {
   switch (action.type) {

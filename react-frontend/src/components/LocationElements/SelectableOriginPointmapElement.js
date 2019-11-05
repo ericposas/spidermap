@@ -12,7 +12,7 @@ import {
   HIDE_SELECT_BY_CATEGORY_DESTINATIONS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_POINTMAP
-} from '../../constants/constants'
+} from '../../constants/pointmap'
 import _ from 'lodash'
 
 const SelectableOriginPointmapElement = ({ ...props }) => {

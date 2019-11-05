@@ -5,19 +5,19 @@ import {
   HIDE_SELECT_BY_CODE_DESTINATIONS_POINTMAP,
   SHOW_SELECT_BY_CATEGORY_DESTINATIONS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_DESTINATIONS_POINTMAP,
+} from '../../constants/pointmap'
+import {
   SHOW_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP,
   HIDE_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP,
   SHOW_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP,
-  HIDE_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP
-} from '../../constants/constants'
+  HIDE_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP,
+} from '../../constants/spidermap'
 
 const SelectBy_Destinations = ({ ...props }) => {
 
   useEffect(() => {}, [])
 
   const dispatch = useDispatch()
-
-  console.log(props.type)
 
   return (<>
       {

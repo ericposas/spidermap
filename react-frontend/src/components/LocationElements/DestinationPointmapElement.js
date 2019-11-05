@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   REMOVE_A_DESTINATION_FOR_AN_ORIGIN_FOR_POINTMAP
-} from '../../constants/constants'
+} from '../../constants/pointmap'
 
 const DestinationPointmapElement = ({ ...props }) => {
 

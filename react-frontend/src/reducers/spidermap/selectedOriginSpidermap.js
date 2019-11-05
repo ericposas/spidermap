@@ -1,4 +1,7 @@
-import { SET_ORIGIN_SPIDERMAP, REMOVE_AN_ORIGIN_SPIDERMAP } from '../constants/constants'
+import {
+  SET_ORIGIN_SPIDERMAP,
+  REMOVE_AN_ORIGIN_SPIDERMAP
+} from '../../constants/spidermap'
 
 const selectedOriginSpidermap = (state = null, action) => {
   switch (action.type) {

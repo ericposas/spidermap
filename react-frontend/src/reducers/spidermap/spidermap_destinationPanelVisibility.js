@@ -1,7 +1,7 @@
 import {
   SHOW_DESTINATION_PANEL_SPIDERMAP,
   HIDE_DESTINATION_PANEL_SPIDERMAP
-} from '../constants/constants'
+} from '../../constants/spidermap'
 
 const spidermap_destinationPanelVisibility = (state = false, action) => {
   switch (action.type) {

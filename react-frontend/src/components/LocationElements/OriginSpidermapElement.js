@@ -6,7 +6,7 @@ import {
   HIDE_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP,
   HIDE_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP,
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP
-} from '../../constants/constants'
+} from '../../constants/spidermap'
 
 const OriginSpidermapElement = ({ ...props }) => {
 

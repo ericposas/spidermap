@@ -1,12 +1,16 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  SET_ORIGIN_SPIDERMAP,
-  SET_DESTINATION_LOCATIONS_SPIDERMAP,
+  SET_DESTINATION_LOCATIONS_LISTVIEW
+} from '../../constants/listview'
+import {
   SET_ORIGIN_LOCATIONS_POINTMAP,
   SET_DESTINATION_LOCATIONS_POINTMAP,
-  SET_DESTINATION_LOCATIONS_LISTVIEW
-} from '../../constants/constants'
+} from '../../constants/pointmap'
+import {
+  SET_ORIGIN_SPIDERMAP,
+  SET_DESTINATION_LOCATIONS_SPIDERMAP,
+} from '../../constants/spidermap'
 import { checkAuth, getUser } from '../../sessionStore'
 import url from '../../url'
 import axios from 'axios'

@@ -1,7 +1,7 @@
 import {
   SHOW_SELECT_BY_CATEGORY_ORIGINS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_ORIGINS_POINTMAP
-} from '../constants/constants'
+} from '../../constants/pointmap'
 
 const pointmap_selectByCategoryOrigins = (state = false, action) => {
   switch (action.type) {

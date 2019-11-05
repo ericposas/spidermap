@@ -1,7 +1,7 @@
 import {
   SET_ORIGIN_LOCATIONS_POINTMAP,
   REMOVE_AN_ORIGIN_FOR_POINTMAP
- } from '../constants/constants'
+} from '../../constants/pointmap'
 
 const selectedOriginsPointmap = (state = null, action) => {
   switch (action.type) {

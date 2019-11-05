@@ -1,7 +1,7 @@
 import {
   SHOW_DESTINATION_PANEL_POINTMAP,
   HIDE_DESTINATION_PANEL_POINTMAP
-} from '../constants/constants'
+} from '../../constants/pointmap'
 
 const pointmap_destinationPanelVisibility = (state = false, action) => {
   switch (action.type) {

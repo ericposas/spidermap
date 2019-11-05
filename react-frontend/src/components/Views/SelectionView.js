@@ -1,17 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
-import {
-  SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP,
-  SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS,
-  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS,
-  SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS,
-  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS,
-  HIDE_SELECT_BY_CODE_DESTINATIONS,
-  HIDE_SELECT_BY_CATEGORY_DESTINATIONS,
-  HIDE_SELECT_BY_CODE_ORIGINS,
-  HIDE_SELECT_BY_CATEGORY_ORIGINS,
-  HIDE_DESTINATION_PANEL
-} from '../../constants/constants'
 import OriginSpidermapElement from '../LocationElements/OriginSpidermapElement'
 import SelectableOriginPointmapElement from '../LocationElements/SelectableOriginPointmapElement'
 import DestinationSpidermapElement from '../LocationElements/DestinationSpidermapElement'

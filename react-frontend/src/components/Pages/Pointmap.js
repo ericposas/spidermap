@@ -6,8 +6,8 @@ import Dropdown from '../Dropdowns/Dropdown'
 import SelectBy_Origins from '../Views/SelectBy_Origins'
 import SelectBy_Destinations from '../Views/SelectBy_Destinations'
 import { checkAuth } from '../../sessionStore'
+import { LAST_LOCATION } from '../../constants/constants'
 import {
-  LAST_LOCATION,
   SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP,
   HIDE_SELECT_BY_CODE_ORIGINS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_ORIGINS_POINTMAP,
@@ -16,7 +16,7 @@ import {
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_POINTMAP,
   HIDE_DESTINATION_PANEL_POINTMAP
-} from '../../constants/constants'
+} from '../../constants/pointmap'
 
 const Pointmap = ({ ...props }) => {
 

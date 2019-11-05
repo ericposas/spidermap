@@ -2,7 +2,7 @@ import {
   SET_DESTINATION_LOCATIONS_POINTMAP,
   REMOVE_ALL_DESTINATIONS_FOR_AN_ORIGIN_FOR_POINTMAP,
   REMOVE_A_DESTINATION_FOR_AN_ORIGIN_FOR_POINTMAP
-} from '../constants/constants'
+} from '../../constants/pointmap'
 
 const selectedDestinationsPointmap = (state = {}, action) => {
   switch (action.type) {

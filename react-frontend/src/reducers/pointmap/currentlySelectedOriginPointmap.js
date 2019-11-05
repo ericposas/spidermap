@@ -1,4 +1,6 @@
-import { SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP } from '../constants/constants'
+import {
+  SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP
+} from '../../constants/pointmap'
 
 const currentlySelectedOriginPointmap = (state = '', action) => {
   switch (action.type) {

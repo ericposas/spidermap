@@ -1,7 +1,7 @@
 import {
   SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP,
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP
-} from '../constants/constants'
+} from '../../constants/spidermap'
 
 const spidermap_selectBy_DestinationsVisibility = (state = false, action) => {
   switch (action.type) {

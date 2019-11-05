@@ -1,7 +1,7 @@
 import {
   SET_DESTINATION_LOCATIONS_LISTVIEW,
   REMOVE_A_DESTINATION_LISTVIEW
-} from '../constants/constants'
+} from '../../constants/listview'
 
 const selectedDestinationsListView = (state = [], action) => {
   switch (action.type) {

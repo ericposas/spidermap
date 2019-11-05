@@ -5,9 +5,11 @@ import {
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_ORIGINS_POINTMAP,
   HIDE_SELECT_BY_CODE_ORIGINS_POINTMAP,
+} from '../../constants/pointmap'
+import {
   SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP,
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_SPIDERMAP,
-} from '../../constants/constants'
+} from '../../constants/spidermap'
 
 const AddEditDestinationsButton = ({ ...props }) => {
 

@@ -2,13 +2,10 @@ import React, { Component } from 'react'
 import { HashRouter as Router, BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import LoginPage from './components/Login/LoginPage'
 import SignUp from './components/Login/SignUp'
-import TestProtectedRoute from './components/Pages/TestProtectedRoute'
-import GetAirports from './components/Pages/GetAirports' // requires auth
 import Dashboard from './components/Pages/Dashboard'
 import Spidermap from './components/Pages/Spidermap'
 import Pointmap from './components/Pages/Pointmap'
 import ListView from './components/Pages/ListView'
-// import SelectionView from './components/Views/SelectionView'
 
 const App = ({ ...props }) => (
   <>
@@ -25,8 +22,6 @@ const App = ({ ...props }) => (
         <Route path='/pointmap' component={Pointmap}/>
         <Route path='/listview' component={ListView}/>
         <Route path='/signUp' component={SignUp}/>
-        <Route path='/testProtectedRoute' component={TestProtectedRoute}/>
-        <Route path='/getAirports' component={GetAirports}/>
       </Switch>
     </Router>
   </>

@@ -2,7 +2,7 @@ import {
   SET_DESTINATION_LOCATIONS_SPIDERMAP,
   REMOVE_A_DESTINATION_SPIDERMAP,
   REMOVE_ALL_DESTINATIONS_SPIDERMAP
-} from '../constants/constants'
+} from '../../constants/spidermap'
 
 const selectedDestinationsSpidermap = (state = [], action) => {
   switch (action.type) {

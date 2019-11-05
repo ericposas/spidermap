@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { REMOVE_A_DESTINATION_SPIDERMAP } from '../../constants/constants'
+import { REMOVE_A_DESTINATION_SPIDERMAP } from '../../constants/spidermap'
 
 const DestinationSpidermapElement = ({ ...props }) => {
 

@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { REMOVE_A_DESTINATION_LISTVIEW } from '../../constants/constants'
+import { REMOVE_A_DESTINATION_LISTVIEW } from '../../constants/listview'
 
 const DestinationListViewElement = ({ ...props }) => {
 

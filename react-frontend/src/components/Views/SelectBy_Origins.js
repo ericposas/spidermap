@@ -5,7 +5,7 @@ import {
   HIDE_SELECT_BY_CODE_ORIGINS_POINTMAP,
   SHOW_SELECT_BY_CATEGORY_ORIGINS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_ORIGINS_POINTMAP
-} from '../../constants/constants'
+} from '../../constants/pointmap'
 
 const SelectBy_Origins = ({ ...props }) => {
 

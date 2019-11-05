@@ -1,7 +1,7 @@
 import {
   SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_POINTMAP
-} from '../constants/constants'
+} from '../../constants/pointmap'
 
 const pointmap_selectBy_OriginsVisibility = (state = false, action) => {
   switch (action.type) {

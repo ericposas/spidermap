@@ -1,7 +1,7 @@
 import {
   SHOW_SELECT_BY_CODE_DESTINATIONS_POINTMAP,
   HIDE_SELECT_BY_CODE_DESTINATIONS_POINTMAP
-} from '../constants/constants'
+} from '../../constants/pointmap'
 
 const pointmap_selectByCodeDestinations = (state = false, action) => {
   switch (action.type) {
