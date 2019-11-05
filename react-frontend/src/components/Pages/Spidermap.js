@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
-import SelectBy_Destinations from '../Views/SelectBy_Destinations'
+import SelectBy_Destinations_Spidermap from '../Views/SelectBy_Destinations_Spidermap'
 import { checkAuth } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
 
@@ -61,7 +61,7 @@ const Spidermap = ({ ...props }) => {
         }
         {
           spidermap_selectBy_DestinationsVisibility && selectedOriginSpidermap
-          ? <SelectBy_Destinations type='spidermap'/>
+          ? <SelectBy_Destinations_Spidermap/>
           : null
         }
         {

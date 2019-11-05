@@ -1,12 +1,15 @@
 import {
   SET_DESTINATION_LOCATIONS_LISTVIEW,
-  REMOVE_A_DESTINATION_LISTVIEW
+  REMOVE_A_DESTINATION_LISTVIEW,
+  REMOVE_ALL_DESTINATIONS_LISTVIEW
 } from '../../constants/listview'
 
 const selectedDestinationsListView = (state = [], action) => {
   switch (action.type) {
     case SET_DESTINATION_LOCATIONS_LISTVIEW: {
-      return state.concat(action.payload)
+      let { origin, item } = action.payload
+      if (origin.code != item.code) return state.concat(item)
+      else return state
     }
       break;
     case REMOVE_A_DESTINATION_LISTVIEW: {
@@ -17,6 +20,9 @@ const selectedDestinationsListView = (state = [], action) => {
       return newState
     }
       break;
+    case REMOVE_ALL_DESTINATIONS_LISTVIEW: {
+      return []
+    }
     default:
       return state
   }

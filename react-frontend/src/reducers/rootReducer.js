@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux'
 
 import lastLocation from './lastLocation'
+import selectedOriginListView from './listview/selectedOriginListView'
 import selectedDestinationsListView from './listview/selectedDestinationsListView'
+import listview_selectBy_DestinationsVisibility from './listview/listview_selectBy_DestinationsVisibility'
+import listview_selectByCategoryDestinations from './listview/listview_selectByCategoryDestinations'
+import listview_selectByCodeDestinations from './listview/listview_selectByCodeDestinations'
+import listview_destinationPanelVisibility from './listview/listview_destinationPanelVisibility'
 import selectedOriginSpidermap from './spidermap/selectedOriginSpidermap'
 import selectedDestinationsSpidermap from './spidermap/selectedDestinationsSpidermap'
 import spidermap_selectBy_DestinationsVisibility from './spidermap/spidermap_selectBy_DestinationsVisibility'
@@ -21,7 +26,10 @@ import pointmap_destinationPanelVisibility from './pointmap/pointmap_destination
 
 const rootReducer = combineReducers({
   lastLocation,
+  selectedOriginListView,
   selectedDestinationsListView,
+  listview_selectBy_DestinationsVisibility, listview_selectByCategoryDestinations,
+  listview_selectByCodeDestinations, listview_destinationPanelVisibility,
   currentlySelectedOriginPointmap,
   selectedOriginsPointmap, selectedDestinationsPointmap,
   pointmap_selectByCodeOrigins, pointmap_selectByCategoryOrigins,

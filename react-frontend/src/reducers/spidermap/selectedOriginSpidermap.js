@@ -1,6 +1,6 @@
 import {
   SET_ORIGIN_SPIDERMAP,
-  REMOVE_AN_ORIGIN_SPIDERMAP
+  REMOVE_ORIGIN_SPIDERMAP
 } from '../../constants/spidermap'
 
 const selectedOriginSpidermap = (state = null, action) => {
@@ -8,7 +8,7 @@ const selectedOriginSpidermap = (state = null, action) => {
     case SET_ORIGIN_SPIDERMAP:
       return action.payload
       break;
-    case REMOVE_AN_ORIGIN_SPIDERMAP:
+    case REMOVE_ORIGIN_SPIDERMAP:
       return null
       break;
     default:

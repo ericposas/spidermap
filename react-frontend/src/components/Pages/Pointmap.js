@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
 import SelectBy_Origins from '../Views/SelectBy_Origins'
-import SelectBy_Destinations from '../Views/SelectBy_Destinations'
+import SelectBy_Destinations_Pointmap from '../Views/SelectBy_Destinations_Pointmap'
 import { checkAuth } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
 import {
@@ -48,25 +48,9 @@ const Pointmap = ({ ...props }) => {
     }
   }, [])
 
-  // const resetPanels = () => {
-  //   batch(() => {
-  //     dispatch({ type: HIDE_SELECT_BY_CODE_ORIGINS })
-  //     dispatch({ type: HIDE_SELECT_BY_CATEGORY_ORIGINS })
-  //     dispatch({ type: HIDE_SELECT_BY_CODE_DESTINATIONS })
-  //     dispatch({ type: HIDE_SELECT_BY_CATEGORY_DESTINATIONS })
-  //     dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS })
-  //     dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS })
-  //     dispatch({ type: HIDE_DESTINATION_PANEL })
-  //   })
-  // }
-
   const backButtonHandler = () => {
     props.history.push(`/${lastLocation}`)
-    batch(() => {
-      // dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: null })
-      dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
-    })
-    // resetPanels()
+    dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
   }
 
   return (
@@ -114,7 +98,7 @@ const Pointmap = ({ ...props }) => {
            </>) : null
         }
         {
-          pointmap_selectBy_DestinationsVisibility ? <SelectBy_Destinations type='pointmap'/> : null
+          pointmap_selectBy_DestinationsVisibility ? <SelectBy_Destinations_Pointmap/> : null
         }
         {
           pointmap_selectByCodeDestinations == true

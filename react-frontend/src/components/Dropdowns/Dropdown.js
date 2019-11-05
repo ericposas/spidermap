@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  SET_ORIGIN_LISTVIEW,
   SET_DESTINATION_LOCATIONS_LISTVIEW
 } from '../../constants/listview'
 import {
@@ -15,8 +16,6 @@ import { checkAuth, getUser } from '../../sessionStore'
 import url from '../../url'
 import axios from 'axios'
 import _ from 'lodash'
-
-// const url = 'http://127.0.0.1'
 
 const Dropdown = ({ ...props }) => {
 
@@ -34,15 +33,17 @@ const Dropdown = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
+  const selectedOriginListView = useSelector(state => state.selectedOriginListView)
+
   const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
 
   const selectedOriginsPointmap = useSelector(state => state.selectedOriginsPointmap)
 
+  const selectedDestinationsListView = useSelector(state => state.selectedDestinationsListView)
+
   const selectedDestinationsSpidermap = useSelector(state => state.selectedDestinationsSpidermap)
 
   const selectedDestinationsPointmap = useSelector(state => state.selectedDestinationsPointmap)
-
-  const selectedDestinationsListView = useSelector(state => state.selectedDestinationsListView)
 
   const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
 
@@ -59,7 +60,6 @@ const Dropdown = ({ ...props }) => {
     try {
       console.log(url)
       let result = await axios.get(`${url}/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-      // let result = await axios.get(`${url}/airports/byCode`)
       setData(result.data)
       let resultArr = result.data.map(ap => {
         if (ap.code != null) {
@@ -101,12 +101,20 @@ const Dropdown = ({ ...props }) => {
 
   const dispatchProperOutputType = (item, value, property, outputType) => {
     if (item[property] == value) {
+      if (outputType == 'listview-origin') {
+        dispatch({ type: SET_ORIGIN_LISTVIEW, payload: item })
+      }
       if (outputType == 'spidermap-origin') {
         dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: item })
       }
       if (outputType == 'pointmap-origins') {
         if (_.some(selectedOriginsPointmap, item) == false) {
           dispatch({ type: SET_ORIGIN_LOCATIONS_POINTMAP, payload: item })
+        }
+      }
+      if (outputType == 'listview-destinations') {
+        if (_.some(selectedDestinationsListView, item) == false) {
+          dispatch({ type: SET_DESTINATION_LOCATIONS_LISTVIEW, payload: { origin: selectedOriginListView, item } })
         }
       }
       if (outputType == 'spidermap-destinations') {
@@ -119,11 +127,6 @@ const Dropdown = ({ ...props }) => {
           if (_.some(selectedDestinationsPointmap[currentlySelectedOriginPointmap], item) == false) {
             dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP, payload: { origin: currentlySelectedOriginPointmap, item } })
           }
-        }
-      }
-      if (outputType == 'listview-destinations') {
-        if (_.some(selectedDestinationsListView, item) == false) {
-          dispatch({ type: SET_DESTINATION_LOCATIONS_LISTVIEW, payload: item })
         }
       }
     }
@@ -171,28 +174,35 @@ const Dropdown = ({ ...props }) => {
   return (
     <>
      {
-       props.output != 'spidermap-origin'
+       props.output == 'spidermap-origin'
        ?
-         (<select style={{ margin: '0 0 0 20px'}}
+          (<select value={ selectedOriginSpidermap ? selectedOriginSpidermap.code : '' }
+                  style={{ margin: '0 0 0 20px'}}
+                  onChange={ selectionHandlerSingleOrigin }>
+                  <option></option>
+                  {options}
+          </select>)
+        :
+            props.output == 'listview-origin'
+            ?
+               (<select value={ selectedOriginListView ? selectedOriginListView.code : '' }
+                    style={{ margin: '0 0 0 20px'}}
+                    onChange={ selectionHandlerSingleOrigin }>
+                    <option></option>
+                    {options}
+                </select>)
+            :
+               (<select style={{ margin: '0 0 0 20px'}}
                   onChange={ setOptionsValues }
                   multiple={ 'multiple' }>
-            <option></option>
-            {options}
-          </select>)
-       :
-         (<select value={ selectedOriginSpidermap ? selectedOriginSpidermap.code : '' }
-                  style={{ margin: '0 0 0 20px'}}
-                  onChange={ selectionHandlerSingleOrigin }
-                  multiple={ false }>
-            <option></option>
-            {options}
-          </select>)
-
+                  <option></option>
+                  {options}
+                </select>)
       }
       {
-        props.output != 'spidermap-origin'
-        ? <button onClick={selectionHandler}>Ok</button>
-        : null
+        props.output == 'spidermap-origin' || props.output == 'listview-origin'
+        ? null
+        : <button onClick={selectionHandler}>Ok</button>
       }
     </>
   )

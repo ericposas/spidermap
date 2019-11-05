@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import {
-  REMOVE_AN_ORIGIN_SPIDERMAP,
+  REMOVE_ORIGIN_SPIDERMAP,
   REMOVE_ALL_DESTINATIONS_SPIDERMAP,
   HIDE_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP,
   HIDE_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP,
@@ -15,7 +15,7 @@ const OriginSpidermapElement = ({ ...props }) => {
   const removeElementHandler = () => {
     const { originObject } = props
     batch(() => {
-      dispatch({ type: REMOVE_AN_ORIGIN_SPIDERMAP, payload: originObject })
+      dispatch({ type: REMOVE_ORIGIN_SPIDERMAP, payload: originObject })
       dispatch({ type: REMOVE_ALL_DESTINATIONS_SPIDERMAP })
       dispatch({ type: HIDE_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP })
       dispatch({ type: HIDE_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP })
