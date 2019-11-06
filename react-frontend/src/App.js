@@ -6,6 +6,7 @@ import Dashboard from './components/Pages/Dashboard'
 import Spidermap from './components/Pages/Spidermap'
 import Pointmap from './components/Pages/Pointmap'
 import ListView from './components/Pages/ListView'
+import GeneratePointmap from './components/Pages/GeneratePointmap'
 
 const App = ({ ...props }) => (
   <>
@@ -18,6 +19,7 @@ const App = ({ ...props }) => (
         <Route path='/dashboard'>
           <Dashboard/>
         </Route>
+        <Route path='/generate-pointmap' component={GeneratePointmap}/>
         <Route path='/spidermap' component={Spidermap}/>
         <Route path='/pointmap' component={Pointmap}/>
         <Route path='/listview' component={ListView}/>
