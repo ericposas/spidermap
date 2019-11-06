@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const GeneratePointmap = ({ ...props }) => {
 
-  let svgArea = { w:800, h:800 }
+  let svgArea = { w:1000, h:800 }
   let svgBgColor = '#ccc'
   let svgMargin = svgArea.w/5
   let dotSize = 2 // location circle/dot size
@@ -47,7 +47,7 @@ const GeneratePointmap = ({ ...props }) => {
 
   const getY = lat => {
     let lats = airports.map(ap => ap.latitude)
-    lats.sort((a, b) => a - b)
+    lats.sort((a, b) => b - a)
     let linearScaleY = d3.scaleLinear()
                         .domain([lats[0], lats[lats.length-1]])
                         .range([svgMargin, svgArea.h - svgMargin])
