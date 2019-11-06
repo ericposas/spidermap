@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const GeneratePointmap = ({ ...props }) => {
 
-  let svgArea = { w:800, h:500 }
+  let svgArea = { w:800, h:800 }
   let svgBgColor = '#ccc'
   let svgMargin = svgArea.w/5
   let dotSize = 2 // location circle/dot size
@@ -28,6 +28,8 @@ const GeneratePointmap = ({ ...props }) => {
     try {
       let result = await axios.get(`${url}/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
       let filteredResults = result.data.filter(ap => ap.code != 'NRT' && ap.code != 'LHR')
+      // adjust JFK/LGA lat longs due to how close they are to each other
+      filteredResults.forEach(ap => { if(ap.code == 'LGA') ap.latitude += 1 })
       setAirports(filteredResults)
 
     } catch (e) { console.log(e) }
