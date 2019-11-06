@@ -38,6 +38,8 @@ const Pointmap = ({ ...props }) => {
 
   const pointmap_selectByCategoryDestinations = useSelector(state => state.pointmap_selectByCategoryDestinations)
 
+  const selectedDestinationsPointmap = useSelector(state => state.selectedDestinationsPointmap)
+
   const lastLocation = useSelector(state => state.lastLocation)
 
   useEffect(() => {
@@ -121,6 +123,14 @@ const Pointmap = ({ ...props }) => {
              </div>
             </>)
           : null
+        }
+        {
+            selectedDestinationsPointmap
+            ?
+              (<button onClick={() => { props.history.push('/generate-pointmap') }}>
+                Generate Pointmap
+              </button>)
+            : null
         }
       </div>
     </>

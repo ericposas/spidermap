@@ -13,69 +13,155 @@ const GeneratePointmap = ({ ...props }) => {
   let svgArea = { w:1000, h:800 }
   let svgBgColor = '#ccc'
   let svgMargin = svgArea.w/5
-  let dotSize = 2 // location circle/dot size
+  let originCircleSize = 8
+  let originLabelFontSize = '8px'
+  let destinationLabelFontSize = '8px'
+  let destinationDotSize = 2 // location circle/dot size
+  let linearScaleX, linearScaleY
 
-  const [airports, setAirports] = useState()
+  // const [airports, setAirports] = useState()
 
   const [points, setPoints] = useState()
 
-  useEffect(() => {
-    init()
+  const origins = useSelector(state => state.selectedOriginsPointmap)
 
-  }, [])
+  const destinations = useSelector(state => state.selectedDestinationsPointmap)
 
-  const init = async () => {
-    try {
-      let result = await axios.get(`${url}/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-      let filteredResults = result.data.filter(ap => ap.code != 'NRT' && ap.code != 'LHR')
-      // adjust JFK/LGA lat longs due to how close they are to each other
-      filteredResults.forEach(ap => { if(ap.code == 'LGA') ap.latitude += 1 })
-      setAirports(filteredResults)
-
-    } catch (e) { console.log(e) }
-  }
+  useEffect(() => {}, [])
 
   const getX = long => {
-    let longs = airports.map(ap => ap.longitude)
+    let longs = origins.map(ap => ap.longitude)
+    Object.keys(destinations).forEach(origin => {
+      let arr = destinations[origin].map(ap => ap.longitude)
+      // console.log(arr)
+      longs = longs.concat(arr)
+    })
     longs.sort((a, b) => a - b)
-    let linearScaleX = d3.scaleLinear()
-                        .domain([longs[0], longs[longs.length-1]])
-                        .range([svgMargin, svgArea.w - svgMargin])
+    linearScaleX = d3.scaleLinear()
+                     .domain([longs[0], longs[longs.length-1]])
+                     .range([svgMargin, svgArea.w - svgMargin])
 
     return linearScaleX(long)
   }
 
   const getY = lat => {
-    let lats = airports.map(ap => ap.latitude)
+    let lats = origins.map(ap => ap.latitude)
+    Object.keys(destinations).forEach(origin => {
+      let arr = destinations[origin].map(ap => ap.latitude)
+      // console.log(arr)
+      lats = lats.concat(arr)
+    })
+
     lats.sort((a, b) => b - a)
-    let linearScaleY = d3.scaleLinear()
-                        .domain([lats[0], lats[lats.length-1]])
-                        .range([svgMargin, svgArea.h - svgMargin])
+    linearScaleY = d3.scaleLinear()
+                     .domain([lats[0], lats[lats.length-1]])
+                     .range([svgMargin, svgArea.h - svgMargin])
 
     return linearScaleY(lat)
   }
+
+  // const getDestinationsX = long => {
+  //   let longs = []
+  //   Object.keys(destinations).forEach(origin => {
+  //     let arr = destinations[origin].map(ap => ap.longitude)
+  //     longs.push(arr)
+  //   })
+  //   console.log(longs)
+  //   longs.sort((a, b) => a - b)
+  //   linearScaleX = d3.scaleLinear()
+  //                    .domain([longs[0], longs[longs.length-1]])
+  //                    .range([svgMargin, svgArea.w - svgMargin])
+  //
+  //   return linearScaleX(long)
+  // }
+  //
+  // const getDestinationsY = lat => {
+  //   let lats = []
+  //   Object.keys(destinations).forEach(origin => {
+  //     let arr = destinations[origin].map(ap => ap.latitude)
+  //     lats.push(arr)
+  //   })
+  //   console.log(lats)
+  //   lats.sort((a, b) => b - a)
+  //   linearScaleY = d3.scaleLinear()
+  //                    .domain([lats[0], lats[lats.length-1]])
+  //                    .range([svgMargin, svgArea.h - svgMargin])
+  //
+  //   return linearScaleY(lat)
+  // }
+
+  // const processDestinations = () => {
+  //
+  //   let mappedDestinations = []
+  //   Object.keys(destinations).map(origin => {
+  //     mappedDestinations.push(
+  //       destinations[origin].map(ap => (
+  //         <Fragment key={ap.code}>
+  //           <g>
+  //             <circle r={destinationDotSize}
+  //                     cx={20}
+  //                     cy={20}
+  //                     fill='#000'></circle>
+  //             <text x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
+  //                   y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25)}
+  //                   fontSize={destinationLabelFontSize}>
+  //               {ap.code}
+  //             </text>
+  //           </g>
+  //         </Fragment>
+  //       ))
+  //     )
+  //   })
+  //
+  //   console.log(mappedDestinations)
+  //   return mappedDestinations
+  //
+  // }
 
   return (<>
     <div>
       <svg className='' width={svgArea.w} height={svgArea.h} style={{ backgroundColor: svgBgColor }}>
         {
-          airports
+          origins
           ?
-            airports.map(ap => (
+            origins.map(ap => (
               <Fragment key={ap.code}>
                 <g>
-                  <circle r={dotSize}
+                  <circle r={originCircleSize}
                           cx={getX(ap.longitude)}
                           cy={getY(ap.latitude)}
-                          fill='#000'></circle>
-                  <text x={getX(ap.longitude - dotSize)}
-                        y={getY(ap.latitude)}
-                        fontSize='.5rem'>
+                          fill='none'
+                          stroke='#FF0000'></circle>
+                  <text x={getX(ap.longitude) - parseInt(originLabelFontSize)}
+                        y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25)}
+                        fontSize={originLabelFontSize}>
                     {ap.code}
                   </text>
                 </g>
               </Fragment>
             ))
+          : null
+        }
+        {
+          destinations
+          ?
+            Object.keys(destinations).map(origin => {
+                return destinations[origin].map(ap => (
+                  <Fragment key={ap.code}>
+                    <g>
+                      <circle r={destinationDotSize}
+                              cx={getX(ap.longitude)}
+                              cy={getY(ap.latitude)}
+                              fill='#000'></circle>
+                      <text x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
+                            y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25)}
+                            fontSize={destinationLabelFontSize}>
+                        {ap.code}
+                      </text>
+                    </g>
+                  </Fragment>
+              ))
+            })
           : null
         }
       </svg>
