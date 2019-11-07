@@ -2,15 +2,11 @@
 
 ##To do:
   Setting Origins and Destinations:
-    - Create reducer that tracks each Origin's Destinations list for Pointmap
     - Add a quick "loading" graphic or animation when lists are getting data from the server
     - Create a "Clear list" button that clears the selectedOrigin, selectedOrigins and selectedDestinations arrays
-    - Create an <Origin/> and <Destination/> component (the labeled destination airport codes)
-    - Add an X button that removes the destination or origin from the list
 
   Charting:
     - Point-to-point map logic is in a great place
-    - Need to port the point-to-point mapping from d3-testing to React component
     - Need to modify the point-to-point map to a spidermap version with only one origin point
 
   CSV option:
