@@ -7,16 +7,15 @@ import url from '../../url'
 import { getUser } from '../../sessionStore'
 import React, { useState, useEffect, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import mapSettings from '../../mapSettings.config'
 
 const GeneratePointmap = ({ ...props }) => {
 
-  let svgArea = { w:1000, h:800 }
-  let svgBgColor = '#ccc'
-  let svgMargin = svgArea.w/10
-  let originCircleSize = 8
-  let originLabelFontSize = '8px'
-  let destinationLabelFontSize = '8px'
-  let destinationDotSize = 2 // location circle/dot size
+  let {
+    svgArea, svgBgColor, svgMargin,
+    originCircleSize, originLabelFontSize,
+    destinationLabelFontSize, destinationDotSize
+  } = mapSettings
   let linearScaleX, linearScaleY
   let lats = [], longs = []
 
@@ -55,14 +54,7 @@ const GeneratePointmap = ({ ...props }) => {
 
     return linearScaleY(lat)
   }
-
-  // const calcPaths = ap => {
-  //   return `
-  //     M ${origins.indexOf(ap).ap.longitude},${origins.indexOf(ap).ap.latitude}
-  //     L ${ap.longitude}},${ap.latitude}
-  //   `
-  // }
-
+  
   return (<>
     <div>
       <svg className='' width={svgArea.w} height={svgArea.h} style={{ backgroundColor: svgBgColor }}>
