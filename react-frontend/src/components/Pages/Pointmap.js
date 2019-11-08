@@ -125,9 +125,10 @@ const Pointmap = ({ ...props }) => {
           : null
         }
         {
-            selectedDestinationsPointmap
+            Object.keys(selectedDestinationsPointmap).length > 0
             ?
-              (<button onClick={() => { props.history.push('/generate-pointmap') }}>
+              (<button onClick={() => { props.history.push('/generate-pointmap') }}
+                       style={{height:'60px',margin:'0 0 0 20px'}}>
                 Generate Pointmap
               </button>)
             : null

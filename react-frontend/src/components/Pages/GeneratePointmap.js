@@ -18,18 +18,21 @@ const GeneratePointmap = ({ ...props }) => {
   let destinationLabelFontSize = '8px'
   let destinationDotSize = 2 // location circle/dot size
   let linearScaleX, linearScaleY
+  let lats = [], longs = []
 
   const origins = useSelector(state => state.selectedOriginsPointmap)
 
   const destinations = useSelector(state => state.selectedDestinationsPointmap)
 
   const getX = long => {
-    let longs = origins.map(ap => ap.longitude)
-    Object.keys(destinations).forEach(origin => {
-      let arr = destinations[origin].map(ap => ap.longitude)
-      longs = longs.concat(arr)
-    })
-    longs.sort((a, b) => a - b)
+    if (!longs.includes(long)) {
+      longs = origins.map(ap => ap.longitude)
+      Object.keys(destinations).forEach(origin => {
+        let arr = destinations[origin].map(ap => ap.longitude)
+        longs = longs.concat(arr)
+      })
+      longs.sort((a, b) => a - b)
+    }
     linearScaleX = d3.scaleLinear()
                      .domain([longs[0], longs[longs.length-1]])
                      .range([svgMargin, svgArea.w - svgMargin])
@@ -38,19 +41,27 @@ const GeneratePointmap = ({ ...props }) => {
   }
 
   const getY = lat => {
-    let lats = origins.map(ap => ap.latitude)
-    Object.keys(destinations).forEach(origin => {
-      let arr = destinations[origin].map(ap => ap.latitude)
-      lats = lats.concat(arr)
-    })
-
-    lats.sort((a, b) => b - a)
+    if (!lats.includes(lat)) {
+      lats = origins.map(ap => ap.latitude)
+      Object.keys(destinations).forEach(origin => {
+        let arr = destinations[origin].map(ap => ap.latitude)
+        lats = lats.concat(arr)
+      })
+      lats.sort((a, b) => b - a)
+    }
     linearScaleY = d3.scaleLinear()
                      .domain([lats[0], lats[lats.length-1]])
                      .range([svgMargin, svgArea.h - svgMargin])
 
     return linearScaleY(lat)
   }
+
+  // const calcPaths = ap => {
+  //   return `
+  //     M ${origins.indexOf(ap).ap.longitude},${origins.indexOf(ap).ap.latitude}
+  //     L ${ap.longitude}},${ap.latitude}
+  //   `
+  // }
 
   return (<>
     <div>
@@ -61,6 +72,10 @@ const GeneratePointmap = ({ ...props }) => {
             origins.map(ap => (
               <Fragment key={ap.code}>
                 <g>
+                  <circle r={destinationDotSize * 2}
+                          cx={getX(ap.longitude)}
+                          cy={getY(ap.latitude)}
+                          fill='#FF0000'></circle>
                   <circle r={originCircleSize}
                           cx={getX(ap.longitude)}
                           cy={getY(ap.latitude)}
@@ -80,6 +95,11 @@ const GeneratePointmap = ({ ...props }) => {
           destinations
           ?
             Object.keys(destinations).map(origin => {
+
+                let originObj = {}
+                let originCodes = origins.map(o => o.code)
+                originCodes.forEach((code, i) => originObj[code] = origins[i])
+
                 return destinations[origin].map(ap => (
                   <Fragment key={ap.code}>
                     <g>
@@ -93,6 +113,12 @@ const GeneratePointmap = ({ ...props }) => {
                         {ap.code}
                       </text>
                     </g>
+                    <path
+                      d={
+                          `M ${getX(originObj[origin].longitude)},${getY(originObj[origin].latitude)}
+                           L ${getX(ap.longitude)},${getY(ap.latitude)}`
+                         }
+                      stroke='#000'></path>
                   </Fragment>
               ))
             })
