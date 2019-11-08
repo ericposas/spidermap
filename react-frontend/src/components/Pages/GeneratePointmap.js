@@ -12,7 +12,7 @@ const GeneratePointmap = ({ ...props }) => {
 
   let svgArea = { w:1000, h:800 }
   let svgBgColor = '#ccc'
-  let svgMargin = svgArea.w/5
+  let svgMargin = svgArea.w/10
   let originCircleSize = 8
   let originLabelFontSize = '8px'
   let destinationLabelFontSize = '8px'
