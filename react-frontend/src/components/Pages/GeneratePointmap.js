@@ -54,7 +54,50 @@ const GeneratePointmap = ({ ...props }) => {
 
     return linearScaleY(lat)
   }
-  
+
+  const calcPath = (originObj, origin, ap) => {
+    let cp1 = {}, cp2 = {}
+    let startX, endX, distanceBetweenX
+    let startY, endY, distanceBetweenY
+    let bendX = 20
+    let bendY = 40
+    let cpStartThreshX = .25, cpEndThreshX = .75
+    let cpStartThreshY = .25, cpEndThreshY = .75
+    
+    startX = getX(ap.longitude)
+    endX = getX(originObj[origin].longitude)
+    distanceBetweenX = endX - startX
+    cp1.x = startX + (distanceBetweenX * cpStartThreshX)
+    cp2.x = startX + (distanceBetweenX * cpEndThreshX)
+    if (startX > endX) { cp1.x += bendX; cp2.x += bendX }
+    else { cp1.x -= bendX; cp2.x -= bendX }
+
+    startY = getY(ap.latitude)
+    endY = getY(originObj[origin].latitude)
+    distanceBetweenY = endY - startY
+    cp1.y = startY + (distanceBetweenY * cpStartThreshY) - bendY
+    cp2.y = startY + (distanceBetweenY * cpEndThreshY) - bendY
+
+    // debug circles
+    // <circle fill='#0000ff' r='2' cx={cp1.x} cy={cp1.y}></circle>
+    // <circle fill='#e100ff' r='2' cx={cp2.x} cy={cp2.y}></circle>
+
+    return (
+      <g>
+        <path
+          d={
+              `M ${startX},${startY}
+               C ${cp1.x},${cp1.y}
+                 ${cp2.x},${cp2.y}
+                 ${endX},${endY}`
+            }
+          stroke='#000'
+          fill='none'></path>
+      </g>
+    )
+
+  }
+
   return (<>
     <div>
       <svg className='' width={svgArea.w} height={svgArea.h} style={{ backgroundColor: svgBgColor }}>
@@ -105,12 +148,7 @@ const GeneratePointmap = ({ ...props }) => {
                         {ap.code}
                       </text>
                     </g>
-                    <path
-                      d={
-                          `M ${getX(originObj[origin].longitude)},${getY(originObj[origin].latitude)}
-                           L ${getX(ap.longitude)},${getY(ap.latitude)}`
-                         }
-                      stroke='#000'></path>
+                    {calcPath(originObj, origin, ap)}
                   </Fragment>
               ))
             })
