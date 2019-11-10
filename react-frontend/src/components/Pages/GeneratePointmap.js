@@ -5,7 +5,7 @@ import _ from 'lodash'
 import './generate-pointmap.scss'
 import url from '../../url'
 import { getUser } from '../../sessionStore'
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import mapSettings from '../../mapSettings.config'
 
@@ -23,6 +23,19 @@ const GeneratePointmap = ({ ...props }) => {
 
   const destinations = useSelector(state => state.selectedDestinationsPointmap)
 
+  let destArr = []
+  Object.keys(destinations).forEach(origin => {
+    destArr = destArr.concat(destinations[origin])
+  })
+
+  const pathsRef = useRef(destArr.map(() => createRef()))
+
+  useEffect(() => {
+    pathsRef.current.forEach(path => {
+      console.log(path)
+    })
+  })
+  
   const getX = long => {
     if (!longs.includes(long)) {
       longs = origins.map(ap => ap.longitude)
@@ -55,7 +68,7 @@ const GeneratePointmap = ({ ...props }) => {
     return linearScaleY(lat)
   }
 
-  const calcPath = (originObj, origin, ap) => {
+  const calcPath = (originObj, origin, ap, i) => {
     let cp1 = {}, cp2 = {}
     let startX, endX, distanceBetweenX
     let startY, endY, distanceBetweenY
@@ -63,7 +76,7 @@ const GeneratePointmap = ({ ...props }) => {
     let bendY = 40
     let cpStartThreshX = .25, cpEndThreshX = .75
     let cpStartThreshY = .25, cpEndThreshY = .75
-    
+
     startX = getX(ap.longitude)
     endX = getX(originObj[origin].longitude)
     distanceBetweenX = endX - startX
@@ -84,7 +97,7 @@ const GeneratePointmap = ({ ...props }) => {
 
     return (
       <g>
-        <path
+        <path ref={pathsRef.current[i]}
           d={
               `M ${startX},${startY}
                C ${cp1.x},${cp1.y}
@@ -135,7 +148,7 @@ const GeneratePointmap = ({ ...props }) => {
                 let originCodes = origins.map(o => o.code)
                 originCodes.forEach((code, i) => originObj[code] = origins[i])
 
-                return destinations[origin].map(ap => (
+                return destinations[origin].map((ap, i) => (
                   <Fragment key={ap.code}>
                     <g>
                       <circle r={destinationDotSize}
@@ -148,7 +161,7 @@ const GeneratePointmap = ({ ...props }) => {
                         {ap.code}
                       </text>
                     </g>
-                    {calcPath(originObj, origin, ap)}
+                    {calcPath(originObj, origin, ap, i)}
                   </Fragment>
               ))
             })
