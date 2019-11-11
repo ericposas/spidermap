@@ -1,6 +1,7 @@
 import * as d3 from 'd3'
 import random from 'random'
 import axios from 'axios'
+import { TweenLite } from 'gsap'
 import _ from 'lodash'
 import './generate-pointmap.scss'
 import url from '../../url'
@@ -18,7 +19,10 @@ const GeneratePointmap = ({ ...props }) => {
   } = mapSettings
   let linearScaleX, linearScaleY
   let lats = [], longs = []
-  let pathCount = -1, labelCount = -1
+  let pathCount = -1,
+      labelCount = -1
+  let labelAdjustX = 2,
+      labelAdjustY = 2
 
   const origins = useSelector(state => state.selectedOriginsPointmap)
 
@@ -33,6 +37,10 @@ const GeneratePointmap = ({ ...props }) => {
 
   const labelsRef = useRef(origins.concat(destArr).map(() => createRef()))
 
+  const [moveXAmt, setMoveXAmt] = useState({})
+
+  const [moveYAmt, setMoveYAmt] = useState({})
+  
   useEffect(() => {
     pathsRef.current.forEach(path => console.log(path))
     labelsRef.current.forEach(label => console.log(label))
@@ -115,18 +123,53 @@ const GeneratePointmap = ({ ...props }) => {
 
   }
 
+  const moveX = (code, type) => {
+    if (moveXAmt[code] != null) {
+      setMoveXAmt({
+        ...moveXAmt,
+        [code]: type == 'plus' ? moveXAmt[code] + labelAdjustX : moveXAmt[code] - labelAdjustX
+      })
+    } else {
+      setMoveXAmt({
+        ...moveXAmt,
+        [code]: type == 'plus' ? labelAdjustX : -labelAdjustX
+      })
+    }
+  }
+
+  const moveY = (code, type) => {
+    if (moveYAmt[code] != null) {
+      setMoveYAmt({
+        ...moveYAmt,
+        [code]: type == 'plus' ? moveYAmt[code] + labelAdjustY : moveYAmt[code] - labelAdjustY
+      })
+    } else {
+      setMoveYAmt({
+        ...moveYAmt,
+        [code]: type == 'plus' ? labelAdjustY : -labelAdjustY
+      })
+    }
+  }
+
   const areLabelsTouchingPaths = () => {
     for(let i = 0; i < labelsRef.current.length; i++){
       if (labelsRef.current[i] && labelsRef.current[i].current) {
         let label = labelsRef.current[i].current,
-            a = label.getBoundingClientRect()
+            label_rect = label.getBoundingClientRect()
         for(let j = 0; j < pathsRef.current.length; j++ ){
           let path = pathsRef.current[j].current
-          let b = path.getBoundingClientRect()
-          if(!( b.left > a.right || b.right < a.left || b.top > a.bottom || b.bottom < a.top)) {
+          let path_rect = path.getBoundingClientRect()
+          if(!( path_rect.left > label_rect.right
+              || path_rect.right < label_rect.left
+              || path_rect.top > label_rect.bottom
+              || path_rect.bottom < label_rect.top)) {
             // move text over
             console.log(`${path.id} and ${label.id} bounding boxes intersect`)
-            
+            // get all points within label boundingBox
+            console.log(label_rect.left, label_rect.right)
+            console.log(label_rect.top, label_rect.bottom)
+
+
           }
         }
       }
@@ -153,8 +196,8 @@ const GeneratePointmap = ({ ...props }) => {
                           stroke='#FF0000'></circle>
                   <text id={`origin-${ap.code}-label`}
                         ref={labelsRef.current[labelCount++]}
-                        x={getX(ap.longitude) - parseInt(originLabelFontSize)}
-                        y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25)}
+                        x={getX(ap.longitude) - parseInt(originLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
+                        y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
                         fontSize={originLabelFontSize}>
                     {ap.code}
                   </text>
@@ -181,8 +224,8 @@ const GeneratePointmap = ({ ...props }) => {
                               fill='#000'></circle>
                       <text id={`destination-${ap.code}-label`}
                             ref={labelsRef.current[labelCount++]}
-                            x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
-                            y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25)}
+                            x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
+                            y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
                             fontSize={destinationLabelFontSize}>
                         {ap.code}
                       </text>
@@ -194,6 +237,16 @@ const GeneratePointmap = ({ ...props }) => {
           : null
         }
       </svg>
+      <div>Controls</div>
+      {
+        destArr.concat(origins).map((ap, i) => (<Fragment key={`${ap.code}-buttons-${i}`}>
+            <div>Label for {ap.code}:</div>
+            <button onClick={() => moveY(ap.code, 'minus')}>up</button><br/>
+            <button onClick={() => moveX(ap.code, 'minus')}>left</button><button onClick={() => moveX(ap.code, 'plus')}>right</button><br/>
+            <button onClick={() => moveY(ap.code, 'plus')}>down</button>
+            <br/><br/>
+          </Fragment>))
+      }
     </div>
   </>)
 
