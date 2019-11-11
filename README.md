@@ -6,6 +6,7 @@
     - Create a "Clear list" button that clears the selectedOrigin, selectedOrigins and selectedDestinations arrays
 
   Charting:
+    - We will need some sort of manual adjustment for labels -- collision avoidance for paths and text is very difficult. Maybe we have a "labeling" option on the GeneratePointmap page that allows the end user to edit the x and y coords of each label in increments
     - Point-to-point map logic is in a great place
     - Need to modify the point-to-point map to a spidermap version with only one origin point
 
