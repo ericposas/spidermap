@@ -18,7 +18,7 @@ const GeneratePointmap = ({ ...props }) => {
   } = mapSettings
   let linearScaleX, linearScaleY
   let lats = [], longs = []
-  let pathCount = -1
+  let pathCount = -1, labelCount = -1
 
   const origins = useSelector(state => state.selectedOriginsPointmap)
 
@@ -31,12 +31,12 @@ const GeneratePointmap = ({ ...props }) => {
 
   const pathsRef = useRef(destArr.map(() => createRef()))
 
-  // const [pathCount, setPathCount] = useState(0)
+  const labelsRef = useRef(origins.concat(destArr).map(() => createRef()))
 
   useEffect(() => {
-    pathsRef.current.forEach(path => {
-      console.log(path)
-    })
+    pathsRef.current.forEach(path => console.log(path))
+    labelsRef.current.forEach(label => console.log(label))
+    areLabelsTouchingPaths() //?
   }, [])
 
   const getX = long => {
@@ -101,7 +101,7 @@ const GeneratePointmap = ({ ...props }) => {
 
     return (
       <g>
-        <path ref={ pathsRef.current[pathCount] }
+        <path id={`${originObj[origin].code}-to-${ap.code}-path`} ref={ pathsRef.current[pathCount] }
           d={
               `M ${startX},${startY}
                C ${cp1.x},${cp1.y}
@@ -115,16 +115,18 @@ const GeneratePointmap = ({ ...props }) => {
 
   }
 
-  const shiftLabel = () => {
-    for(let i = 0; i < svgLabels.length; i++){
-      let self = svgLabels[i],
-      a = self.getBoundingClientRect();
-      for(let j = 0; j < svgLabels.length; j++ ){
-        let that = svgLabels[j];
-        if(self != that){
-          let b = that.getBoundingClientRect();
-          if(!( b.left > a.right || b.right < a.left || b.top > a.bottom || b.bottom < a.top)){
+  const areLabelsTouchingPaths = () => {
+    for(let i = 0; i < labelsRef.current.length; i++){
+      if (labelsRef.current[i] && labelsRef.current[i].current) {
+        let label = labelsRef.current[i].current,
+            a = label.getBoundingClientRect()
+        for(let j = 0; j < pathsRef.current.length; j++ ){
+          let path = pathsRef.current[j].current
+          let b = path.getBoundingClientRect()
+          if(!( b.left > a.right || b.right < a.left || b.top > a.bottom || b.bottom < a.top)) {
             // move text over
+            console.log(`${path.id} and ${label.id} bounding boxes intersect`)
+            
           }
         }
       }
@@ -149,7 +151,9 @@ const GeneratePointmap = ({ ...props }) => {
                           cy={getY(ap.latitude)}
                           fill='none'
                           stroke='#FF0000'></circle>
-                  <text x={getX(ap.longitude) - parseInt(originLabelFontSize)}
+                  <text id={`origin-${ap.code}-label`}
+                        ref={labelsRef.current[labelCount++]}
+                        x={getX(ap.longitude) - parseInt(originLabelFontSize)}
                         y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25)}
                         fontSize={originLabelFontSize}>
                     {ap.code}
@@ -175,7 +179,9 @@ const GeneratePointmap = ({ ...props }) => {
                               cx={getX(ap.longitude)}
                               cy={getY(ap.latitude)}
                               fill='#000'></circle>
-                      <text x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
+                      <text id={`destination-${ap.code}-label`}
+                            ref={labelsRef.current[labelCount++]}
+                            x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
                             y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25)}
                             fontSize={destinationLabelFontSize}>
                         {ap.code}
