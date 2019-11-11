@@ -18,6 +18,7 @@ const GeneratePointmap = ({ ...props }) => {
   } = mapSettings
   let linearScaleX, linearScaleY
   let lats = [], longs = []
+  let pathCount = -1
 
   const origins = useSelector(state => state.selectedOriginsPointmap)
 
@@ -30,12 +31,14 @@ const GeneratePointmap = ({ ...props }) => {
 
   const pathsRef = useRef(destArr.map(() => createRef()))
 
+  // const [pathCount, setPathCount] = useState(0)
+
   useEffect(() => {
     pathsRef.current.forEach(path => {
       console.log(path)
     })
-  })
-  
+  }, [])
+
   const getX = long => {
     if (!longs.includes(long)) {
       longs = origins.map(ap => ap.longitude)
@@ -94,10 +97,11 @@ const GeneratePointmap = ({ ...props }) => {
     // debug circles
     // <circle fill='#0000ff' r='2' cx={cp1.x} cy={cp1.y}></circle>
     // <circle fill='#e100ff' r='2' cx={cp2.x} cy={cp2.y}></circle>
+    pathCount++
 
     return (
       <g>
-        <path ref={pathsRef.current[i]}
+        <path ref={ pathsRef.current[pathCount] }
           d={
               `M ${startX},${startY}
                C ${cp1.x},${cp1.y}
@@ -109,6 +113,22 @@ const GeneratePointmap = ({ ...props }) => {
       </g>
     )
 
+  }
+
+  const shiftLabel = () => {
+    for(let i = 0; i < svgLabels.length; i++){
+      let self = svgLabels[i],
+      a = self.getBoundingClientRect();
+      for(let j = 0; j < svgLabels.length; j++ ){
+        let that = svgLabels[j];
+        if(self != that){
+          let b = that.getBoundingClientRect();
+          if(!( b.left > a.right || b.right < a.left || b.top > a.bottom || b.bottom < a.top)){
+            // move text over
+          }
+        }
+      }
+    }
   }
 
   return (<>
