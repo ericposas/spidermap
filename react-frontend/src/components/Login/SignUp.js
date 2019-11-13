@@ -33,7 +33,7 @@ const SignUp = ({ ...props }) => {
     e.preventDefault()
     console.log('registering user')
     try {
-      let result = await axios.post(`${url}/auth/local/register`, {
+      let result = await axios.post(`/auth/local/register`, {
         username: username,
         email: email,
         password: password

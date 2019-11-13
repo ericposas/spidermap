@@ -33,7 +33,7 @@ const SignIn = ({ ...props }) => {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      let result = await axios.post(`${url}/auth/local`, { identifier: email, password: password })
+      let result = await axios.post(`/auth/local`, { identifier: email, password: password })
       let data = result.data
       if (data.jwt && data.user) {
         setEmail('')
