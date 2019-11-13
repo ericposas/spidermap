@@ -59,7 +59,7 @@ const Dropdown = ({ ...props }) => {
   const createOptionsFromCodes = async () => {
     try {
       console.log(url)
-      let result = await axios.get(`${url}/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+      let result = await axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
       setData(result.data)
       let resultArr = result.data.map(ap => {
         if (ap.code != null) {
@@ -77,7 +77,7 @@ const Dropdown = ({ ...props }) => {
   const createOptionsFromCategory = async () => {
     try {
       let apPerCategory = {}
-      let result = await axios.get(`${url}/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+      let result = await axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
       setData(result.data)
       // get category fields, then sort alphabetically
       let categories = result.data.map(ap => ap.category).sort((a,b) => {
