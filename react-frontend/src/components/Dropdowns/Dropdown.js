@@ -12,6 +12,9 @@ import {
   SET_ORIGIN_SPIDERMAP,
   SET_DESTINATION_LOCATIONS_SPIDERMAP,
 } from '../../constants/spidermap'
+import {
+  SET_ALL_CODES
+} from '../../constants/constants'
 import { checkAuth, getUser } from '../../sessionStore'
 import url from '../../url'
 import axios from 'axios'
@@ -21,11 +24,12 @@ const Dropdown = ({ ...props }) => {
 
   const { type } = props
 
-  const [data, setData] = useState([])
-
-  const [options, setOptions] = useState([])
+  // const [data, setData] = useState([])
+  const data = useSelector(state => state.allCodesData)
 
   const [selection, setSelection] = useState([])
+
+  const [options, setOptions] = useState([])
 
   const [airportsPerCategory, setAirportsPerCategory] = useState({})
 
@@ -55,12 +59,13 @@ const Dropdown = ({ ...props }) => {
       }
     }
   }, [props.type])
-
+  
   const createOptionsFromCodes = async () => {
     try {
       console.log(url)
       let result = await axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-      setData(result.data)
+      // setData(result.data)
+      dispatch({ type: SET_ALL_CODES, payload: result.data })
       let resultArr = result.data.map(ap => {
         if (ap.code != null) {
           return (<Fragment key={ap.code}>
@@ -78,7 +83,8 @@ const Dropdown = ({ ...props }) => {
     try {
       let apPerCategory = {}
       let result = await axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-      setData(result.data)
+      // setData(result.data)
+      dispatch({ type: SET_ALL_CODES, payload: result.data })
       // get category fields, then sort alphabetically
       let categories = result.data.map(ap => ap.category).sort((a,b) => {
         if (a < b) return -1

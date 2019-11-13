@@ -40,7 +40,7 @@ const GeneratePointmap = ({ ...props }) => {
   const [moveXAmt, setMoveXAmt] = useState({})
 
   const [moveYAmt, setMoveYAmt] = useState({})
-  
+
   useEffect(() => {
     pathsRef.current.forEach(path => console.log(path))
     labelsRef.current.forEach(label => console.log(label))

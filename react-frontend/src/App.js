@@ -7,6 +7,8 @@ import Spidermap from './components/Pages/Spidermap'
 import Pointmap from './components/Pages/Pointmap'
 import ListView from './components/Pages/ListView'
 import GeneratePointmap from './components/Pages/GeneratePointmap'
+import Upload from './components/Pages/Upload'
+import MyFiles from './components/Pages/MyFiles'
 
 const App = ({ ...props }) => (
   <>
@@ -24,6 +26,8 @@ const App = ({ ...props }) => (
         <Route path='/pointmap' component={Pointmap}/>
         <Route path='/listview' component={ListView}/>
         <Route path='/signUp' component={SignUp}/>
+        {/* <Route path='/upload' component={Upload}/> */}
+        <Route path='/myfiles' component={MyFiles}/>
       </Switch>
     </Router>
   </>

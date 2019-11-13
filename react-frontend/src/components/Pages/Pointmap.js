@@ -3,6 +3,7 @@ import { useDispatch, useSelector, batch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
+import UploadForm from '../Forms/UploadForm'
 import SelectBy_Origins from '../Views/SelectBy_Origins'
 import SelectBy_Destinations_Pointmap from '../Views/SelectBy_Destinations_Pointmap'
 import { checkAuth } from '../../sessionStore'
@@ -55,9 +56,15 @@ const Pointmap = ({ ...props }) => {
     dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
   }
 
+  // const uploadCSVButtonHandler = () => {
+  //   props.history.push('/upload')
+  //   dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
+  // }
+
   return (
     <>
-      <button style={{margin:'2px'}}
+      <UploadForm type='pointmap'/>
+      <button style={{margin:'2px',float:'right'}}
               className='button-plain'
               onClick={backButtonHandler}>Back</button>
       <br/>

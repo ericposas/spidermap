@@ -1,1 +1,2 @@
 export const LAST_LOCATION = 'LAST_LOCATION'
+export const SET_ALL_CODES = 'SET_ALL_CODES'

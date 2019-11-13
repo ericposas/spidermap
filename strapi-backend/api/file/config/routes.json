@@ -1,0 +1,62 @@
+{
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/files/processData_Pointmap",
+      "handler": "File.processData_Pointmap"
+    },
+    {
+      "method": "GET",
+      "path": "/files/:userid",
+      "handler": "File.findByUserId"
+    },
+    {
+      "method": "GET",
+      "path": "/files",
+      "handler": "File.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/files/count",
+      "handler": "File.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/files/:id",
+      "handler": "File.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/files",
+      "handler": "File.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/files/:id",
+      "handler": "File.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/files/:id",
+      "handler": "File.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

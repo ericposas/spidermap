@@ -11,16 +11,19 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "axios": "^0.19.0",
+    "csv-parse": "^4.6.5",
+    "csv-reader": "^1.0.3",
     "strapi": "3.0.0-beta.17.3",
     "strapi-admin": "3.0.0-beta.17.3",
-    "strapi-utils": "3.0.0-beta.17.3",
-    "strapi-plugin-settings-manager": "3.0.0-beta.17.3",
-    "strapi-plugin-content-type-builder": "3.0.0-beta.17.3",
+    "strapi-hook-mongoose": "3.0.0-beta.17.3",
     "strapi-plugin-content-manager": "3.0.0-beta.17.3",
-    "strapi-plugin-users-permissions": "3.0.0-beta.17.3",
+    "strapi-plugin-content-type-builder": "3.0.0-beta.17.3",
     "strapi-plugin-email": "3.0.0-beta.17.3",
+    "strapi-plugin-settings-manager": "3.0.0-beta.17.3",
     "strapi-plugin-upload": "3.0.0-beta.17.3",
-    "strapi-hook-mongoose": "3.0.0-beta.17.3"
+    "strapi-plugin-users-permissions": "3.0.0-beta.17.3",
+    "strapi-utils": "3.0.0-beta.17.3"
   },
   "author": {
     "name": "A Strapi developer"

@@ -1,0 +1,24 @@
+{
+  "connection": "default",
+  "collectionName": "file",
+  "info": {
+    "name": "file",
+    "description": ""
+  },
+  "options": {
+    "timestamps": [
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  "attributes": {
+    "csv": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload"
+    },
+    "belongsto": {
+      "type": "string"
+    }
+  }
+}

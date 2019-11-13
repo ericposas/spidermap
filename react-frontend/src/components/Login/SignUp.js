@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import url from '../../url'
 import axios from 'axios'
 import validator from 'validator'
@@ -8,6 +9,8 @@ import { LAST_LOCATION } from '../../constants/constants'
 const SignUp = ({ ...props }) => {
 
   const { history } = props
+
+  const dispatch = useDispatch()
 
   const [username, setUsername] = useState('')
 

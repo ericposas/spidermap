@@ -23,9 +23,11 @@ import pointmap_selectByCodeOrigins from './pointmap/pointmap_selectByCodeOrigin
 import pointmap_selectByCategoryDestinations from './pointmap/pointmap_selectByCategoryDestinations'
 import pointmap_selectByCodeDestinations from './pointmap/pointmap_selectByCodeDestinations'
 import pointmap_destinationPanelVisibility from './pointmap/pointmap_destinationPanelVisibility'
+import allCodesData from './allCodesData'
 
 const rootReducer = combineReducers({
   lastLocation,
+  allCodesData,
   selectedOriginListView,
   selectedDestinationsListView,
   listview_selectBy_DestinationsVisibility, listview_selectByCategoryDestinations,
