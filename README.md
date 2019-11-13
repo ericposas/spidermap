@@ -1,6 +1,10 @@
 # Spidermap Application for American Airlines
 
 ##To do:
+
+  Optimization:
+    - When a Dropdown component mounts, fetch the api resources (only if not exists in the store). Once set, we shouldn't need to fetch if the data is already in the Redux store. Currently, we fetch new data every time the Dropdown component mounts.
+
   Setting Origins and Destinations:
     - Add a quick "loading" graphic or animation when lists are getting data from the server
     - Create a "Clear list" button that clears the selectedOrigin, selectedOrigins and selectedDestinations arrays
