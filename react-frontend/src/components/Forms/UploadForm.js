@@ -9,7 +9,8 @@ import {
 } from '../../constants/constants'
 import {
   SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE,
-  SET_ORIGIN_LOCATIONS_POINTMAP
+  SET_ORIGIN_LOCATIONS_POINTMAP,
+  CLEAR_ORIGIN_LOCATIONS_POINTMAP
 } from '../../constants/pointmap'
 
 const UploadForm = ({ ...props }) => {
@@ -27,6 +28,10 @@ const UploadForm = ({ ...props }) => {
   const options = useSelector(state => state.allCodesData)
 
   const processForPointmap = data => {
+    // clear our list first, then process new CSV
+    dispatch({ type: CLEAR_ORIGIN_LOCATIONS_POINTMAP })
+    dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: {} })
+    
     let dataObj = {}
     let origins = []
     data.forEach((arr, i) => {
