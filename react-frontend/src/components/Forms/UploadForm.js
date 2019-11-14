@@ -47,7 +47,7 @@ const UploadForm = ({ ...props }) => {
           }
         })
       })
-      originCodes.push(arr[0])
+      originCodes.push(arr[0].trim())
       originCodes.forEach(origin => {
         options.forEach(option => {
           if (origin.trim() == option.code) {
@@ -55,9 +55,9 @@ const UploadForm = ({ ...props }) => {
           }
         })
       })
-      dataObj[arr[0]] = tmpObjArr
+      dataObj[arr[0].trim()] = tmpObjArr
     })
-
+    
     dispatch({ type: SET_ORIGIN_LOCATIONS_POINTMAP, payload: origins })
     dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: dataObj })
   }
