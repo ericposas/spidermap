@@ -31,7 +31,7 @@ const UploadForm = ({ ...props }) => {
     // clear our list first, then process new CSV
     dispatch({ type: CLEAR_ORIGIN_LOCATIONS_POINTMAP })
     dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: {} })
-    
+
     let dataObj = {}
     let origins = []
     data.forEach((arr, i) => {
@@ -42,7 +42,7 @@ const UploadForm = ({ ...props }) => {
       })
       tmp.forEach(item => {
         options.forEach(option => {
-          if (item.trim() == option.code) {
+          if (item.trim() == option.code && item.trim() != arr[0].trim()) {
             tmpObjArr.push(option)
           }
         })
