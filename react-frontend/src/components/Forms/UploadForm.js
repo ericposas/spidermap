@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
@@ -7,6 +7,10 @@ import { getUser, checkAuth } from '../../sessionStore'
 import {
   SET_ALL_CODES
 } from '../../constants/constants'
+import {
+  SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE,
+  SET_ORIGIN_LOCATIONS_POINTMAP
+} from '../../constants/pointmap'
 
 const UploadForm = ({ ...props }) => {
 
@@ -20,32 +24,45 @@ const UploadForm = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
-  const formRef = useRef()
-
   const options = useSelector(state => state.allCodesData)
 
   const processForPointmap = data => {
     let dataObj = {}
+    let origins = []
     data.forEach((arr, i) => {
-      // dataObj[arr[0]] =[]
+      let originCodes = []
       let tmp = [], tmpObjArr = []
       arr.forEach((item, i) => {
         if (item != arr[0]) tmp.push(item)
       })
       tmp.forEach(item => {
         options.forEach(option => {
-          // console.log(item.trim() == option.code)
           if (item.trim() == option.code) {
             tmpObjArr.push(option)
-            // console.log(true, tmpObjArr)
+          }
+        })
+      })
+      originCodes.push(arr[0])
+      originCodes.forEach(origin => {
+        options.forEach(option => {
+          if (origin.trim() == option.code) {
+            origins.push(option)
           }
         })
       })
       dataObj[arr[0]] = tmpObjArr
     })
 
-    console.log(dataObj)
-    console.log(options)
+    dispatch({ type: SET_ORIGIN_LOCATIONS_POINTMAP, payload: origins })
+    dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: dataObj })
+  }
+
+  const formRef = useRef()
+
+  const [label, setLabel] = useState('')
+
+  const handleLabelInput = e => {
+    setLabel(e.target.value)
   }
 
   const handleSubmit = e => {
@@ -53,7 +70,7 @@ const UploadForm = ({ ...props }) => {
 
     let formData = new FormData(formRef.current)
 
-    axios.post('/files', { belongsto: getUser().user._id })
+    axios.post('/files', { belongsto: getUser().user._id, label })
          .then(data => {
            formData.append('ref', 'File')
            formData.append('refId', data.data._id)
@@ -92,7 +109,16 @@ const UploadForm = ({ ...props }) => {
     <>
       <div>Upload a CSV for locations</div>
       <form ref={formRef}>
-        <input type='file' name='files' onChange={handleSubmit}/>
+        <span>File Label:</span><input type='text' value={label} onChange={handleLabelInput}/>
+        <br/>
+        {
+          label != ''
+          ?
+           (<>
+             <input type='file' name='files' onChange={handleSubmit}/>
+           </>)
+          : <div style={{color:'red',fontSize:'.8rem'}}>Please provide a label before choosing a .CSV file</div>
+        }
       </form>
     </>
   )

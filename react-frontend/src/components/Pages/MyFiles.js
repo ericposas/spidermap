@@ -25,7 +25,7 @@ const MyFiles = ({ ...props }) => {
       data.map(datum => (
         <Fragment key={datum.csv._id}>
           <div>
-            <a href={datum.csv.url}>{datum.csv.url}</a>
+            <a href={datum.csv.url}>{datum.label}</a>
           </div>
         </Fragment>
       ))

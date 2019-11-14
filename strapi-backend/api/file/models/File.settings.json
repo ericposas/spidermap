@@ -19,6 +19,9 @@
     },
     "belongsto": {
       "type": "string"
+    },
+    "label": {
+      "type": "string"
     }
   }
 }
