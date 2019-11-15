@@ -57,9 +57,15 @@ const UploadForm = ({ ...props }) => {
       })
       dataObj[arr[0].trim()] = tmpObjArr
     })
-    
+
     dispatch({ type: SET_ORIGIN_LOCATIONS_POINTMAP, payload: origins })
     dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: dataObj })
+  }
+
+  const processForSpidermap = data => {
+
+    
+
   }
 
   const formRef = useRef()
@@ -95,7 +101,10 @@ const UploadForm = ({ ...props }) => {
                          .catch(err => console.log(err))
                   } else if (props.type == 'spidermap') {
                     axios.post('/files/processData_Spidermap', { url: url })
-                         .then(data => console.log(data))
+                         .then(data => {
+                           console.log(data)
+                           processForSpidermap(data.data)
+                         })
                          .catch(err => console.log(err))
                   } else if (props.type == 'listview') {
                     axios.post('/files/processData_ListView', { url: url })

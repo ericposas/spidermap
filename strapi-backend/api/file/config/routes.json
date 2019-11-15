@@ -2,6 +2,11 @@
   "routes": [
     {
       "method": "POST",
+      "path": "/files/processData_Spidermap",
+      "handler": "File.processData_Spidermap"
+    },
+    {
+      "method": "POST",
       "path": "/files/processData_Pointmap",
       "handler": "File.processData_Pointmap"
     },

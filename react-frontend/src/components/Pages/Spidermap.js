@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
+import UploadForm from '../Forms/UploadForm'
 import BackButton from '../Buttons/BackButton'
 import SelectBy_Destinations_Spidermap from '../Views/SelectBy_Destinations_Spidermap'
 import { checkAuth } from '../../sessionStore'
@@ -36,6 +37,9 @@ const Spidermap = ({ ...props }) => {
     <>
       <BackButton/>
       <br/>
+      <br/>
+      <br/>
+      <UploadForm type='spidermap'/>
       <br/>
       <br/>
       <div>Create a Spidermap</div>
@@ -87,7 +91,7 @@ const Spidermap = ({ ...props }) => {
           ?
             (<button onClick={() => { props.history.push('/generate-spidermap') }}
                      style={{height:'60px',margin:'0 0 0 20px'}}>
-              Generate Pointmap
+              Generate Spidermap
             </button>)
           : null
         }

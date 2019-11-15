@@ -46,6 +46,35 @@ module.exports = {
       console.log(err)
     }
 
+  },
+
+  processData_Spidermap: async ctx => {
+
+    const parse = require('csv-parse')
+
+    let dataUrl = ctx.request.body.url
+    dataUrl = dataUrl.substr(
+      dataUrl.indexOf('/uploads/'),
+      dataUrl.length-1
+    )
+
+    const parseData = data => {
+      return new Promise((resolve, reject) => {
+        parse(data, { relax_column_count: true }, (err, out) => {
+          if (!err) resolve(out)
+          else reject(err)
+        })
+      })
+    }
+
+    try {
+      let data = await axios.get(dataUrl)
+      let parsedData = await parseData(data.data)
+      ctx.send(parsedData)
+    } catch (err) {
+      console.log(err)
+    }
+
   }
 
 }
