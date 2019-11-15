@@ -81,7 +81,7 @@ const UploadForm = ({ ...props }) => {
     dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: origin })
     dispatch({ type: SET_DESTINATION_LOCATIONS_SPIDERMAP, payload: { origin: origin, item: destinations.slice(1, destinations.length-1) } })
   }
-  
+
   const formRef = useRef()
 
   const [label, setLabel] = useState('')
@@ -95,7 +95,7 @@ const UploadForm = ({ ...props }) => {
 
     let formData = new FormData(formRef.current)
 
-    axios.post('/files', { belongsto: getUser().user._id, label })
+    axios.post('/files', { belongsto: getUser().user._id, label }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
          .then(data => {
            formData.append('ref', 'File')
            formData.append('refId', data.data._id)
@@ -107,21 +107,21 @@ const UploadForm = ({ ...props }) => {
                     url.substr(url.indexOf('/uploads'), url.length-1)
                   )
                   if (props.type == 'pointmap') {
-                    axios.post('/files/processData_Pointmap', { url: url })
+                    axios.post('/files/processData_Pointmap', { url: url }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
                          .then(data => {
                            console.log(data)
                            processForPointmap(data.data)
                          })
                          .catch(err => console.log(err))
                   } else if (props.type == 'spidermap') {
-                    axios.post('/files/processData_Spidermap', { url: url })
+                    axios.post('/files/processData_Spidermap', { url: url }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
                          .then(data => {
                            console.log(data)
                            processForSpidermap(data.data)
                          })
                          .catch(err => console.log(err))
                   } else if (props.type == 'listview') {
-                    axios.post('/files/processData_ListView', { url: url })
+                    axios.post('/files/processData_ListView', { url: url }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
                          .then(data => console.log(data))
                          .catch(err => console.log(err))
                   } else {
