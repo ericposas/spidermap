@@ -12,6 +12,10 @@ import {
   SET_ORIGIN_LOCATIONS_POINTMAP,
   CLEAR_ORIGIN_LOCATIONS_POINTMAP
 } from '../../constants/pointmap'
+import {
+  SET_ORIGIN_SPIDERMAP,
+  SET_DESTINATION_LOCATIONS_SPIDERMAP
+} from '../../constants/spidermap'
 
 const UploadForm = ({ ...props }) => {
 
@@ -63,11 +67,21 @@ const UploadForm = ({ ...props }) => {
   }
 
   const processForSpidermap = data => {
+    let origin
+    let destinations = []
+    let _data = data[0].map(item => item.trim())
+    _data = _data.filter((item, i) => _data.indexOf(_data[0]) != i)
+    options.forEach(option => {
+      _data.forEach(datum => {
+        if (option.code == _data[0]) origin = option
+        else if (option.code == datum) destinations.push(option)
+      })
+    })
 
-    
-
+    dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: origin })
+    dispatch({ type: SET_DESTINATION_LOCATIONS_SPIDERMAP, payload: { origin: origin, item: destinations.slice(1, destinations.length-1) } })
   }
-
+  
   const formRef = useRef()
 
   const [label, setLabel] = useState('')

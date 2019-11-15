@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import './generate-pointmap.scss'
+import './generate-map.scss'
 import url from '../../url'
 import { getUser } from '../../sessionStore'
 import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'

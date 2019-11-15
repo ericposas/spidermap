@@ -8,6 +8,11 @@ const selectedDestinationsSpidermap = (state = [], action) => {
   switch (action.type) {
     case SET_DESTINATION_LOCATIONS_SPIDERMAP: {
       let { origin, item } = action.payload
+      console.log(item)
+      if (typeof item == 'object' && item.length) {
+        item.filter((code, i) => item.indexOf(code) != i)
+      }
+      console.log(item)
       if (origin.code != item.code) return state.concat(item)
       else return state
     }
