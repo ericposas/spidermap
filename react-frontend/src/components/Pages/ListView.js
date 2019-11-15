@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
+import BackButton from '../Buttons/BackButton'
 import SelectBy_Destinations_ListView from '../Views/SelectBy_Destinations_ListView'
 import { checkAuth } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
@@ -21,7 +22,6 @@ const Spidermap = ({ ...props }) => {
 
   const listview_selectByCategoryDestinations = useSelector(state => state.listview_selectByCategoryDestinations)
 
-
   useEffect(() => {
     if (!checkAuth()) {
       setTimeout(() => props.history.push('/'))
@@ -30,16 +30,10 @@ const Spidermap = ({ ...props }) => {
     }
   }, [])
 
-  const backButtonHandler = () => {
-    props.history.push(`/${lastLocation}`)
-    dispatch({ type: LAST_LOCATION, payload: 'listview' })
-  }
-
   return (
     <>
-      <button style={{margin:'2px'}}
-              className='button-plain'
-              onClick={backButtonHandler}>Back</button>
+      <BackButton/>
+      <br/>
       <br/>
       <br/>
       <div>Create a List View</div>

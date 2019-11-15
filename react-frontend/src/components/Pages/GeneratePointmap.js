@@ -1,8 +1,4 @@
 import * as d3 from 'd3'
-import random from 'random'
-import axios from 'axios'
-import { TweenLite } from 'gsap'
-import _ from 'lodash'
 import './generate-pointmap.scss'
 import url from '../../url'
 import { getUser } from '../../sessionStore'

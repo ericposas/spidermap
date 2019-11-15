@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
+import BackButton from '../Buttons/BackButton'
 import SelectBy_Destinations_Spidermap from '../Views/SelectBy_Destinations_Spidermap'
 import { checkAuth } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
@@ -15,12 +16,13 @@ const Spidermap = ({ ...props }) => {
 
   const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
 
+  const selectedDestinationsSpidermap = useSelector(state => state.selectedDestinationsSpidermap)
+
   const spidermap_selectBy_DestinationsVisibility = useSelector(state => state.spidermap_selectBy_DestinationsVisibility)
 
   const spidermap_selectByCodeDestinations = useSelector(state => state.spidermap_selectByCodeDestinations)
 
   const spidermap_selectByCategoryDestinations = useSelector(state => state.spidermap_selectByCategoryDestinations)
-
 
   useEffect(() => {
     if (!checkAuth()) {
@@ -30,16 +32,10 @@ const Spidermap = ({ ...props }) => {
     }
   }, [])
 
-  const backButtonHandler = () => {
-    props.history.push(`/${lastLocation}`)
-    dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
-  }
-
   return (
     <>
-      <button style={{margin:'2px'}}
-              className='button-plain'
-              onClick={backButtonHandler}>Back</button>
+      <BackButton/>
+      <br/>
       <br/>
       <br/>
       <div>Create a Spidermap</div>
@@ -84,6 +80,15 @@ const Spidermap = ({ ...props }) => {
                <Dropdown type='category' output='spidermap-destinations'/>
              </div>
             </>)
+          : null
+        }
+        {
+          selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0
+          ?
+            (<button onClick={() => { props.history.push('/generate-spidermap') }}
+                     style={{height:'60px',margin:'0 0 0 20px'}}>
+              Generate Pointmap
+            </button>)
           : null
         }
       </div>
