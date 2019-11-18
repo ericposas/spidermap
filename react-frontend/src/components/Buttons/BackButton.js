@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import {
   LAST_LOCATION
 } from '../../constants/constants'
+import './buttons.scss'
 
 const BackButton = ({ ...props }) => {
 
@@ -20,8 +21,7 @@ const BackButton = ({ ...props }) => {
 
   return (
     <>
-      <button style={{margin:'2px',float:'left'}}
-              className='button-plain'
+      <button className='button-plain button-back'
               onClick={backButtonHandler}>Back</button>
     </>
   )

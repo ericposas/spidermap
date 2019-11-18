@@ -11,6 +11,7 @@ import {
 import {
   SET_ORIGIN_SPIDERMAP,
   SET_DESTINATION_LOCATIONS_SPIDERMAP,
+  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP
 } from '../../constants/spidermap'
 import {
   SET_ALL_CODES
@@ -176,6 +177,7 @@ const Dropdown = ({ ...props }) => {
         setCategorySelection(val, props.output)
       })
     }
+    dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP })
   }
 
   return (
@@ -184,7 +186,15 @@ const Dropdown = ({ ...props }) => {
        props.output == 'spidermap-origin'
        ?
           (<select value={ selectedOriginSpidermap ? selectedOriginSpidermap.code : '' }
-                  style={{ margin: '0 0 0 20px'}}
+                  style={{
+                    position:'absolute',
+                    top:'20%',
+                    left:0,right:0,
+                    display:'block',
+                    backgroundColor: '#fff',
+                    width:'80%',
+                    margin: '0 10% 0 10%'
+                  }}
                   onChange={ selectionHandlerSingleOrigin }>
                   <option></option>
                   {options}

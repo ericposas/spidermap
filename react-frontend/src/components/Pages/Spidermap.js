@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
 import UploadForm from '../Forms/UploadForm'
-import BackButton from '../Buttons/BackButton'
+import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import SelectBy_Destinations_Spidermap from '../Views/SelectBy_Destinations_Spidermap'
 import { checkAuth } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
@@ -25,6 +25,8 @@ const Spidermap = ({ ...props }) => {
 
   const spidermap_selectByCategoryDestinations = useSelector(state => state.spidermap_selectByCategoryDestinations)
 
+  const [generateSpidermapButtonVisibility, setGenerateSpidermapButtonVisibility] = useState('none')
+
   useEffect(() => {
     if (!checkAuth()) {
       setTimeout(() => props.history.push('/'))
@@ -35,32 +37,40 @@ const Spidermap = ({ ...props }) => {
 
   return (
     <>
-      <BackButton/>
-      <br/>
-      <br/>
-      <br/>
-      <div>Create a Spidermap</div>
-      <br/>
       <div className='row' style={{whiteSpace:'nowrap'}}>
-        <div className='col-med'>
-          <div style={{margin:'0 0 0 20px'}}>select Origin by airport code: &nbsp;</div>
-          <Dropdown type='code' output='spidermap-origin'/>
-          <br/>
-          <br/>
-          <div style={{margin:'0 0 0 20px'}}>
-            <UploadForm type='spidermap'/>
-          </div>
-          <br/>
-          <br/>
-          {
-            selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0
-            ?
-              (<button onClick={() => { props.history.push('/generate-spidermap') }}
-                       style={{height:'60px',margin:'0 0 0 20px'}}>
+        <UserLeftSidePanel/>
+        <div className='col-med' style={{width:'300px'}}>
+          <div style={{
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'red'
+            }}>
+            <Dropdown type='code' output='spidermap-origin'/>
+            <div style={{
+                margin: 'auto',
+                bottom: '1%',
+                width: '70%',
+                left: 0, right: 0,
+                position: 'absolute',
+                backgroundColor: 'green'
+              }}>
+              <UploadForm type='spidermap'/>
+              <button onClick={() => { if (selectedDestinationsSpidermap.length > 0) props.history.push('/generate-spidermap') }}
+                style={{
+                  height:'60px',
+                  width: '100%',
+                  padding: '0 20px 0 20px',
+                  border: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'none' : '1px solid #CCC',
+                  borderRadius: '5px',
+                  pointerEvent: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'all' : 'none',
+                  color: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'white' : '#CCC',
+                  backgroundColor: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'red' : 'white'
+                }}>
                 Generate Spidermap
-              </button>)
-            : null
-          }
+              </button>
+            </div>
+          </div>
         </div>
         <div className='col-med' style={{}}>
           <SelectionView type='spidermap-origin'/>
@@ -78,7 +88,7 @@ const Spidermap = ({ ...props }) => {
           : null
         }
         {
-          spidermap_selectByCodeDestinations && selectedOriginSpidermap
+          spidermap_selectByCodeDestinations && selectedOriginSpidermap && spidermap_selectBy_DestinationsVisibility
           ?
            (<>
              <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
@@ -89,7 +99,7 @@ const Spidermap = ({ ...props }) => {
           : null
         }
         {
-          spidermap_selectByCategoryDestinations && selectedOriginSpidermap
+          spidermap_selectByCategoryDestinations && selectedOriginSpidermap && spidermap_selectBy_DestinationsVisibility
           ?
            (<>
              <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
