@@ -3,6 +3,11 @@ $default-button-text-color: #FFF;
 $plain-button-color: #FFF;
 $plain-button-text-color: #000;
 
+html,
+body {
+  width: 150%;
+}
+
 .button-default {
   border: none;
   color: $default-button-text-color;

@@ -39,23 +39,36 @@ const Spidermap = ({ ...props }) => {
       <br/>
       <br/>
       <br/>
-      <UploadForm type='spidermap'/>
-      <br/>
-      <br/>
       <div>Create a Spidermap</div>
       <br/>
-      <div className='row'>
+      <div className='row' style={{whiteSpace:'nowrap'}}>
         <div className='col-med'>
           <div style={{margin:'0 0 0 20px'}}>select Origin by airport code: &nbsp;</div>
           <Dropdown type='code' output='spidermap-origin'/>
+          <br/>
+          <br/>
+          <div style={{margin:'0 0 0 20px'}}>
+            <UploadForm type='spidermap'/>
+          </div>
+          <br/>
+          <br/>
+          {
+            selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0
+            ?
+              (<button onClick={() => { props.history.push('/generate-spidermap') }}
+                       style={{height:'60px',margin:'0 0 0 20px'}}>
+                Generate Spidermap
+              </button>)
+            : null
+          }
         </div>
-        <div>
+        <div className='col-med' style={{}}>
           <SelectionView type='spidermap-origin'/>
         </div>
         {
           selectedOriginSpidermap
           ?
-            (<div>
+            (<div className='col-med'>
               <SelectionView type='spidermap-destinations'/>
              </div>) : null
         }
@@ -68,7 +81,7 @@ const Spidermap = ({ ...props }) => {
           spidermap_selectByCodeDestinations && selectedOriginSpidermap
           ?
            (<>
-             <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
+             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
                <div>select Destinations by airport code: &nbsp;</div>
                <Dropdown type='code' output='spidermap-destinations'/>
              </div>
@@ -79,20 +92,11 @@ const Spidermap = ({ ...props }) => {
           spidermap_selectByCategoryDestinations && selectedOriginSpidermap
           ?
            (<>
-             <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
+             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
                <div>select Destinations by category: &nbsp;</div>
                <Dropdown type='category' output='spidermap-destinations'/>
              </div>
             </>)
-          : null
-        }
-        {
-          selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0
-          ?
-            (<button onClick={() => { props.history.push('/generate-spidermap') }}
-                     style={{height:'60px',margin:'0 0 0 20px'}}>
-              Generate Spidermap
-            </button>)
           : null
         }
       </div>

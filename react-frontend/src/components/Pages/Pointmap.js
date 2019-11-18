@@ -64,13 +64,13 @@ const Pointmap = ({ ...props }) => {
       <div>Create a Point-to-Point Map</div>
       <br/>
       <div className='row'>
-        <div className='col-med' style={{height:'100vh'}}>
+        <div className='col-med' style={{}}>
           <SelectionView type='pointmap-origins'/>
         </div>
         {
           pointmap_destinationPanelVisibility
           ?
-           (<div className='col-med' style={{height:'100vh'}}>
+           (<div className='col-med'>
              <SelectionView type='pointmap-destinations'/>
            </div>)
           : null
@@ -82,7 +82,7 @@ const Pointmap = ({ ...props }) => {
           pointmap_selectByCodeOrigins == true
           ?
            (<>
-             <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
+             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
                <div>select Origins by airport code: &nbsp;</div>
                <Dropdown type='code' output='pointmap-origins'/>
              </div>
@@ -92,7 +92,7 @@ const Pointmap = ({ ...props }) => {
           pointmap_selectByCategoryOrigins == true
           ?
            (<>
-             <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
+             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
                <div>select Origins by airport code: &nbsp;</div>
                <Dropdown type='category' output='pointmap-origins'/>
              </div>
@@ -105,7 +105,7 @@ const Pointmap = ({ ...props }) => {
           pointmap_selectByCodeDestinations == true
           ?
            (<>
-             <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
+             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
                <div>select Destinations by airport code: &nbsp;</div>
                <Dropdown type='code' output='pointmap-destinations'/>
              </div>
@@ -116,7 +116,7 @@ const Pointmap = ({ ...props }) => {
           pointmap_selectByCategoryDestinations == true
           ?
            (<>
-             <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
+             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
                <div>select Destinations by category: &nbsp;</div>
                <Dropdown type='category' output='pointmap-destinations'/>
              </div>

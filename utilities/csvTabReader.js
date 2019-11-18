@@ -13,19 +13,6 @@ const parseData = data => {
   })
 }
 
-// const insertRow = async row => {
-//   let insert = await axios.post(endpoint, {
-//     code: row[2],
-//     fullname: row[0],
-//     icao: row[3],
-//     region: row[1],
-//     city: row[row.length-1],
-//     latitude: row[4],
-//     longitude: row[5]
-//   })
-//   console.log(`successful insert for ${data[2]}`)
-// }
-
 const insertIntoDB = async data => {
   let _object = {}
   console.log(data.length)
@@ -38,7 +25,8 @@ const insertIntoDB = async data => {
         region: data[i][1],
         city: data[i][data[i].length-1],
         latitude: data[i][4],
-        longitude: data[i][5]
+        longitude: data[i][5],
+        category: data[i][1]
       })
       console.log(`successful insert for ${data[i][2]}`)
     } catch (err) {
@@ -53,12 +41,11 @@ const readData = async fileData => {
     let data = await parseData(fileData)
     await insertIntoDB(data)
     console.log('success')
-    // console.log(data)
   } catch (e) {
     console.log(e)
   }
 }
 
 let file = fs.readFile('SpiderMapData.txt', (err, data) => {
-  if (!err) readData(data.toString()) //console.log(data.toString())
+  if (!err) readData(data.toString())
 })

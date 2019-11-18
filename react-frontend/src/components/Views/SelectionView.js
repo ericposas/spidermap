@@ -60,9 +60,9 @@ const SelectionView = ({ ...props }) => {
     <>
       <br/>
       <br/>
-      <div style={{backgroundColor:'cyan',height:'100vh',margin:'-48px 0 0 20px'}}>
+      <div style={{overflow:'scroll',backgroundColor:'cyan',height:'100vh',margin:'-48px 0 0 20px'}}>
         <div>{label()}</div>
-        <div>
+        <div style={{overflow:'scroll'}}>
           {
             (props.type == 'listview-origin' && selectedOriginListView)
             ? (<Fragment key={selectedOriginListView.id}>

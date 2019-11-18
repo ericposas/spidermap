@@ -19,6 +19,7 @@ import { checkAuth, getUser } from '../../sessionStore'
 import url from '../../url'
 import axios from 'axios'
 import _ from 'lodash'
+import './dropdown.scss'
 
 const Dropdown = ({ ...props }) => {
 
@@ -59,7 +60,7 @@ const Dropdown = ({ ...props }) => {
       }
     }
   }, [props.type])
-  
+
   const createOptionsFromCodes = async () => {
     try {
       console.log(url)
@@ -192,13 +193,13 @@ const Dropdown = ({ ...props }) => {
             props.output == 'listview-origin'
             ?
                (<select value={ selectedOriginListView ? selectedOriginListView.code : '' }
-                    style={{ margin: '0 0 0 20px'}}
+                    style={{ margin: '0 0 0 10px'}}
                     onChange={ selectionHandlerSingleOrigin }>
                     <option></option>
                     {options}
                 </select>)
             :
-               (<select style={{ margin: '0 0 0 20px'}}
+               (<select style={{ margin: '0 0 0 10px',height:'80%',width:'90%'}}
                   onChange={ setOptionsValues }
                   multiple={ 'multiple' }>
                   <option></option>
@@ -207,8 +208,12 @@ const Dropdown = ({ ...props }) => {
       }
       {
         props.output == 'spidermap-origin' || props.output == 'listview-origin'
-        ? null
-        : <button onClick={selectionHandler}>Ok</button>
+          ? null
+          : (<>
+              <br/>
+              <button onClick={selectionHandler}
+                      style={{ margin: '0 0 0 10px',width:'90%'}}>Ok</button>
+             </>)
       }
     </>
   )

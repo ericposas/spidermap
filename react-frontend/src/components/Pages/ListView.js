@@ -62,7 +62,7 @@ const Spidermap = ({ ...props }) => {
           listview_selectByCodeDestinations && selectedOriginListView
           ?
            (<>
-             <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
+             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
                <div>select Destinations by airport code: &nbsp;</div>
                <Dropdown type='code' output='listview-destinations'/>
              </div>
@@ -73,7 +73,7 @@ const Spidermap = ({ ...props }) => {
           listview_selectByCategoryDestinations && selectedOriginListView
           ?
            (<>
-             <div className='col-med' style={{height:'100vh',margin:'0 0 0 20px',backgroundColor:'orange'}}>
+             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
                <div>select Destinations by category: &nbsp;</div>
                <Dropdown type='category' output='listview-destinations'/>
              </div>
