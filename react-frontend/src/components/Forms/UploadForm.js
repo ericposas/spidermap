@@ -14,7 +14,9 @@ import {
 } from '../../constants/pointmap'
 import {
   SET_ORIGIN_SPIDERMAP,
-  SET_DESTINATION_LOCATIONS_SPIDERMAP
+  REMOVE_ORIGIN_SPIDERMAP,
+  SET_DESTINATION_LOCATIONS_SPIDERMAP,
+  REMOVE_ALL_DESTINATIONS_SPIDERMAP
 } from '../../constants/spidermap'
 
 const UploadForm = ({ ...props }) => {
@@ -31,6 +33,8 @@ const UploadForm = ({ ...props }) => {
 
   const options = useSelector(state => state.allCodesData)
 
+  const [showIncorrectFormat, setShowIncorrectFormat] = useState()
+
   const processForPointmap = data => {
     // clear our list first, then process new CSV
     dispatch({ type: CLEAR_ORIGIN_LOCATIONS_POINTMAP })
@@ -38,48 +42,65 @@ const UploadForm = ({ ...props }) => {
 
     let dataObj = {}
     let origins = []
-    data.forEach((arr, i) => {
-      let originCodes = []
-      let tmp = [], tmpObjArr = []
-      arr.forEach((item, i) => {
-        if (item != arr[0]) tmp.push(item)
-      })
-      tmp.forEach(item => {
-        options.forEach(option => {
-          if (item.trim() == option.code && item.trim() != arr[0].trim()) {
-            tmpObjArr.push(option)
-          }
+    if (data[1]) {
+      data.forEach((arr, i) => {
+        let originCodes = []
+        let tmp = [], tmpObjArr = []
+        arr.forEach((item, i) => {
+          if (item != arr[0]) tmp.push(item)
         })
-      })
-      originCodes.push(arr[0].trim())
-      originCodes.forEach(origin => {
-        options.forEach(option => {
-          if (origin.trim() == option.code) {
-            origins.push(option)
-          }
+        tmp.forEach(item => {
+          options.forEach(option => {
+            if (item.trim() == option.code && item.trim() != arr[0].trim()) {
+              tmpObjArr.push(option)
+            }
+          })
         })
+        originCodes.push(arr[0].trim())
+        originCodes.forEach(origin => {
+          options.forEach(option => {
+            if (origin.trim() == option.code) {
+              origins.push(option)
+            }
+          })
+        })
+        dataObj[arr[0].trim()] = tmpObjArr
       })
-      dataObj[arr[0].trim()] = tmpObjArr
-    })
+      dispatch({ type: SET_ORIGIN_LOCATIONS_POINTMAP, payload: origins })
+      dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: dataObj })
+    } else {
+      console.log('incorrect csv format for point-to-point-map')
+      setShowIncorrectFormat('pointmap')
+      setTimeout(() => setShowIncorrectFormat(null), 2000)
+    }
 
-    dispatch({ type: SET_ORIGIN_LOCATIONS_POINTMAP, payload: origins })
-    dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: dataObj })
   }
 
   const processForSpidermap = data => {
+    // clear list
+    dispatch({ type: REMOVE_ORIGIN_SPIDERMAP })
+    dispatch({ type: REMOVE_ALL_DESTINATIONS_SPIDERMAP })
+
     let origin
     let destinations = []
-    let _data = data[0].map(item => item.trim())
-    _data = _data.filter((item, i) => _data.indexOf(_data[0]) != i)
-    options.forEach(option => {
-      _data.forEach(datum => {
-        if (option.code == _data[0]) origin = option
-        else if (option.code == datum) destinations.push(option)
+    if (data[1]) {
+      console.log('incorrect csv format for spidermap')
+      setShowIncorrectFormat('spidermap')
+      setTimeout(() => setShowIncorrectFormat(null), 2000)
+    } else {
+      // process csv entries
+      let _data = data[0].map(item => item.trim())
+      _data = _data.filter((item, i) => _data.indexOf(_data[0]) != i)
+      options.forEach(option => {
+        _data.forEach(datum => {
+          if (option.code == _data[0]) origin = option
+          else if (option.code == datum) destinations.push(option)
+        })
       })
-    })
+      dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: origin })
+      dispatch({ type: SET_DESTINATION_LOCATIONS_SPIDERMAP, payload: { origin: origin, item: destinations.slice(0, destinations.length) } })
+    }
 
-    dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: origin })
-    dispatch({ type: SET_DESTINATION_LOCATIONS_SPIDERMAP, payload: { origin: origin, item: destinations.slice(1, destinations.length-1) } })
   }
 
   const formRef = useRef()
@@ -146,6 +167,15 @@ const UploadForm = ({ ...props }) => {
              <input type='file' name='files' onChange={handleSubmit}/>
            </>)
           : <div style={{color:'red',fontSize:'.8rem'}}>Please provide a label before choosing a .CSV file</div>
+        }
+        {
+          showIncorrectFormat
+          ?
+            <div>
+              <div className='modal-incorrect-csv-format'>Incorrect CSV file format for {showIncorrectFormat}</div>
+            </div>
+          :
+            null
         }
       </form>
     </>
