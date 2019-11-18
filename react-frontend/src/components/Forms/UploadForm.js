@@ -99,6 +99,11 @@ const UploadForm = ({ ...props }) => {
       })
       dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: origin })
       dispatch({ type: SET_DESTINATION_LOCATIONS_SPIDERMAP, payload: { origin: origin, item: destinations.slice(0, destinations.length) } })
+      
+      console.log(
+        'hide upload progress graphic here'
+      )
+      props.setModalVisibility(false)
     }
 
   }
@@ -113,6 +118,10 @@ const UploadForm = ({ ...props }) => {
 
   const handleSubmit = e => {
     e.preventDefault()
+    // console.log(props)
+    console.log(
+      'show upload/processing progress here...'
+    )
 
     let formData = new FormData(formRef.current)
 
@@ -156,28 +165,35 @@ const UploadForm = ({ ...props }) => {
 
   return (
     <>
-      <div>Upload a CSV for locations</div>
-      <form ref={formRef}>
-        <span>File Label:</span><input type='text' value={label} onChange={handleLabelInput}/>
+      <div style={{
+          margin: '40px'
+        }}>
+        <div>Upload a CSV for all destinations (first airport code is designated as the origin airport)</div>
         <br/>
-        {
-          label != ''
-          ?
-           (<>
-             <input type='file' name='files' onChange={handleSubmit}/>
-           </>)
-          : <div style={{color:'red',fontSize:'.8rem'}}>Please provide a label before choosing a .CSV file</div>
-        }
-        {
-          showIncorrectFormat
-          ?
-            <div>
-              <div className='modal-incorrect-csv-format'>Incorrect CSV file format for {showIncorrectFormat}</div>
-            </div>
-          :
-            null
-        }
-      </form>
+        <form ref={formRef}>
+          <span>File Label:</span><input type='text' value={label} onChange={handleLabelInput} onKeyPress={ e => { if (e.which == 13) e.preventDefault() }}/>
+          <br/>
+          <br/>
+          {
+            label != ''
+            ?
+              (<>
+                <input type='file'
+                       name='files'
+                       onChange={handleSubmit}/>
+              </>)
+            : <div style={{color:'red',fontSize:'.8rem'}}>Please provide a label before choosing a .CSV file</div>
+          }
+          {
+            showIncorrectFormat
+            ?
+              <div>
+                <div className='modal-incorrect-csv-format'>Incorrect CSV file format for {showIncorrectFormat}</div>
+              </div>
+            : null
+          }
+        </form>
+      </div>
     </>
   )
 

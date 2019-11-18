@@ -1,11 +1,12 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
-import UploadForm from '../Forms/UploadForm'
+// import UploadForm from '../Forms/UploadForm'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import SelectBy_Destinations_Spidermap from '../Views/SelectBy_Destinations_Spidermap'
+import UploadModal from '../Forms/UploadModal'
 import { checkAuth } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
 
@@ -25,14 +26,15 @@ const Spidermap = ({ ...props }) => {
 
   const spidermap_selectByCategoryDestinations = useSelector(state => state.spidermap_selectByCategoryDestinations)
 
-  const [generateSpidermapButtonVisibility, setGenerateSpidermapButtonVisibility] = useState('none')
+  const [showUploadCSVModal, setShowUploadCSVModal] = useState(false)
+
+  const setModalVisibility = value => {
+    setShowUploadCSVModal(value)
+  }
 
   useEffect(() => {
-    if (!checkAuth()) {
-      setTimeout(() => props.history.push('/'))
-    } else {
-      console.log('user is logged in')
-    }
+    if (!checkAuth()) setTimeout(() => props.history.push('/'))
+    else console.log('user is logged in')
   }, [])
 
   return (
@@ -41,10 +43,10 @@ const Spidermap = ({ ...props }) => {
         <UserLeftSidePanel/>
         <div className='col-med' style={{width:'300px'}}>
           <div style={{
-                position: 'relative',
                 width: '100%',
                 height: '100%',
-                backgroundColor: 'red'
+                position: 'relative',
+                backgroundColor: 'lightblue'
             }}>
             <Dropdown type='code' output='spidermap-origin'/>
             <div style={{
@@ -55,15 +57,32 @@ const Spidermap = ({ ...props }) => {
                 position: 'absolute',
                 backgroundColor: 'green'
               }}>
-              <UploadForm type='spidermap'/>
-              <button onClick={() => { if (selectedDestinationsSpidermap.length > 0) props.history.push('/generate-spidermap') }}
+              <button
+                onClick={() => {
+                  setShowUploadCSVModal(true)
+                }}
+                style={{
+                  height:'60px',
+                  width: '100%',
+                  padding: '0 20px 0 20px',
+                  margin: '0 0 10px 0',
+                  border: 'none',
+                  borderRadius: '5px',
+                  backgroundColor: 'red',
+                  color: 'white'
+                }}>
+                Upload CSV
+              </button>
+              <br/>
+              <button
+                onClick={() => { if (selectedDestinationsSpidermap.length > 0) props.history.push('/generate-spidermap') }}
                 style={{
                   height:'60px',
                   width: '100%',
                   padding: '0 20px 0 20px',
                   border: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'none' : '1px solid #CCC',
                   borderRadius: '5px',
-                  pointerEvent: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'all' : 'none',
+                  pointerEvents: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'all' : 'none',
                   color: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'white' : '#CCC',
                   backgroundColor: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'red' : 'white'
                 }}>
@@ -110,6 +129,9 @@ const Spidermap = ({ ...props }) => {
           : null
         }
       </div>
+      {
+        showUploadCSVModal ? <UploadModal setModalVisibility={setShowUploadCSVModal} modalVisibility={showUploadCSVModal}/> : null
+      }
     </>
   )
 
