@@ -1,0 +1,221 @@
+Zurich	Switzerland	ZRH	LSZH	47.464699	8.54917	1416	1	E	Europe/Zurich
+Zihuatanejo	Mexico	ZIH	MMZH	17.60160065	-101.4609985	26	-6	S	America/Mexico_City
+Toronto	Canada	YYZ	CYYZ	43.67720032	-79.63059998	569	-5	A	America/Toronto
+Calgary	Canada	YYC	CYYC	51.11389923	-114.0199966	3557	-7	A	America/Edmonton
+Vancouver	Canada	YVR	CYVR	49.19390106	-123.1839981	14	-8	A	America/Vancouver
+Montreal	Canada	YUL	CYUL	45.47060013	-73.74079895	118	-5	A	America/Toronto
+Bentonville	United States	XNA	KXNA	36.281898	-94.306801	1287	-6	A	America/Chicago
+Santa Cruz	Bolivia	VVI	SLVR	-17.6448	-63.135399	1224	-4	U	America/La_Paz
+Varadero	Cuba	VRA	MUVR	23.03440094	-81.43530273	210	-5	U	America/Havana
+Valparaiso	United States	VPS	KVPS	30.4832	-86.525398	87	-6	A	America/Chicago
+Venice	Italy	VCE	LIPZ	45.505299	12.3519	7	1	E	Europe/Rome
+Hewandorra	Saint Lucia	UVF	TLPL	13.7332	-60.952599	14	-4	U	America/St_Lucia
+Quito	Ecuador	UIO	SEQM	-0.129166667	-78.3575	7841	-5	U	America/Guayaquil
+Knoxville	United States	TYS	KTYS	35.81100082	-83.9940033	981	-5	A	America/New_York
+Berlin	Germany	TXL	EDDT	52.5597	13.2877	122	1	E	Europe/Berlin
+Tucson	United States	TUS	KTUS	32.11610031	-110.9410019	2643	-7	N	America/Phoenix
+Tulsa	United States	TUL	KTUL	36.19839859	-95.88809967	677	-6	A	America/Chicago
+Tampa	United States	TPA	KTPA	27.97550011	-82.53320313	26	-5	A	America/New_York
+Tegucigalpa	Honduras	TGU	MHTG	14.06089973	-87.21720123	3294	-6	U	America/Tegucigalpa
+Syracuse	United States	SYR	KSYR	43.11119843	-76.10630035	421	-5	A	America/New_York
+Sydney	Australia	SYD	YSSY	-33.94609833	151.177002	21	10	O	Australia/Sydney
+Philipsburg	Netherlands Antilles	SXM	TNCM	18.04100037	-63.10889816	13	-4	U	America/Curacao
+Kingstown	Saint Vincent and the Grenadines	SVD	TVSA	13.156695	-61.149945	136	-4	U	America/St_Vincent
+St. Croix Island	Virgin Islands	STX	TISX	17.70190048	-64.79859924	74	-4	U	America/St_Thomas
+St. Thomas	Virgin Islands	STT	TIST	18.33729935	-64.9733963	23	-4	U	America/St_Thomas
+St. Louis	United States	STL	KSTL	38.748697	-90.370003	618	-6	A	America/Chicago
+Santiago	Dominican Republic	STI	MDST	19.40609932	-70.60469818	565	-4	U	America/Santo_Domingo
+Sarasota	United States	SRQ	KSRQ	27.39539909	-82.55439758	30	-5	A	America/New_York
+Santa Clara	Cuba	SNU	MUSC	22.49220085	-79.94360352	338	-5	U	America/Havana
+Shannon	Ireland	SNN	EINN	52.702	-8.92482	46	0	E	Europe/Dublin
+Santa Ana	United States	SNA	KSNA	33.67570114	-117.8679962	56	-8	A	America/Los_Angeles
+Sacramento	United States	SMF	KSMF	38.69540024	-121.5910034	27	-8	A	America/Los_Angeles
+Salt Lake City	United States	SLC	KSLC	40.78839874	-111.9779968	4227	-7	A	America/Denver
+Basse Terre	Saint Kitts and Nevis	SKB	TKPK	17.31119919	-62.71870041	170	-4	U	America/St_Kitts
+San Juan	Puerto Rico	SJU	TJSJ	18.43939972	-66.00180054	9	-4	U	America/Puerto_Rico
+San Jose	Costa Rica	SJO	MROC	9.993860245	-84.20880127	3021	-6	U	America/Costa_Rica
+San Jose Del Cabo	Mexico	SJD	MMSD	23.15180016	-109.7210007	374	-7	S	America/Mazatlan
+San Jose	United States	SJC	KSJC	37.362598	-121.929001	62	-8	A	America/Los_Angeles
+San Francisco	United States	SFO	KSFO	37.61899948	-122.375	13	-8	A	America/Los_Angeles
+Seattle	United States	SEA	KSEA	47.449001	-122.308998	433	-8	A	America/Los_Angeles
+Santo Domingo	Dominican Republic	SDQ	MDSD	18.42970085	-69.66889954	59	-4	U	America/Santo_Domingo
+Louisville	United States	SDF	KSDF	38.1744	-85.736	501	-5	A	America/New_York
+Santiago De Cuba	Cuba	SCU	MUCU	19.96980095	-75.83540344	249	-5	U	America/Havana
+Santiago	Chile	SCL	SCEL	-33.39300156	-70.78579712	1555	-4	S	America/Santiago
+Santa Barbara	United States	SBA	KSBA	34.42620087	-119.8399963	13	-8	A	America/Los_Angeles
+Savannah	United States	SAV	KSAV	32.12760162	-81.20210266	50	-5	A	America/New_York
+San Antonio	United States	SAT	KSAT	29.53370094	-98.46980286	809	-6	A	America/Chicago
+San Pedro Sula	Honduras	SAP	MHLM	15.4526	-87.923599	91	-6	U	America/Tegucigalpa
+San Diego	United States	SAN	KSAN	32.73360062	-117.1900024	17	-8	A	America/Los_Angeles
+San Salvador	El Salvador	SAL	MSLP	13.4409	-89.055702	101	-6	U	America/El_Salvador
+Roatan	Honduras	RTB	MHRO	16.316799	-86.523003	39	-6	U	America/Tegucigalpa
+Fort Myers	United States	RSW	KRSW	26.53619957	-81.75520325	30	-5	A	America/New_York
+Rochester	United States	ROC	KROC	43.1189003	-77.67240143	559	-5	A	America/New_York
+Reno	United States	RNO	KRNO	39.49909973	-119.7679977	4415	-8	A	America/Los_Angeles
+Richmond	United States	RIC	KRIC	37.50519943	-77.31970215	167	-5	A	America/New_York
+Raleigh-durham	United States	RDU	KRDU	35.87760162	-78.78749847	435	-5	A	America/New_York
+Portland	United States	PWM	KPWM	43.64619827	-70.30930328	76	-5	A	America/New_York
+Puerto Vallarta	Mexico	PVR	MMPR	20.68009949	-105.2539978	23	-6	S	America/Mexico_City
+Shanghai	China	PVG	ZSPD	31.14340019	121.8050003	13	8	U	Asia/Shanghai
+Providence	United States	PVD	KPVD	41.732601	-71.420403	55	-5	A	America/New_York
+Punta Cana	Dominican Republic	PUJ	MDPC	18.56739998	-68.36340332	47	-4	U	America/Santo_Domingo
+Panama City	Panama	PTY	MPTO	9.071359634	-79.38349915	135	-5	U	America/Panama
+Pointe-a-pitre	Guadeloupe	PTP	TFFR	16.265301	-61.531799	36	-4	U	America/Guadeloupe
+Palm Springs	United States	PSP	KPSP	33.82970047	-116.5070038	477	-8	A	America/Los_Angeles
+Prague	Czech Republic	PRG	LKPR	50.1008	14.26	1247	1	E	Europe/Prague
+Port-of-spain	Trinidad and Tobago	POS	TTPP	10.59539986	-61.33720016	58	-4	U	America/Port_of_Spain
+Puerto Plata	Dominican Republic	POP	MDPP	19.75790024	-70.56999969	15	-4	U	America/Santo_Domingo
+Pensacola	United States	PNS	KPNS	30.47340012	-87.18659973	121	-6	A	America/Chicago
+Providenciales	Turks and Caicos Islands	PLS	MBPV	21.77359962	-72.26589966	15	-4	U	America/Grand_Turk
+Pittsburgh	United States	PIT	KPIT	40.49150085	-80.23290253	1203	-5	A	America/New_York
+Phoenix	United States	PHX	KPHX	33.43429947	-112.012001	1135	-7	N	America/Phoenix
+Philadelphia	United States	PHL	KPHL	39.87189865	-75.2410965	36	-5	A	America/New_York
+Beijing	China	PEK	ZBAA	40.08010101	116.5849991	116	8	U	Asia/Shanghai
+Pereira	Colombia	PEI	SKPE	4.81267	-75.7395	4416	-5	U	America/Bogota
+Portland	United States	PDX	KPDX	45.58869934	-122.5979996	31	-8	A	America/Los_Angeles
+West Palm Beach	United States	PBI	KPBI	26.68320084	-80.09559631	19	-5	A	America/New_York
+Port-au-prince	Haiti	PAP	MTPP	18.57999992	-72.29250336	122	-5	U	America/Port-au-Prince
+Norfolk	United States	ORF	KORF	36.89459991	-76.20120239	26	-5	A	America/New_York
+Chicago	United States	ORD	KORD	41.9786	-87.9048	672	-6	A	America/Chicago
+Ontario	United States	ONT	KONT	34.05599976	-117.6009979	944	-8	A	America/Los_Angeles
+Omaha	United States	OMA	KOMA	41.3032	-95.894096	984	-6	A	America/Chicago
+Oklahoma City	United States	OKC	KOKC	35.39310074	-97.60070038	1295	-6	A	America/Chicago
+Kahului	United States	OGG	PHOG	20.8986	-156.429993	54	-10	N	Pacific/Honolulu
+Oakland	United States	OAK	KOAK	37.721298	-122.221001	9	-8	A	America/Los_Angeles
+Tokyo	Japan	NRT	RJAA	35.76470184	140.3860016	141	9	U	Asia/Tokyo
+Nassau	Bahamas	NAS	MYNN	25.03899956	-77.46620178	16	-5	U	America/Nassau
+Mazatlan	Mexico	MZT	MMMZ	23.16139984	-106.2659988	38	-7	S	America/Mazatlan
+Myrtle Beach	United States	MYR	KMYR	33.67969894	-78.92829895	25	-5	A	America/New_York
+Milano	Italy	MXP	LIMC	45.6306	8.72811	768	1	E	Europe/Rome
+Montevideo	Uruguay	MVD	SUMU	-34.838402	-56.0308	105	-3	S	America/Montevideo
+Munich	Germany	MUC	EDDM	48.353802	11.7861	1487	1	E	Europe/Berlin
+Montrose CO	United States	MTJ	KMTJ	38.50979996	-107.8939972	5759	-7	A	America/Denver
+New Orleans	United States	MSY	KMSY	29.99340057	-90.25800323	4	-6	A	America/Chicago
+Minneapolis	United States	MSP	KMSP	44.882	-93.221802	841	-6	A	America/Chicago
+Madison	United States	MSN	KMSN	43.13990021	-89.33750153	887	-6	A	America/Chicago
+Milwaukee	United States	MKE	KMKE	42.94720078	-87.89659882	723	-6	A	America/Chicago
+Miami	United States	MIA	KMIA	25.79319954	-80.29060364	8	-5	A	America/New_York
+Manchester NH	United States	MHT	KMHT	42.932598	-71.435699	266	-5	A	America/New_York
+Managua	Nicaragua	MGA	MNMG	12.14150047	-86.16819763	194	-6	U	America/Managua
+Mcallen	United States	MFE	KMFE	26.17580032	-98.23860168	107	-6	A	America/Chicago
+Mexico City	Mexico	MEX	MMMX	19.4363	-99.072098	7316	-6	S	America/Mexico_City
+Memphis	United States	MEM	KMEM	35.04240036	-89.97669983	341	-6	A	America/Chicago
+Harrisburg	United States	MDT	KMDT	40.19350052	-76.76339722	310	-5	A	America/New_York
+Rio Negro	Colombia	MDE	SKRG	6.16454	-75.4231	6955	-5	U	America/Bogota
+Orlando	United States	MCO	KMCO	28.42939949	-81.30899811	96	-5	A	America/New_York
+Kansas City	United States	MCI	KMCI	39.2976	-94.713898	1026	-6	A	America/Chicago
+Montego Bay	Jamaica	MBJ	MKJS	18.50370026	-77.91339874	4	-5	U	America/Jamaica
+Maracaibo	Venezuela	MAR	SVMC	10.55820847	-71.7278595	239	-4	U	America/Caracas
+Manaus	Brazil	MAO	SBEG	-3.038609982	-60.04970169	264	-4	S	America/Boa_Vista
+Manchester	United Kingdom	MAN	EGCC	53.35369873	-2.274950027	257	0	E	Europe/London
+Midland	United States	MAF	KMAF	31.94249916	-102.2020035	2871	-6	A	America/Chicago
+Madrid	Spain	MAD	LEMD	40.471926	-3.56264	1998	1	E	Europe/Madrid
+Little Rock	United States	LIT	KLIT	34.72940063	-92.22429657	262	-6	A	America/Chicago
+Lisbon	Portugal	LIS	LPPT	38.7813	-9.13592	374	0	E	Europe/Lisbon
+Liberia	Costa Rica	LIR	MRLB	10.5933	-85.544403	270	-6	U	America/Costa_Rica
+Lima	Peru	LIM	SPIM	-12.0219	-77.114305	113	-5	U	America/Lima
+Lihue	United States	LIH	PHLI	21.97599983	-159.3390045	153	-10	N	Pacific/Honolulu
+London	United Kingdom	LHR	EGLL	51.4706	-0.461941	83	0	E	Europe/London
+New York	United States	LGA	KLGA	40.77719879	-73.87259674	21	-5	A	America/New_York
+Lubbock	United States	LBB	KLBB	33.663601	-101.822998	3282	-6	A	America/Chicago
+Los Angeles	United States	LAX	KLAX	33.94250107	-118.4079971	125	-8	A	America/Los_Angeles
+Las Vegas	United States	LAS	KLAS	36.08010101	-115.1520004	2181	-8	A	America/Los_Angeles
+Kona	United States	KOA	PHKO	19.738783	-156.045603	47	-10	N	Pacific/Honolulu
+Kingston	Jamaica	KIN	MKJP	17.93569946	-76.78749847	10	-5	U	America/Jamaica
+Keflavik	Iceland	KEF	BIKF	63.98500061	-22.60560036	171	0	N	Atlantic/Reykjavik
+New York	United States	JFK	KJFK	40.63980103	-73.77890015	13	-5	A	America/New_York
+Jacksonville	United States	JAX	KJAX	30.49410057	-81.68789673	30	-5	A	America/New_York
+Jacksn Hole	United States	JAC	KJAC	43.6072998	-110.737999	6451	-7	A	America/Denver
+Indianapolis	United States	IND	KIND	39.7173	-86.294403	797	-5	A	America/New_York
+Wilmington	United States	ILM	KILM	34.27059937	-77.90260315	32	-5	A	America/New_York
+Wichita	United States	ICT	KICT	37.649899	-97.433098	1333	-6	A	America/Chicago
+Seoul	South Korea	ICN	RKSI	37.46910095	126.4509964	23	9	U	Asia/Seoul
+Houston	United States	IAH	KIAH	29.9843998	-95.34140015	97	-6	A	America/Chicago
+Washington	United States	IAD	KIAD	38.94449997	-77.45580292	312	-5	A	America/New_York
+Holguin	Cuba	HOG	MUHG	20.78560066	-76.31510162	361	-5	U	America/Havana
+Honolulu	United States	HNL	PHNL	21.32062	-157.924228	13	-10	N	Pacific/Honolulu
+Tokyo	Japan	HND	RJTT	35.552299	139.779999	35	9	U	Asia/Tokyo
+Hong Kong	Hong Kong	HKG	VHHH	22.308901	113.915001	28	8	U	Asia/Hong_Kong
+Hayden	United States	HDN	KHDN	40.48120117	-107.2180023	6606	-7	A	America/Denver
+Havana	Cuba	HAV	MUHA	22.98920059	-82.40910339	210	-5	U	America/Havana
+Guayaquil	Ecuador	GYE	SEGU	-2.15741992	-79.88359833	19	-5	U	America/Guayaquil
+Gunnison	United States	GUC	KGUC	38.53390121	-106.9329987	7680	-7	A	America/Denver
+Guatemala City	Guatemala	GUA	MGGT	14.5833	-90.527496	4952	-6	U	America/Guatemala
+Greenville	United States	GSP	KGSP	34.89569855	-82.21890259	964	-5	A	America/New_York
+Greensboro	United States	GSO	KGSO	36.09780121	-79.93730164	925	-5	A	America/New_York
+Sao Paulo	Brazil	GRU	SBGR	-23.43555641	-46.47305679	2459	-3	S	America/Sao_Paulo
+Grand Rapids	United States	GRR	KGRR	42.88079834	-85.52279663	794	-5	A	America/New_York
+Point Salines	Grenada	GND	TGPY	12.00419998	-61.78620148	41	-4	U	America/Grenada
+Rio De Janeiro	Brazil	GIG	SBGL	-22.80999947	-43.25055695	28	-3	S	America/Sao_Paulo
+Georgetown	Guyana	GEO	SYCJ	6.498549938	-58.2541008	95	-4	U	America/Guyana
+Spokane	United States	GEG	KGEG	47.61989975	-117.5339966	2376	-8	A	America/Los_Angeles
+Guadalajara	Mexico	GDL	MMGL	20.52179909	-103.310997	5016	-6	S	America/Mexico_City
+Georgetown	Cayman Islands	GCM	MWCR	19.2928009	-81.35769653	8	-5	N	America/Cayman
+Frankfurt	Germany	FRA	EDDF	50.033333	8.570556	364	1	E	Europe/Berlin
+Fort Lauderdale	United States	FLL	KFLL	26.072599	-80.152702	9	-5	A	America/New_York
+Fort-de-france	Martinique	FDF	TFFF	14.5909996	-61.00320053	16	-4	U	America/Martinique
+Rome	Italy	FCO	LIRF	41.8002778	12.2388889	13	1	E	Europe/Rome
+Fresno	United States	FAT	KFAT	36.77619934	-119.7180023	336	-8	A	America/Los_Angeles
+Fargo	United States	FAR	KFAR	46.92070007	-96.81580353	902	-6	A	America/Chicago
+Buenos Aires	Argentina	EZE	SAEZ	-34.8222	-58.5358	67	-3	N	America/Buenos_Aires
+Key West	United States	EYW	KEYW	24.55610085	-81.75959778	3	-5	A	America/New_York
+Newark	United States	EWR	KEWR	40.69250107	-74.16870117	18	-5	A	America/New_York
+El Paso	United States	ELP	KELP	31.80719948	-106.3779984	3959	-7	A	America/Denver
+Vail	United States	EGE	KEGE	39.64260101	-106.9179993	6548	-7	A	America/Denver
+Edinburgh	United Kingdom	EDI	EGPH	55.95000076	-3.372499943	135	0	E	Europe/London
+Dublin	Ireland	DUB	EIDW	53.421299	-6.27007	242	0	E	Europe/Dublin
+Detroit	United States	DTW	KDTW	42.21239853	-83.35340118	645	-5	A	America/New_York
+Des Moines	United States	DSM	KDSM	41.5340004	-93.6631012	958	-6	A	America/Chicago
+Dallas-Fort Worth	United States	DFW	KDFW	32.896801	-97.038002	607	-6	A	America/Chicago
+Denver	United States	DEN	KDEN	39.86169815	-104.6729965	5431	-7	A	America/Denver
+Washington	United States	DCA	KDCA	38.8521	-77.037697	15	-5	A	America/New_York
+Dubrovnik	Croatia	DBV	LDDU	42.56140137	18.26819992	527	1	E	Europe/Zagreb
+Daytona Beach	United States	DAB	KDAB	29.179899	-81.058098	34	-5	A	America/New_York
+Cozumel	Mexico	CZM	MMCZ	20.5223999	-86.92559814	15	-5	S	America/Cancun
+Cincinnati	United States	CVG	KCVG	39.04880142	-84.6678009	896	-5	A	America/New_York
+Willemstad	Netherlands Antilles	CUR	TNCC	12.1889	-68.959801	29	-4	U	America/Curacao
+Cancun	Mexico	CUN	MMUN	21.03650093	-86.87709808	22	-5	S	America/Cancun
+Cartagena	Colombia	CTG	SKCG	10.4424	-75.513	4	-5	U	America/Bogota
+Colorado Springs	United States	COS	KCOS	38.805801	-104.700996	6187	-7	A	America/Denver
+Cordoba	Argentina	COR	SACO	-31.323601	-64.208	1604	-3	N	America/Cordoba
+Camaguey	Cuba	CMW	MUCM	21.42029953	-77.84750366	413	-5	U	America/Havana
+Columbus	United States	CMH	KCMH	39.998001	-82.891899	815	-5	A	America/New_York
+Charlotte	United States	CLT	KCLT	35.2140007	-80.94309998	748	-5	A	America/New_York
+Cali	Colombia	CLO	SKCL	3.54322	-76.3816	3162	-5	U	America/Bogota
+Cleveland	United States	CLE	KCLE	41.4117012	-81.84980011	791	-5	A	America/New_York
+Charleston	United States	CHS	KCHS	32.89860153	-80.04049683	46	-5	A	America/New_York
+Paris	France	CDG	LFPG	49.012798	2.55	392	1	E	Europe/Paris
+Caracas	Venezuela	CCS	SVMI	10.601194	-66.991222	234	-4	U	America/Caracas
+Cap Haitien	Haiti	CAP	MTCH	19.733	-72.194702	10	-5	U	America/Port-au-Prince
+Columbia	United States	CAE	KCAE	33.93880081	-81.11949921	236	-5	A	America/New_York
+Bozeman	United States	BZN	KBZN	45.77750015	-111.1529999	4473	-7	A	America/Denver
+Belize City	Belize	BZE	MZBZ	17.53910065	-88.30819702	15	-6	U	America/Belize
+Baltimore	United States	BWI	KBWI	39.1754	-76.668297	146	-5	A	America/New_York
+Burbank	United States	BUR	KBUR	34.20069885	-118.3590012	778	-8	A	America/Los_Angeles
+Buffalo	United States	BUF	KBUF	42.94049835	-78.73220062	728	-5	A	America/New_York
+Budapest	Hungary	BUD	LHBP	47.42976	19.261093	495	1	E	Europe/Budapest
+Brasilia	Brazil	BSB	SBBR	-15.86916733	-47.92083359	3497	-3	S	America/Sao_Paulo
+Boston	United States	BOS	KBOS	42.36429977	-71.00520325	20	-5	A	America/New_York
+Kralendijk	Netherlands Antilles	BON	TNCB	12.13099957	-68.26850128	20	-4	U	America/Curacao
+Boise	United States	BOI	KBOI	43.5644	-116.223	2871	-7	A	America/Denver
+Bogota	Colombia	BOG	SKBO	4.70159	-74.1469	8361	-5	U	America/Bogota
+Nashville	United States	BNA	KBNA	36.12450027	-86.67819977	599	-6	A	America/Chicago
+Bologna	Italy	BLQ	LIPE	44.5354	11.2887	123	1	E	Europe/Rome
+Birmingham	United States	BHM	KBHM	33.56290054	-86.75350189	650	-6	A	America/Chicago
+Bridgetown	Barbados	BGI	TBPB	13.07460022	-59.49250031	169	-4	U	America/Barbados
+Windsor Locks	United States	BDL	KBDL	41.93889999	-72.68319702	173	-5	A	America/New_York
+Bermuda	Bermuda	BDA	TXKF	32.36399841	-64.67870331	12	-4	A	Atlantic/Bermuda
+Barcelona	Spain	BCN	LEBL	41.2971	2.07846	12	1	E	Europe/Madrid
+Barranquilla	Colombia	BAQ	SKBQ	10.8896	-74.7808	98	-5	U	America/Bogota
+Austin	United States	AUS	KAUS	30.19449997	-97.66989899	542	-6	A	America/Chicago
+Oranjestad	Aruba	AUA	TNCA	12.5014	-70.015198	60	-4	U	America/Aruba
+Atlanta	United States	ATL	KATL	33.6367	-84.428101	1026	-5	A	America/New_York
+Athens	Greece	ATH	LGAV	37.93640137	23.94449997	308	2	E	Europe/Athens
+Antigua	Antigua and Barbuda	ANU	TAPA	17.1367	-61.792702	62	-4	U	America/Antigua
+Anchorage	United States	ANC	PANC	61.17440033	-149.9960022	152	-9	A	America/Anchorage
+Amsterdam	Netherlands	AMS	EHAM	52.308601	4.76389	-11	1	E	Europe/Amsterdam
+Amarillo	United States	AMA	KAMA	35.219398	-101.706001	3607	-6	A	America/Chicago
+Albany	United States	ALB	KALB	42.74829865	-73.80169678	285	-5	A	America/New_York
+Auckland	New Zealand	AKL	NZAA	-37.0080986	174.7920074	23	12	Z	Pacific/Auckland
+Bush Field	United States	AGS	KAGS	33.36989975	-81.96450043	144	-5	A	America/New_York
+Albuquerque	United States	ABQ	KABQ	35.040199	-106.609001	5355	-7	A	America/Denver

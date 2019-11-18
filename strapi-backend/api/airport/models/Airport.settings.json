@@ -16,8 +16,7 @@
       "type": "string"
     },
     "fullname": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "icao": {
       "type": "string"
@@ -26,18 +25,15 @@
       "type": "string"
     },
     "city": {
-      "required": true,
       "type": "string"
     },
     "latitude": {
       "type": "float"
     },
     "longitude": {
-      "type": "float",
-      "required": true
+      "type": "float"
     },
     "category": {
-      "required": true,
       "type": "string"
     }
   }
