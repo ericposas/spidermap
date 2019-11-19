@@ -99,9 +99,9 @@ const UploadForm = ({ ...props }) => {
       })
       dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: origin })
       dispatch({ type: SET_DESTINATION_LOCATIONS_SPIDERMAP, payload: { origin: origin, item: destinations.slice(0, destinations.length) } })
-      
+
       console.log(
-        'hide upload progress graphic here'
+        'hide modal and any uploading graphics here..'
       )
       props.setModalVisibility(false)
     }
@@ -120,7 +120,7 @@ const UploadForm = ({ ...props }) => {
     e.preventDefault()
     // console.log(props)
     console.log(
-      'show upload/processing progress here...'
+      'show upload circle graphic on the modal/window...'
     )
 
     let formData = new FormData(formRef.current)
