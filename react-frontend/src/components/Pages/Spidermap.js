@@ -32,31 +32,63 @@ const Spidermap = ({ ...props }) => {
     setShowUploadCSVModal(value)
   }
 
+  const uploadButtonRef = useRef()
+
+  const buttonContainerRef = useRef()
+
+  const [buttonContainerBottom, setButtonContainerBottom] = useState(0)
+
+  const computeButtonContainerBottom = () => {
+    return getComputedStyle(uploadButtonRef.current, null).getPropertyValue('height')
+  }
+
+  const handleGenerateMapClick = () => {
+    if (selectedDestinationsSpidermap.length > 0) {
+      props.history.push('/generate-spidermap')
+    }
+  }
+
   useEffect(() => {
     if (!checkAuth()) setTimeout(() => props.history.push('/'))
-    else console.log('user is logged in')
+    else {
+      console.log('user is logged in')
+      setButtonContainerBottom(computeButtonContainerBottom())
+    }
   }, [])
 
   return (
     <>
       <div className='row' style={{whiteSpace:'nowrap'}}>
         <UserLeftSidePanel/>
-        <div className='col-med' style={{width:'300px'}}>
+        <div className='col-med' style={{
+            width:'300px',
+            height:'100vh',
+            boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)',
+          }}>
           <div style={{
                 width: '100%',
                 height: '100%',
                 position: 'relative',
-                backgroundColor: 'lightblue'
+                /* backgroundColor: 'lightblue' */
             }}>
-            <Dropdown type='code' output='spidermap-origin'/>
             <div style={{
-                margin: 'auto',
-                bottom: '1%',
-                width: '70%',
-                left: 0, right: 0,
-                position: 'absolute',
-                backgroundColor: 'green'
+                margin: '10% 0 0 10%',
               }}>
+              <div className='map-type-title'>Spidermap</div>
+              <div className='subtitle'>Origin Airport</div>
+            </div>
+            <br/>
+            <Dropdown type='code' output='spidermap-origin'/>
+            <div ref={buttonContainerRef}
+                 className='button-container'
+                 style={{
+                   bottom: buttonContainerBottom,
+                   width: '70%',
+                   margin: 'auto',
+                   left: 0, right: 0,
+                   position: 'absolute',
+                   /* backgroundColor: 'green' */
+                }}>
               <button
                 onClick={() => {
                   setShowUploadCSVModal(true)
@@ -75,7 +107,8 @@ const Spidermap = ({ ...props }) => {
               </button>
               <br/>
               <button
-                onClick={() => { if (selectedDestinationsSpidermap.length > 0) props.history.push('/generate-spidermap') }}
+                ref={uploadButtonRef}
+                onClick={handleGenerateMapClick}
                 style={{
                   height:'60px',
                   width: '100%',
@@ -91,9 +124,11 @@ const Spidermap = ({ ...props }) => {
             </div>
           </div>
         </div>
+        {/*
         <div className='col-med' style={{}}>
           <SelectionView type='spidermap-origin'/>
         </div>
+        */}
         {
           selectedOriginSpidermap
           ?
@@ -130,7 +165,7 @@ const Spidermap = ({ ...props }) => {
         }
       </div>
       {
-        showUploadCSVModal ? <UploadModal setModalVisibility={setShowUploadCSVModal} modalVisibility={showUploadCSVModal}/> : null
+        showUploadCSVModal ? <UploadModal setModalVisibility={setShowUploadCSVModal} /> : null
       }
     </>
   )

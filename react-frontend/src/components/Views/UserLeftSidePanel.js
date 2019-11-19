@@ -12,7 +12,7 @@ const UserLeftSidePanel = ({ ...props }) => {
 
   return (
     <>
-      <div className='col-med' style={{ boxShadow: '2px 2px 15px 2px rgba(0,0,0,0.15)' }}>
+      <div className='col-med' style={{ boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)' }}>
         <div className='color-strip'
              style={{
                backgroundColor: '#37acf4',

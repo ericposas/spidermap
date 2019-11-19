@@ -2,14 +2,11 @@
 
 ##To do:
 
-  Uploaded Files:
-    - Create a 'My Files' component that will list a user's uploaded CSV files
-    
+  ListView:
+    - Generate listview and csv upload for listview
+
   Database Saves:
     - Save user's created maps to their User profile
-
-  Optimization:
-    - When a Dropdown component mounts, fetch the api resources (only if not exists in the store). Once set, we shouldn't need to fetch if the data is already in the Redux store. Currently, we fetch new data every time the Dropdown component mounts.
 
   Setting Origins and Destinations:
     - Add a quick "loading" graphic or animation when lists are getting data from the server
@@ -20,19 +17,15 @@
     - Point-to-point map logic is in a great place
     - Need to modify the point-to-point map to a spidermap version with only one origin point
 
-  CSV option:
-    - CSV upload option
-    - decide on a CSV format
-    - format should delimit origins and destinations
-    - use npm csv-reader
-    - create route that can parse the data -- and send to the frontend to generate the ski/spider map
-
   Timer:
     - Set a time limit on the sessionStorage -- auto logout()
     - Use setTimeout() with a timer of 15 minutes or so
     - Every time the user interacts with the application, reset the timer
     - Upon timer run out, invalidate the jwt by deleting the sessionStorage variable
     - Upon timer run out, redirect user to a "you have been logged out page"
+
+  Optimization:
+    - When a Dropdown component mounts, fetch the api resources (only if not exists in the store). Once set, we shouldn't need to fetch if the data is already in the Redux store. Currently, we fetch new data every time the Dropdown component mounts.
 
 #Tech Stack:
   - ec2 compute instance

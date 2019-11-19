@@ -187,13 +187,10 @@ const Dropdown = ({ ...props }) => {
        ?
           (<select value={ selectedOriginSpidermap ? selectedOriginSpidermap.code : '' }
                   style={{
-                    position:'absolute',
-                    top:'20%',
-                    left:0,right:0,
                     display:'block',
                     backgroundColor: '#fff',
+                    margin: '0 10% 0 10%',
                     width:'80%',
-                    margin: '0 10% 0 10%'
                   }}
                   onChange={ selectionHandlerSingleOrigin }>
                   <option></option>

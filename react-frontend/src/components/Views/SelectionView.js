@@ -48,8 +48,10 @@ const SelectionView = ({ ...props }) => {
         return (<><div>Destinations for {currentlySelectedOriginPointmap}</div></>)
         break;
       case 'spidermap-destinations':
+        return (<><div>Destination Airports from {selectedOriginSpidermap.code}</div></>)
+        break;
       case 'listview-destinations':
-        return (<><div>Destinations</div></>)
+        return (<><div>Destination Airports from {selectedOriginListView.code}</div></>)
         break;
       default:
         return (<><div>Selection View</div></>)
@@ -60,7 +62,7 @@ const SelectionView = ({ ...props }) => {
     <>
       <br/>
       <br/>
-      <div style={{overflow:'scroll',backgroundColor:'cyan',height:'100vh',margin:'-48px 0 0 20px'}}>
+      <div style={{overflow:'scroll',height:'100vh',margin:'-48px 0 0 0',padding:'15% 20px 0 20px',boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)'}}>
         <div>{label()}</div>
         <div style={{overflow:'scroll'}}>
           {

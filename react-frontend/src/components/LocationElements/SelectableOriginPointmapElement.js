@@ -14,6 +14,7 @@ import {
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_POINTMAP
 } from '../../constants/pointmap'
 import _ from 'lodash'
+import '../Buttons/buttons.scss'
 
 const SelectableOriginPointmapElement = ({ ...props }) => {
 
@@ -74,10 +75,10 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
              onClick={setCurrentSelectedOriginPointmap}>
           {props.code}
         </div>
-        <div style={{display:'inline-block',fontFamily:'arial',
-          margin:'0 0 0 6px',fontSize:'.75rem',borderRadius:'10px',
-          backgroundColor:'lightblue',width:'1rem',textAlign:'center',
-          padding:'2px'}} onClick={removeElementHandler}>X</div>
+        <div className='x-button'
+             onClick={removeElementHandler}>
+          <div className='x-button-x-symbol'>x</div>
+        </div>
       </div>
     </>
   )

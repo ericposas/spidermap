@@ -3,6 +3,7 @@ $default-button-text-color: #FFF;
 $plain-button-color: #FFF;
 $plain-button-text-color: #000;
 $aa-blue: #006cc4;
+$grey: #999;
 
 .button-default {
   border: none;
@@ -41,4 +42,42 @@ $aa-blue: #006cc4;
   border: none;
   color: white;
   background-color: $aa-blue;
+}
+
+.add-edit-button {
+  color: $grey;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+
+.add-edit-button > .plus-symbol {
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+  line-height: 14px;
+  border: 2px solid $aa-blue;
+  color: $aa-blue;
+  cursor: pointer;
+}
+
+.add-edit-button-text-content {
+  display: inline-block;
+  font-size: 14px;
+}
+
+.x-button {
+  @extend .add-edit-button;
+  color: $grey;
+  border-color: $grey;
+  user-select: none;
+  text-align: center;
+}
+
+.x-button > .x-button-x-symbol {
+  @extend .plus-symbol;
+  color: $grey;
+  border-color: $grey;
+  user-select: none;
 }

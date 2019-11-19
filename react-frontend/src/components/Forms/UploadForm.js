@@ -103,11 +103,13 @@ const UploadForm = ({ ...props }) => {
       console.log(
         'hide modal and any uploading graphics here..'
       )
-      props.setModalVisibility(false)
+      if (props.setModalVisibility) {
+        props.setModalVisibility(false)
+      }
     }
 
   }
-
+  
   const formRef = useRef()
 
   const [label, setLabel] = useState('')
