@@ -81,3 +81,34 @@ $grey: #999;
   border-color: $grey;
   user-select: none;
 }
+
+.select-by-button {
+  color: $grey;
+  border: none;
+  background-color: rgba(0,0,0,0);
+  text-decoration: underline;
+}
+
+.check-button {
+  border: none;
+  background-color: rgba(0,0,0,0);
+}
+
+.check-button-inner {
+  @extend .add-edit-button;
+}
+
+.check-button-inner-text {
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+  line-height: 14px;
+  color: $aa-blue;
+  cursor: pointer;
+  font-size: .75rem;
+  text-align: center;
+  transform: scale(2);
+  border: 1px solid $aa-blue;
+}

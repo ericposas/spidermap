@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react'
+import React, { useEffect, useState, useRef, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   SET_ORIGIN_LISTVIEW,
@@ -21,8 +21,11 @@ import url from '../../url'
 import axios from 'axios'
 import _ from 'lodash'
 import './dropdown.scss'
+import '../Buttons/buttons.scss'
 
 const Dropdown = ({ ...props }) => {
+
+  const aa_blue = '#006cc4'
 
   const { type } = props
 
@@ -185,7 +188,9 @@ const Dropdown = ({ ...props }) => {
      {
        props.output == 'spidermap-origin'
        ?
-          (<select value={ selectedOriginSpidermap ? selectedOriginSpidermap.code : '' }
+          (<>
+           <div className='subtitle' style={{margin:'0 0 0 10%'}}>Origin Airport</div>
+           <select value={ selectedOriginSpidermap ? selectedOriginSpidermap.code : '' }
                   style={{
                     display:'block',
                     backgroundColor: '#fff',
@@ -195,7 +200,8 @@ const Dropdown = ({ ...props }) => {
                   onChange={ selectionHandlerSingleOrigin }>
                   <option></option>
                   {options}
-          </select>)
+          </select>
+          </>)
         :
             props.output == 'listview-origin'
             ?
@@ -206,7 +212,9 @@ const Dropdown = ({ ...props }) => {
                     {options}
                 </select>)
             :
-               (<select style={{ margin: '0 0 0 10px',height:'80%',width:'90%'}}
+               (<select
+                  className='multi'
+                  style={{ margin: '0 0 0 10px',height:'80%',width:'90%'}}
                   onChange={ setOptionsValues }
                   multiple={ 'multiple' }>
                   <option></option>
@@ -218,8 +226,20 @@ const Dropdown = ({ ...props }) => {
           ? null
           : (<>
               <br/>
-              <button onClick={selectionHandler}
-                      style={{ margin: '0 0 0 10px',width:'90%'}}>Ok</button>
+              <br/>
+              <button
+                className='check-button'
+                onClick={selectionHandler}
+                style={{
+                  margin: '0 0 0 10px',
+                  width:'90%'
+                }}>
+                <div className='check-button-inner'>
+                  <div className='check-button-inner-text'>
+                    √
+                  </div>
+                </div>
+              </button>
              </>)
       }
     </>

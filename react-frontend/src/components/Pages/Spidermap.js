@@ -75,7 +75,6 @@ const Spidermap = ({ ...props }) => {
                 margin: '10% 0 0 10%',
               }}>
               <div className='map-type-title'>Spidermap</div>
-              <div className='subtitle'>Origin Airport</div>
             </div>
             <br/>
             <Dropdown type='code' output='spidermap-origin'/>
@@ -145,8 +144,13 @@ const Spidermap = ({ ...props }) => {
           spidermap_selectByCodeDestinations && selectedOriginSpidermap && spidermap_selectBy_DestinationsVisibility
           ?
            (<>
-             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
-               <div>select Destinations by airport code: &nbsp;</div>
+             <div className='col-med'
+               style={{
+                 width: '300px',
+                 margin: '30px 20px 0 20px',
+                 boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)'
+               }}>
+               {/*<div>select Destinations by airport code: &nbsp;</div>*/}
                <Dropdown type='code' output='spidermap-destinations'/>
              </div>
             </>)
@@ -156,8 +160,13 @@ const Spidermap = ({ ...props }) => {
           spidermap_selectByCategoryDestinations && selectedOriginSpidermap && spidermap_selectBy_DestinationsVisibility
           ?
            (<>
-             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
-               <div>select Destinations by category: &nbsp;</div>
+             <div className='col-med'
+               style={{
+                 width: '300px',
+                 margin: '30px 20px 0 20px',
+                 boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)'
+               }}>
+               {/*<div>select Destinations by category: &nbsp;</div>*/}
                <Dropdown type='category' output='spidermap-destinations'/>
              </div>
             </>)
