@@ -5,6 +5,7 @@ import url from '../../url'
 import axios from 'axios'
 import validator from 'validator'
 import { LAST_LOCATION } from '../../constants/constants'
+import '../Buttons/buttons.scss'
 
 const SignUp = ({ ...props }) => {
 
@@ -110,7 +111,7 @@ const SignUp = ({ ...props }) => {
             { emailValid ? '' : <><div className='warning-required'>valid email required</div></> }
             <input type='password' value={password} onChange={checkPasswordInput} placeholder='password'/><br/>
             { passwordValid ? '' : <><div className='warning-required'>password required</div><br/></> }
-            { submitVis ? <><input type='submit' value='submit' onClick={registerUser}/></> : '' }
+            { submitVis ? <><input className='button-plain' type='submit' value='submit' onClick={registerUser}/></> : '' }
           </form>
         </>) : ''
     }

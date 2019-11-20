@@ -17,6 +17,7 @@ const UserLeftSidePanel = ({ ...props }) => {
     <div className='col-med' style={{
         width:'300px',
         height:'100vh',
+        margin: '0 0 0 15px',
         backgroundColor: 'white',
       }}>
         <div className='color-strip'

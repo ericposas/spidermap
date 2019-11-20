@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { HashRouter as Router, BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-import LoginPage from './components/Login/LoginPage'
+import LoginPanel from './components/Login/LoginPanel'
 import SignUp from './components/Login/SignUp'
 import Dashboard from './components/Pages/Dashboard'
 import Spidermap from './components/Pages/Spidermap'
@@ -28,7 +28,7 @@ const App = ({ ...props }) => (
         <Route exact path='/'>
           <Redirect to='/login'/>
         </Route>
-        <Route path='/login' component={LoginPage}/>
+        <Route path='/login' component={LoginPanel}/>
         <Route path='/dashboard'>
           <Dashboard/>
         </Route>

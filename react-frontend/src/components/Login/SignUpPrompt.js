@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import url from '../../url'
+import '../Buttons/buttons.scss'
 
 const SignUpPrompt = ({ ...props }) => {
 
@@ -8,8 +9,9 @@ const SignUpPrompt = ({ ...props }) => {
 
   const divs = (
     <>
-      <div>Not signed up? Create a new account</div>
-      <button onClick={signUpClickHandler}>Create account</button>
+      <br/>
+      <div>Not signed up? <br/>Create a new account</div>
+      <button className='button-plain' onClick={signUpClickHandler}>Create account</button>
     </>
   )
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import url from '../../url'
 import axios from 'axios'
 import validator from 'validator'
+import '../Buttons/buttons.scss'
 
 const SignIn = ({ ...props }) => {
 
@@ -78,7 +79,7 @@ const SignIn = ({ ...props }) => {
         { validEmail ? '' : <><div className='warning-required'>valid email required</div></> }
         <input type='password' name='password' value={password} onChange={handleChangePassword} placeholder='password'/><br/>
         { validPassword ? '' : <><div className='warning-required'>required</div></> }
-        { submitVis ? <input type='submit' name='submit' value='submit' onClick={handleSubmit} /> : '' }
+        { submitVis ? <input className='button-plain' type='submit' name='submit' value='submit' onClick={handleSubmit} /> : '' }
       </form>
     </>
   )
