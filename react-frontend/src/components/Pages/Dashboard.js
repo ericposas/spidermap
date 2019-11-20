@@ -13,6 +13,10 @@ import {
   EDIT_VIEW_MY_MAPS,
   GLOBAL_MAPS,
 } from '../../constants/menu'
+import '../../images/listview-icon.png'
+import '../../images/point-to-point-icon.png'
+import '../../images/spidermap-icon.png'
+
 
 const Dashboard = ({ ...props }) => {
 
@@ -59,6 +63,22 @@ const Dashboard = ({ ...props }) => {
       setUser(sessionData.data.user.username)
     } else { history.push('/') }
   }, [])
+
+  const getProperIcon = () => {
+    switch (selectedMenuItem) {
+      case SPIDERMAP:
+        return 'url(./img/spidermap-icon.png)'
+        break
+      case POINTMAP:
+        return 'url(./img/point-to-point-icon.png)'
+        break
+      case LISTVIEW:
+        return 'url(./img/listview-icon.png)'
+        break
+      default:
+        return ''
+    }
+  }
 
   return (
     <>
@@ -149,6 +169,7 @@ const Dashboard = ({ ...props }) => {
                   style={{
                     width:'300px',
                     height: '100vh',
+                    cursor: 'pointer',
                     backgroundColor: '#fff',
                     boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
                   }}
@@ -177,7 +198,43 @@ const Dashboard = ({ ...props }) => {
                    margin: '50% 0 20% 10%',
                    fontWeight: 'lighter',
                  }}>{selectedMenuItem.charAt(0)+selectedMenuItem.substr(1, selectedMenuItem.length).toLowerCase()}</div>
-               <div></div>
+               <div
+                 className='map-type-icon-container'
+                 style={{
+                   width: '100%',
+                   position: 'relative',
+
+                 }}>
+                 <div
+                   style={{
+                     display: 'block',
+                     position: 'absolute',
+                     margin: 'auto',
+                     left: 0, right: 0,
+                     width: selectedMenuItem == LISTVIEW ? '200px' : selectedMenuItem == POINTMAP ? '220px' : '260px',
+                     height: '300px',
+                     backgroundSize: selectedMenuItem == LISTVIEW ? '200px' : selectedMenuItem == POINTMAP ? '220px' : '260px',
+                     backgroundRepeat: 'no-repeat',
+                     backgroundImage: getProperIcon(),
+                   }}>
+                 </div>
+                 <br/>
+                 <br/>
+                 <div
+                   style={{
+                     color: '#999',
+                     fontWeight: 'lighter',
+                     margin: '180px 0 0 20px',
+                   }}>
+                   { selectedMenuItem }
+                   <div
+                     style={{
+                       fontSize: '.6rem'
+                     }}>
+                     Description here.
+                   </div>
+                 </div>
+               </div>
                </div>)
                :
                  (
