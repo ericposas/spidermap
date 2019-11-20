@@ -18,9 +18,27 @@ import '../Buttons/buttons.scss'
 
 const SelectableOriginPointmapElement = ({ ...props }) => {
 
-  const defaultStyle = { color: 'black', fontFamily: 'arial', display: 'inline-block' }
+  const defaultStyle = {
+    cursor: 'pointer',
+    color: 'black',
+    fontFamily: 'arial',
+    display: 'inline-block',
+    textAlign: 'center',
+    margin: '0 6px 0 0',
+  }
 
-  const selectedStyle = { color: 'darkblue', fontFamily: 'arial', backgroundColor: 'lightblue', border: '2px solid darkblue', display: 'inline-block' }
+  const selectedStyle = {
+    cursor: 'pointer',
+    color: 'darkblue',
+    fontFamily: 'arial',
+    backgroundColor: 'lightblue',
+    border: '2px solid darkblue',
+    display: 'inline-block',
+    textAlign: 'center',
+    borderRadius: '3px',
+    padding: '0 4px 0 4px',
+    margin: '0 6px 0 0',
+  }
 
   const dispatch = useDispatch()
 
@@ -75,9 +93,12 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
              onClick={setCurrentSelectedOriginPointmap}>
           {props.code}
         </div>
-        <div className='x-button'
+        <div style={{ display: 'inline-block' }}
+             className='x-button'
              onClick={removeElementHandler}>
-          <div className='x-button-x-symbol'>x</div>
+          <div className='x-button-x-symbol'>
+            x
+          </div>
         </div>
       </div>
     </>

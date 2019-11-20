@@ -40,8 +40,15 @@ const SelectionView = ({ ...props }) => {
         break;
       case 'pointmap-origins':
         return (<>
-          <div>Origins</div>
-          { selectedOriginsPointmap ? <div style={{display:'inline-block',fontSize:'.85rem'}}>Tap on each Origin to set Destinations</div> : null }
+          <div className='subtitle'>Origins</div>
+          {
+            selectedOriginsPointmap
+            ?
+              <div style={{display:'inline-block',fontSize:'.85rem'}}>
+                Tap on each Origin to set Destinations
+              </div>
+            : null
+          }
         </>)
         break;
       case 'pointmap-destinations':

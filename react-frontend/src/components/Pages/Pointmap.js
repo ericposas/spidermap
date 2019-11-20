@@ -5,6 +5,7 @@ import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
 import BackButton from '../Buttons/BackButton'
 import UploadForm from '../Forms/UploadForm'
+import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import SelectBy_Origins from '../Views/SelectBy_Origins'
 import SelectBy_Destinations_Pointmap from '../Views/SelectBy_Destinations_Pointmap'
 import { checkAuth } from '../../sessionStore'
@@ -54,16 +55,8 @@ const Pointmap = ({ ...props }) => {
 
   return (
     <>
-      <BackButton/>
-      <br/>
-      <br/>
-      <br/>
-      <UploadForm type='pointmap'/>
-      <br/>
-      <br/>
-      <div>Create a Point-to-Point Map</div>
-      <br/>
       <div className='row'>
+        <UserLeftSidePanel/>
         <div className='col-med' style={{}}>
           <SelectionView type='pointmap-origins'/>
         </div>
@@ -76,14 +69,24 @@ const Pointmap = ({ ...props }) => {
           : null
         }
         {
-          pointmap_selectBy_OriginsVisibility ? <SelectBy_Origins type='pointmap'/> : null
+          pointmap_selectBy_OriginsVisibility
+          ?
+            <SelectBy_Origins type='pointmap'/>
+          : null
         }
         {
           pointmap_selectByCodeOrigins == true
           ?
            (<>
-             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
-               <div>select Origins by airport code: &nbsp;</div>
+             <div className='col-med'
+               style={{
+                 width:'300px',
+                 height:'100vh',
+                 backgroundColor: '#fff',
+                 boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+                 padding: '20px 20px 0 20px',
+               }}>
+               {/*<div>select Origins by airport code: &nbsp;</div>*/}
                <Dropdown type='code' output='pointmap-origins'/>
              </div>
            </>) : null
@@ -92,8 +95,14 @@ const Pointmap = ({ ...props }) => {
           pointmap_selectByCategoryOrigins == true
           ?
            (<>
-             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
-               <div>select Origins by airport code: &nbsp;</div>
+             <div className='col-med' style={{
+                 width:'300px',
+                 height:'100vh',
+                 backgroundColor: '#fff',
+                 boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+                 padding: '20px 20px 0 20px',
+               }}>
+               {/*<div>select Origins by airport code: &nbsp;</div>*/}
                <Dropdown type='category' output='pointmap-origins'/>
              </div>
            </>) : null
@@ -105,8 +114,16 @@ const Pointmap = ({ ...props }) => {
           pointmap_selectByCodeDestinations == true
           ?
            (<>
-             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
-               <div>select Destinations by airport code: &nbsp;</div>
+             <div
+               className='col-med'
+               style={{
+                 width:'300px',
+                 height:'100vh',
+                 backgroundColor: '#fff',
+                 boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+                 padding: '20px 20px 0 20px',
+               }}>
+               {/*<div>select Destinations by airport code: &nbsp;</div>*/}
                <Dropdown type='code' output='pointmap-destinations'/>
              </div>
             </>)
@@ -116,8 +133,16 @@ const Pointmap = ({ ...props }) => {
           pointmap_selectByCategoryDestinations == true
           ?
            (<>
-             <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'orange'}}>
-               <div>select Destinations by category: &nbsp;</div>
+             <div
+               className='col-med'
+               style={{
+                 width:'300px',
+                 height:'100vh',
+                 backgroundColor: '#fff',
+                 boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+                 padding: '20px 20px 0 20px',
+               }}>
+               {/*<div>select Destinations by category: &nbsp;</div>*/}
                <Dropdown type='category' output='pointmap-destinations'/>
              </div>
             </>)

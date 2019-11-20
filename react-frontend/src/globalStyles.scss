@@ -1,13 +1,19 @@
+$grey: #999;
+
 html,
 body {
   width: 150%;
 }
 
 .subtitle {
-
+  color: $grey;
+  font-weight: lighter;
+  font-size: .85rem;
 }
 
 .map-type-title {
+  color: $grey;
+  font-weight: lighter;
   font-size: 2rem;
 }
 

@@ -75,7 +75,9 @@ const Spidermap = ({ ...props }) => {
             <div style={{
                 margin: '10% 0 0 10%',
               }}>
-              <div className='map-type-title'>Spidermap</div>
+              <div className='map-type-title'>
+                Spidermap
+              </div>
             </div>
             <br/>
             <Dropdown type='code' output='spidermap-origin'/>

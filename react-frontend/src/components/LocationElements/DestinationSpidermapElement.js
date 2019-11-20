@@ -15,7 +15,11 @@ const DestinationSpidermapElement = ({ ...props }) => {
   return (
     <>
       <div>
-        <div style={{display:'inline-block'}}>{props.code} &nbsp;</div>
+        <div style={{
+              display:'inline-block'
+            }}>
+          {props.code} &nbsp;
+        </div>
         <div className='x-button' style={{display:'inline-block'}} onClick={removeElementHandler}>
           <div className='x-button-x-symbol'>x</div>
         </div>
