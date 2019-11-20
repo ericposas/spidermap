@@ -6,6 +6,7 @@ import rootReducer from './reducers/rootReducer'
 import App from './App'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './globalStyles.scss'
+import './images/GettyImages-157529424.png'
 
 window.beforeunload = () => { sessionStorage.removeItem(process.env.APP_NAME) }
 window.unload = () => { sessionStorage.removeItem(process.env.APP_NAME) }

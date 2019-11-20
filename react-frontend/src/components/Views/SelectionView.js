@@ -68,7 +68,8 @@ const SelectionView = ({ ...props }) => {
           height:'100vh',
           margin:'-48px 0 0 0',
           padding:'15% 20px 0 20px',
-          boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)'
+          backgroundColor: '#fff',
+          boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
         }}>
         <div>{label()}</div>
         <div style={{overflow:'scroll'}}>

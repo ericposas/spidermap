@@ -10,9 +10,19 @@ import GenerateSpidermap from './components/Pages/GenerateSpidermap'
 import GeneratePointmap from './components/Pages/GeneratePointmap'
 import Upload from './components/Pages/Upload'
 import MyFiles from './components/Pages/MyFiles'
+// import './images/GettyImages-157529424.png'
 
 const App = ({ ...props }) => (
   <>
+    {/*
+      <div
+      style={{
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        backgroundImage: 'url(./img/GettyImages-157529424.png)'
+      }}></div>
+    */}
     <Router>
       <Switch>
         <Route exact path='/'>

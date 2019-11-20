@@ -52,6 +52,20 @@ module.exports = () => {
               name: './img/[name].[ext]'
             }
           }
+        },
+        {
+          test: /\.(otf|ttf)$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                limit: 100000,
+                mimetype: 'application/font-woff',
+                name: '[name].[ext]',
+                outputPath: 'fonts'
+              }
+            }
+          ]
         }
       ]
     },

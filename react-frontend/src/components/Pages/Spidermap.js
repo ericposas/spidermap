@@ -63,7 +63,8 @@ const Spidermap = ({ ...props }) => {
         <div className='col-med' style={{
             width:'300px',
             height:'100vh',
-            boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)',
+            backgroundColor: '#fff',
+            boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
           }}>
           <div style={{
                 width: '100%',
@@ -100,7 +101,7 @@ const Spidermap = ({ ...props }) => {
                   border: 'none',
                   borderRadius: '5px',
                   backgroundColor: 'red',
-                  color: 'white'
+                  color: '#fff'
                 }}>
                 Upload CSV
               </button>
@@ -147,9 +148,9 @@ const Spidermap = ({ ...props }) => {
              <div className='col-med'
                style={{
                  minWidth: '200px',
-                 padding: '0 20px 0 0',
-                 margin: '30px 20px 0 20px',
-                 boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)'
+                 padding: '20px 20px 0 20px',
+                 backgroundColor: '#fff',
+                 boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
                }}>
                {/*<div>select Destinations by airport code: &nbsp;</div>*/}
                <Dropdown type='code' output='spidermap-destinations'/>
@@ -164,9 +165,9 @@ const Spidermap = ({ ...props }) => {
              <div className='col-med'
                style={{
                  minWidth: '200px',
-                 padding: '0 20px 0 0',
-                 margin: '30px 20px 0 20px',
-                 boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)'
+                 padding: '20px 20px 0 20px',
+                 backgroundColor: '#fff',
+                 boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
                }}>
                {/*<div>select Destinations by category: &nbsp;</div>*/}
                <Dropdown type='category' output='spidermap-destinations'/>

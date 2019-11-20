@@ -32,7 +32,7 @@ const Dashboard = ({ ...props }) => {
   }
 
   const pointmapButtonClick = () => {
-
+    dispatch({ type: POINTMAP })
   }
 
   const spidermapSelect = () => {
@@ -50,7 +50,7 @@ const Dashboard = ({ ...props }) => {
   }
 
   const listViewButtonClick = () => {
-
+    dispatch({ type: LISTVIEW })
   }
 
   useEffect(() => {
@@ -71,13 +71,16 @@ const Dashboard = ({ ...props }) => {
           (<div className='col-med' style={{
               width:'300px',
               height: '100vh',
-              boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)',
+              backgroundColor: '#fff',
+              boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
             }}>
             <div
                 className='subtitle'
                 style={{
                   color: '#ccc',
-                  margin: '40% 0 0 10%'
+                  margin: '50% 0 20% 10%',
+                  backgroundColor: '#fff',
+                  fontWeight: 'lighter',
                 }}>
               Dashboard
             </div>
@@ -113,13 +116,15 @@ const Dashboard = ({ ...props }) => {
             <div className='col-med' style={{
               width:'300px',
               height: '100vh',
-              boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)',
+              backgroundColor: '#fff',
+              boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
             }}>
             <div
               className='subtitle'
               style={{
                 color: '#ccc',
-                margin: '40% 0 0 10%'
+                margin: '50% 0 20% 10%',
+                fontWeight: 'lighter'
               }}>Choose Map Type</div>
               <button
                 style={{ marginLeft:'10%' }}
@@ -135,27 +140,54 @@ const Dashboard = ({ ...props }) => {
                 onClick={listViewButtonClick}>List View</button>
             </div>
             {
-              selectedMenuItem == SPIDERMAP
+              selectedMenuItem == SPIDERMAP ||
+              selectedMenuItem == POINTMAP ||
+              selectedMenuItem == LISTVIEW
               ?
-               (<div className='col-med' style={{
-                 width:'300px',
-                 height: '100vh',
-                 boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)',
-               }}>
+               (<div
+                  className='col-med'
+                  style={{
+                    width:'300px',
+                    height: '100vh',
+                    backgroundColor: '#fff',
+                    boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+                  }}
+                  onClick={
+                    () => {
+                      switch (selectedMenuItem) {
+                        case SPIDERMAP:
+                          props.history.push('/spidermap')
+                          break;
+                        case POINTMAP:
+                          props.history.push('/pointmap')
+                          break;
+                        case LISTVIEW:
+                          props.history.push('/listview')
+                          break;
+                        default:
+                          props.history.push('dashboard')
+                          break;
+                      }
+                    }
+                  }>
                <div
                  className='subtitle'
                  style={{
                    color: '#ccc',
-                   margin: '40% 0 0 10%'
-                 }}>Spidermap</div>
-
+                   margin: '50% 0 20% 10%',
+                   fontWeight: 'lighter',
+                 }}>{selectedMenuItem.charAt(0)+selectedMenuItem.substr(1, selectedMenuItem.length).toLowerCase()}</div>
+               <div></div>
                </div>)
                :
                  (
-                   <div className='col-med' style={{
+                   <div
+                     className='col-med'
+                     style={{
                        width:'20px',
                        height: '100vh',
-                       boxShadow: '5px 0 15px -5px rgba(0,0,0,0.15)',
+                       backgroundColor: '#fff',
+                       boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
                      }}>
                      {/* empty */}
                    </div>
