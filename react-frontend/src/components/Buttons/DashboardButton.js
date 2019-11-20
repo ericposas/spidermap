@@ -1,9 +1,8 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import {
-  LAST_LOCATION
-} from '../../constants/constants'
+import { LAST_LOCATION } from '../../constants/constants'
+import { CLEAR_SELECTED_MENU_ITEM } from '../../constants/menu'
 import './buttons.scss'
 
 const DashboardButton = ({ ...props }) => {
@@ -15,8 +14,11 @@ const DashboardButton = ({ ...props }) => {
   const btnHandler = () => {
     let path = props.history.location.pathname
     path = path.substr(1, path.length)
-    dispatch({ type: LAST_LOCATION, payload: path })
-    props.history.push('/dashboard')
+    dispatch({ type: CLEAR_SELECTED_MENU_ITEM })
+    if (path != 'dashboard') {
+      dispatch({ type: LAST_LOCATION, payload: path })
+      props.history.push('/dashboard')
+    }
   }
 
   return (

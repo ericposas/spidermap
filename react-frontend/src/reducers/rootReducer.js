@@ -24,6 +24,7 @@ import pointmap_selectByCategoryDestinations from './pointmap/pointmap_selectByC
 import pointmap_selectByCodeDestinations from './pointmap/pointmap_selectByCodeDestinations'
 import pointmap_destinationPanelVisibility from './pointmap/pointmap_destinationPanelVisibility'
 import allCodesData from './allCodesData'
+import selectedMenuItem from './menu/selectedMenuItem'
 
 const rootReducer = combineReducers({
   lastLocation,
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
   selectedDestinationsSpidermap, spidermap_selectByCodeDestinations,
   spidermap_selectByCategoryDestinations, spidermap_selectBy_DestinationsVisibility,
   spidermap_destinationPanelVisibility,
+  selectedMenuItem
 })
 
 export default rootReducer

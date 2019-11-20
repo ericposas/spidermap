@@ -146,7 +146,8 @@ const Spidermap = ({ ...props }) => {
            (<>
              <div className='col-med'
                style={{
-                 width: '300px',
+                 minWidth: '200px',
+                 padding: '0 20px 0 0',
                  margin: '30px 20px 0 20px',
                  boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)'
                }}>
@@ -162,7 +163,8 @@ const Spidermap = ({ ...props }) => {
            (<>
              <div className='col-med'
                style={{
-                 width: '300px',
+                 minWidth: '200px',
+                 padding: '0 20px 0 0',
                  margin: '30px 20px 0 20px',
                  boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)'
                }}>

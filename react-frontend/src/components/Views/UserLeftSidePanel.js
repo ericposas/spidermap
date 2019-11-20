@@ -1,5 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react'
+// import { useDispatch, useSelector } from 'react-redux'
 import BackButton from '../Buttons/BackButton'
+import LogoutButton from '../Buttons/LogoutButton'
 import DashboardButton from '../Buttons/DashboardButton'
 import '../../images/american-airlines-new-logo-slash.svg'
 import { getUser, checkAuth } from '../../sessionStore'
@@ -12,38 +14,52 @@ const UserLeftSidePanel = ({ ...props }) => {
 
   return (
     <>
-      <div className='col-med' style={{ boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)' }}>
+    <div className='col-med' style={{
+        width:'300px',
+        height:'100vh',
+        boxShadow: '10px 0 15px -10px rgba(0,0,0,0.2)',
+      }}>
         <div className='color-strip'
              style={{
                backgroundColor: '#37acf4',
                position: 'absolute',
                height: '100vh',
                width: blueStrip.width+'px'
-             }}></div>
+             }}>
+        </div>
         <div style={{width:panelWidth}}>
           <img src='./img/american-airlines-new-logo-slash.svg'/>
           <div style={{
             width:logoWidth+'px',
             backgroundImage: 'url(./img/american-airlines-new-logo-slash.svg)',
-            backgroundImageSize: logoWidth }}></div>
+            backgroundImageSize: logoWidth }}>
+          </div>
           <br/>
           <br/>
           <div style={{
-            margin:'0 0 0 28%',
-            fontSize:'1.5rem',
-            color:'#777'}}>Welcome</div>
+              fontWeight: 'lighter',
+              textAlign: 'center',
+              fontSize:'1.5rem',
+              color:'#777'
+            }}>
+            Welcome
+          </div>
           <div style={{
-            margin:'0 0 0 28%',
-            color:'#37acf4'}}>{getUser().user.email}</div>
+              fontWeight: 'lighter',
+              textAlign: 'center',
+              color:'#37acf4'
+            }}>
+            {
+              getUser().user.email
+            }
+          </div>
           <br/>
-          <div style={{
-            float: 'left',
-            width: panelWidth + 'px' }}>
-            <div style={{
-              width: (panelWidth * .6) + 'px' }}>
-              <DashboardButton/><br/>
-              <BackButton/>
-            </div>
+          <div>
+            <DashboardButton/><br/>
+            <BackButton/><br/>
+            <br/>
+            <br/>
+            <LogoutButton/>
           </div>
         </div>
       </div>

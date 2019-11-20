@@ -1,8 +1,23 @@
+$dark-blue: #00589b;
+$light-blue: #37ACF4;
+
 select {
   border: none;
   border-radius: 2px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   height: 40px;
+}
+
+option:checked {
+  color: #fff;
+  background: linear-gradient($light-blue, $light-blue);
+}
+
+option:checked::after {
+  content: '√';
+  display: block;
+  color: $dark-blue;
+  float: right;
 }
 
 .multi {

@@ -225,6 +225,7 @@ const Dropdown = ({ ...props }) => {
         props.output == 'spidermap-origin' || props.output == 'listview-origin'
           ? null
           : (<>
+              <div style={{fontSize:'.75rem',textAlign:'center'}}>Hold CTRL / ⌘ to select multiple</div>
               <br/>
               <br/>
               <button

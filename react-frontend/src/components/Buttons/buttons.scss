@@ -3,6 +3,7 @@ $default-button-text-color: #FFF;
 $plain-button-color: #FFF;
 $plain-button-text-color: #000;
 $aa-blue: #006cc4;
+$aa-light-blue: #37ACF4;
 $grey: #999;
 
 .button-default {
@@ -22,27 +23,33 @@ $grey: #999;
   background-color: $plain-button-color;
 }
 
-.button-logout {
-  @extend .button-default;
-  position: absolute;
-  top: .5rem; right: .5rem;
-}
+// .button-logout {
+//   @extend .button-default;
+//   position: absolute;
+//   top: .5rem; right: .5rem;
+// }
 
-.button-dashboard {
-  width: 80%;
-  margin: 8px 0 0 47%;
-  border: none;
-  color: white;
-  background-color: $aa-blue;
-}
-
+.button-dashboard,
+.button-logout,
 .button-back {
   width: 80%;
-  margin: 8px 0 0 47%;
+  margin: 5% 0 0 15%;
   border: none;
   color: white;
   background-color: $aa-blue;
 }
+
+.button-logout {
+  background-color: $grey;
+}
+
+// .button-back {
+//   width: 80%;
+//   margin: 8px 0 0 47%;
+//   border: none;
+//   color: white;
+//   background-color: $aa-blue;
+// }
 
 .add-edit-button {
   color: $grey;
@@ -111,4 +118,16 @@ $grey: #999;
   text-align: center;
   transform: scale(2);
   border: 1px solid $aa-blue;
+}
+
+.dashboard-menu-button {
+  background-color: rgba(0,0,0,0);
+  border: none;
+  color: $grey;
+  font-size: 1.5rem;
+  padding: 20px 0 20px 0;
+  border-bottom: 1px solid $grey;
+  font-weight: lighter;
+  text-align: left;
+  width: 85%;
 }

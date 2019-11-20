@@ -1,0 +1,7 @@
+export const CREATE_A_MAP = 'CREATE_A_MAP'
+export const EDIT_VIEW_MY_MAPS = 'EDIT_VIEW_MY_MAPS'
+export const GLOBAL_MAPS = 'GLOBAL_MAPS'
+export const SPIDERMAP = 'SPIDERMAP'
+export const POINTMAP = 'POINTMAP'
+export const LISTVIEW = 'LISTVIEW'
+export const CLEAR_SELECTED_MENU_ITEM = 'CLEAR_SELECTED_MENU_ITEM'
