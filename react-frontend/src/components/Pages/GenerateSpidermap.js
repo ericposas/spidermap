@@ -29,8 +29,12 @@ const GenerateSpidermap = ({ ...props }) => {
   const labelsRef = useRef(destinations.concat(origin).map(() => createRef()))
 
   useEffect(() => {
-    pathsRef.current.forEach(path => console.log(path))
-    labelsRef.current.forEach(label => console.log(label))
+    if (origin == null) {
+      props.history.push('/spidermap')
+    } else {
+      pathsRef.current.forEach(path => console.log(path))
+      labelsRef.current.forEach(label => console.log(label))
+    }
   }, [])
 
   const getX = long => {
@@ -106,8 +110,16 @@ const GenerateSpidermap = ({ ...props }) => {
   }
 
   return (<>
+    <div className='white-backing'></div>
     <div>
-      <svg className='' width={svgArea.w} height={svgArea.h} style={{ backgroundColor: svgBgColor }}>
+      <svg
+        className=''
+        width={ innerWidth > svgArea.w ? innerWidth : svgArea.w }
+        height={ innerHeight > svgArea.h ? innerHeight : svgArea.h }
+        style={{
+          border: '1px solid #ccc',
+          backgroundColor: svgBgColor
+        }}>
         {
           origin
           ?

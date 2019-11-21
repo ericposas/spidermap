@@ -166,8 +166,6 @@ const GeneratePointmap = ({ ...props }) => {
             // get all points within label boundingBox
             console.log(label_rect.left, label_rect.right)
             console.log(label_rect.top, label_rect.bottom)
-
-
           }
         }
       }
@@ -182,6 +180,7 @@ const GeneratePointmap = ({ ...props }) => {
         width={ innerWidth > svgArea.w ? innerWidth : svgArea.w }
         height={ innerHeight > svgArea.h ? innerHeight : svgArea.h }
         style={{
+          border: '1px solid #ccc',
           backgroundColor: svgBgColor
         }}>
         {
