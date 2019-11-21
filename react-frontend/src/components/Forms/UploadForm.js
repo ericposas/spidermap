@@ -114,7 +114,42 @@ const UploadForm = ({ ...props }) => {
       if (props.setModalVisibility) {
         props.setModalVisibility(false)
       }
-      
+
+    }
+
+  }
+
+  const processForListView = data => {
+    // clear list
+    dispatch({ type: REMOVE_ORIGIN_LISTVIEW })
+    dispatch({ type: REMOVE_ALL_DESTINATIONS_LISTVIEW })
+
+    let origin
+    let destinations = []
+    if (data[1]) {
+      console.log('incorrect csv format for listview')
+      setShowIncorrectFormat('listview')
+      setTimeout(() => setShowIncorrectFormat(null), 2000)
+    } else {
+      // process csv entries
+      let _data = data[0].map(item => item.trim())
+      _data = _data.filter((item, i) => _data.indexOf(_data[0]) != i)
+      options.forEach(option => {
+        _data.forEach(datum => {
+          if (option.code == _data[0]) origin = option
+          else if (option.code == datum) destinations.push(option)
+        })
+      })
+      dispatch({ type: SET_ORIGIN_LISTVIEW, payload: origin })
+      dispatch({ type: SET_DESTINATION_LOCATIONS_LISTVIEW, payload: { origin: origin, item: destinations.slice(0, destinations.length) } })
+
+      console.log(
+        'hide modal and any uploading graphics here..'
+      )
+      if (props.setModalVisibility) {
+        props.setModalVisibility(false)
+      }
+
     }
 
   }
@@ -162,8 +197,11 @@ const UploadForm = ({ ...props }) => {
                          })
                          .catch(err => console.log(err))
                   } else if (props.type == 'listview') {
-                    axios.post('/files/processData_ListView', { url: url }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-                         .then(data => console.log(data))
+                    axios.post('/files/processData_Spidermap', { url: url }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+                         .then(data => {
+                           console.log(data)
+                           processForListView(data.data)
+                         })
                          .catch(err => console.log(err))
                   } else {
                     console.log('no UploadForm type specified')
@@ -179,7 +217,27 @@ const UploadForm = ({ ...props }) => {
       <div style={{
           margin: '40px'
         }}>
-        <div>Upload a CSV for all destinations (first airport code is designated as the origin airport)</div>
+        {
+          props.type == 'spidermap' || props.type == 'listview'
+          ?
+            (<div className='hint-text'>
+              Upload a CSV for all destinations <br/>
+              (first airport code is designated as the origin airport)<br/>
+              in the below example, DFW would be the origin, with all others being the destinations <br/>
+              DFW, CLT, ORD, LAX, PHX <br/>
+              <br/>
+            </div>)
+          :
+            (<div className='hint-text'>
+              Upload a CSV for all destinations <br/>
+              (first airport code of each line in the .csv file is designated as the origin airport)<br/>
+              e.g. below: <br/>
+              DFW, LAX, JFK, PHX <br/>
+              PHX, PHL, CLT, LGA <br/>
+              (DFW and PHX would be designated as the origin airports, with the following airports in their respective lines being their destinations)<br/>
+              <br/>
+            </div>)
+        }
         <br/>
         <form ref={formRef}>
           <span>File Label:</span><input type='text' value={label} onChange={handleLabelInput} onKeyPress={ e => { if (e.which == 13) e.preventDefault() }}/>

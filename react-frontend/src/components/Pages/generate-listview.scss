@@ -1,0 +1,42 @@
+.listview-content {
+  width: 80%;
+  min-width: 800px;
+  max-width: 1200px;
+  margin: auto;
+  display: block;
+  position: absolute;
+  left: 0; right: 0;
+  background-color: cyan;
+}
+
+.listview-title-content {
+  width: 80%;
+  margin: auto;
+  display: block;
+  position: relative;
+  left: 0; right: 0;
+  background-color: lightgreen;
+}
+
+.listview-origin-title {
+  font-size: 10rem;
+  display: inline-block;
+  text-align: center;
+  line-height: 20rem;
+}
+
+.listview-origin-title-divider {
+  @extend .listview-origin-title;
+  font-size: 9.5rem;
+  font-weight: lighter;
+}
+
+.listview-origin-subtitle {
+  text-align: left;
+  display: inline-block;
+  margin: 0 0 10% 0;
+}
+
+.listview-destinations-list {
+
+}
