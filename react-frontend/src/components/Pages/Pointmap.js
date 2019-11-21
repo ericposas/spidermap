@@ -65,7 +65,7 @@ const Pointmap = ({ ...props }) => {
   }
 
   const handleGenerateMapClick = () => {
-    if (selectedDestinationsPointmap) {
+    if (Object.keys(selectedDestinationsPointmap).length > 0) {
       props.history.push('/generate-pointmap')
     }
   }
@@ -140,11 +140,11 @@ const Pointmap = ({ ...props }) => {
                     height:'60px',
                     width: '100%',
                     padding: '0 20px 0 20px',
-                    border: selectedOriginsPointmap && selectedDestinationsPointmap ? 'none' : '1px solid #CCC',
+                    border: selectedOriginsPointmap && Object.keys(selectedDestinationsPointmap).length > 0 ? 'none' : '1px solid #CCC',
                     borderRadius: '5px',
-                    pointerEvents: selectedOriginsPointmap && selectedDestinationsPointmap ? 'all' : 'none',
-                    color: selectedOriginsPointmap && selectedDestinationsPointmap ? 'white' : '#CCC',
-                    backgroundColor: selectedOriginsPointmap && selectedDestinationsPointmap ? 'red' : 'white'
+                    pointerEvents: selectedOriginsPointmap && Object.keys(selectedDestinationsPointmap).length > 0 ? 'all' : 'none',
+                    color: selectedOriginsPointmap && Object.keys(selectedDestinationsPointmap).length > 0 ? 'white' : '#CCC',
+                    backgroundColor: selectedOriginsPointmap && Object.keys(selectedDestinationsPointmap).length > 0 ? 'red' : 'white'
                   }}>
                   Generate Pointmap
                 </button>

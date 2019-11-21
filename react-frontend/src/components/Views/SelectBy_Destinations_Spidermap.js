@@ -25,20 +25,24 @@ const SelectBy_Destinations_Spidermap = ({ ...props }) => {
         className='select-by-button'
         onClick={() => {
           batch(() => {
-            dispatch({ type: SHOW_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP })
-            dispatch({ type: HIDE_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP })
+            dispatch({ type: SHOW_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP })
+            dispatch({ type: HIDE_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP })
           })
-        }}>Category</button>
+        }}>
+        Airport Code
+      </button>
       <br/>
       <br/>
       <button
         className='select-by-button'
         onClick={() => {
           batch(() => {
-            dispatch({ type: SHOW_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP })
-            dispatch({ type: HIDE_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP })
+            dispatch({ type: SHOW_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP })
+            dispatch({ type: HIDE_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP })
           })
-        }}>Airport Code</button>
+        }}>
+        Category
+      </button>
     </div>
   </>)
 

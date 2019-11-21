@@ -31,7 +31,7 @@ const SelectionView = ({ ...props }) => {
   const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
 
   const selectBy_DestinationsVisibility = useSelector(state => state.selectBy_DestinationsVisibility)
-  
+
   const label = () => {
     switch (props.type) {
       case 'spidermap-origin':
@@ -64,7 +64,7 @@ const SelectionView = ({ ...props }) => {
         return (<><div className='subtitle'>Selection View</div></>)
     }
   }
-
+  
   return (
     <>
       <br/>
