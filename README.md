@@ -27,6 +27,10 @@
   Optimization:
     - When a Dropdown component mounts, fetch the api resources (only if not exists in the store). Once set, we shouldn't need to fetch if the data is already in the Redux store. Currently, we fetch new data every time the Dropdown component mounts.
 
+  Extra:
+    - Create search for Adding Destinations / Removing Destinations
+    - 
+
 #Tech Stack:
   - Lightsail ec2 compute instance
   - nginx server with reverse proxy

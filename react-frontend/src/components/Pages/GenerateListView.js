@@ -9,9 +9,47 @@ const GenerateListView = ({ ...props }) => {
 
   const destinations = useSelector(state => state.selectedDestinationsListView)
 
+  const [organizeByCategory, setOrganizeByCategory] = useState({})
+
+  // const [regionsDict, setRegionsDict] = useState([])
+  const regionsDict = []
+
   useEffect(() => {
     if (!origin) props.history.push('/listview')
+    let destinationsObject = {}
+    destinations.forEach(d => {
+      if (!destinationsObject[d.region]) destinationsObject[d.region] = []
+      destinationsObject[d.region].push(d)
+    })
+    setOrganizeByCategory(destinationsObject)
+    console.log(destinationsObject)
   }, [])
+
+  const processByRegion = region => {
+    let count = 0
+    let arr = organizeByCategory[region].map((item,i) => {
+      count++
+      return (<Fragment key={item.code}>
+                <div>
+                  {item.city}
+                </div>
+              </Fragment>)
+    })
+    arr.unshift((
+      <Fragment key={region + count}>
+        <div>
+          {region}
+        </div>
+      </Fragment>
+    ))
+    arr.push((
+      <Fragment key={'br' + count}>
+        <br/>
+        <br/>
+      </Fragment>
+    ))
+    return arr
+  }
 
   return (
     <>
@@ -26,9 +64,17 @@ const GenerateListView = ({ ...props }) => {
           </div>
           <br/>
           <br/>
-          <div className='listview-destinations-list'>
+          {/*<div className='listview-destinations-list'>
             { destinations.map(d => <Fragment key={d.code}><div>{ d.code }</div></Fragment>) }
-          </div>
+          </div>*/}
+          {
+            organizeByCategory
+            ?
+              Object.keys(organizeByCategory).map(region => {
+                return processByRegion(region)
+              })
+            : null
+          }
         </div>
       </div>
     </>
