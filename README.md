@@ -3,19 +3,19 @@
 ##To do:
 
   ListView:
-    - Generate listview and csv upload for listview
+    - Generate listview : in progress
 
   Database Saves:
     - Save user's created maps to their User profile
 
   Setting Origins and Destinations:
     - Add a quick "loading" graphic or animation when lists are getting data from the server
+      (small loading ui graphic on the side of the dropdown list menu)
     - Create a "Clear list" button that clears the selectedOrigin, selectedOrigins and selectedDestinations arrays
 
   Charting:
-    - We will need some sort of manual adjustment for labels -- collision avoidance for paths and text is very difficult. Maybe we have a "labeling" option on the GeneratePointmap page that allows the end user to edit the x and y coords of each label in increments
-    - Point-to-point map logic is in a great place
-    - Need to modify the point-to-point map to a spidermap version with only one origin point
+    - Adjusting label options will be reduced to the following options: Above, Below, Left, Right
+      (..of the location dot)
 
   Timer:
     - Set a time limit on the sessionStorage -- auto logout()
@@ -28,18 +28,15 @@
     - When a Dropdown component mounts, fetch the api resources (only if not exists in the store). Once set, we shouldn't need to fetch if the data is already in the Redux store. Currently, we fetch new data every time the Dropdown component mounts.
 
 #Tech Stack:
-  - ec2 compute instance
+  - Lightsail ec2 compute instance
   - nginx server with reverse proxy
-  - strapi api backend
-  - react frontend
+  - Strapi CMS API backend
+  - React frontend
 
 #Current Deployment Method:
   - Develop API on local machine
-  - If adding new Content Types, you'll need to do that locally and then update the server application
   - Push commits to github
-  - Push updates manually via scp or rsync to ec2 instance
+  - Pull from git on Lightsail instance
 
 #Scaling:
-  - Upgrade ec2 instance before production
-  - Increase elastic block storage on ec2 instance before production
-  - Upgrade mongodb replica set before production
+  - Pending / TBD
