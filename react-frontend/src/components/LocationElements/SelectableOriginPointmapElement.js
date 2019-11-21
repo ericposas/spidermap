@@ -29,10 +29,10 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
 
   const selectedStyle = {
     cursor: 'pointer',
-    color: 'darkblue',
+    color: '#fff',
     fontFamily: 'arial',
-    backgroundColor: 'lightblue',
-    border: '2px solid darkblue',
+    backgroundColor: '#37ACF4',
+    border: '2px solid #006CC4',
     display: 'inline-block',
     textAlign: 'center',
     borderRadius: '3px',
@@ -45,6 +45,8 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
   const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
 
   const selectedOriginsPointmap = useSelector(state => state.selectedOriginsPointmap)
+
+  const selectedDestinationsPointmap = useSelector(state => state.selectedDestinationsPointmap)
 
   const [selectedOriginCode, setSelectedOriginCode] = useState(null)
 
@@ -91,7 +93,12 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
       <div>
         <div style={evaluateStyle()}
              onClick={setCurrentSelectedOriginPointmap}>
-          {props.code}
+          { props.code }
+          {
+            selectedDestinationsPointmap && selectedDestinationsPointmap[props.code]
+            ? <span>&nbsp;&#91;{selectedDestinationsPointmap[props.code].length}&#93;</span>
+            : <span>&nbsp;&#91;0&#93;</span>
+          }
         </div>
         <div style={{ display: 'inline-block' }}
              className='x-button'

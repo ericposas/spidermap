@@ -31,12 +31,12 @@ const SelectionView = ({ ...props }) => {
   const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
 
   const selectBy_DestinationsVisibility = useSelector(state => state.selectBy_DestinationsVisibility)
-
+  
   const label = () => {
     switch (props.type) {
       case 'spidermap-origin':
       case 'listview-origin':
-        return (<><div>Origin</div></>)
+        return (<><div className='subtitle'>Origin</div></>)
         break;
       case 'pointmap-origins':
         return (<>
@@ -52,16 +52,16 @@ const SelectionView = ({ ...props }) => {
         </>)
         break;
       case 'pointmap-destinations':
-        return (<><div>Destinations for {currentlySelectedOriginPointmap}</div></>)
+        return (<><div className='subtitle'>Destinations for {currentlySelectedOriginPointmap}</div></>)
         break;
       case 'spidermap-destinations':
-        return (<><div>Destination Airports from {selectedOriginSpidermap.code}</div></>)
+        return (<><div className='subtitle'>Destination Airports from {selectedOriginSpidermap.code}</div></>)
         break;
       case 'listview-destinations':
-        return (<><div>Destination Airports from {selectedOriginListView.code}</div></>)
+        return (<><div className='subtitle'>Destination Airports from {selectedOriginListView.code}</div></>)
         break;
       default:
-        return (<><div>Selection View</div></>)
+        return (<><div className='subtitle'>Selection View</div></>)
     }
   }
 
@@ -76,7 +76,7 @@ const SelectionView = ({ ...props }) => {
           margin:'-48px 0 0 0',
           padding:'15% 20px 0 20px',
           backgroundColor: '#fff',
-          boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+          boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
         }}>
         <div>{label()}</div>
         <div style={{overflow:'scroll'}}>

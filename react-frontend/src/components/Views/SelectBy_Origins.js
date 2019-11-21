@@ -18,7 +18,7 @@ const SelectBy_Origins = ({ ...props }) => {
         style={{
           backgroundColor: '#fff',
           padding:'35px 20px 0 20px',
-          boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+          boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
         }}>
         <button
             className='select-by-button'

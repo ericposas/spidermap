@@ -64,7 +64,7 @@ const Spidermap = ({ ...props }) => {
             width:'300px',
             height:'100vh',
             backgroundColor: '#fff',
-            boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+            boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
           }}>
           <div style={{
                 width: '100%',
@@ -152,7 +152,7 @@ const Spidermap = ({ ...props }) => {
                  minWidth: '200px',
                  padding: '20px 20px 0 20px',
                  backgroundColor: '#fff',
-                 boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+                 boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                }}>
                {/*<div>select Destinations by airport code: &nbsp;</div>*/}
                <Dropdown type='code' output='spidermap-destinations'/>
@@ -169,7 +169,7 @@ const Spidermap = ({ ...props }) => {
                  minWidth: '200px',
                  padding: '20px 20px 0 20px',
                  backgroundColor: '#fff',
-                 boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+                 boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                }}>
                {/*<div>select Destinations by category: &nbsp;</div>*/}
                <Dropdown type='category' output='spidermap-destinations'/>
@@ -179,7 +179,7 @@ const Spidermap = ({ ...props }) => {
         }
       </div>
       {
-        showUploadCSVModal ? <UploadModal setModalVisibility={setShowUploadCSVModal} /> : null
+        showUploadCSVModal ? <UploadModal type='spidermap' setModalVisibility={setShowUploadCSVModal} /> : null
       }
     </>
   )

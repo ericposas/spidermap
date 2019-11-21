@@ -92,7 +92,7 @@ const Dashboard = ({ ...props }) => {
               width:'300px',
               height: '100vh',
               backgroundColor: '#fff',
-              boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+              boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
             }}>
             <div
                 className='subtitle'
@@ -137,7 +137,7 @@ const Dashboard = ({ ...props }) => {
               width:'300px',
               height: '100vh',
               backgroundColor: '#fff',
-              boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+              boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
             }}>
             <div
               className='subtitle'
@@ -171,7 +171,7 @@ const Dashboard = ({ ...props }) => {
                     height: '100vh',
                     cursor: 'pointer',
                     backgroundColor: '#fff',
-                    boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+                    boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                   }}
                   onClick={
                     () => {
@@ -244,7 +244,7 @@ const Dashboard = ({ ...props }) => {
                        width:'20px',
                        height: '100vh',
                        backgroundColor: '#fff',
-                       boxShadow: 'inset 10px 0 15px -10px rgba(0,0,0,0.2)',
+                       boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                      }}>
                      {/* empty */}
                    </div>

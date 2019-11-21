@@ -68,6 +68,14 @@ const UploadForm = ({ ...props }) => {
       })
       dispatch({ type: SET_ORIGIN_LOCATIONS_POINTMAP, payload: origins })
       dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: dataObj })
+
+      console.log(
+        'hide modal and any uploading graphics here..'
+      )
+      if (props.setModalVisibility) {
+        props.setModalVisibility(false)
+      }
+
     } else {
       console.log('incorrect csv format for point-to-point-map')
       setShowIncorrectFormat('pointmap')
@@ -106,10 +114,11 @@ const UploadForm = ({ ...props }) => {
       if (props.setModalVisibility) {
         props.setModalVisibility(false)
       }
+      
     }
 
   }
-  
+
   const formRef = useRef()
 
   const [label, setLabel] = useState('')

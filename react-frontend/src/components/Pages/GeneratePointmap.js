@@ -4,6 +4,7 @@ import url from '../../url'
 import { getUser } from '../../sessionStore'
 import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import mapSettings from '../../mapSettings.config'
 
 const GeneratePointmap = ({ ...props }) => {
@@ -25,22 +26,23 @@ const GeneratePointmap = ({ ...props }) => {
   const destinations = useSelector(state => state.selectedDestinationsPointmap)
 
   let destArr = []
-  Object.keys(destinations).forEach(origin => {
-    destArr = destArr.concat(destinations[origin])
-  })
 
   const pathsRef = useRef(destArr.map(() => createRef()))
 
-  const labelsRef = useRef(origins.concat(destArr).map(() => createRef()))
+  const labelsRef = origins ? useRef(origins.concat(destArr).map(() => createRef())) : null
 
   const [moveXAmt, setMoveXAmt] = useState({})
 
   const [moveYAmt, setMoveYAmt] = useState({})
 
   useEffect(() => {
-    pathsRef.current.forEach(path => console.log(path))
-    labelsRef.current.forEach(label => console.log(label))
-    areLabelsTouchingPaths() //?
+    if (origins == null) props.history.push('/pointmap')
+    else {
+      Object.keys(destinations).forEach(origin => destArr = destArr.concat(destinations[origin]))
+      pathsRef.current.forEach(path => console.log(path))
+      labelsRef.current.forEach(label => console.log(label))
+      areLabelsTouchingPaths() //?
+    }
   }, [])
 
   const getX = long => {
@@ -173,8 +175,15 @@ const GeneratePointmap = ({ ...props }) => {
   }
 
   return (<>
+    <div className='white-backing'></div>
     <div>
-      <svg className='' width={svgArea.w} height={svgArea.h} style={{ backgroundColor: svgBgColor }}>
+      <svg
+        className=''
+        width={ innerWidth > svgArea.w ? innerWidth : svgArea.w }
+        height={ innerHeight > svgArea.h ? innerHeight : svgArea.h }
+        style={{
+          backgroundColor: svgBgColor
+        }}>
         {
           origins
           ?
@@ -233,8 +242,8 @@ const GeneratePointmap = ({ ...props }) => {
           : null
         }
       </svg>
-      <div>Controls</div>
-      {
+      {/*<div>Controls</div>*/}
+      {/*
         destArr.concat(origins).map((ap, i) => (<Fragment key={`${ap.code}-buttons-${i}`}>
             <div>Label for {ap.code}:</div>
             <button onClick={() => moveY(ap.code, 'minus')}>up</button><br/>
@@ -242,10 +251,10 @@ const GeneratePointmap = ({ ...props }) => {
             <button onClick={() => moveY(ap.code, 'plus')}>down</button>
             <br/><br/>
           </Fragment>))
-      }
+      */}
     </div>
   </>)
 
 }
 
-export default GeneratePointmap
+export default withRouter(GeneratePointmap)

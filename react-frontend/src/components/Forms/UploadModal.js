@@ -24,7 +24,7 @@ const UploadModal = ({ ...props }) => {
              borderRadius: '4px',
              boxShadow: '2px 2px 15px 2px rgba(0, 0, 0, 0.15)'
            }}>
-        <UploadForm setModalVisibility={props.setModalVisibility} type='spidermap'/>
+        <UploadForm setModalVisibility={props.setModalVisibility} type={props.type}/>
       </div>
     </div>
   )
