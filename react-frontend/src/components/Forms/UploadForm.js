@@ -18,6 +18,12 @@ import {
   SET_DESTINATION_LOCATIONS_SPIDERMAP,
   REMOVE_ALL_DESTINATIONS_SPIDERMAP
 } from '../../constants/spidermap'
+import {
+  SET_ORIGIN_LISTVIEW,
+  REMOVE_ORIGIN_LISTVIEW,
+  SET_DESTINATION_LOCATIONS_LISTVIEW,
+  REMOVE_ALL_DESTINATIONS_LISTVIEW
+} from '../../constants/listview'
 
 const UploadForm = ({ ...props }) => {
 

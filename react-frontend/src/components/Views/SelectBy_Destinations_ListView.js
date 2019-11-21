@@ -12,22 +12,35 @@ const SelectBy_Destinations_ListView = ({ ...props }) => {
   const dispatch = useDispatch()
 
   return (<>
-    <div className='col-med' style={{margin:'0 0 0 20px',backgroundColor:'#60d7ff'}}>
-      <div>List View</div>
-      <button onClick={() => {
+    <div
+      className='col-med'
+      style={{
+        backgroundColor: '#fff',
+        padding:'35px 20px 0 20px',
+        boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
+      }}>
+      <button
+        className='select-by-button'
+        onClick={() => {
           batch(() => {
             dispatch({ type: SHOW_SELECT_BY_CODE_DESTINATIONS_LISTVIEW })
             dispatch({ type: HIDE_SELECT_BY_CATEGORY_DESTINATIONS_LISTVIEW })
           })
-        }}>Select Destination(s) By Code</button>
+        }}>
+        Airport Code
+      </button>
       <br/>
       <br/>
-      <button onClick={() => {
+      <button
+        className='select-by-button'
+        onClick={() => {
           batch(() => {
             dispatch({ type: SHOW_SELECT_BY_CATEGORY_DESTINATIONS_LISTVIEW })
             dispatch({ type: HIDE_SELECT_BY_CODE_DESTINATIONS_LISTVIEW })
           })
-        }}>Select Destination(s) By Category</button>
+        }}>
+        Category
+      </button>
     </div>
   </>)
 

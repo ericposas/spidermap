@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
 import BackButton from '../Buttons/BackButton'
+import UploadModal from '../Forms/UploadModal'
 import SelectBy_Destinations_ListView from '../Views/SelectBy_Destinations_ListView'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import { checkAuth } from '../../sessionStore'
@@ -46,7 +47,7 @@ const Spidermap = ({ ...props }) => {
       props.history.push('/generate-listview')
     }
   }
-  
+
   useEffect(() => {
     if (!checkAuth()) setTimeout(() => props.history.push('/'))
     else {

@@ -207,7 +207,12 @@ const Dropdown = ({ ...props }) => {
             props.output == 'listview-origin'
             ?
                (<select value={ selectedOriginListView ? selectedOriginListView.code : '' }
-                    style={{ margin: '0 0 0 10px'}}
+                    style={{
+                      display:'block',
+                      backgroundColor: '#fff',
+                      margin: '0 10% 0 10%',
+                      width:'80%',
+                    }}
                     onChange={ selectionHandlerSingleOrigin }>
                     <option></option>
                     {options}

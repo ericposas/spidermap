@@ -20,7 +20,6 @@ const SelectBy_Destinations_Spidermap = ({ ...props }) => {
         padding:'35px 20px 0 20px',
         boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
       }}>
-      {/*<div>Select by:</div>*/}
       <button
         className='select-by-button'
         onClick={() => {
