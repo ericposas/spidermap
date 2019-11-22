@@ -30,25 +30,51 @@ const GenerateListView = ({ ...props }) => {
     let arr = organizeByCategory[region].map((item,i) => {
       count++
       return (<Fragment key={item.code}>
-                <div>
+                <div className='listview-city'>
                   {item.city}
                 </div>
               </Fragment>)
     })
-    arr.unshift((
-      <Fragment key={region + count}>
-        <div>
-          {region}
-        </div>
-      </Fragment>
-    ))
-    arr.push((
-      <Fragment key={'br' + count}>
-        <br/>
-        <br/>
-      </Fragment>
-    ))
-    return arr
+
+    let arrays = []
+
+    for (let i = 0, incr = 20; i < arr.length; i+=incr) {
+      let _arr = arr.slice(i, i + incr)
+      console.log(_arr)
+      if (i == 0) {
+        _arr.unshift((
+          <Fragment key={region + count + i}>
+            <div>
+              {region}
+            </div>
+          </Fragment>
+        ))
+        _arr.push((
+          <Fragment key={'br' + count + i}>
+            <br/>
+            <br/>
+          </Fragment>
+        ))
+      } else {
+        _arr.unshift((
+          <Fragment key={'spacer' + count + i}>
+            <div><br/></div>
+          </Fragment>
+        ))
+      }
+
+      arrays.push((
+        <Fragment key={'col' + count + i}>
+          <div className='col-med listview-column'>
+            {_arr}
+          </div>
+        </Fragment>
+      ))
+
+    }
+
+    return arrays
+
   }
 
   return (
@@ -64,17 +90,17 @@ const GenerateListView = ({ ...props }) => {
           </div>
           <br/>
           <br/>
-          {/*<div className='listview-destinations-list'>
-            { destinations.map(d => <Fragment key={d.code}><div>{ d.code }</div></Fragment>) }
-          </div>*/}
-          {
-            organizeByCategory
-            ?
-              Object.keys(organizeByCategory).map(region => {
-                return processByRegion(region)
-              })
-            : null
-          }
+          <div
+            className='row'>
+            {
+              organizeByCategory
+              ?
+                Object.keys(organizeByCategory).map(region => {
+                  return processByRegion(region)
+                })
+              : null
+            }
+          </div>
         </div>
       </div>
     </>
