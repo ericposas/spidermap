@@ -77,7 +77,7 @@ const GenerateListView = ({ ...props }) => {
                 style={{
                   position: 'absolute',
                   transform: `scaleY(${_arrLen}) translateY(${_arrLen}px)`,
-                  top: _arrLen == 1 ? '22px' : `calc(22px + ${(_arrLen-1) * .1}px)`,
+                  top: _arrLen == 1 ? '21px' : `calc(22px + ${(_arrLen-1) - ((_arrLen-1)/2)}px)`,
                 }}
                 className='listview-divider'>
                 |
