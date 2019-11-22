@@ -11,8 +11,9 @@ const GenerateListView = ({ ...props }) => {
 
   const [organizeByCategory, setOrganizeByCategory] = useState({})
 
-  // const [regionsDict, setRegionsDict] = useState([])
   const regionsDict = []
+
+  const regionRef = useRef()
 
   useEffect(() => {
     if (!origin) props.history.push('/listview')
@@ -40,7 +41,9 @@ const GenerateListView = ({ ...props }) => {
 
     for (let i = 0, incr = 20; i < arr.length; i+=incr) {
       let _arr = arr.slice(i, i + incr)
-      console.log(_arr)
+      console.log(_arr.length)
+      let _arrLen = _arr.length
+
       if (i == 0) {
         _arr.unshift((
           <Fragment key={region + count + i}>
@@ -66,7 +69,21 @@ const GenerateListView = ({ ...props }) => {
       arrays.push((
         <Fragment key={'col' + count + i}>
           <div className='col-med listview-column'>
-            {_arr}
+            <div
+              style={{
+                position: 'relative'
+              }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  transform: `scaleY(${_arrLen}) translateY(${_arrLen}px)`,
+                  top: _arrLen == 1 ? '22px' : `calc(22px + ${(_arrLen-1) * .1}px)`,
+                }}
+                className='listview-divider'>
+                |
+              </div>
+            </div>
+          {_arr}
           </div>
         </Fragment>
       ))
@@ -90,8 +107,7 @@ const GenerateListView = ({ ...props }) => {
           </div>
           <br/>
           <br/>
-          <div
-            className='row'>
+          <div className='row'>
             {
               organizeByCategory
               ?

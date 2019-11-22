@@ -125,7 +125,7 @@ Kingston	Jamaica	KIN	MKJP	17.93569946	-76.78749847	10	-5	U	America/Jamaica
 Keflavik	Iceland	KEF	BIKF	63.98500061	-22.60560036	171	0	N	Atlantic/Reykjavik
 New York	United States	JFK	KJFK	40.63980103	-73.77890015	13	-5	A	America/New_York
 Jacksonville	United States	JAX	KJAX	30.49410057	-81.68789673	30	-5	A	America/New_York
-Jacksn Hole	United States	JAC	KJAC	43.6072998	-110.737999	6451	-7	A	America/Denver
+Jackson Hole	United States	JAC	KJAC	43.6072998	-110.737999	6451	-7	A	America/Denver
 Indianapolis	United States	IND	KIND	39.7173	-86.294403	797	-5	A	America/New_York
 Wilmington	United States	ILM	KILM	34.27059937	-77.90260315	32	-5	A	America/New_York
 Wichita	United States	ICT	KICT	37.649899	-97.433098	1333	-6	A	America/Chicago
