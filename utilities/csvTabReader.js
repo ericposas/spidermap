@@ -23,7 +23,7 @@ const insertIntoDB = async data => {
         fullname: data[i][0],
         icao: data[i][3],
         region: data[i][1],
-        city: data[i][data[i].length-1],
+        city: data[i][0],
         latitude: data[i][4],
         longitude: data[i][5],
         category: data[i][1]
