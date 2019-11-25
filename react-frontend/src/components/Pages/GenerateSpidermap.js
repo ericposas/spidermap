@@ -10,8 +10,10 @@ const GenerateSpidermap = ({ ...props }) => {
 
   let {
     svgArea, svgBgColor, svgMargin,
+    originDotSize, originDotColor, originCircleColor,
     originCircleSize, originLabelFontSize,
-    destinationLabelFontSize, destinationDotSize
+    destinationDotColor, destinationLabelFontSize, destinationDotSize,
+    pathStrokeColor, pathStrokeThickness
   } = mapSettings
   let linearScaleX, linearScaleY
   let lats = [], longs = []
@@ -102,7 +104,8 @@ const GenerateSpidermap = ({ ...props }) => {
                  ${cp2.x},${cp2.y}
                  ${endX},${endY}`
             }
-          stroke='#000'
+          strokeWidth={pathStrokeThickness}
+          stroke={pathStrokeColor}
           fill='none'></path>
       </g>
     )
@@ -121,29 +124,8 @@ const GenerateSpidermap = ({ ...props }) => {
           backgroundColor: svgBgColor
         }}>
         {
-          origin
-          ?
-            (<>
-              <g>
-                <circle r={destinationDotSize * 2}
-                        cx={getX(origin.longitude)}
-                        cy={getY(origin.latitude)}
-                        fill='#FF0000'></circle>
-                <circle r={originCircleSize}
-                        cx={getX(origin.longitude)}
-                        cy={getY(origin.latitude)}
-                        fill='none'
-                        stroke='#FF0000'></circle>
-                <text id={`origin-${origin.code}-label`}
-                      ref={labelsRef.current[labelCount++]}
-                      x={getX(origin.longitude) - parseInt(originLabelFontSize)}
-                      y={getY(origin.latitude) - (parseInt(originLabelFontSize) * 1.25)}
-                      fontSize={originLabelFontSize}>
-                  {origin.city}, {origin.region} - {origin.code}
-                </text>
-              </g>
-            </>)
-          : null
+          destinations
+          ? destinations.map((ap, i) => (<Fragment key={'path'+i}>{calcPath(ap, i)}</Fragment>)) : null
         }
         {
           destinations
@@ -154,7 +136,16 @@ const GenerateSpidermap = ({ ...props }) => {
                     <circle r={destinationDotSize}
                             cx={getX(ap.longitude)}
                             cy={getY(ap.latitude)}
-                            fill='#000'></circle>
+                            fill={destinationDotColor}></circle>
+                    <rect
+                      x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
+                      y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25)}
+                      width='140'
+                      height='10'
+                      fill='#fff'
+                      style={{
+                        opacity: '0.55'
+                      }}></rect>
                     <text id={`destination-${ap.city}-label`}
                           ref={labelsRef.current[labelCount++]}
                           x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
@@ -163,9 +154,42 @@ const GenerateSpidermap = ({ ...props }) => {
                       {ap.city}, {ap.region} - {ap.code}
                     </text>
                   </g>
-                  {calcPath(ap, i)}
                 </Fragment>
             ))
+          : null
+        }
+        {
+          origin
+          ?
+            (<>
+              <g>
+                <circle r={originDotSize}
+                        cx={getX(origin.longitude)}
+                        cy={getY(origin.latitude)}
+                        fill={originDotColor}></circle>
+                <circle r={originCircleSize}
+                        cx={getX(origin.longitude)}
+                        cy={getY(origin.latitude)}
+                        fill='none'
+                        stroke={originCircleColor}></circle>
+                <rect
+                      x={getX(origin.longitude) - parseInt(originLabelFontSize)}
+                      y={getY(origin.latitude) - (parseInt(originLabelFontSize) * 2.25)}
+                      width='140'
+                      height='10'
+                      fill='#fff'
+                      style={{
+                        opacity: '0.55'
+                      }}></rect>
+                <text id={`origin-${origin.code}-label`}
+                      ref={labelsRef.current[labelCount++]}
+                      x={getX(origin.longitude) - parseInt(originLabelFontSize)}
+                      y={getY(origin.latitude) - (parseInt(originLabelFontSize) * 1.25)}
+                      fontSize={originLabelFontSize}>
+                  {origin.city}, {origin.region} - {origin.code}
+                </text>
+              </g>
+            </>)
           : null
         }
       </svg>

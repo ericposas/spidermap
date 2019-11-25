@@ -11,8 +11,10 @@ const GeneratePointmap = ({ ...props }) => {
 
   let {
     svgArea, svgBgColor, svgMargin,
+    originDotSize, originDotColor, originCircleColor,
     originCircleSize, originLabelFontSize,
-    destinationLabelFontSize, destinationDotSize
+    destinationDotColor, destinationLabelFontSize, destinationDotSize,
+    pathStrokeColor, pathStrokeThickness
   } = mapSettings
   let linearScaleX, linearScaleY
   let lats = [], longs = []
@@ -114,7 +116,8 @@ const GeneratePointmap = ({ ...props }) => {
                  ${cp2.x},${cp2.y}
                  ${endX},${endY}`
             }
-          stroke='#000'
+          strokeWidth={pathStrokeThickness}
+          stroke={pathStrokeColor}
           fill='none'></path>
       </g>
     )
@@ -197,40 +200,6 @@ const GeneratePointmap = ({ ...props }) => {
           : null
         }
         {
-          origins
-          ?
-            origins.map(ap => (
-              <Fragment key={ap.code}>
-                <g>
-                  <circle r={destinationDotSize * 2}
-                          cx={getX(ap.longitude)}
-                          cy={getY(ap.latitude)}
-                          fill='#FF0000'></circle>
-                  <circle r={originCircleSize}
-                          cx={getX(ap.longitude)}
-                          cy={getY(ap.latitude)}
-                          fill='none'
-                          stroke='#FF0000'></circle>
-                  <rect x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
-                        y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
-                        width='140'
-                        height='10'
-                        fill='#fff'
-                        stroke='#ccc'
-                        style={{ position: 'absolute', padding: '2px' }}></rect>
-                  <text id={`origin-${ap.code}-label`}
-                        ref={labelsRef.current[labelCount++]}
-                        x={getX(ap.longitude) - parseInt(originLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
-                        y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
-                        fontSize={originLabelFontSize}>
-                    {ap.city}, {ap.region} - {ap.code}
-                  </text>
-                </g>
-              </Fragment>
-            ))
-          : null
-        }
-        {
           destinations
           ?
             Object.keys(destinations).map(origin => {
@@ -245,14 +214,15 @@ const GeneratePointmap = ({ ...props }) => {
                       <circle r={destinationDotSize}
                               cx={getX(ap.longitude)}
                               cy={getY(ap.latitude)}
-                              fill='#000'></circle>
+                              fill={destinationDotColor}></circle>
                       <rect x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
                             y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
                             width='140'
                             height='10'
                             fill='#fff'
-                            stroke='#ccc'
-                            style={{ position: 'absolute', padding: '2px' }}></rect>
+                            style={{
+                              opacity: '0.55'
+                            }}></rect>
                       <text id={`destination-${ap.code}-label`}
                             ref={labelsRef.current[labelCount++]}
                             x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
@@ -264,6 +234,41 @@ const GeneratePointmap = ({ ...props }) => {
                   </Fragment>
               ))
             })
+          : null
+        }
+        {
+          origins
+          ?
+            origins.map(ap => (
+              <Fragment key={ap.code}>
+                <g>
+                  <circle r={originDotSize}
+                          cx={getX(ap.longitude)}
+                          cy={getY(ap.latitude)}
+                          fill={originDotColor}></circle>
+                  <circle r={originCircleSize}
+                          cx={getX(ap.longitude)}
+                          cy={getY(ap.latitude)}
+                          fill='none'
+                          stroke={originCircleColor}></circle>
+                  <rect x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
+                        y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
+                        width='140'
+                        height='10'
+                        fill='#fff'
+                        style={{
+                          opacity: '0.55'
+                        }}></rect>
+                  <text id={`origin-${ap.code}-label`}
+                        ref={labelsRef.current[labelCount++]}
+                        x={getX(ap.longitude) - parseInt(originLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
+                        y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
+                        fontSize={originLabelFontSize}>
+                    {ap.city}, {ap.region} - {ap.code}
+                  </text>
+                </g>
+              </Fragment>
+            ))
           : null
         }
       </svg>
