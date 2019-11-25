@@ -184,6 +184,19 @@ const GeneratePointmap = ({ ...props }) => {
           backgroundColor: svgBgColor
         }}>
         {
+          destinations
+          ?
+            Object.keys(destinations).map(origin => {
+
+                let originObj = {}
+                let originCodes = origins.map(o => o.code)
+                originCodes.forEach((code, i) => originObj[code] = origins[i])
+
+                return destinations[origin].map((ap, i) => <Fragment key={'path'+i}>{calcPath(originObj, origin, ap, i)}</Fragment>)
+            })
+          : null
+        }
+        {
           origins
           ?
             origins.map(ap => (
@@ -198,6 +211,13 @@ const GeneratePointmap = ({ ...props }) => {
                           cy={getY(ap.latitude)}
                           fill='none'
                           stroke='#FF0000'></circle>
+                  <rect x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
+                        y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
+                        width='140'
+                        height='10'
+                        fill='#fff'
+                        stroke='#ccc'
+                        style={{ position: 'absolute', padding: '2px' }}></rect>
                   <text id={`origin-${ap.code}-label`}
                         ref={labelsRef.current[labelCount++]}
                         x={getX(ap.longitude) - parseInt(originLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
@@ -226,6 +246,13 @@ const GeneratePointmap = ({ ...props }) => {
                               cx={getX(ap.longitude)}
                               cy={getY(ap.latitude)}
                               fill='#000'></circle>
+                      <rect x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
+                            y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
+                            width='140'
+                            height='10'
+                            fill='#fff'
+                            stroke='#ccc'
+                            style={{ position: 'absolute', padding: '2px' }}></rect>
                       <text id={`destination-${ap.code}-label`}
                             ref={labelsRef.current[labelCount++]}
                             x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
@@ -234,7 +261,6 @@ const GeneratePointmap = ({ ...props }) => {
                         {ap.city}, {ap.region} - {ap.code}
                       </text>
                     </g>
-                    {calcPath(originObj, origin, ap, i)}
                   </Fragment>
               ))
             })

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
-// import UploadForm from '../Forms/UploadForm'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import SelectBy_Destinations_Spidermap from '../Views/SelectBy_Destinations_Spidermap'
 import UploadModal from '../Forms/UploadModal'
@@ -61,7 +60,7 @@ const Spidermap = ({ ...props }) => {
       <div className='row' style={{whiteSpace:'nowrap'}}>
         <UserLeftSidePanel/>
         <div className='col-med' style={{
-            width:'300px',
+            minWidth:'300px',
             height:'100vh',
             backgroundColor: '#fff',
             boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
@@ -70,7 +69,6 @@ const Spidermap = ({ ...props }) => {
                 width: '100%',
                 height: '100%',
                 position: 'relative',
-                /* backgroundColor: 'lightblue' */
             }}>
             <div style={{
                 margin: '10% 0 0 10%',
@@ -89,7 +87,6 @@ const Spidermap = ({ ...props }) => {
                    margin: 'auto',
                    left: 0, right: 0,
                    position: 'absolute',
-                   /* backgroundColor: 'green' */
                 }}>
               <button
                 onClick={() => {
@@ -126,11 +123,6 @@ const Spidermap = ({ ...props }) => {
             </div>
           </div>
         </div>
-        {/*
-        <div className='col-med' style={{}}>
-          <SelectionView type='spidermap-origin'/>
-        </div>
-        */}
         {
           selectedOriginSpidermap
           ?
@@ -154,7 +146,6 @@ const Spidermap = ({ ...props }) => {
                  backgroundColor: '#fff',
                  boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                }}>
-               {/*<div>select Destinations by airport code: &nbsp;</div>*/}
                <Dropdown type='code' output='spidermap-destinations'/>
              </div>
             </>)
@@ -171,7 +162,6 @@ const Spidermap = ({ ...props }) => {
                  backgroundColor: '#fff',
                  boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                }}>
-               {/*<div>select Destinations by category: &nbsp;</div>*/}
                <Dropdown type='category' output='spidermap-destinations'/>
              </div>
             </>)

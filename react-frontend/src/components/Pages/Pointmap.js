@@ -86,7 +86,7 @@ const Pointmap = ({ ...props }) => {
           <div
             className='col-med'
             style={{
-              width:'300px',
+              minWidth:'300px',
               height:'100vh',
               backgroundColor: '#fff',
               boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
@@ -171,13 +171,12 @@ const Pointmap = ({ ...props }) => {
            (<>
              <div className='col-med'
                style={{
-                 width:'300px',
+                 minWidth:'300px',
                  height:'100vh',
                  backgroundColor: '#fff',
                  boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                  padding: '20px 20px 0 20px',
                }}>
-               {/*<div>select Origins by airport code: &nbsp;</div>*/}
                <Dropdown type='code' output='pointmap-origins'/>
              </div>
            </>) : null
@@ -187,13 +186,12 @@ const Pointmap = ({ ...props }) => {
           ?
            (<>
              <div className='col-med' style={{
-                 width:'300px',
+                 minWidth:'300px',
                  height:'100vh',
                  backgroundColor: '#fff',
                  boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                  padding: '20px 20px 0 20px',
                }}>
-               {/*<div>select Origins by airport code: &nbsp;</div>*/}
                <Dropdown type='category' output='pointmap-origins'/>
              </div>
            </>) : null
@@ -208,13 +206,12 @@ const Pointmap = ({ ...props }) => {
              <div
                className='col-med'
                style={{
-                 width:'300px',
+                 minWidth:'300px',
                  height:'100vh',
                  backgroundColor: '#fff',
                  boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                  padding: '20px 20px 0 20px',
                }}>
-               {/*<div>select Destinations by airport code: &nbsp;</div>*/}
                <Dropdown type='code' output='pointmap-destinations'/>
              </div>
             </>)
@@ -227,13 +224,12 @@ const Pointmap = ({ ...props }) => {
              <div
                className='col-med'
                style={{
-                 width:'300px',
+                 minWidth:'300px',
                  height:'100vh',
                  backgroundColor: '#fff',
                  boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                  padding: '20px 20px 0 20px',
                }}>
-               {/*<div>select Destinations by category: &nbsp;</div>*/}
                <Dropdown type='category' output='pointmap-destinations'/>
              </div>
             </>)
