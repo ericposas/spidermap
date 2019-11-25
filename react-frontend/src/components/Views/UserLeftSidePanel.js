@@ -8,14 +8,14 @@ import { getUser, checkAuth } from '../../sessionStore'
 
 const UserLeftSidePanel = ({ ...props }) => {
 
-  const panelWidth = 300
+  const panelWidth = 250
   const logoWidth = 600
   const blueStrip = { width:30 }
 
   return (
     <>
     <div className='col-med' style={{
-        width:'300px',
+        width:'250px',
         height:'100vh',
         margin: '0 0 0 15px',
         backgroundColor: 'white',

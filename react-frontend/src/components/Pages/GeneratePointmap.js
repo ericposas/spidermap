@@ -1,10 +1,13 @@
 import * as d3 from 'd3'
+import { TweenLite } from 'gsap'
 import './generate-map.scss'
 import url from '../../url'
 import { getUser } from '../../sessionStore'
-import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
+import UserLeftSidePanel from '../Views/UserLeftSidePanel'
+import DownloadImagePanel from '../Views/DownloadImagePanel'
 import mapSettings from '../../mapSettings.config'
 
 const GeneratePointmap = ({ ...props }) => {
@@ -29,6 +32,8 @@ const GeneratePointmap = ({ ...props }) => {
 
   let destArr = []
 
+  Object.keys(destinations).forEach(origin => destArr = destArr.concat(destinations[origin]))
+
   const pathsRef = useRef(destArr.map(() => createRef()))
 
   const labelsRef = origins ? useRef(origins.concat(destArr).map(() => createRef())) : null
@@ -40,10 +45,9 @@ const GeneratePointmap = ({ ...props }) => {
   useEffect(() => {
     if (origins == null) props.history.push('/pointmap')
     else {
-      Object.keys(destinations).forEach(origin => destArr = destArr.concat(destinations[origin]))
       pathsRef.current.forEach(path => console.log(path))
       labelsRef.current.forEach(label => console.log(label))
-      areLabelsTouchingPaths() //?
+      areLabelsTouchingOtherLabels() //?
     }
   }, [])
 
@@ -58,7 +62,7 @@ const GeneratePointmap = ({ ...props }) => {
     }
     linearScaleX = d3.scaleLinear()
                      .domain([longs[0], longs[longs.length-1]])
-                     .range([svgMargin, svgArea.w - svgMargin])
+                     .range([svgMargin, innerHeight - svgMargin])
 
     return linearScaleX(long)
   }
@@ -74,7 +78,7 @@ const GeneratePointmap = ({ ...props }) => {
     }
     linearScaleY = d3.scaleLinear()
                      .domain([lats[0], lats[lats.length-1]])
-                     .range([svgMargin, svgArea.h - svgMargin])
+                     .range([svgMargin, innerHeight - svgMargin])
 
     return linearScaleY(lat)
   }
@@ -175,116 +179,152 @@ const GeneratePointmap = ({ ...props }) => {
     }
   }
 
+  const areLabelsTouchingOtherLabels = () => {
+    for(let i = 0; i < labelsRef.current.length; i++){
+      if (labelsRef.current[i] && labelsRef.current[i].current) {
+        let label = labelsRef.current[i].current,
+            label_rect = label.getBoundingClientRect()
+        for(let j = 0; j < labelsRef.current.length; j++ ){
+          let label2 = labelsRef.current[j].current
+          let label_rect2
+          // let amt = 0
+          if (label2 && label != label2) {
+            label_rect2 = label2.getBoundingClientRect()
+            if(!( label_rect2.left > label_rect.right
+                || label_rect2.right < label_rect.left
+                || label_rect2.top > label_rect.bottom
+                || label_rect2.bottom < label_rect.top)) {
+              // move text over
+              console.log(`${label2.id} and ${label.id} bounding boxes intersect`)
+              // amt += 10
+              // TweenLite.set(`#${label2.id}`, { y: amt })
+              // get all points within label boundingBox
+              console.log(label_rect.left, label_rect.right)
+              console.log(label_rect.top, label_rect.bottom)
+            }
+          }
+        }
+      }
+    }
+  }
+
   return (<>
-    <div className='white-backing'></div>
-    <div>
-      <svg
-        className=''
-        width={ svgArea.w }
-        height={ svgArea.h }
+    <div className='row'>
+      <UserLeftSidePanel/>
+      <DownloadImagePanel type='pointmap' label='Point-to-Point Map'/>
+      <div
+        className='col-med'
         style={{
-          border: '1px solid #ccc',
-          backgroundColor: svgBgColor
+          height:'100vh',
+          backgroundColor: '#fff',
         }}>
-        {
-          destinations
-          ?
-            Object.keys(destinations).map(origin => {
+        <svg
+          className=''
+          width={ innerHeight }
+          height={ innerHeight }
+          style={{
+            backgroundColor: svgBgColor,
+            boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
+          }}>
+          {
+            destinations
+            ?
+              Object.keys(destinations).map(origin => {
 
-                let originObj = {}
-                let originCodes = origins.map(o => o.code)
-                originCodes.forEach((code, i) => originObj[code] = origins[i])
+                  let originObj = {}
+                  let originCodes = origins.map(o => o.code)
+                  originCodes.forEach((code, i) => originObj[code] = origins[i])
 
-                return destinations[origin].map((ap, i) => <Fragment key={'path'+i}>{calcPath(originObj, origin, ap, i)}</Fragment>)
-            })
-          : null
-        }
-        {
-          destinations
-          ?
-            Object.keys(destinations).map(origin => {
+                  return destinations[origin].map((ap, i) => <Fragment key={'path'+i}>{calcPath(originObj, origin, ap, i)}</Fragment>)
+              })
+            : null
+          }
+          {
+            destinations
+            ?
+              Object.keys(destinations).map(origin => {
 
-                let originObj = {}
-                let originCodes = origins.map(o => o.code)
-                originCodes.forEach((code, i) => originObj[code] = origins[i])
+                  let originObj = {}
+                  let originCodes = origins.map(o => o.code)
+                  originCodes.forEach((code, i) => originObj[code] = origins[i])
 
-                return destinations[origin].map((ap, i) => (
-                  <Fragment key={ap.code}>
-                    <g>
-                      <circle r={destinationDotSize}
-                              cx={getX(ap.longitude)}
-                              cy={getY(ap.latitude)}
-                              fill={destinationDotColor}></circle>
-                      <rect x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
-                            y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
-                            width='140'
-                            height='10'
-                            fill='#fff'
-                            style={{
-                              opacity: '0.55'
-                            }}></rect>
-                      <text id={`destination-${ap.code}-label`}
-                            ref={labelsRef.current[labelCount++]}
-                            x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
-                            y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
-                            fontSize={destinationLabelFontSize}>
-                        {ap.city}, {ap.region} - {ap.code}
-                      </text>
-                    </g>
-                  </Fragment>
+                  return destinations[origin].map((ap, i) => (
+                    <Fragment key={ap.code}>
+                      <g>
+                        <circle r={destinationDotSize}
+                                cx={getX(ap.longitude)}
+                                cy={getY(ap.latitude)}
+                                fill={destinationDotColor}></circle>
+                        <rect x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
+                              y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25)}
+                              width='100'
+                              height='10'
+                              fill='#fff'
+                              style={{
+                                opacity: '0.55'
+                              }}></rect>
+                        <text id={`destination-${ap.code}-label`}
+                              ref={labelsRef.current[labelCount++]}
+                              x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
+                              y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25)}
+                              style={{
+                                textAlign: 'center'
+                              }}
+                              fontSize={destinationLabelFontSize}>
+                          {ap.city} - {ap.code}
+                        </text>
+                      </g>
+                    </Fragment>
+                ))
+              })
+            : null
+          }
+          {
+            origins
+            ?
+              origins.map(ap => (
+                <Fragment key={ap.code}>
+                  <g>
+                    <circle r={originDotSize}
+                            cx={getX(ap.longitude)}
+                            cy={getY(ap.latitude)}
+                            fill={originDotColor}></circle>
+                    <circle r={originCircleSize}
+                            cx={getX(ap.longitude)}
+                            cy={getY(ap.latitude)}
+                            fill='none'
+                            stroke={originCircleColor}></circle>
+                    <rect x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
+                          y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
+                          width='100'
+                          height='10'
+                          fill='#fff'
+                          style={{
+                            opacity: '0.55'
+                          }}></rect>
+                    <text id={`origin-${ap.code}-label`}
+                          ref={labelsRef.current[labelCount++]}
+                          x={getX(ap.longitude) - parseInt(originLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
+                          y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
+                          style={{
+                            textAlign: 'center'
+                          }}
+                          fontSize={originLabelFontSize}>
+                      {ap.city}, {ap.region} - {ap.code}
+                    </text>
+                  </g>
+                </Fragment>
               ))
-            })
-          : null
-        }
-        {
-          origins
-          ?
-            origins.map(ap => (
-              <Fragment key={ap.code}>
-                <g>
-                  <circle r={originDotSize}
-                          cx={getX(ap.longitude)}
-                          cy={getY(ap.latitude)}
-                          fill={originDotColor}></circle>
-                  <circle r={originCircleSize}
-                          cx={getX(ap.longitude)}
-                          cy={getY(ap.latitude)}
-                          fill='none'
-                          stroke={originCircleColor}></circle>
-                  <rect x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
-                        y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
-                        width='140'
-                        height='10'
-                        fill='#fff'
-                        style={{
-                          opacity: '0.55'
-                        }}></rect>
-                  <text id={`origin-${ap.code}-label`}
-                        ref={labelsRef.current[labelCount++]}
-                        x={getX(ap.longitude) - parseInt(originLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
-                        y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
-                        fontSize={originLabelFontSize}>
-                    {ap.city}, {ap.region} - {ap.code}
-                  </text>
-                </g>
-              </Fragment>
-            ))
-          : null
-        }
-      </svg>
-      {/*<div>Controls</div>*/}
-      {/*
-        destArr.concat(origins).map((ap, i) => (<Fragment key={`${ap.code}-buttons-${i}`}>
-            <div>Label for {ap.code}:</div>
-            <button onClick={() => moveY(ap.code, 'minus')}>up</button><br/>
-            <button onClick={() => moveX(ap.code, 'minus')}>left</button><button onClick={() => moveX(ap.code, 'plus')}>right</button><br/>
-            <button onClick={() => moveY(ap.code, 'plus')}>down</button>
-            <br/><br/>
-          </Fragment>))
-      */}
+            : null
+          }
+        </svg>
+      </div>
     </div>
   </>)
 
 }
+
+// dominantBaseline='middle'
+// textAnchor='middle'
 
 export default withRouter(GeneratePointmap)
