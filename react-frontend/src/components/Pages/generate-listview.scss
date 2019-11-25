@@ -1,3 +1,15 @@
+.listview-logo-container {
+  height: 100px;
+  position: relative;
+}
+
+.listview-logo {
+  width: 25%;
+  float: right;
+  top: 50px; right: 50px;
+  position: absolute;
+}
+
 .listview-column {
   padding: 0 20px 0 20px;
 }
@@ -11,18 +23,28 @@
 }
 
 .listview-city {
-  padding: 0 0 0 20px;
+  padding: 0 0 0 15px;
   margin: 0 0 0 2px;
   font-size: 11px;
 }
 
 .listview-content {
-  width: 1200px;
+  width: 1000px;
+  height: 100%;
   margin: auto;
   display: block;
   position: absolute;
   left: 0; right: 0;
-  background-color: cyan;
+  border: 1px solid #ccc;
+  overflow-y: scroll;
+}
+
+.listview-main-content {
+  width: 80%;
+  margin: auto;
+  display: block;
+  position: relative;
+  left: 0; right: 0;
 }
 
 .listview-title-content {
@@ -31,7 +53,6 @@
   display: block;
   position: relative;
   left: 0; right: 0;
-  background-color: lightgreen;
 }
 
 .listview-origin-title {
@@ -39,21 +60,34 @@
   display: inline-block;
   text-align: center;
   line-height: 20rem;
+  font-weight: 500;
 }
 
 .listview-origin-title-divider {
   @extend .listview-origin-title;
-  font-size: 9.5rem;
+  font-size: 4rem;
   font-weight: lighter;
+  transform: scaleY(2);
+}
+
+.listview-origin-title-divider-inner {
+  position: absolute;
+  margin-top: -195px;
+  margin-left: 80px;
 }
 
 .listview-origin-subtitle {
   font-size: 20px;
   text-align: left;
   display: inline-block;
-  margin: 0 0 10% 0;
+  font-weight: 500;
+}
+
+.listview-origin-subtitle-inner {
+  position: absolute;
+  margin-top: -84px;
+  margin-left: 160px;
 }
 
 .listview-destinations-list {
-
 }

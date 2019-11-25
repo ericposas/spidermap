@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import '../../images/american-airlines-new-logo.svg'
 import './generate-listview.scss'
 
 const GenerateListView = ({ ...props }) => {
@@ -48,7 +49,11 @@ const GenerateListView = ({ ...props }) => {
         _arr.unshift((
           <Fragment key={region + count + i}>
             <div className='listview-region'>
-              {region}
+              {
+                region.trim() == 'United States'
+                ? 'USA'
+                : region
+              }
             </div>
           </Fragment>
         ))
@@ -103,22 +108,48 @@ const GenerateListView = ({ ...props }) => {
     <>
       <div className='white-backing'></div>
       <div className='listview-content'>
+        <div className='listview-logo-container'>
+          <img
+            className='listview-logo'
+            src='./img/american-airlines-new-logo.svg'/>
+        </div>
         <div className='listview-title-content'>
           <div className='listview-origin-title'>{ origin ? origin.code : '' }</div>
-          <div className='listview-origin-title-divider'>|</div>
+          <div className='listview-origin-title-divider'>
+            <div className='listview-origin-title-divider-inner'>
+              |
+            </div>
+          </div>
           <div className='listview-origin-subtitle'>
+            <div className='listview-origin-subtitle-inner'>
               &nbsp;&nbsp;Direct flights to and from<br/>
               &nbsp;&nbsp;{ origin ? origin.city : '' }, { origin ? origin.region : '' }
+            </div>
           </div>
           <br/>
           <br/>
+        </div>
+        <div className='listview-main-content'>
           <div className='row'>
-            {
-              organizeByCategory
-              ?
-                Object.keys(organizeByCategory).map(region => {
-                  return processByRegion(region)
-                })
+          {
+            organizeByCategory
+            ?
+            Object.keys(organizeByCategory).map(region => {
+              return (<Fragment key={region}>
+                {
+                  region.trim() == 'United States' || organizeByCategory[region].length > 20
+                  ? <div
+                      className='row'
+                      style={{
+                        margin: '0 0 0 2px'
+                      }}>{
+                        processByRegion(region)
+                      }
+                    </div>
+                  : processByRegion(region)
+                }
+                </Fragment>)
+              })
               : null
             }
           </div>
