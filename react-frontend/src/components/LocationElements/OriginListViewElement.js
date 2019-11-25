@@ -33,7 +33,7 @@ const OriginListViewElement = ({ ...props }) => {
     <>
       <div>
         <div style={{display:'inline-block'}}>
-          {props.code} - {props.originObject.city}
+          {props.code} - {props.originObject.city} - {props.originObject.region}
         </div>
         <div style={xBtnStyle} onClick={removeElementHandler}>X</div>
       </div>

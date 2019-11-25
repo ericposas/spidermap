@@ -74,7 +74,7 @@ const Dropdown = ({ ...props }) => {
       let resultArr = result.data.map(ap => {
         if (ap.code != null) {
           return (<Fragment key={ap.code}>
-                    <option value={ap.code}>{ap.code} - {ap.city}</option>
+                    <option value={ap.code}>{ap.code} - {ap.city} - {ap.region}</option>
                   </Fragment>)
         }
       })
