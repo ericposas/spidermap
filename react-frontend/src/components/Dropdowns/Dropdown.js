@@ -74,7 +74,7 @@ const Dropdown = ({ ...props }) => {
       let resultArr = result.data.map(ap => {
         if (ap.code != null) {
           return (<Fragment key={ap.code}>
-                    <option>{ap.code}</option>
+                    <option value={ap.code}>{ap.code} - {ap.city}</option>
                   </Fragment>)
         }
       })
@@ -103,7 +103,7 @@ const Dropdown = ({ ...props }) => {
       setAirportsPerCategory(apPerCategory) // setting default after data load
       // display categories in options dropdown
       let filteredCategories = categories.filter((c, i) => categories.indexOf(c) == i)
-      let options = filteredCategories.map(item => <Fragment key={item}><option>{item}</option></Fragment>)
+      let options = filteredCategories.map(item => <Fragment key={item}><option value={item}>{item}</option></Fragment>)
       setOptions(options)
     } catch (e) {
       console.log(e)
@@ -159,7 +159,7 @@ const Dropdown = ({ ...props }) => {
   const setOptionsValues = e => {
     let { selectedOptions } = e.target
     selectedOptions = [].slice.call(selectedOptions)
-    selectedOptions = selectedOptions.map(val => val.innerHTML)
+    selectedOptions = selectedOptions.map(option => option.value)
     setValues(selectedOptions)
   }
 

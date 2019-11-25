@@ -1,5 +1,5 @@
 export default {
-  svgArea: { w:1000, h:800 },
+  svgArea: { w:1200, h:1000 },
   svgBgColor: '#fff',
   svgMargin: 100,
   originCircleSize: 8,

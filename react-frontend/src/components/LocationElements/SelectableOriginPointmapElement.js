@@ -93,7 +93,7 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
       <div>
         <div style={evaluateStyle()}
              onClick={setCurrentSelectedOriginPointmap}>
-          { props.code }
+          { props.code } - { props.originObject.city }
           {
             selectedDestinationsPointmap && selectedDestinationsPointmap[props.code]
             ? <span>&nbsp;&#91;{selectedDestinationsPointmap[props.code].length}&#93;</span>

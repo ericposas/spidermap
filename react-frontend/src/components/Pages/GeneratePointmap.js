@@ -177,8 +177,8 @@ const GeneratePointmap = ({ ...props }) => {
     <div>
       <svg
         className=''
-        width={ innerWidth > svgArea.w ? innerWidth : svgArea.w }
-        height={ innerHeight > svgArea.h ? innerHeight : svgArea.h }
+        width={ svgArea.w }
+        height={ svgArea.h }
         style={{
           border: '1px solid #ccc',
           backgroundColor: svgBgColor
@@ -203,7 +203,7 @@ const GeneratePointmap = ({ ...props }) => {
                         x={getX(ap.longitude) - parseInt(originLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
                         y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
                         fontSize={originLabelFontSize}>
-                    {ap.code}
+                    {ap.city}, {ap.region} - {ap.code}
                   </text>
                 </g>
               </Fragment>
@@ -231,7 +231,7 @@ const GeneratePointmap = ({ ...props }) => {
                             x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
                             y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
                             fontSize={destinationLabelFontSize}>
-                        {ap.code}
+                        {ap.city}, {ap.region} - {ap.code}
                       </text>
                     </g>
                     {calcPath(originObj, origin, ap, i)}

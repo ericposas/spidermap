@@ -17,7 +17,7 @@ const DestinationListViewElement = ({ ...props }) => {
       <div style={{
             display:'inline-block'
           }}>
-        {props.code} &nbsp;
+        {props.destinationObject.code} - {props.destinationObject.city} &nbsp;
       </div>
       <div className='x-button' style={{display:'inline-block'}} onClick={removeElementHandler}>
         <div className='x-button-x-symbol'>x</div>

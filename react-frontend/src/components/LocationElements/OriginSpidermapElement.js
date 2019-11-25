@@ -32,7 +32,9 @@ const OriginSpidermapElement = ({ ...props }) => {
   return (
     <>
       <div>
-        <div style={{display:'inline-block'}}>{props.code}</div>
+        <div style={{display:'inline-block'}}>
+          {props.code} - {props.originObject.city}
+        </div>
         <div style={xBtnStyle} onClick={removeElementHandler}>X</div>
       </div>
     </>

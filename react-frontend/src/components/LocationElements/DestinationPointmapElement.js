@@ -22,7 +22,7 @@ const DestinationPointmapElement = ({ ...props }) => {
           style={{
             display:'inline-block'
           }}>
-        {props.code} &nbsp;
+        {props.code} - {props.destinationObject.city} &nbsp;
         </div>
         <div className='x-button' style={{display:'inline-block'}} onClick={removeElementHandler}>
           <div className='x-button-x-symbol'>

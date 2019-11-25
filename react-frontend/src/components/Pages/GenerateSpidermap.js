@@ -114,8 +114,8 @@ const GenerateSpidermap = ({ ...props }) => {
     <div>
       <svg
         className=''
-        width={ innerWidth > svgArea.w ? innerWidth : svgArea.w }
-        height={ innerHeight > svgArea.h ? innerHeight : svgArea.h }
+        width={ svgArea.w }
+        height={ svgArea.h }
         style={{
           border: '1px solid #ccc',
           backgroundColor: svgBgColor
@@ -139,7 +139,7 @@ const GenerateSpidermap = ({ ...props }) => {
                       x={getX(origin.longitude) - parseInt(originLabelFontSize)}
                       y={getY(origin.latitude) - (parseInt(originLabelFontSize) * 1.25)}
                       fontSize={originLabelFontSize}>
-                  {origin.code}
+                  {origin.city}, {origin.region} - {origin.code}
                 </text>
               </g>
             </>)
@@ -155,12 +155,12 @@ const GenerateSpidermap = ({ ...props }) => {
                             cx={getX(ap.longitude)}
                             cy={getY(ap.latitude)}
                             fill='#000'></circle>
-                    <text id={`destination-${ap.code}-label`}
+                    <text id={`destination-${ap.city}-label`}
                           ref={labelsRef.current[labelCount++]}
                           x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
                           y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25)}
                           fontSize={destinationLabelFontSize}>
-                      {ap.code}
+                      {ap.city}, {ap.region} - {ap.code}
                     </text>
                   </g>
                   {calcPath(ap, i)}
