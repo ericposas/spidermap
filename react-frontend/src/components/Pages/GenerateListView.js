@@ -47,7 +47,7 @@ const GenerateListView = ({ ...props }) => {
       if (i == 0) {
         _arr.unshift((
           <Fragment key={region + count + i}>
-            <div>
+            <div className='listview-region'>
               {region}
             </div>
           </Fragment>
@@ -61,7 +61,7 @@ const GenerateListView = ({ ...props }) => {
       } else {
         _arr.unshift((
           <Fragment key={'spacer' + count + i}>
-            <div><br/></div>
+            <div style={{ padding: '2.25rem 0 0 0' }}></div>
           </Fragment>
         ))
       }
@@ -73,16 +73,21 @@ const GenerateListView = ({ ...props }) => {
               style={{
                 position: 'relative'
               }}>
-              <div
-                style={{
-                  position: 'absolute',
-                  transform: `scaleY(${_arrLen}) translateY(${_arrLen}px)`,
-                  top: _arrLen == 1 ? '21px' : `calc(22px + ${(_arrLen-1) - ((_arrLen-1)/2)}px)`,
-                }}
-                className='listview-divider'>
-                |
+              {
+                i == 0
+                ?
+                  (<div
+                    style={{
+                      position: 'absolute',
+                      transform: _arrLen > 15 ? `scaleY(${_arrLen + 3})` : `scaleY(${_arrLen + 1})`,
+                      top: _arrLen > 15 ? `calc(2rem + ${(_arrLen + 3) * .35}rem)` : `calc(2rem + ${_arrLen * .35}rem)`,
+                    }}
+                    className='listview-divider'>
+                    |
+                  </div>)
+                : null
+              }
               </div>
-            </div>
           {_arr}
           </div>
         </Fragment>

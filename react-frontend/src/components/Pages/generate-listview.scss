@@ -3,18 +3,21 @@
 }
 
 .listview-divider {
+  opacity: .35;
+}
+
+.listview-region {
+  font-size: 1.5rem;
 }
 
 .listview-city {
-  padding: 0 0 0 6px; 
+  padding: 0 0 0 20px;
   margin: 0 0 0 2px;
   font-size: 11px;
 }
 
 .listview-content {
-  width: 1000px;
-  // min-width: 1000px;
-  // max-width: 1200px;
+  width: 1200px;
   margin: auto;
   display: block;
   position: absolute;
