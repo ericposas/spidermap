@@ -36,15 +36,30 @@ const GenerateListView = ({ ...props }) => {
     let count = 0
     let arr = organizeByCategory[region].map((item,i) => {
       count++
+      // because html2canvas does not format the city names properly,
+      // we have to manually split the text and add space where needed -- between capitalized letters and hyphens
       return (<Fragment key={item.code}>
                 <div className='listview-city'>
                   {
-                    item.city.split(/(?=[A-Z])/).map((_item,i) => (<Fragment key={_item+'-city-span'}><span>{_item}</span>{ i < (item.city.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                    item.city.split(/(?=[A-Z])/)
+                             .map((_item,i) => (
+                               <Fragment key={_item+'-city-span'}>
+                                 <span>
+                                   {
+                                     _item.indexOf('-')
+                                     ?
+                                       _item.split(/\s*\-\s*/g)
+                                            .map((__item, _i) => (<Fragment key={__item+'-city-name-span'}><span>{__item}</span>{ _i < (_item.split(/\s*\-\s*/g).length-1) ? <span>&nbsp;-&nbsp;</span> : '' }</Fragment>))
+                                     : (<Fragment key={__item+'-city-name-span-no-hyphen'}>_item</Fragment>)
+                                   }
+                                </span>{ i < (item.city.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }
+                               </Fragment>
+                             ))
                   }
                 </div>
               </Fragment>)
     })
-    
+
     let arrays = []
 
     for (let i = 0, incr = 20; i < arr.length; i+=incr) {
@@ -143,7 +158,7 @@ const GenerateListView = ({ ...props }) => {
                   origin
                   ? origin.city.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span>{item}</span>{ i < (origin.city.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
                   : ''
-                },&nbsp;
+                }&nbsp;,&nbsp;
                 {
                   origin
                   ? origin.region.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span>{item}</span>{ i < (origin.region.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))

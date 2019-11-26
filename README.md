@@ -5,9 +5,6 @@
   Generate PDF:
    - For all map types
 
-  ListView:
-    - Clean up commas and hyphens
-
   Database Saves:
     - Save user's created maps to their User profile in the form of the CSV parser
     - Will save a simple list (DFW, LAX, PHX, PHL, etc.) in the database for a specific user
