@@ -44,7 +44,7 @@ const GenerateListView = ({ ...props }) => {
                 </div>
               </Fragment>)
     })
-
+    
     let arrays = []
 
     for (let i = 0, incr = 20; i < arr.length; i+=incr) {
