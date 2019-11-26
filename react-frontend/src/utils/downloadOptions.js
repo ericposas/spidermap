@@ -47,21 +47,21 @@ const downloadPNG = (type, resolution) => {
     var copy = svg.cloneNode(true);
     copyStylesInline(copy, svg);
     var canvas = document.createElement("canvas");
-    canvas.width = innerHeight * resolution
+    canvas.width = (innerHeight * 1.25) * resolution
     canvas.height = innerHeight * resolution
     // var bbox = svg.getBBox();
     // canvas.width = bbox.width;
     // canvas.height = bbox.height;
     var ctx = canvas.getContext("2d");
     ctx.scale(resolution, resolution)
-    ctx.clearRect(0, 0, innerHeight, innerHeight);
+    ctx.clearRect(0, 0, (innerHeight * 1.25), innerHeight);
     var data = (new XMLSerializer()).serializeToString(copy);
     var DOMURL = window.URL || window.webkitURL || window;
     var img = new Image();
     var svgBlob = new Blob([data], {type: "image/svg+xml;charset=utf-8"});
     var url = DOMURL.createObjectURL(svgBlob);
     img.onload = function () {
-      ctx.drawImage(img, 0, 0, innerHeight, innerHeight);
+      ctx.drawImage(img, 0, 0, (innerHeight * 1.25), innerHeight);
       DOMURL.revokeObjectURL(url);
       if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
         var blob = canvas.msToBlob();

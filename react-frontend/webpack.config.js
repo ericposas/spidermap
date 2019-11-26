@@ -45,7 +45,7 @@ module.exports = () => {
           ]
         },
         {
-          test: /\.(jpg|png|svg)/,
+          test: /\.(jpg|png|svg)$/,
           use: {
             loader: 'file-loader',
             query: {

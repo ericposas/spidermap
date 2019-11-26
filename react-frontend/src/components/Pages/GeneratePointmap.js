@@ -62,7 +62,7 @@ const GeneratePointmap = ({ ...props }) => {
     }
     linearScaleX = d3.scaleLinear()
                      .domain([longs[0], longs[longs.length-1]])
-                     .range([svgMargin, innerHeight - svgMargin])
+                     .range([svgMargin, (innerHeight * 1.15) - svgMargin])
 
     return linearScaleX(long)
   }
@@ -211,7 +211,7 @@ const GeneratePointmap = ({ ...props }) => {
   return (<>
     <div className='row'>
       <UserLeftSidePanel/>
-      <DownloadImagePanel type='pointmap' label='Export Point-to-Point Map'/>
+      <DownloadImagePanel type='pointmap' label='Point-to-Point Map'/>
       <div
         className='col-med'
         style={{
@@ -220,7 +220,7 @@ const GeneratePointmap = ({ ...props }) => {
         }}>
         <svg
           className='svg-map-area'
-          width={ innerHeight }
+          width={ (innerHeight * 1.25) }
           height={ innerHeight }
           style={{
             backgroundColor: svgBgColor,

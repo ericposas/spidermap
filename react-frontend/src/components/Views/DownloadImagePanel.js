@@ -1,17 +1,62 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { downloadPNG, downloadSVG } from '../../utils/downloadOptions'
+// import domToImage from 'dom-to-image'
+import html2canvas from 'html2canvas'
+import fileSaver from 'file-saver'
 import '../Buttons/buttons.scss'
+import {
+  LISTVIEW_RENDERING,
+  LISTVIEW_NOT_RENDERING
+} from '../../constants/listview'
 
 const DownloadImagePanel = ({ ...props }) => {
 
   const { type } = props
 
+  const dispatch = useDispatch()
+
   const [fileType, setFileType] = useState('SVG')
 
   const [resolution, setResolution] = useState(2)
 
-  const handleDownload = async () => {
+  const handleDownloadListview = () => {
+    dispatch({ type: LISTVIEW_RENDERING })
+    setTimeout(initRender, 2000)
+    function initRender () {
+      html2canvas(document.querySelector('#listview-content'), { letterRendering: true, allowTaint: true, useCORS: true })
+          .then((canvas) => {
+            console.log(canvas)
+            saveAs(canvas.toDataURL(), 'listview.png')
+            setTimeout(() => dispatch({ type: LISTVIEW_NOT_RENDERING }), 2000)
+          })
+    }
+    function saveAs(uri, filename) {
+      var link = document.createElement('a');
+      if (typeof link.download === 'string') {
+        link.href = uri;
+        link.download = filename;
+        //Firefox requires the link to be in the body
+        document.body.appendChild(link);
+        //simulate click
+        link.click();
+        //remove the link when done
+        document.body.removeChild(link);
+      } else {
+        window.open(uri);
+      }
+    }
+  }
+
+  // const handleDownloadListview = () => {
+  //   var listviewContent = document.getElementById('listview-content')
+  //   var ht = window.getComputedStyle(listviewContent, null).getPropertyValue('height')
+  //   domToImage.toBlob(listviewContent)
+  //             .then(blob => window.saveAs(blob, 'listview.png'))
+  // }
+
+  const handleDownload = () => {
     switch (fileType) {
       case 'SVG':
         downloadSVG(type)
@@ -23,6 +68,10 @@ const DownloadImagePanel = ({ ...props }) => {
         downloadSVG()
     }
   }
+
+  useEffect(() => {
+    if (type == 'listview') setFileType('PNG')
+  }, [])
 
   return (<>
     <div
@@ -45,6 +94,7 @@ const DownloadImagePanel = ({ ...props }) => {
             padding: '0 10% 0 15%',
           }}>
           <div className='map-type-title'>
+            Export<br/>
             {props.label}
           </div>
           <div
@@ -62,26 +112,33 @@ const DownloadImagePanel = ({ ...props }) => {
               position: 'absolute',
               bottom: '20%',
             }}>
-            <div>Select file type:</div>
-            <select
-              onChange={e => setFileType(e.target.value)}>
-              <option value='SVG'>SVG</option>
-              <option value='PNG'>PNG</option>
-              <option value='PDF'>PDF</option>
-            </select>
             {
-              fileType == 'PNG'
+              type != 'listview'
               ?
-                (<>
-                  <div>Select resolution:</div>
-                  <select
-                    defaultValue='2'
-                    onChange={e => setResolution(e.target.value)}>
-                    <option value='1'>1x</option>
-                    <option value='2'>2x</option>
-                    <option value='3'>3x</option>
-                  </select>
-                </>)
+              (<>
+                <div>Select file type:</div>
+                <select
+                  onChange={e => setFileType(e.target.value)}>
+                  <option value='SVG'>SVG</option>
+                  <option value='PNG'>PNG</option>
+                  <option value='PDF'>PDF</option>
+                </select>
+                {
+                  fileType == 'PNG'
+                  ?
+                    (<>
+                      <div>Select resolution:</div>
+                      <select
+                        defaultValue='2'
+                        onChange={e => setResolution(e.target.value)}>
+                        <option value='1'>1x</option>
+                        <option value='2'>2x</option>
+                        <option value='3'>3x</option>
+                      </select>
+                    </>)
+                  : null
+                }
+              </>)
               : null
             }
             <br/>
@@ -98,7 +155,7 @@ const DownloadImagePanel = ({ ...props }) => {
                 color: '#fff'
               }}
               className='download-button'
-              onClick={handleDownload}>
+              onClick={ type == 'listview' ? handleDownloadListview : handleDownload }>
               Download {fileType}
             </button>
           </div>

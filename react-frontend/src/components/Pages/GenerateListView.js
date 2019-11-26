@@ -1,7 +1,10 @@
 import React, { useRef, useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import '../../images/american-airlines-new-logo.svg'
+import UserLeftSidePanel from '../Views/UserLeftSidePanel'
+import DownloadImagePanel from '../Views/DownloadImagePanel'
+// import '../../images/american-airlines-new-logo.svg'
+import '../../images/aa-logo.png'
 import './generate-listview.scss'
 
 const GenerateListView = ({ ...props }) => {
@@ -11,6 +14,8 @@ const GenerateListView = ({ ...props }) => {
   const destinations = useSelector(state => state.selectedDestinationsListView)
 
   const [organizeByCategory, setOrganizeByCategory] = useState({})
+
+  const listviewRendering = useSelector(state => state.listviewRendering)
 
   const regionsDict = []
 
@@ -33,7 +38,9 @@ const GenerateListView = ({ ...props }) => {
       count++
       return (<Fragment key={item.code}>
                 <div className='listview-city'>
-                  {item.city}
+                  {
+                    item.city.split(/(?=[A-Z])/).map((_item,i) => (<Fragment key={_item+'-city-span'}><span>{_item}</span>{ i < (item.city.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                  }
                 </div>
               </Fragment>)
     })
@@ -52,7 +59,7 @@ const GenerateListView = ({ ...props }) => {
               {
                 region.trim() == 'United States'
                 ? 'USA'
-                : region
+                : region.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-region-span'}><span>{item}</span>{ i < (region.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
               }
             </div>
           </Fragment>
@@ -106,54 +113,74 @@ const GenerateListView = ({ ...props }) => {
 
   return (
     <>
-      <div className='white-backing'></div>
-      <div className='listview-content'>
-        <div className='listview-logo-container'>
-          <img
-            className='listview-logo'
-            src='./img/american-airlines-new-logo.svg'/>
-        </div>
-        <div className='listview-title-content'>
-          <div className='listview-origin-title'>{ origin ? origin.code : '' }</div>
-          <div className='listview-origin-title-divider'>
-            <div className='listview-origin-title-divider-inner'>
-              |
-            </div>
+    <div className='row'>
+      <UserLeftSidePanel/>
+      <DownloadImagePanel type='listview' label='List View'/>
+      <div
+        className='col-med'
+        style={{
+          height:'100vh',
+          backgroundColor: '#fff',
+          boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
+        }}>
+        <div id='listview-content' className={listviewRendering ? 'listview-content listview-content-rendering' : 'listview-content'}>
+          <div className='listview-logo-container'>
+            <img
+              className='listview-logo'
+              src='./img/aa-logo.png'/>
           </div>
-          <div className='listview-origin-subtitle'>
-            <div className='listview-origin-subtitle-inner'>
-              &nbsp;&nbsp;Direct flights to and from<br/>
-              &nbsp;&nbsp;{ origin ? origin.city : '' }, { origin ? origin.region : '' }
+          <div className='listview-title-content'>
+            <div className='listview-origin-title'>{ origin ? origin.code : '' }</div>
+            <div className='listview-origin-title-divider'>
+              <div className='listview-origin-title-divider-inner'>
+                |
+              </div>
             </div>
-          </div>
-          <br/>
-          <br/>
-        </div>
-        <div className='listview-main-content'>
-          <div className='row'>
-          {
-            organizeByCategory
-            ?
-            Object.keys(organizeByCategory).map(region => {
-              return (<Fragment key={region}>
+            <div className='listview-origin-subtitle'>
+              <div className='listview-origin-subtitle-inner'>
+                &nbsp;&nbsp;Direct&nbsp;flights&nbsp;to&nbsp;and&nbsp;from<br/>
+                &nbsp;&nbsp;{
+                  origin
+                  ? origin.city.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span>{item}</span>{ i < (origin.city.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                  : ''
+                },&nbsp;
                 {
-                  region.trim() == 'United States' || organizeByCategory[region].length > 20
-                  ? <div
-                      className='row'
-                      style={{
-                        margin: '0 0 0 2px'
-                      }}>{
-                        processByRegion(region)
-                      }
-                    </div>
-                  : processByRegion(region)
+                  origin
+                  ? origin.region.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span>{item}</span>{ i < (origin.region.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                  : ''
                 }
-                </Fragment>)
-              })
-              : null
-            }
+              </div>
+            </div>
+            <br/>
+            <br/>
+          </div>
+          <div className='listview-main-content'>
+            <div className='row'>
+              {
+                organizeByCategory
+                ?
+                Object.keys(organizeByCategory).map(region => {
+                  return (<Fragment key={region}>
+                    {
+                      region.trim() == 'United States' || organizeByCategory[region].length > 20
+                      ? <div
+                        className='row'
+                        style={{
+                          margin: '0 0 0 2px'
+                        }}>{
+                          processByRegion(region)
+                        }
+                      </div>
+                      : processByRegion(region)
+                    }
+                  </Fragment>)
+                })
+                : null
+              }
+            </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   )

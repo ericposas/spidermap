@@ -50,7 +50,7 @@ const GenerateSpidermap = ({ ...props }) => {
     }
     linearScaleX = d3.scaleLinear()
                      .domain([longs[0], longs[longs.length-1]])
-                     .range([svgMargin, innerHeight - svgMargin])
+                     .range([svgMargin, (innerHeight * 1.15) - svgMargin])
 
     return linearScaleX(long)
   }
@@ -117,7 +117,7 @@ const GenerateSpidermap = ({ ...props }) => {
   return (<>
     <div className='row'>
       <UserLeftSidePanel/>
-      <DownloadImagePanel type='spidermap' label='Export Spider Map'/>
+      <DownloadImagePanel type='spidermap' label='Spider Map'/>
       <div
         className='col-med'
         style={{
@@ -126,7 +126,7 @@ const GenerateSpidermap = ({ ...props }) => {
         }}>
         <svg
           className='svg-map-area'
-          width={ innerHeight }
+          width={ (innerHeight * 1.25) }
           height={ innerHeight }
           style={{
             backgroundColor: svgBgColor,

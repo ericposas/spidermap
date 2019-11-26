@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-
 import lastLocation from './lastLocation'
 import selectedOriginListView from './listview/selectedOriginListView'
 import selectedDestinationsListView from './listview/selectedDestinationsListView'
@@ -25,6 +24,7 @@ import pointmap_selectByCodeDestinations from './pointmap/pointmap_selectByCodeD
 import pointmap_destinationPanelVisibility from './pointmap/pointmap_destinationPanelVisibility'
 import allCodesData from './allCodesData'
 import selectedMenuItem from './menu/selectedMenuItem'
+import listviewRendering from './listview/listviewRendering'
 
 const rootReducer = combineReducers({
   lastLocation,
@@ -43,7 +43,8 @@ const rootReducer = combineReducers({
   selectedDestinationsSpidermap, spidermap_selectByCodeDestinations,
   spidermap_selectByCategoryDestinations, spidermap_selectBy_DestinationsVisibility,
   spidermap_destinationPanelVisibility,
-  selectedMenuItem
+  selectedMenuItem,
+  listviewRendering
 })
 
 export default rootReducer
