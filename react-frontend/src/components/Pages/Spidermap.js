@@ -43,6 +43,7 @@ const Spidermap = ({ ...props }) => {
 
   const handleGenerateMapClick = () => {
     if (selectedDestinationsSpidermap.length > 0) {
+      dispatch({ type: LAST_LOCATION, payload: 'spidermap' })
       props.history.push('/generate-spidermap')
     }
   }

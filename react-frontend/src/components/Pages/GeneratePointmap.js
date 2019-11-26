@@ -13,7 +13,7 @@ import mapSettings from '../../mapSettings.config'
 const GeneratePointmap = ({ ...props }) => {
 
   let {
-    svgArea, svgBgColor, svgMargin,
+    svgBgColor, svgMargin,
     originDotSize, originDotColor, originCircleColor,
     originCircleSize, originLabelFontSize,
     destinationDotColor, destinationLabelFontSize, destinationDotSize,
@@ -211,7 +211,7 @@ const GeneratePointmap = ({ ...props }) => {
   return (<>
     <div className='row'>
       <UserLeftSidePanel/>
-      <DownloadImagePanel type='pointmap' label='Point-to-Point Map'/>
+      <DownloadImagePanel type='pointmap' label='Export Point-to-Point Map'/>
       <div
         className='col-med'
         style={{
@@ -219,7 +219,7 @@ const GeneratePointmap = ({ ...props }) => {
           backgroundColor: '#fff',
         }}>
         <svg
-          className=''
+          className='svg-map-area'
           width={ innerHeight }
           height={ innerHeight }
           style={{

@@ -4,12 +4,14 @@ import url from '../../url'
 import { getUser } from '../../sessionStore'
 import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import UserLeftSidePanel from '../Views/UserLeftSidePanel'
+import DownloadImagePanel from '../Views/DownloadImagePanel'
 import mapSettings from '../../mapSettings.config'
 
 const GenerateSpidermap = ({ ...props }) => {
 
   let {
-    svgArea, svgBgColor, svgMargin,
+    svgBgColor, svgMargin,
     originDotSize, originDotColor, originCircleColor,
     originCircleSize, originLabelFontSize,
     destinationDotColor, destinationLabelFontSize, destinationDotSize,
@@ -48,7 +50,7 @@ const GenerateSpidermap = ({ ...props }) => {
     }
     linearScaleX = d3.scaleLinear()
                      .domain([longs[0], longs[longs.length-1]])
-                     .range([svgMargin, svgArea.w - svgMargin])
+                     .range([svgMargin, innerHeight - svgMargin])
 
     return linearScaleX(long)
   }
@@ -62,7 +64,7 @@ const GenerateSpidermap = ({ ...props }) => {
     }
     linearScaleY = d3.scaleLinear()
                      .domain([lats[0], lats[lats.length-1]])
-                     .range([svgMargin, svgArea.h - svgMargin])
+                     .range([svgMargin, innerHeight - svgMargin])
 
     return linearScaleY(lat)
   }
@@ -113,24 +115,31 @@ const GenerateSpidermap = ({ ...props }) => {
   }
 
   return (<>
-    <div className='white-backing'></div>
-    <div>
-      <svg
-        className=''
-        width={ svgArea.w }
-        height={ svgArea.h }
+    <div className='row'>
+      <UserLeftSidePanel/>
+      <DownloadImagePanel type='spidermap' label='Export Spider Map'/>
+      <div
+        className='col-med'
         style={{
-          border: '1px solid #ccc',
-          backgroundColor: svgBgColor
+          height:'100vh',
+          backgroundColor: '#fff',
         }}>
-        {
-          destinations
-          ? destinations.map((ap, i) => (<Fragment key={'path'+i}>{calcPath(ap, i)}</Fragment>)) : null
-        }
-        {
-          destinations
-          ?
-            destinations.map((ap, i) => (
+        <svg
+          className='svg-map-area'
+          width={ innerHeight }
+          height={ innerHeight }
+          style={{
+            backgroundColor: svgBgColor,
+            boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
+          }}>
+          {
+            destinations
+            ? destinations.map((ap, i) => (<Fragment key={'path'+i}>{calcPath(ap, i)}</Fragment>)) : null
+          }
+          {
+            destinations
+            ?
+              destinations.map((ap, i) => (
                 <Fragment key={ap.code}>
                   <g>
                     <circle r={destinationDotSize}
@@ -155,12 +164,12 @@ const GenerateSpidermap = ({ ...props }) => {
                     </text>
                   </g>
                 </Fragment>
-            ))
-          : null
-        }
-        {
-          origin
-          ?
+              ))
+            : null
+          }
+          {
+            origin
+            ?
             (<>
               <g>
                 <circle r={originDotSize}
@@ -190,9 +199,10 @@ const GenerateSpidermap = ({ ...props }) => {
                 </text>
               </g>
             </>)
-          : null
-        }
-      </svg>
+            : null
+          }
+        </svg>
+      </div>
     </div>
   </>)
 
