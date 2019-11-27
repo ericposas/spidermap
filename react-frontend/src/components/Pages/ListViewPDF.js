@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import UserLeftSidePanel from '../Views/UserLeftSidePanel'
-import DownloadImagePanel from '../Views/DownloadImagePanel'
 import '../../images/aa-logo.png'
 import './generate-listview.scss'
+import $ from 'jquery'
+import html2pdf from 'html2pdf.js'
 
-const GenerateListView = ({ ...props }) => {
+const ListViewPDF = ({ ...props }) => {
 
   const origin = useSelector(state => state.selectedOriginListView)
 
@@ -16,19 +16,29 @@ const GenerateListView = ({ ...props }) => {
 
   const listviewRendering = useSelector(state => state.listviewRendering)
 
+  const listviewPrinting = useSelector(state => state.listviewPrinting)
+
   const regionsDict = []
 
   const regionRef = useRef()
 
+  const listviewContent = useRef()
+
+  const [buttonVis, setButtonVis] = useState('visible')
+
   useEffect(() => {
-    if (!origin) props.history.push('/listview')
     let destinationsObject = {}
     destinations.forEach(d => {
       if (!destinationsObject[d.region]) destinationsObject[d.region] = []
       destinationsObject[d.region].push(d)
     })
     setOrganizeByCategory(destinationsObject)
-    console.log(destinationsObject)
+    $('html').css('width', '100%')
+    $('body').css('width', '100%')
+    return () => {
+      $('html').css('width', '200%')
+      $('body').css('width', '200%')
+    }
   }, [])
 
   const processByRegion = region => {
@@ -127,17 +137,55 @@ const GenerateListView = ({ ...props }) => {
 
   return (
     <>
+    <button
+      style={{
+        visibility: buttonVis,
+        height:'60px',
+        width: '120px',
+        padding: '0 20px 0 20px',
+        margin: '0 0 10px 0',
+        border: 'none',
+        borderRadius: '5px',
+        backgroundColor: 'red',
+        color: '#fff',
+        position: 'absolute',
+        zIndex: 200,
+      }}
+      onClick={
+        () => {
+          setButtonVis('hidden')
+          setTimeout(() => {
+            // window.print()
+            // html2pdf(document.body)
+            var element = document.getElementById('listview-content');
+            var opt = {
+              margin:       1,
+              filename:     'myfile.pdf',
+              image:        { type: 'jpeg', quality: 0.98 },
+              html2canvas:  { scale: 2 },
+              jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            // New Promise-based usage:
+            html2pdf().set(opt).from(element).save();
+          }, 1000)
+        }
+      }>
+      Print PDF
+    </button>
     <div className='row'>
-      <UserLeftSidePanel/>
-      <DownloadImagePanel type='listview' label='List View'/>
       <div
-        className='col-med'
         style={{
           height:'100vh',
           backgroundColor: '#fff',
           boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
         }}>
-        <div id='listview-content' className={listviewRendering ? 'listview-content listview-content-rendering' : 'listview-content'}>
+        <div
+          ref={listviewContent}
+          id='listview-content'
+          style={{
+            width: '100%',
+          }}
+          className='listview-content'>
           <div className='listview-logo-container'>
             <img
               className='listview-logo'
@@ -168,7 +216,11 @@ const GenerateListView = ({ ...props }) => {
             <br/>
             <br/>
           </div>
-          <div className='listview-main-content'>
+          <div
+            className='listview-main-content'
+            style={{
+              width: '90%',
+            }}>
             <div className='row'>
               {
                 organizeByCategory
@@ -177,17 +229,14 @@ const GenerateListView = ({ ...props }) => {
                   return (<Fragment key={region}>
                     {
                       region.trim() == 'United States' || organizeByCategory[region].length > 20
-                      ? (<>
-                          <div
-                            className='row'
-                            style={{
-                              margin: '0 0 0 2px'
-                            }}>
-                            {
-                              processByRegion(region)
-                            }
-                          </div>
-                         </>)
+                      ? <div
+                        className='row'
+                        style={{
+                          margin: '0 0 0 2px'
+                        }}>{
+                          processByRegion(region)
+                        }
+                      </div>
                       : processByRegion(region)
                     }
                   </Fragment>)
@@ -204,4 +253,4 @@ const GenerateListView = ({ ...props }) => {
 
 }
 
-export default withRouter(GenerateListView)
+export default withRouter(ListViewPDF)

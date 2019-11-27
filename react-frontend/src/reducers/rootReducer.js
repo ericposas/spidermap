@@ -25,6 +25,7 @@ import pointmap_destinationPanelVisibility from './pointmap/pointmap_destination
 import allCodesData from './allCodesData'
 import selectedMenuItem from './menu/selectedMenuItem'
 import listviewRendering from './listview/listviewRendering'
+import listviewPrinting from './listview/listviewPrinting'
 
 const rootReducer = combineReducers({
   lastLocation,
@@ -44,7 +45,7 @@ const rootReducer = combineReducers({
   spidermap_selectByCategoryDestinations, spidermap_selectBy_DestinationsVisibility,
   spidermap_destinationPanelVisibility,
   selectedMenuItem,
-  listviewRendering
+  listviewRendering, listviewPrinting
 })
 
 export default rootReducer

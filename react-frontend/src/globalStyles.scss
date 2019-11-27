@@ -1,5 +1,13 @@
 $grey: #999;
 
+// hide pdf print out date and url title
+// @page { size: auto;  margin: 0mm; }
+@media print {
+  html {
+    display: block;
+  }
+}
+
 html,
 body {
   width: 200%;

@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { downloadPNG, downloadSVG } from '../../utils/downloadOptions'
-// import domToImage from 'dom-to-image'
 import html2canvas from 'html2canvas'
 import fileSaver from 'file-saver'
+import html2pdf from 'html2pdf.js'
 import '../Buttons/buttons.scss'
 import {
   LISTVIEW_RENDERING,
-  LISTVIEW_NOT_RENDERING
+  LISTVIEW_NOT_RENDERING,
+  PRINTING_LISTVIEW,
+  NOT_PRINTING_LISTVIEW
 } from '../../constants/listview'
 
 const DownloadImagePanel = ({ ...props }) => {
 
-  const { type } = props
+  const { history, type, divContentForPDF } = props
 
   const dispatch = useDispatch()
 
@@ -21,7 +23,39 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const [resolution, setResolution] = useState(2)
 
-  const handleDownloadListview = () => {
+  const handleDownload = () => {
+    switch (fileType) {
+      case 'PDF':
+        if (type == 'listview') {
+          var element = document.getElementById('listview-content');
+          var opt = {
+            // margin:       1,
+            filename:     'listview.pdf',
+            // pagebreak: { mode: ['avoid-all'] },
+            image:        { type: 'png', quality: 0.99 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+          };
+          // New Promise-based usage:
+          html2pdf().set(opt).from(element).save();
+        }
+        break;
+      case 'SVG':
+        downloadSVG(type)
+        break;
+      case 'PNG':
+        if (type == 'listview') {
+          downloadListviewPNG()
+        } else {
+          downloadPNG(type, resolution)
+        }
+        break;
+      default:
+        downloadSVG()
+    }
+  }
+
+  const downloadListviewPNG = () => {
     dispatch({ type: LISTVIEW_RENDERING })
     setTimeout(initRender, 2000)
     function initRender () {
@@ -49,28 +83,12 @@ const DownloadImagePanel = ({ ...props }) => {
     }
   }
 
-  // const handleDownloadListview = () => {
-  //   var listviewContent = document.getElementById('listview-content')
-  //   var ht = window.getComputedStyle(listviewContent, null).getPropertyValue('height')
-  //   domToImage.toBlob(listviewContent)
-  //             .then(blob => window.saveAs(blob, 'listview.png'))
-  // }
-
-  const handleDownload = () => {
-    switch (fileType) {
-      case 'SVG':
-        downloadSVG(type)
-        break;
-      case 'PNG':
-        downloadPNG(type, resolution)
-        break;
-      default:
-        downloadSVG()
-    }
-  }
-
   useEffect(() => {
     if (type == 'listview') setFileType('PNG')
+    window.onafterprint = null
+    window.onafterprint = () => {
+      dispatch({ type: NOT_PRINTING_LISTVIEW })
+    }
   }, [])
 
   return (<>
@@ -112,33 +130,26 @@ const DownloadImagePanel = ({ ...props }) => {
               position: 'absolute',
               bottom: '20%',
             }}>
+            <div>Select file type:</div>
+            <select
+              onChange={e => setFileType(e.target.value)}>
+              { type != 'listview' ? <option value='SVG'>SVG</option> : null }
+              <option value='PNG'>PNG</option>
+              <option value='PDF'>PDF</option>
+            </select>
             {
-              type != 'listview'
+              fileType == 'PNG'
               ?
-              (<>
-                <div>Select file type:</div>
-                <select
-                  onChange={e => setFileType(e.target.value)}>
-                  <option value='SVG'>SVG</option>
-                  <option value='PNG'>PNG</option>
-                  <option value='PDF'>PDF</option>
-                </select>
-                {
-                  fileType == 'PNG'
-                  ?
-                    (<>
-                      <div>Select resolution:</div>
-                      <select
-                        defaultValue='2'
-                        onChange={e => setResolution(e.target.value)}>
-                        <option value='1'>1x</option>
-                        <option value='2'>2x</option>
-                        <option value='3'>3x</option>
-                      </select>
-                    </>)
-                  : null
-                }
-              </>)
+                (<>
+                  <div>Select resolution:</div>
+                  <select
+                    defaultValue='2'
+                    onChange={e => setResolution(e.target.value)}>
+                    <option value='1'>1x</option>
+                    <option value='2'>2x</option>
+                    <option value='3'>3x</option>
+                  </select>
+                </>)
               : null
             }
             <br/>
@@ -155,7 +166,7 @@ const DownloadImagePanel = ({ ...props }) => {
                 color: '#fff'
               }}
               className='download-button'
-              onClick={ type == 'listview' ? handleDownloadListview : handleDownload }>
+              onClick={handleDownload}>
               Download {fileType}
             </button>
           </div>

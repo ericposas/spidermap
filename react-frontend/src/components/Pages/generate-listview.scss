@@ -9,14 +9,14 @@ html, body {
 }
 
 .listview-logo {
-  width: 25%;
-  float: right;
+  // float: right;
+  width: 30%;
   top: 50px; right: 50px;
   position: absolute;
 }
 
 .listview-column {
-  padding: 0 20px 0 20px;
+  padding: 0 7.5px 0 7.5px;
 }
 
 .listview-divider {
@@ -34,7 +34,7 @@ html, body {
 }
 
 .listview-content {
-  width: 1100px;
+  width: 800px;
   height: 100%;
   margin: auto;
   display: block;
@@ -53,7 +53,7 @@ html, body {
 }
 
 .listview-main-content {
-  width: 80%;
+  width: 90%;
   margin: auto;
   display: block;
   position: relative;
@@ -62,7 +62,7 @@ html, body {
 }
 
 .listview-title-content {
-  width: 80%;
+  width: 90%;
   margin: auto;
   display: block;
   position: relative;
@@ -87,7 +87,7 @@ html, body {
 .listview-origin-title-divider-inner {
   position: absolute;
   margin-top: -195px;
-  margin-left: 80px;
+  margin-left: 40px;
 }
 
 .listview-origin-subtitle {
@@ -100,7 +100,7 @@ html, body {
 .listview-origin-subtitle-inner {
   position: absolute;
   margin-top: -84px;
-  margin-left: 160px;
+  margin-left: 80px;
 }
 
 .listview-destinations-list {
