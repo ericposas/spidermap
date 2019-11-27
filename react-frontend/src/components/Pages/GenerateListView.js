@@ -137,7 +137,9 @@ const GenerateListView = ({ ...props }) => {
           backgroundColor: '#fff',
           boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
         }}>
-        <div id='listview-content' className={listviewRendering ? 'listview-content listview-content-rendering' : 'listview-content'}>
+        <div
+          id='listview-content'
+          className={listviewRendering ? 'listview-content listview-content-rendering pdf-content' : 'listview-content pdf-content'}>
           <div className='listview-logo-container'>
             <img
               className='listview-logo'

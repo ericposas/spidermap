@@ -119,7 +119,8 @@ const GenerateSpidermap = ({ ...props }) => {
       <UserLeftSidePanel/>
       <DownloadImagePanel type='spidermap' label='Spider Map'/>
       <div
-        className='col-med'
+        id='map-content'
+        className='col-med pdf-content'
         style={{
           height:'100vh',
           backgroundColor: '#fff',

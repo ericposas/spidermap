@@ -213,7 +213,8 @@ const GeneratePointmap = ({ ...props }) => {
       <UserLeftSidePanel/>
       <DownloadImagePanel type='pointmap' label='Point-to-Point Map'/>
       <div
-        className='col-med'
+        id='map-content'
+        className='col-med pdf-content'
         style={{
           height:'100vh',
           backgroundColor: '#fff',

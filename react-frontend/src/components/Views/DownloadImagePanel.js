@@ -26,19 +26,7 @@ const DownloadImagePanel = ({ ...props }) => {
   const handleDownload = () => {
     switch (fileType) {
       case 'PDF':
-        if (type == 'listview') {
-          var element = document.getElementById('listview-content');
-          var opt = {
-            // margin:       1,
-            filename:     'listview.pdf',
-            // pagebreak: { mode: ['avoid-all'] },
-            image:        { type: 'png', quality: 0.99 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-          };
-          // New Promise-based usage:
-          html2pdf().set(opt).from(element).save();
-        }
+        downloadPDF()
         break;
       case 'SVG':
         downloadSVG(type)
@@ -55,6 +43,17 @@ const DownloadImagePanel = ({ ...props }) => {
     }
   }
 
+  const downloadPDF = () => {
+    var element = document.getElementsByClassName('pdf-content')[0]
+    var opt = {
+      filename: `${type}.pdf`,
+      image:  { type: 'png', quality: 0.99 },
+      html2canvas:  { scale: 2 },
+      jsPDF:  { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }
+    html2pdf().set(opt).from(element).save()
+  }
+  
   const downloadListviewPNG = () => {
     dispatch({ type: LISTVIEW_RENDERING })
     setTimeout(initRender, 2000)

@@ -20,7 +20,7 @@ Tegucigalpa	Honduras	TGU	MHTG	14.06089973	-87.21720123	3294	-6	U	America/Tegucig
 Syracuse	United States	SYR	KSYR	43.11119843	-76.10630035	421	-5	A	America/New_York
 Sydney	Australia	SYD	YSSY	-33.94609833	151.177002	21	10	O	Australia/Sydney
 Philipsburg	Netherlands Antilles	SXM	TNCM	18.04100037	-63.10889816	13	-4	U	America/Curacao
-Kingstown	Saint Vincent and the Grenadines	SVD	TVSA	13.156695	-61.149945	136	-4	U	America/St_Vincent
+Kingstown	Saint Vincent And The Grenadines	SVD	TVSA	13.156695	-61.149945	136	-4	U	America/St_Vincent
 St. Croix Island	Virgin Islands	STX	TISX	17.70190048	-64.79859924	74	-4	U	America/St_Thomas
 St. Thomas	Virgin Islands	STT	TIST	18.33729935	-64.9733963	23	-4	U	America/St_Thomas
 St. Louis	United States	STL	KSTL	38.748697	-90.370003	618	-6	A	America/Chicago
@@ -31,7 +31,7 @@ Shannon	Ireland	SNN	EINN	52.702	-8.92482	46	0	E	Europe/Dublin
 Santa Ana	United States	SNA	KSNA	33.67570114	-117.8679962	56	-8	A	America/Los_Angeles
 Sacramento	United States	SMF	KSMF	38.69540024	-121.5910034	27	-8	A	America/Los_Angeles
 Salt Lake City	United States	SLC	KSLC	40.78839874	-111.9779968	4227	-7	A	America/Denver
-Basse Terre	Saint Kitts and Nevis	SKB	TKPK	17.31119919	-62.71870041	170	-4	U	America/St_Kitts
+Basse Terre	Saint Kitts And Nevis	SKB	TKPK	17.31119919	-62.71870041	170	-4	U	America/St_Kitts
 San Juan	Puerto Rico	SJU	TJSJ	18.43939972	-66.00180054	9	-4	U	America/Puerto_Rico
 San Jose	Costa Rica	SJO	MROC	9.993860245	-84.20880127	3021	-6	U	America/Costa_Rica
 San Jose Del Cabo	Mexico	SJD	MMSD	23.15180016	-109.7210007	374	-7	S	America/Mazatlan
@@ -63,10 +63,10 @@ Panama City	Panama	PTY	MPTO	9.071359634	-79.38349915	135	-5	U	America/Panama
 Pointe-a-pitre	Guadeloupe	PTP	TFFR	16.265301	-61.531799	36	-4	U	America/Guadeloupe
 Palm Springs	United States	PSP	KPSP	33.82970047	-116.5070038	477	-8	A	America/Los_Angeles
 Prague	Czech Republic	PRG	LKPR	50.1008	14.26	1247	1	E	Europe/Prague
-Port-of-spain	Trinidad and Tobago	POS	TTPP	10.59539986	-61.33720016	58	-4	U	America/Port_of_Spain
+Port-of-spain	Trinidad And Tobago	POS	TTPP	10.59539986	-61.33720016	58	-4	U	America/Port_of_Spain
 Puerto Plata	Dominican Republic	POP	MDPP	19.75790024	-70.56999969	15	-4	U	America/Santo_Domingo
 Pensacola	United States	PNS	KPNS	30.47340012	-87.18659973	121	-6	A	America/Chicago
-Providenciales	Turks and Caicos Islands	PLS	MBPV	21.77359962	-72.26589966	15	-4	U	America/Grand_Turk
+Providenciales	Turks And Caicos Islands	PLS	MBPV	21.77359962	-72.26589966	15	-4	U	America/Grand_Turk
 Pittsburgh	United States	PIT	KPIT	40.49150085	-80.23290253	1203	-5	A	America/New_York
 Phoenix	United States	PHX	KPHX	33.43429947	-112.012001	1135	-7	N	America/Phoenix
 Philadelphia	United States	PHL	KPHL	39.87189865	-75.2410965	36	-5	A	America/New_York
@@ -211,7 +211,7 @@ Austin	United States	AUS	KAUS	30.19449997	-97.66989899	542	-6	A	America/Chicago
 Oranjestad	Aruba	AUA	TNCA	12.5014	-70.015198	60	-4	U	America/Aruba
 Atlanta	United States	ATL	KATL	33.6367	-84.428101	1026	-5	A	America/New_York
 Athens	Greece	ATH	LGAV	37.93640137	23.94449997	308	2	E	Europe/Athens
-Antigua	Antigua and Barbuda	ANU	TAPA	17.1367	-61.792702	62	-4	U	America/Antigua
+Antigua	Antigua And Barbuda	ANU	TAPA	17.1367	-61.792702	62	-4	U	America/Antigua
 Anchorage	United States	ANC	PANC	61.17440033	-149.9960022	152	-9	A	America/Anchorage
 Amsterdam	Netherlands	AMS	EHAM	52.308601	4.76389	-11	1	E	Europe/Amsterdam
 Amarillo	United States	AMA	KAMA	35.219398	-101.706001	3607	-6	A	America/Chicago
