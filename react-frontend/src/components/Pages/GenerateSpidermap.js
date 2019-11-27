@@ -28,6 +28,8 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const destinations = useSelector(state => state.selectedDestinationsSpidermap)
 
+  const downloadingPDF = useSelector(state => state.downloadPDFStatus)
+
   const pathsRef = useRef(destinations.map(() => createRef()))
 
   const labelsRef = useRef(destinations.concat(origin).map(() => createRef()))
@@ -127,8 +129,8 @@ const GenerateSpidermap = ({ ...props }) => {
         }}>
         <svg
           className='svg-map-area'
-          width={ (innerHeight * 1.25) }
-          height={ innerHeight }
+          width={ downloadingPDF ? 800 : (innerHeight * 1.25) }
+          height={ downloadingPDF ? 800 : innerHeight }
           style={{
             backgroundColor: svgBgColor,
             boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',

@@ -124,7 +124,7 @@ const GenerateListView = ({ ...props }) => {
     return arrays
 
   }
-
+  
   return (
     <>
     <div className='row'>

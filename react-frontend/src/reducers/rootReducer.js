@@ -26,6 +26,8 @@ import allCodesData from './allCodesData'
 import selectedMenuItem from './menu/selectedMenuItem'
 import listviewRendering from './listview/listviewRendering'
 import listviewPrinting from './listview/listviewPrinting'
+import downloadPDFStatus from './downloadPDF'
+import exportFileType from './exportFileType'
 
 const rootReducer = combineReducers({
   lastLocation,
@@ -45,7 +47,9 @@ const rootReducer = combineReducers({
   spidermap_selectByCategoryDestinations, spidermap_selectBy_DestinationsVisibility,
   spidermap_destinationPanelVisibility,
   selectedMenuItem,
-  listviewRendering, listviewPrinting
+  listviewRendering, listviewPrinting,
+  downloadPDFStatus,
+  exportFileType
 })
 
 export default rootReducer

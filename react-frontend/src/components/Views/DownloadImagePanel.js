@@ -9,13 +9,16 @@ import '../Buttons/buttons.scss'
 import {
   LISTVIEW_RENDERING,
   LISTVIEW_NOT_RENDERING,
-  PRINTING_LISTVIEW,
-  NOT_PRINTING_LISTVIEW
 } from '../../constants/listview'
+import {
+  DOWNLOADED_PDF,
+  DOWNLOADING_PDF,
+  SELECTED_FILE_TYPE,
+} from '../../constants/constants'
 
 const DownloadImagePanel = ({ ...props }) => {
 
-  const { history, type, divContentForPDF } = props
+  const { history, type } = props
 
   const dispatch = useDispatch()
 
@@ -27,9 +30,11 @@ const DownloadImagePanel = ({ ...props }) => {
     switch (fileType) {
       case 'PDF':
         downloadPDF()
+        dispatch({ type: SELECTED_FILE_TYPE, payload: 'PDF' })
         break;
       case 'SVG':
         downloadSVG(type)
+        dispatch({ type: SELECTED_FILE_TYPE, payload: 'SVG' })
         break;
       case 'PNG':
         if (type == 'listview') {
@@ -37,13 +42,18 @@ const DownloadImagePanel = ({ ...props }) => {
         } else {
           downloadPNG(type, resolution)
         }
+        dispatch({ type: SELECTED_FILE_TYPE, payload: 'PNG' })
         break;
       default:
         downloadSVG()
     }
   }
 
+  // var style = document.createElement('style')
+  // style.innerHTML = 'font-family:arial;'
+  // element.appendChild(style)
   const downloadPDF = () => {
+    dispatch({ type: DOWNLOADING_PDF })
     var element = document.getElementsByClassName('pdf-content')[0]
     var opt = {
       filename: `${type}.pdf`,
@@ -51,9 +61,15 @@ const DownloadImagePanel = ({ ...props }) => {
       html2canvas:  { scale: 2 },
       jsPDF:  { unit: 'in', format: 'letter', orientation: 'portrait' }
     }
-    html2pdf().set(opt).from(element).save()
+    setTimeout(() => {
+      html2pdf().set(opt)
+                .from(element)
+                .save()
+                .then(() => dispatch({ type: DOWNLOADED_PDF }))
+                .catch(err => console.log(err))
+    }, 2000)
   }
-  
+
   const downloadListviewPNG = () => {
     dispatch({ type: LISTVIEW_RENDERING })
     setTimeout(initRender, 2000)

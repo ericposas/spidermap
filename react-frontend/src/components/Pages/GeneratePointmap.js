@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import DownloadImagePanel from '../Views/DownloadImagePanel'
+import DownloadingFile_Modal from '../Modals/DownloadingFile_Modal'
 import mapSettings from '../../mapSettings.config'
 
 const GeneratePointmap = ({ ...props }) => {
@@ -29,6 +30,8 @@ const GeneratePointmap = ({ ...props }) => {
   const origins = useSelector(state => state.selectedOriginsPointmap)
 
   const destinations = useSelector(state => state.selectedDestinationsPointmap)
+
+  const downloadingPDF = useSelector(state => state.downloadPDFStatus)
 
   let destArr = []
 
@@ -209,6 +212,12 @@ const GeneratePointmap = ({ ...props }) => {
   }
 
   return (<>
+    {
+      downloadingPDF
+      ? <DownloadingFile_Modal/>
+      : null
+    }
+    { downloadingPDF ? <div className='white-backing'></div> : null }
     <div className='row'>
       <UserLeftSidePanel/>
       <DownloadImagePanel type='pointmap' label='Point-to-Point Map'/>
@@ -216,6 +225,7 @@ const GeneratePointmap = ({ ...props }) => {
         id='map-content'
         className='col-med pdf-content'
         style={{
+          transform: downloadingPDF ? `scale(${550/innerHeight})` : '',
           height:'100vh',
           backgroundColor: '#fff',
         }}>
@@ -225,7 +235,7 @@ const GeneratePointmap = ({ ...props }) => {
           height={ innerHeight }
           style={{
             backgroundColor: svgBgColor,
-            boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
+            boxShadow: downloadingPDF ? '' : 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
           }}>
           {
             destinations

@@ -1,7 +1,7 @@
 export default {
   // svgArea: { w:1200, h:900 },
   svgBgColor: '#fff',
-  svgMargin: 100,
+  svgMargin: 50,
   pathStrokeThickness: 2,
   pathStrokeColor: '#006CC4',
   originDotColor: '#006CC4',
