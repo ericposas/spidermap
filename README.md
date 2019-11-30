@@ -19,11 +19,10 @@
       - Add "spread" factor from origin -- meaning, if the end user wants to increase X distance between destinations, they and increase or decrease
       - Add "bend" factor that adds extra curve to the plotted paths
 
+  Register Page:
+    - Add styling to the user registration page 
+
   Timer:
-    - Set a time limit on the sessionStorage -- auto logout()
-    - Use setTimeout() with a timer of 15 minutes or so
-    - Every time the user interacts with the application, reset the timer
-    - Upon timer run out, invalidate the jwt by deleting the sessionStorage variable
     - Upon timer run out, redirect user to a "you have been logged out page"
 
   Optimization:

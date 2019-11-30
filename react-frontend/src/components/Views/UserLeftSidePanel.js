@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from 'react'
-// import { useDispatch, useSelector } from 'react-redux'
 import BackButton from '../Buttons/BackButton'
 import LogoutButton from '../Buttons/LogoutButton'
 import DashboardButton from '../Buttons/DashboardButton'
@@ -51,7 +50,9 @@ const UserLeftSidePanel = ({ ...props }) => {
               color:'#37acf4'
             }}>
             {
-              getUser().user.email
+              checkAuth()
+              ? getUser().user.email
+              : null
             }
           </div>
           <br/>

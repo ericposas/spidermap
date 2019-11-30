@@ -26,8 +26,6 @@ const Dashboard = ({ ...props }) => {
 
   const { logoutHandler, history } = props
 
-  // const [selectedMenuItem, setSelectedMenuItem] = useState(null)
-
   const selectedMenuItem = useSelector(state => state.selectedMenuItem)
 
   const pointmapSelect = () => {
@@ -63,7 +61,7 @@ const Dashboard = ({ ...props }) => {
       setUser(sessionData.data.user.username)
     } else { history.push('/') }
   }, [])
-
+  
   const getProperIcon = () => {
     switch (selectedMenuItem) {
       case SPIDERMAP:
