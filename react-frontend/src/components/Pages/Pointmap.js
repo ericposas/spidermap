@@ -8,7 +8,7 @@ import UploadForm from '../Forms/UploadForm'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import SelectBy_Origins from '../Views/SelectBy_Origins'
 import SelectBy_Destinations_Pointmap from '../Views/SelectBy_Destinations_Pointmap'
-import UploadModal from '../Forms/UploadModal'
+import UploadModal from '../Modals/UploadModal'
 import { checkAuth } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
 import {
@@ -19,7 +19,9 @@ import {
   HIDE_SELECT_BY_CATEGORY_DESTINATIONS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_POINTMAP,
-  HIDE_DESTINATION_PANEL_POINTMAP
+  HIDE_DESTINATION_PANEL_POINTMAP,
+  CLEAR_ORIGIN_LOCATIONS_POINTMAP,
+  SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE,
 } from '../../constants/pointmap'
 
 const Pointmap = ({ ...props }) => {
@@ -69,6 +71,21 @@ const Pointmap = ({ ...props }) => {
       dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
       props.history.push('/generate-pointmap')
     }
+  }
+
+  const clearList = () => {
+    batch(() => {
+      dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: null })
+      dispatch({ type: CLEAR_ORIGIN_LOCATIONS_POINTMAP })
+      dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: {} })
+      dispatch({ type: HIDE_SELECT_BY_CODE_ORIGINS_POINTMAP })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY_ORIGINS_POINTMAP })
+      dispatch({ type: HIDE_SELECT_BY_CODE_DESTINATIONS_POINTMAP })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY_DESTINATIONS_POINTMAP })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_POINTMAP })
+      dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_POINTMAP })
+      dispatch({ type: HIDE_DESTINATION_PANEL_POINTMAP })
+    })
   }
 
   useEffect(() => {
@@ -127,7 +144,7 @@ const Pointmap = ({ ...props }) => {
                     margin: '0 0 10px 0',
                     border: 'none',
                     borderRadius: '5px',
-                    backgroundColor: 'red',
+                    backgroundColor: '#37ACF4',
                     color: '#fff'
                   }}>
                   Upload CSV
@@ -148,6 +165,26 @@ const Pointmap = ({ ...props }) => {
                   }}>
                   Generate Pointmap
                 </button>
+                <br/>
+                {
+                  selectedOriginsPointmap && selectedOriginsPointmap.length > 0
+                  ?
+                    (<button
+                      onClick={clearList}
+                      style={{
+                        height:'60px',
+                        width: '100%',
+                        padding: '0 20px 0 20px',
+                        margin: '10px 0 10px 0',
+                        border: 'none',
+                        borderRadius: '5px',
+                        backgroundColor: '#006CC4',
+                        color: '#fff'
+                      }}>
+                      Clear List
+                    </button>)
+                  : null
+                }
               </div>
             </div>
           </div>

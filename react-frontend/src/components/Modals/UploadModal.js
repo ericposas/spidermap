@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import UploadForm from './UploadForm'
+import UploadForm from '../Forms/UploadForm'
 
 const UploadModal = ({ ...props }) => {
 

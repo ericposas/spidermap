@@ -1,16 +1,20 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
 import BackButton from '../Buttons/BackButton'
-import UploadModal from '../Forms/UploadModal'
+import UploadModal from '../Modals/UploadModal'
 import SelectBy_Destinations_ListView from '../Views/SelectBy_Destinations_ListView'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import { checkAuth } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
+import {
+  REMOVE_ORIGIN_LISTVIEW,
+  REMOVE_ALL_DESTINATIONS_LISTVIEW,
+} from '../../constants/listview'
 
-const Spidermap = ({ ...props }) => {
+const ListView = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
@@ -46,6 +50,13 @@ const Spidermap = ({ ...props }) => {
     if (selectedDestinationsListView.length > 0) {
       props.history.push('/generate-listview')
     }
+  }
+
+  const clearList = () => {
+    batch(() => {
+      dispatch({ type: REMOVE_ORIGIN_LISTVIEW })
+      dispatch({ type: REMOVE_ALL_DESTINATIONS_LISTVIEW })
+    })
   }
 
   useEffect(() => {
@@ -100,7 +111,7 @@ const Spidermap = ({ ...props }) => {
                   margin: '0 0 10px 0',
                   border: 'none',
                   borderRadius: '5px',
-                  backgroundColor: 'red',
+                  backgroundColor: '#37ACF4',
                   color: '#fff'
                 }}>
                 Upload CSV
@@ -121,6 +132,26 @@ const Spidermap = ({ ...props }) => {
                 }}>
                 Generate List View
               </button>
+              <br/>
+              {
+                selectedOriginListView
+                ?
+                  (<button
+                    onClick={clearList}
+                    style={{
+                      height:'60px',
+                      width: '100%',
+                      padding: '0 20px 0 20px',
+                      margin: '10px 0 10px 0',
+                      border: 'none',
+                      borderRadius: '5px',
+                      backgroundColor: '#006CC4',
+                      color: '#fff'
+                    }}>
+                    Clear List
+                  </button>)
+                : null
+              }
             </div>
           </div>
         </div>
@@ -179,4 +210,4 @@ const Spidermap = ({ ...props }) => {
 
 }
 
-export default withRouter(Spidermap)
+export default withRouter(ListView)

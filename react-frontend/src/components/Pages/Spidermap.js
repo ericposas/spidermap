@@ -1,13 +1,18 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import SelectBy_Destinations_Spidermap from '../Views/SelectBy_Destinations_Spidermap'
-import UploadModal from '../Forms/UploadModal'
+import UploadModal from '../Modals/UploadModal'
 import { checkAuth } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
+import {
+  CLEAR_ORIGIN_SPIDERMAP,
+  SET_ORIGIN_SPIDERMAP,
+  REMOVE_ALL_DESTINATIONS_SPIDERMAP,
+} from '../../constants/spidermap'
 
 const Spidermap = ({ ...props }) => {
 
@@ -46,6 +51,14 @@ const Spidermap = ({ ...props }) => {
       dispatch({ type: LAST_LOCATION, payload: 'spidermap' })
       props.history.push('/generate-spidermap')
     }
+  }
+
+  const clearList = () => {
+    batch(() => {
+      dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: null })
+      dispatch({ type: CLEAR_ORIGIN_SPIDERMAP })
+      dispatch({ type: REMOVE_ALL_DESTINATIONS_SPIDERMAP })
+    })
   }
 
   useEffect(() => {
@@ -100,7 +113,7 @@ const Spidermap = ({ ...props }) => {
                   margin: '0 0 10px 0',
                   border: 'none',
                   borderRadius: '5px',
-                  backgroundColor: 'red',
+                  backgroundColor: '#37ACF4',
                   color: '#fff'
                 }}>
                 Upload CSV
@@ -121,6 +134,26 @@ const Spidermap = ({ ...props }) => {
                 }}>
                 Generate Spidermap
               </button>
+              <br/>
+              {
+                selectedOriginSpidermap
+                ?
+                  (<button
+                    onClick={clearList}
+                    style={{
+                      height:'60px',
+                      width: '100%',
+                      padding: '0 20px 0 20px',
+                      margin: '10px 0 10px 0',
+                      border: 'none',
+                      borderRadius: '5px',
+                      backgroundColor: '#006CC4',
+                      color: '#fff'
+                    }}>
+                    Clear List
+                  </button>)
+                : null
+              }
             </div>
           </div>
         </div>

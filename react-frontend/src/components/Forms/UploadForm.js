@@ -24,6 +24,7 @@ import {
   SET_DESTINATION_LOCATIONS_LISTVIEW,
   REMOVE_ALL_DESTINATIONS_LISTVIEW
 } from '../../constants/listview'
+import '../Buttons/buttons.scss'
 
 const UploadForm = ({ ...props }) => {
 
@@ -223,6 +224,16 @@ const UploadForm = ({ ...props }) => {
       <div style={{
           margin: '40px'
         }}>
+        <div
+          className='x-button'
+          style={{
+            transform: 'scale(1.35)',
+            position: 'absolute',
+            top: '-5px', right: '-5px',
+          }}
+          onClick={() => props.setModalVisibility(false)}>
+          <div className='x-button-x-symbol'>x</div>
+        </div>
         {
           props.type == 'spidermap' || props.type == 'listview'
           ?
