@@ -38,7 +38,7 @@ const LoginPanel = ({ ...props }) => {
       history.push('/dashboard')
     } else {
       // show user logged out if done so recently
-      if (lastLocation) { setIfLoggedOut(true); setTimeout(() => setIfLoggedOut(false), 1500); }
+      if (lastLocation) { setIfLoggedOut(true); setTimeout(() => setIfLoggedOut(false), 3000); }
       setIsLoggedIn(false)
     }
   }
@@ -50,7 +50,6 @@ const LoginPanel = ({ ...props }) => {
 
   return (
     <>
-      {/*<LoginPanel/>*/}
       <>
       <div className='col-med' style={{
           width:'300px',
@@ -87,26 +86,32 @@ const LoginPanel = ({ ...props }) => {
                 textAlign: 'center',
                 color:'#37acf4'
               }}>
-              {
-                // getUser().user.email
-              }
             </div>
             <br/>
-            <div
-              style={{
-                margin: '0 0 0 15%'
-              }}>
+            <div>
               {
                 ifLoggedOut
-                ? (<><div className='modal-loggedout'>not logged in.</div></>)
+                ?
+                  lastLocation == 'autologout'
+                  ? (<>
+                      <div className='modal-loggedout'>you have been logged out due to 15 min. of inactivity</div>
+                     </>)
+                  : (<>
+                      <div className='modal-loggedout'>not logged in.</div>
+                     </>)
                 : ''
               }
               {
                 !isLoggedIn
                 ? (<>
-                    <SignIn triggerLoginChange={handleLoginChange}/>
-                    <br/>
-                    <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
+                    <div
+                      style={{
+                        margin: '0 0 0 17.5%'
+                      }}>
+                      <SignIn triggerLoginChange={handleLoginChange}/>
+                      <br/>
+                      <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
+                    </div>
                   </>) : ''
               }
             </div>

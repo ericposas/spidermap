@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { HashRouter as Router, BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import LoginPanel from './components/Login/LoginPanel'
 import SignUp from './components/Login/SignUp'
 import Dashboard from './components/Pages/Dashboard'
@@ -13,8 +13,9 @@ import Upload from './components/Pages/Upload'
 import MyFiles from './components/Pages/MyFiles'
 import ListViewPDF from './components/Pages/ListViewPDF'
 
-const App = ({ ...props }) => (
-  <>
+const App = ({ ...props }) => {
+
+  return (<>
     <Router>
       <Switch>
         <Route exact path='/'>
@@ -24,8 +25,6 @@ const App = ({ ...props }) => (
         <Route path='/dashboard'>
           <Dashboard/>
         </Route>
-        <Route path='/pdf-listview' component={ListViewPDF}/>
-
         <Route path='/generate-listview' component={GenerateListView}/>
         <Route path='/generate-spidermap' component={GenerateSpidermap}/>
         <Route path='/generate-pointmap' component={GeneratePointmap}/>
@@ -36,7 +35,7 @@ const App = ({ ...props }) => (
         <Route path='/myfiles' component={MyFiles}/>
       </Switch>
     </Router>
-  </>
-)
+  </>)
+}
 
 export default App

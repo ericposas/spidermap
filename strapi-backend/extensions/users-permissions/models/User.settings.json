@@ -55,6 +55,9 @@
       "via": "users",
       "plugin": "users-permissions",
       "configurable": false
+    },
+    "isadmin": {
+      "type": "boolean"
     }
   }
 }

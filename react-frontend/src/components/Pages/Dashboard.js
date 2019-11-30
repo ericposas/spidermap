@@ -56,12 +56,37 @@ const Dashboard = ({ ...props }) => {
   }
 
   useEffect(() => {
+
+    const enableLogoutTimer = () => {
+      // uncomment below to enable auto-logout function
+      let logoutTimer, timeLength = (60 * 1000 * 15)
+      const setLogoutTimer = () => {  // auto logout timer -- 15 minutes
+        if (logoutTimer) clearTimeout(logoutTimer)
+        if (sessionStorage.getItem(process.env.APP_NAME)) {
+          logoutTimer = setTimeout(() => {
+            sessionStorage.removeItem(process.env.APP_NAME)
+            dispatch({ type: LAST_LOCATION, payload: 'autologout' })
+            history.push('/')
+          }, timeLength)
+          console.log('timer reset to auto-logout in 15 minutes')
+        } else {
+          console.log('not logged in')
+        }
+      }
+      setLogoutTimer()
+      window.onmousemove = () => setLogoutTimer()
+    }
+
     let sessionData = JSON.parse(sessionStorage.getItem(process.env.APP_NAME))
     if (sessionData) {
       setUser(sessionData.data.user.username)
-    } else { history.push('/') }
+      enableLogoutTimer()
+    } else {
+      history.push('/')
+    }
+
   }, [])
-  
+
   const getProperIcon = () => {
     switch (selectedMenuItem) {
       case SPIDERMAP:

@@ -44,20 +44,25 @@ body {
 .modal-registered,
 .modal-errored {
   padding: 40px;
+  text-align: center;
 }
 
 .modal-success {
-  background-color: green;
+  color: #fff;
+  background-color: #37ACF4;
 }
 
 .modal-registered {
-  background-color: #1B85BF;
+  color: #fff;
+  background-color: #006CC4;
 }
 
 .modal-errored {
-  background-color: red;
+  color: #fff;
+  background-color: #C5251D;
 }
 
 .modal-loggedout {
-  background-color: yellow;
+  color: #fff;
+  background-color: #ccc;
 }

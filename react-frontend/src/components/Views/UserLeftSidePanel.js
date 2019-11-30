@@ -51,7 +51,7 @@ const UserLeftSidePanel = ({ ...props }) => {
             }}>
             {
               checkAuth()
-              ? getUser().user.email
+              ? (<><span onClick={() => console.log(getUser().user)}>{getUser().user.email}</span></>)
               : null
             }
           </div>

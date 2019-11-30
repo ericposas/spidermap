@@ -8,6 +8,7 @@
   Database Saves:
     - Save user's created maps to their User profile in the form of the CSV parser format
     - Will save a simple list (DFW, LAX, PHX, PHL, etc.) in the database for a specific user
+    - If isadmin is true, save the user's maps to the global maps (or show that option at least under save map UI)
 
   Charting:
     - Avoid adding labels twice (if origin label already exists, don't add the destination label for the same place)
@@ -18,12 +19,6 @@
     Charting:Maybe:
       - Add "spread" factor from origin -- meaning, if the end user wants to increase X distance between destinations, they and increase or decrease
       - Add "bend" factor that adds extra curve to the plotted paths
-
-  Register Page:
-    - Add styling to the user registration page 
-
-  Timer:
-    - Upon timer run out, redirect user to a "you have been logged out page"
 
   Optimization:
     - When a Dropdown component mounts, fetch the api resources (only if not exists in the store). Once set, we shouldn't need to fetch if the data is already in the Redux store. Currently, we fetch new data every time the Dropdown component mounts.
