@@ -11,7 +11,6 @@ import GeneratePointmap from './components/Pages/GeneratePointmap'
 import GenerateListView from './components/Pages/GenerateListView'
 import Upload from './components/Pages/Upload'
 import MyFiles from './components/Pages/MyFiles'
-import ListViewPDF from './components/Pages/ListViewPDF'
 
 const App = ({ ...props }) => {
 
