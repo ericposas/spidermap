@@ -1,3 +1,13 @@
 .my-map-tile:hover {
-  transform: scale(1.05);
+  // transform: scale(1.05);
+}
+
+.x-button-map-tile:hover {
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+.x-button-x-symbol-map-tile:hover {
+  color: #fff !important;
+  background-color: #CC271E;
 }

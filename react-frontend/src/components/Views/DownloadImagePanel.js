@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { downloadPNG, downloadSVG } from '../../utils/downloadOptions'
 import html2canvas from 'html2canvas'
@@ -15,6 +15,9 @@ import {
   DOWNLOADING_PDF,
   SELECTED_FILE_TYPE,
 } from '../../constants/constants'
+import { checkAuth, getUser } from '../../sessionStore'
+import '../../images/save.svg'
+import axios from 'axios'
 
 const DownloadImagePanel = ({ ...props }) => {
 
@@ -25,6 +28,14 @@ const DownloadImagePanel = ({ ...props }) => {
   const [fileType, setFileType] = useState('SVG')
 
   const [resolution, setResolution] = useState(2)
+
+  const selectedOriginListView = useSelector(state => state.selectedOriginListView)
+
+  const selectedDestinationsListView = useSelector(state => state.selectedDestinationsListView)
+
+  const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
+
+  const selectedDestinationsSpidermap = useSelector(state => state.selectedDestinationsSpidermap)
 
   const handleDownload = () => {
     switch (fileType) {
@@ -98,6 +109,18 @@ const DownloadImagePanel = ({ ...props }) => {
     }
   }
 
+  const saveListingPointmap = () => {}
+
+  const saveListing = (global = false) => {
+    let arr = []
+    let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
+    type == 'listview' ? arr.push(selectedOriginListView.code) : arr.push(selectedOriginSpidermap.code)
+    type == 'listview' ? selectedDestinationsListView.forEach(dest => arr.push(dest.code)) : selectedDestinationsSpidermap.forEach(dest => arr.push(dest.code))
+    axios.post(endpoint, { type: type, locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+         .then(response => console.log(response))
+         .catch(err => console.log(err))
+  }
+  
   useEffect(() => {
     if (type == 'listview') setFileType('PNG')
     window.onafterprint = null
@@ -183,6 +206,27 @@ const DownloadImagePanel = ({ ...props }) => {
               className='download-button'
               onClick={handleDownload}>
               Download {fileType}
+            </button>
+            <br/>
+            <button
+              onClick={type == 'listview' || type == 'spidermap' ? saveListing : saveListingPointmap}
+              style={{
+                height:'60px',
+                width: '100%',
+                padding: '0 20px 0 20px',
+                margin: '0 0 10px 0',
+                border: 'none',
+                borderRadius: '5px',
+                backgroundColor: '#006CC4',
+                color: '#fff'
+              }}>
+              <span>Save List</span>
+              <img
+                style={{
+                  margin: '0 0 0 10px',
+                  width: '20px',
+                }}
+                src='./img/save.svg'/>
             </button>
           </div>
         </div>
