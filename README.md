@@ -6,9 +6,8 @@
    - Clean up PDF export for listview (currently cuts words in half at page break)
 
   Database Saves:
-    - Save user's created maps to their User profile in the form of the CSV parser format
-    - Will save a simple list (DFW, LAX, PHX, PHL, etc.) in the database for a specific user
-    - If isadmin is true, save the user's maps to the global maps (or show that option at least under save map UI)
+    - Filter out origin location in destinations list (pointmap map tile)
+    - If 'isadmin' is true, show the option to save to the global map store
 
   Charting:
     - Avoid adding labels twice (if origin label already exists, don't add the destination label for the same place)
