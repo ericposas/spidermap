@@ -136,7 +136,7 @@ const Spidermap = ({ ...props }) => {
               </button>
               <br/>
               {
-                selectedOriginSpidermap
+                selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0
                 ?
                   (<button
                     onClick={clearList}

@@ -11,6 +11,7 @@ import GeneratePointmap from './components/Pages/GeneratePointmap'
 import GenerateListView from './components/Pages/GenerateListView'
 import Upload from './components/Pages/Upload'
 import MyFiles from './components/Pages/MyFiles'
+import MyMaps from './components/Pages/MyMaps'
 
 const App = ({ ...props }) => {
 
@@ -24,6 +25,7 @@ const App = ({ ...props }) => {
         <Route path='/dashboard'>
           <Dashboard/>
         </Route>
+        <Route path='/my-maps' component={MyMaps}/>
         <Route path='/generate-listview' component={GenerateListView}/>
         <Route path='/generate-spidermap' component={GenerateSpidermap}/>
         <Route path='/generate-pointmap' component={GeneratePointmap}/>
