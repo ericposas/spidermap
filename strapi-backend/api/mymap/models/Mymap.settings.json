@@ -1,0 +1,22 @@
+{
+  "connection": "default",
+  "collectionName": "mymap",
+  "info": {
+    "name": "mymap",
+    "description": ""
+  },
+  "options": {
+    "timestamps": [
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  "attributes": {
+    "locations": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    }
+  }
+}

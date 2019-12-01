@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/globalmaps",
+      "handler": "Globalmap.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/globalmaps/count",
+      "handler": "Globalmap.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/globalmaps/:id",
+      "handler": "Globalmap.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/globalmaps",
+      "handler": "Globalmap.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/globalmaps/:id",
+      "handler": "Globalmap.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/globalmaps/:id",
+      "handler": "Globalmap.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -35,7 +35,7 @@ const UploadForm = ({ ...props }) => {
          })
          .catch(err => console.log(err))
   }, [])
-
+  
   const dispatch = useDispatch()
 
   const options = useSelector(state => state.allCodesData)

@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/mymaps",
+      "handler": "Mymap.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/mymaps/count",
+      "handler": "Mymap.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/mymaps/:id",
+      "handler": "Mymap.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/mymaps",
+      "handler": "Mymap.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/mymaps/:id",
+      "handler": "Mymap.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/mymaps/:id",
+      "handler": "Mymap.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

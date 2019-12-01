@@ -136,7 +136,8 @@ const Dashboard = ({ ...props }) => {
               <br/>
               <button
                   style={{ marginLeft:'10%' }}
-                  className='dashboard-menu-button'>
+                  className='dashboard-menu-button'
+                  onClick={() => props.history.push('/my-maps')}>
                 View / Edit My Maps
               </button>
               <br/>

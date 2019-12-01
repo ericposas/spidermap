@@ -7,12 +7,14 @@ import BackButton from '../Buttons/BackButton'
 import UploadModal from '../Modals/UploadModal'
 import SelectBy_Destinations_ListView from '../Views/SelectBy_Destinations_ListView'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
-import { checkAuth } from '../../sessionStore'
+import { checkAuth, getUser } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
 import {
   REMOVE_ORIGIN_LISTVIEW,
   REMOVE_ALL_DESTINATIONS_LISTVIEW,
 } from '../../constants/listview'
+import axios from 'axios'
+import '../../images/save.svg'
 
 const ListView = ({ ...props }) => {
 
@@ -59,6 +61,16 @@ const ListView = ({ ...props }) => {
     })
   }
 
+  const saveListing = (global = false) => {
+    let arr = []
+    let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
+    arr.push(selectedOriginListView.code)
+    selectedDestinationsListView.forEach(dest => arr.push(dest.code))
+    axios.post(endpoint, { type: 'listview', locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+         .then(response => console.log(response))
+         .catch(err => console.log(err))
+  }
+
   useEffect(() => {
     if (!checkAuth()) setTimeout(() => props.history.push('/'))
     else {
@@ -69,7 +81,7 @@ const ListView = ({ ...props }) => {
 
   return (
     <>
-      <div className='row' style={{whiteSpace:'nowrap'}}>
+      <div className='row' style={{ whiteSpace:'nowrap' }}>
         <UserLeftSidePanel/>
         <div className='col-med' style={{
             width:'300px',
@@ -134,7 +146,7 @@ const ListView = ({ ...props }) => {
               </button>
               <br/>
               {
-                selectedOriginListView
+                selectedOriginListView && selectedDestinationsListView.length > 0
                 ?
                   (<button
                     onClick={clearList}
@@ -149,6 +161,32 @@ const ListView = ({ ...props }) => {
                       color: '#fff'
                     }}>
                     Clear List
+                  </button>)
+                : null
+              }
+              <br/>
+              {
+                selectedOriginListView && selectedDestinationsListView.length > 0
+                ?
+                  (<button
+                    onClick={saveListing}
+                    style={{
+                      height:'60px',
+                      width: '100%',
+                      padding: '0 20px 0 20px',
+                      margin: '0 0 10px 0',
+                      border: 'none',
+                      borderRadius: '5px',
+                      backgroundColor: '#006CC4',
+                      color: '#fff'
+                    }}>
+                    <span>Save List</span>
+                    <img
+                      style={{
+                        margin: '0 0 0 10px',
+                        width: '20px',
+                      }}
+                      src='./img/save.svg'/>
                   </button>)
                 : null
               }
