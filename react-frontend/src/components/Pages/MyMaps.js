@@ -16,6 +16,11 @@ import {
   SET_DESTINATION_LOCATIONS_SPIDERMAP,
 } from '../../constants/spidermap'
 import {
+  CLEAR_ORIGIN_LOCATIONS_POINTMAP,
+  SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE,
+  SET_ORIGIN_LOCATIONS_POINTMAP,
+} from '../../constants/pointmap'
+import {
   SET_ALL_CODES,
   LAST_LOCATION,
 } from '../../constants/constants'
@@ -57,6 +62,9 @@ const MyMaps = ({ ...props }) => {
 
   const createMap = (type, data) => {
     switch (type) {
+      case 'pointmap':
+        createPointmap(data)
+        break;
       case 'spidermap':
         createSpidermap(data)
         break;
@@ -66,6 +74,45 @@ const MyMaps = ({ ...props }) => {
       default:
         createListView(data)
     }
+  }
+
+  const createPointmap = data => {
+    // clear our list first, then process new CSV
+    batch(() => {
+      dispatch({ type: CLEAR_ORIGIN_LOCATIONS_POINTMAP })
+      dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: {} })
+    })
+    let dataObj = {}
+    let origins = []
+    data.forEach((arr, i) => {
+      let originCodes = []
+      let tmp = [], tmpObjArr = []
+      arr.forEach((item, i) => {
+        if (item != arr[0]) tmp.push(item)
+      })
+      tmp.forEach(item => {
+        options.forEach(option => {
+          if (item.trim() == option.code && item.trim() != arr[0].trim()) {
+            tmpObjArr.push(option)
+          }
+        })
+      })
+      originCodes.push(arr[0].trim())
+      originCodes.forEach(origin => {
+        options.forEach(option => {
+          if (origin.trim() == option.code) {
+            origins.push(option)
+          }
+        })
+      })
+      dataObj[arr[0].trim()] = tmpObjArr
+    })
+    batch(() => {
+      dispatch({ type: SET_ORIGIN_LOCATIONS_POINTMAP, payload: origins })
+      dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: dataObj })
+      dispatch({ type: LAST_LOCATION, payload: 'my-maps' })
+    })
+    props.history.push('/generate-pointmap')
   }
 
   const createSpidermap = data => {
@@ -292,7 +339,34 @@ const MyMaps = ({ ...props }) => {
                                   </Fragment>)
                                 }
                               })
-                              : null
+                              :
+                                JSON.parse(myMaps[i].locations).map((destArr, _i) => {
+                                  return destArr.map((item, __i) => {
+                                    if (__i == 0) {
+                                      return (<Fragment key={'origin-map-tile-label-'+__i}>
+                                        <div style={{
+                                          margin: '2px',
+                                          padding: '4px',
+                                          display: 'inline-block',
+                                        }}>
+                                        <span style={{ fontSize: '.95rem' }}>Origin: <span style={{ fontSize: '.8rem' }}>{ item }</span></span>
+                                        </div>
+                                      </Fragment>)
+                                    } else {
+                                      return (<Fragment key={'destinations-map-tile-label-'+__i}>
+                                      { __i == 1 ? (<div style={{paddingLeft:'5px',fontSize: '.95rem',}}>Destinations:</div>) : null }
+                                      <span style={{
+                                          margin: '2px',
+                                          padding: '4px',
+                                        }}>
+                                        <span style={{ fontSize: '.8rem' }}>{ item }</span>
+                                      </span>
+                                      { __i % 4 == 0 ? (<br/>) : null }
+                                      { __i == destArr.length-1 ? (<><br/><br/></>) : null }
+                                      </Fragment>)
+                                    }
+                                  })
+                                })
                             }
                           </div>
                         </div>

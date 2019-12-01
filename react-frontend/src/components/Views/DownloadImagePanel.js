@@ -37,6 +37,10 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const selectedDestinationsSpidermap = useSelector(state => state.selectedDestinationsSpidermap)
 
+  const selectedOriginsPointmap = useSelector(state => state.selectedOriginsPointmap)
+
+  const selectedDestinationsPointmap = useSelector(state => state.selectedDestinationsPointmap)
+
   const handleDownload = () => {
     switch (fileType) {
       case 'PDF':
@@ -109,8 +113,16 @@ const DownloadImagePanel = ({ ...props }) => {
     }
   }
 
-  const saveListingPointmap = () => {}
-
+  const saveListingPointmap = (global = false) => {
+    let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
+    let arr = Object.keys(selectedDestinationsPointmap).map(idx => {
+      return [idx].concat(selectedDestinationsPointmap[idx].map(_idx => _idx.code))
+    })
+    axios.post(endpoint, { type: type, locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+         .then(response => console.log(response))
+         .catch(err => console.log(err))
+  }
+  
   const saveListing = (global = false) => {
     let arr = []
     let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
@@ -120,7 +132,7 @@ const DownloadImagePanel = ({ ...props }) => {
          .then(response => console.log(response))
          .catch(err => console.log(err))
   }
-  
+
   useEffect(() => {
     if (type == 'listview') setFileType('PNG')
     window.onafterprint = null
