@@ -6,12 +6,6 @@ import { getUser, checkAuth } from '../../sessionStore'
 
 const Upload = ({ ...props }) => {
 
-  // useEffect(() => {
-  //   if (!checkAuth()) {
-  //     props.history.push('/')
-  //   }
-  // }, [])
-
   const formRef = useRef()
 
   const handleSubmit = e => {

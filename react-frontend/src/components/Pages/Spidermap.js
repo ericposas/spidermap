@@ -74,20 +74,15 @@ const Spidermap = ({ ...props }) => {
     <>
       <div className='row' style={{whiteSpace:'nowrap'}}>
         <UserLeftSidePanel/>
-        <div className='col-med' style={{
-            minWidth:'300px',
-            height:'100vh',
-            backgroundColor: '#fff',
-            boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
-          }}>
+        <div className='col-med panel-style'
+             style={{
+               height:'100vh', minWidth:'300px',
+             }}>
           <div style={{
-                width: '100%',
-                height: '100%',
+                width: '100%', height: '100%',
                 position: 'relative',
             }}>
-            <div style={{
-                margin: '10% 0 0 10%',
-              }}>
+            <div style={{ margin: '10% 0 0 10%' }}>
               <div className='map-type-title'>
                 Spidermap
               </div>
@@ -98,40 +93,25 @@ const Spidermap = ({ ...props }) => {
                  className='button-container'
                  style={{
                    bottom: buttonContainerBottom,
-                   width: '70%',
-                   margin: 'auto',
-                   left: 0, right: 0,
-                   position: 'absolute',
+                   width: '70%', margin: 'auto',
+                   left: 0, right: 0, position: 'absolute',
                 }}>
               <button
-                onClick={() => {
-                  setShowUploadCSVModal(true)
-                }}
-                style={{
-                  height:'60px',
-                  width: '100%',
-                  padding: '0 20px 0 20px',
-                  margin: '0 0 10px 0',
-                  border: 'none',
-                  borderRadius: '5px',
-                  backgroundColor: '#37ACF4',
-                  color: '#fff'
-                }}>
+                className='button-generic'
+                onClick={() => setShowUploadCSVModal(true)}
+                style={{ backgroundColor: '#37ACF4' }}>
                 Upload CSV
               </button>
               <br/>
               <button
+                className='button-generic'
                 ref={uploadButtonRef}
                 onClick={handleGenerateMapClick}
                 style={{
-                  height:'60px',
-                  width: '100%',
-                  padding: '0 20px 0 20px',
-                  border: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'none' : '1px solid #CCC',
-                  borderRadius: '5px',
+                  border: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'none' : '1px solid #ccc',
                   pointerEvents: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'all' : 'none',
-                  color: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'white' : '#CCC',
-                  backgroundColor: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'red' : 'white'
+                  color: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'white' : '#ccc',
+                  backgroundColor: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'red' : '#fff'
                 }}>
                 Generate Spidermap
               </button>
@@ -140,17 +120,9 @@ const Spidermap = ({ ...props }) => {
                 selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0
                 ?
                   (<button
+                    className='button-generic'
                     onClick={clearList}
-                    style={{
-                      height:'60px',
-                      width: '100%',
-                      padding: '0 20px 0 20px',
-                      margin: '10px 0 10px 0',
-                      border: 'none',
-                      borderRadius: '5px',
-                      backgroundColor: '#006CC4',
-                      color: '#fff'
-                    }}>
+                    style={{ margin: '0 0 10px 0', backgroundColor: '#006CC4' }}>
                     Clear List
                   </button>)
                 : null
@@ -174,12 +146,10 @@ const Spidermap = ({ ...props }) => {
           spidermap_selectByCodeDestinations && selectedOriginSpidermap && spidermap_selectBy_DestinationsVisibility
           ?
            (<>
-             <div className='col-med'
+             <div
+               className='col-med panel-style'
                style={{
-                 minWidth: '200px',
-                 padding: '20px 20px 0 20px',
-                 backgroundColor: '#fff',
-                 boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
+                 minWidth: '200px', padding: '20px 20px 0 20px',
                }}>
                <Dropdown type='code' output='spidermap-destinations'/>
              </div>
@@ -190,12 +160,10 @@ const Spidermap = ({ ...props }) => {
           spidermap_selectByCategoryDestinations && selectedOriginSpidermap && spidermap_selectBy_DestinationsVisibility
           ?
            (<>
-             <div className='col-med'
+             <div
+               className='col-med panel-style'
                style={{
-                 minWidth: '200px',
-                 padding: '20px 20px 0 20px',
-                 backgroundColor: '#fff',
-                 boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
+                 minWidth: '200px', padding: '20px 20px 0 20px',
                }}>
                <Dropdown type='category' output='spidermap-destinations'/>
              </div>

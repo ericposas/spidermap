@@ -14,12 +14,8 @@ const SelectBy_Destinations_Spidermap = ({ ...props }) => {
 
   return (<>
     <div
-      className='col-med'
-      style={{
-        backgroundColor: '#fff',
-        padding:'35px 20px 0 20px',
-        boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
-      }}>
+      className='col-med panel-style'
+      style={{ padding:'35px 20px 0 20px' }}>
       <button
         className='select-by-button'
         onClick={() => {

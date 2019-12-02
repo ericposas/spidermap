@@ -168,13 +168,8 @@ const DownloadImagePanel = ({ ...props }) => {
       : null
     }
     <div
-      className='col-med'
-      style={{
-        width:'200px',
-        height:'100vh',
-        backgroundColor: 'white',
-        boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
-      }}>
+      className='col-med panel-style'
+      style={{ height: '100vh', width:'200px' }}>
       <div
         style={{
           width: '100%',
@@ -182,20 +177,14 @@ const DownloadImagePanel = ({ ...props }) => {
           position: 'relative',
         }}>
         <div
-          style={{
-            margin: '50% 0 0 0',
-            padding: '0 10% 0 15%',
-          }}>
+          style={{ margin: '50% 0 0 0', padding: '0 10% 0 15%' }}>
           <div className='map-type-title'>
             Export<br/>
             {props.label}
           </div>
           <div
             onClick={() => props.history.push(`/${type}`)}
-            style={{
-              cursor: 'pointer',
-              color: '#006CC4',
-            }}>
+            style={{ cursor: 'pointer', color: '#006CC4' }}>
             Edit
           </div>
           <br/>
@@ -230,39 +219,19 @@ const DownloadImagePanel = ({ ...props }) => {
             <br/>
             <br/>
             <button
-              style={{
-                height:'60px',
-                width: '100%',
-                padding: '0 20px 0 20px',
-                margin: '0 0 10px 0',
-                border: 'none',
-                borderRadius: '5px',
-                backgroundColor: 'red',
-                color: '#fff'
-              }}
-              className='download-button'
+              className='download-button button-generic'
+              style={{ backgroundColor: 'red' }}
               onClick={handleDownload}>
               Download {fileType}
             </button>
             <br/>
             <button
-              onClick={type == 'listview' || type == 'spidermap' ? saveListing : saveListingPointmap}
-              style={{
-                height:'60px',
-                width: '100%',
-                padding: '0 20px 0 20px',
-                margin: '0 0 10px 0',
-                border: 'none',
-                borderRadius: '5px',
-                backgroundColor: '#006CC4',
-                color: '#fff'
-              }}>
+              className='button-generic'
+              style={{ backgroundColor: '#006CC4' }}
+              onClick={type == 'listview' || type == 'spidermap' ? saveListing : saveListingPointmap}>
               <span>Save Map</span>
               <img
-                style={{
-                  margin: '0 0 0 10px',
-                  width: '20px',
-                }}
+                style={{ margin: '0 0 0 10px', width: '20px' }}
                 src='./img/save.svg'/>
             </button>
             <br/>
@@ -270,26 +239,15 @@ const DownloadImagePanel = ({ ...props }) => {
               getUser().user.isadmin == true
               ?
               (<button
+                className='button-generic'
                 onClick={
                   type == 'listview' || type == 'spidermap'
                   ? () => saveListing(true) : () => saveListingPointmap(true)
                 }
-                style={{
-                  height:'60px',
-                  width: '100%',
-                  padding: '0 20px 0 20px',
-                  margin: '0 0 10px 0',
-                  border: 'none',
-                  borderRadius: '5px',
-                  backgroundColor: '#004b84',
-                  color: '#fff'
-                }}>
+                style={{ backgroundColor: '#004b84' }}>
                 <span>Save Global</span>
                 <img
-                  style={{
-                    margin: '0 0 0 10px',
-                    width: '20px',
-                  }}
+                  style={{ margin: '0 0 0 10px', width: '20px' }}
                   src='./img/save.svg'/>
               </button>)
               : null

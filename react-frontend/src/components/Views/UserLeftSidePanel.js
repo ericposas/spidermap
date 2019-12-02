@@ -14,39 +14,32 @@ const UserLeftSidePanel = ({ ...props }) => {
   return (
     <>
     <div className='col-med' style={{
-        width:'250px',
-        height:'100vh',
-        margin: '0 0 0 15px',
-        backgroundColor: 'white',
+        width:'250px', height:'100vh',
+        margin: '0 0 0 15px', backgroundColor: '#fff',
       }}>
         <div className='color-strip'
              style={{
-               backgroundColor: '#37acf4',
-               position: 'absolute',
-               height: '100vh',
-               width: blueStrip.width+'px'
+               height: '100vh', position: 'absolute',
+               backgroundColor: '#37acf4', width: blueStrip.width+'px'
              }}>
         </div>
         <div style={{width:panelWidth}}>
           <img src='./img/american-airlines-new-logo-slash.svg'/>
           <div style={{
-            width:logoWidth+'px',
+            width:logoWidth + 'px',
             backgroundImage: 'url(./img/american-airlines-new-logo-slash.svg)',
             backgroundImageSize: logoWidth }}>
           </div>
           <br/>
           <br/>
           <div style={{
-              fontWeight: 'lighter',
-              textAlign: 'center',
-              fontSize:'1.5rem',
-              color:'#777'
+              fontWeight: 'lighter', textAlign: 'center',
+              fontSize:'1.5rem', color:'#777'
             }}>
             Welcome
           </div>
           <div style={{
-              fontWeight: 'lighter',
-              textAlign: 'center',
+              fontWeight: 'lighter', textAlign: 'center',
               color:'#37acf4'
             }}>
             {
