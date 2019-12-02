@@ -58,7 +58,6 @@ const Dashboard = ({ ...props }) => {
   useEffect(() => {
 
     const enableLogoutTimer = () => {
-      // uncomment below to enable auto-logout function
       let logoutTimer, timeLength = (60 * 1000 * 15)
       const setLogoutTimer = () => {  // auto logout timer -- 15 minutes
         if (logoutTimer) clearTimeout(logoutTimer)
@@ -107,23 +106,15 @@ const Dashboard = ({ ...props }) => {
     <>
       <div className='row' style={{whiteSpace:'nowrap'}}>
         <UserLeftSidePanel/>
-        {/* Create a Main Menu */}
         {
           !selectedMenuItem
           ?
-          (<div className='col-med' style={{
-              width:'300px',
-              height: '100vh',
-              backgroundColor: '#fff',
-              boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
-            }}>
+          (<div className='col-med panel-style' style={{ width:'300px', height: '100vh' }}>
             <div
                 className='subtitle'
                 style={{
-                  color: '#ccc',
-                  margin: '50% 0 20% 10%',
-                  backgroundColor: '#fff',
-                  fontWeight: 'lighter',
+                  color: '#ccc', backgroundColor: '#fff',
+                  margin: '50% 0 20% 10%', fontWeight: 'lighter'
                 }}>
               Dashboard
             </div>
@@ -150,26 +141,17 @@ const Dashboard = ({ ...props }) => {
             </div>)
             : null
         }
-        {/* Create a Map selection menu */}
         {
-          selectedMenuItem == CREATE_A_MAP ||
-          selectedMenuItem == SPIDERMAP ||
-          selectedMenuItem == POINTMAP ||
-          selectedMenuItem == LISTVIEW
+          (selectedMenuItem == CREATE_A_MAP || selectedMenuItem == SPIDERMAP ||
+          selectedMenuItem == POINTMAP || selectedMenuItem == LISTVIEW)
           ?
            (<>
-            <div className='col-med' style={{
-              width:'300px',
-              height: '100vh',
-              backgroundColor: '#fff',
-              boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
-            }}>
+            <div className='col-med panel-style' style={{ width:'300px', height: '100vh' }}>
             <div
               className='subtitle'
               style={{
-                color: '#ccc',
+                color: '#ccc', fontWeight: 'lighter',
                 margin: '50% 0 20% 10%',
-                fontWeight: 'lighter'
               }}>Choose Map Type</div>
               <button
                 style={{ marginLeft:'10%' }}
@@ -185,18 +167,14 @@ const Dashboard = ({ ...props }) => {
                 onClick={listViewButtonClick}>List View</button>
             </div>
             {
-              selectedMenuItem == SPIDERMAP ||
-              selectedMenuItem == POINTMAP ||
-              selectedMenuItem == LISTVIEW
+              (selectedMenuItem == SPIDERMAP || selectedMenuItem == POINTMAP ||
+              selectedMenuItem == LISTVIEW)
               ?
                (<div
-                  className='col-med'
+                  className='col-med panel-style'
                   style={{
-                    width:'300px',
-                    height: '100vh',
+                    width:'300px', height: '100vh',
                     cursor: 'pointer',
-                    backgroundColor: '#fff',
-                    boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                   }}
                   onClick={
                     () => {
@@ -211,7 +189,7 @@ const Dashboard = ({ ...props }) => {
                           props.history.push('/listview')
                           break;
                         default:
-                          props.history.push('dashboard')
+                          props.history.push('/dashboard')
                           break;
                       }
                     }
@@ -219,17 +197,14 @@ const Dashboard = ({ ...props }) => {
                <div
                  className='subtitle'
                  style={{
-                   color: '#ccc',
-                   margin: '50% 0 20% 10%',
+                   color: '#ccc', margin: '50% 0 20% 10%',
                    fontWeight: 'lighter',
-                 }}>{selectedMenuItem.charAt(0)+selectedMenuItem.substr(1, selectedMenuItem.length).toLowerCase()}</div>
+                 }}>
+                 {selectedMenuItem.charAt(0)+selectedMenuItem.substr(1, selectedMenuItem.length).toLowerCase()}
+               </div>
                <div
                  className='map-type-icon-container'
-                 style={{
-                   width: '100%',
-                   position: 'relative',
-
-                 }}>
+                 style={{ width: '100%', position: 'relative' }}>
                  <div
                    style={{
                      display: 'block',
@@ -242,40 +217,27 @@ const Dashboard = ({ ...props }) => {
                      backgroundRepeat: 'no-repeat',
                      backgroundImage: getProperIcon(),
                    }}>
-                 </div>
-                 <br/>
-                 <br/>
+                 </div><br/><br/>
                  <div
                    style={{
-                     color: '#999',
-                     fontWeight: 'lighter',
+                     color: '#999', fontWeight: 'lighter',
                      margin: '180px 0 0 20px',
                    }}>
                    { selectedMenuItem }
                    <div
-                     style={{
-                       fontSize: '.6rem'
-                     }}>
+                     style={{ fontSize: '.6rem' }}>
                      Description here.
                    </div>
                  </div>
                </div>
                </div>)
                :
-                 (
-                   <div
-                     className='col-med'
-                     style={{
-                       width:'20px',
-                       height: '100vh',
-                       backgroundColor: '#fff',
-                       boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
-                     }}>
-                   </div>
-                 )
+                 (<div
+                   className='col-med panel-style'
+                   style={{ width:'20px', height: '100vh' }}>
+                  </div>)
             }
-            </>)
-            : null
+          </>) : null
         }
       </div>
     </>
