@@ -23,6 +23,7 @@ import {
 import {
   SET_ALL_CODES,
   LAST_LOCATION,
+  SET_MY_MAPS,
 } from '../../constants/constants'
 import axios from 'axios'
 import './my-maps.scss'
@@ -30,35 +31,61 @@ import '../Buttons/buttons.scss'
 
 const MyMaps = ({ ...props }) => {
 
-  const [myMaps, setMyMaps] = useState(null)
+  const dispatch = useDispatch()
+
+  const myMaps = useSelector(state => state.myMaps)
+
+  const allCodesData = useSelector(state => state.allCodesData)
 
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(null)
 
   const [mapIdToDelete, setMapIdToDelete] = useState(null)
 
-  const dispatch = useDispatch()
+  const [showDeletingMapFromDB_Notification, setShowDeletingMapFromDB_Notification] = useState(false)
+
+  const [showMapDeleted_Notification, setShowMapDeleted_Notification] = useState(false)
 
   const options = useSelector(state => state.allCodesData)
 
   const populateCodes = () => {
-    axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-       .then(data => {
-         dispatch({ type: SET_ALL_CODES, payload: data.data })
-         getMyMaps()
-       })
-       .catch(err => console.log(err))
+    if (!allCodesData) {
+      axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+           .then(data => {
+             dispatch({ type: SET_ALL_CODES, payload: data.data })
+             getMyMaps()
+           })
+           .catch(err => console.log(err))
+    } else {
+      getMyMaps()
+    }
   }
-  const getMyMaps = () => {
+
+  const getMyMaps = (force = false) => {
     axios.get('/mymaps', { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
          .then(data => {
-           setMyMaps(data.data)
+           dispatch({ type: SET_MY_MAPS, payload: data.data })
          })
          .catch(err => console.log(err))
   }
 
-  useEffect(() => {
-    populateCodes()
-  }, [])
+  const crudDelete = () => {
+    setShowDeletingMapFromDB_Notification(true)
+    axios.delete(`/mymaps/${mapIdToDelete}`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+         .then(result => {
+           setShowDeletingMapFromDB_Notification(false)
+           setShowMapDeleted_Notification(true)
+           setTimeout(() => setShowMapDeleted_Notification(false), 2000)
+           setConfirmDeleteModal(false)
+           getMyMaps()
+         })
+         .catch(err => console.log(err))
+  }
+
+  const deleteMap = id => {
+    // show modal before user confirms deletion
+    setConfirmDeleteModal(true)
+    setMapIdToDelete(id)
+  }
 
   const createMap = (type, data) => {
     switch (type) {
@@ -163,22 +190,23 @@ const MyMaps = ({ ...props }) => {
     props.history.push('/generate-listview')
   }
 
-  const crudDelete = () => {
-    axios.delete(`/mymaps/${mapIdToDelete}`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-         .then(result => {
-           getMyMaps()
-           setConfirmDeleteModal(false)
-         })
-         .catch(err => console.log(err))
-  }
-
-  const deleteMap = id => {
-    // show modal before user confirms deletion
-    setConfirmDeleteModal(true)
-    setMapIdToDelete(id)
-  }
+  useEffect(() => {
+    populateCodes()
+  }, [])
 
   return (<>
+    {
+      showDeletingMapFromDB_Notification
+      ?
+        (<div className='deleting-or-saving-to-db-strip'> Deleting map from database... </div>)
+      : null
+    }
+    {
+      showMapDeleted_Notification
+      ?
+        (<div className='deleting-or-saving-to-db-strip'> Map deleted! </div>)
+      : null
+    }
     {
       confirmDeleteModal
       ?
@@ -267,6 +295,7 @@ const MyMaps = ({ ...props }) => {
             </div>
           </div>
           <div
+            className='scrollable'
             style={{
               height: '100vh',
               overflowX: 'hidden',
@@ -327,16 +356,18 @@ const MyMaps = ({ ...props }) => {
                                     </div>
                                   </Fragment>)
                                 } else {
-                                  return (<Fragment key={'destinations-map-tile-label-'+_i}>
-                                  { _i == 1 ? (<div style={{paddingLeft:'5px',fontSize: '.95rem',}}>Destinations:</div>) : null }
-                                  <span style={{
-                                      margin: '2px',
-                                      padding: '4px',
-                                    }}>
-                                    <span style={{ fontSize: '.8rem' }}>{ item }</span>
-                                  </span>
-                                  { _i % 4 == 0 ? (<br/>) : null }
-                                  </Fragment>)
+                                  if (item != myMaps[0]) {
+                                    return (<Fragment key={'destinations-map-tile-label-'+_i}>
+                                      { _i == 1 ? (<div style={{paddingLeft:'5px',fontSize: '.95rem',}}>Destinations:</div>) : null }
+                                      <span style={{
+                                          margin: '2px',
+                                          padding: '4px',
+                                        }}>
+                                        <span style={{ fontSize: '.8rem' }}>{ item }</span>
+                                      </span>
+                                      { _i % 4 == 0 ? (<br/>) : null }
+                                    </Fragment>)
+                                  }
                                 }
                               })
                               :
@@ -373,7 +404,9 @@ const MyMaps = ({ ...props }) => {
                     </Fragment>
                   )
                 })
-              : null
+              : <div
+                  className='loading-text'
+                  style={{ marginLeft: '15px' }}>Loading saved maps...</div>
             }
             <div style={{ paddingBottom: '150px' }}></div>
           </div>

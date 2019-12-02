@@ -56,6 +56,8 @@ const Dropdown = ({ ...props }) => {
 
   const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
 
+  const allCodesData = useSelector(state => state.allCodesData)
+
   useEffect(() => {
     if (checkAuth()) {
       if (options.length == 0) {
@@ -67,18 +69,28 @@ const Dropdown = ({ ...props }) => {
 
   const createOptionsFromCodes = async () => {
     try {
-      console.log(url)
-      let result = await axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-      // setData(result.data)
-      dispatch({ type: SET_ALL_CODES, payload: result.data })
-      let resultArr = result.data.map(ap => {
-        if (ap.code != null) {
-          return (<Fragment key={ap.code}>
-                    <option value={ap.code}>{ap.code} - {ap.city} - {ap.region}</option>
-                  </Fragment>)
-        }
-      })
-      setOptions(resultArr)
+      let resultArr
+      if (!allCodesData) {
+        let result = await axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+        dispatch({ type: SET_ALL_CODES, payload: result.data })
+        resultArr = result.data.map(ap => {
+          if (ap.code != null) {
+            return (<Fragment key={ap.code}>
+                      <option value={ap.code}>{ap.code} - {ap.city} - {ap.region}</option>
+                    </Fragment>)
+          }
+        })
+        setOptions(resultArr)
+      } else {
+        resultArr = allCodesData.map(ap => {
+          if (ap.code != null) {
+            return (<Fragment key={ap.code}>
+                      <option value={ap.code}>{ap.code} - {ap.city} - {ap.region}</option>
+                    </Fragment>)
+          }
+        })
+        setOptions(resultArr)
+      }
     } catch (e) {
       console.log(e)
     }
@@ -87,24 +99,40 @@ const Dropdown = ({ ...props }) => {
   const createOptionsFromCategory = async () => {
     try {
       let apPerCategory = {}
-      let result = await axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-      // setData(result.data)
-      dispatch({ type: SET_ALL_CODES, payload: result.data })
-      // get category fields, then sort alphabetically
-      let categories = result.data.map(ap => ap.category).sort((a,b) => {
-        if (a < b) return -1
-        if (a > b) return 1
-        return 0
-      })
-      result.data.forEach(ap => {
-        if (!apPerCategory[ap.category]) apPerCategory[ap.category] = []
-        apPerCategory[ap.category].push(ap)
-      })
-      setAirportsPerCategory(apPerCategory) // setting default after data load
-      // display categories in options dropdown
-      let filteredCategories = categories.filter((c, i) => categories.indexOf(c) == i)
-      let options = filteredCategories.map(item => <Fragment key={item}><option value={item}>{item}</option></Fragment>)
-      setOptions(options)
+      if (!allCodesData) {
+        let result = await axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+        dispatch({ type: SET_ALL_CODES, payload: result.data })
+        // get category fields, then sort alphabetically
+        let categories = result.data.map(ap => ap.category).sort((a,b) => {
+          if (a < b) return -1
+          if (a > b) return 1
+          return 0
+        })
+        result.data.forEach(ap => {
+          if (!apPerCategory[ap.category]) apPerCategory[ap.category] = []
+          apPerCategory[ap.category].push(ap)
+        })
+        setAirportsPerCategory(apPerCategory) // setting default after data load
+        // display categories in options dropdown
+        let filteredCategories = categories.filter((c, i) => categories.indexOf(c) == i)
+        let options = filteredCategories.map(item => <Fragment key={item}><option value={item}>{item}</option></Fragment>)
+        setOptions(options)
+      } else {
+        let categories = allCodesData.map(ap => ap.category).sort((a,b) => {
+          if (a < b) return -1
+          if (a > b) return 1
+          return 0
+        })
+        allCodesData.forEach(ap => {
+          if (!apPerCategory[ap.category]) apPerCategory[ap.category] = []
+          apPerCategory[ap.category].push(ap)
+        })
+        setAirportsPerCategory(apPerCategory) // setting default after data load
+        // display categories in options dropdown
+        let filteredCategories = categories.filter((c, i) => categories.indexOf(c) == i)
+        let options = filteredCategories.map(item => <Fragment key={item}><option value={item}>{item}</option></Fragment>)
+        setOptions(options)
+      }
     } catch (e) {
       console.log(e)
     }
@@ -189,24 +217,35 @@ const Dropdown = ({ ...props }) => {
        props.output == 'spidermap-origin'
        ?
           (<>
-           <div
-             className='subtitle' style={{ margin:'0 0 0 10%' }}>Origin Airport</div>
-           <select value={ selectedOriginSpidermap ? selectedOriginSpidermap.code : '' }
-                  style={{
-                    display:'block',
-                    backgroundColor: '#fff',
-                    margin: '0 10% 0 10%',
-                    width:'80%',
-                  }}
-                  onChange={ selectionHandlerSingleOrigin }>
-                  <option></option>
-                  {options}
-          </select>
+            {
+              allCodesData
+              ?
+              (<>
+                <div className='subtitle' style={{ margin:'0 0 0 10%' }}>Origin Airport</div>
+                  <select className='scrollable'
+                          value={ selectedOriginSpidermap ? selectedOriginSpidermap.code : '' }
+                          style={{
+                            display:'block',
+                            backgroundColor: '#fff',
+                            margin: '0 10% 0 10%',
+                            width:'80%',
+                          }}
+                          onChange={ selectionHandlerSingleOrigin }>
+                          <option></option>
+                          {options}
+                  </select>
+                </>)
+              : <div
+                  className='loading-text'
+                  style={{ marginLeft: '20px' }}>loading data...</div>
+            }
           </>)
         :
             props.output == 'listview-origin'
             ?
-               (<select value={ selectedOriginListView ? selectedOriginListView.code : '' }
+               (<select
+                    className='scrollable'
+                    value={ selectedOriginListView ? selectedOriginListView.code : '' }
                     style={{
                       display:'block',
                       backgroundColor: '#fff',
@@ -219,7 +258,7 @@ const Dropdown = ({ ...props }) => {
                 </select>)
             :
                (<select
-                  className='multi'
+                  className='multi scrollable'
                   style={{ margin: '0 0 0 10px',height:'80%',width:'90%'}}
                   onChange={ setOptionsValues }
                   multiple={ 'multiple' }>

@@ -28,6 +28,8 @@ import listviewRendering from './listview/listviewRendering'
 import listviewPrinting from './listview/listviewPrinting'
 import downloadPDFStatus from './downloadPDF'
 import exportFileType from './exportFileType'
+import myMaps from './myMaps'
+import globalMaps from './globalMaps'
 
 const rootReducer = combineReducers({
   lastLocation,
@@ -49,7 +51,8 @@ const rootReducer = combineReducers({
   selectedMenuItem,
   listviewRendering, listviewPrinting,
   downloadPDFStatus,
-  exportFileType
+  exportFileType,
+  myMaps, globalMaps
 })
 
 export default rootReducer

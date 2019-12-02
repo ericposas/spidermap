@@ -23,6 +23,7 @@ import {
 import {
   SET_ALL_CODES,
   LAST_LOCATION,
+  SET_GLOBAL_MAPS,
 } from '../../constants/constants'
 import axios from 'axios'
 import './my-maps.scss'
@@ -30,7 +31,9 @@ import '../Buttons/buttons.scss'
 
 const GlobalMaps = ({ ...props }) => {
 
-  const [globalMaps, setGlobalMaps] = useState(null)
+  const globalMaps = useSelector(state => state.globalMaps)
+
+  const allCodesData = useSelector(state => state.allCodesData)
 
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(null)
 
@@ -40,26 +43,50 @@ const GlobalMaps = ({ ...props }) => {
 
   const options = useSelector(state => state.allCodesData)
 
+  const [showDeletingMapFromDB_Notification, setShowDeletingMapFromDB_Notification] = useState(false)
+
+  const [showMapDeleted_Notification, setShowMapDeleted_Notification] = useState(false)
+
   const populateCodes = () => {
-    axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-       .then(data => {
-         dispatch({ type: SET_ALL_CODES, payload: data.data })
-         getGlobalMaps()
-       })
-       .catch(err => console.log(err))
+    if (!allCodesData) {
+      axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+           .then(data => {
+             dispatch({ type: SET_ALL_CODES, payload: data.data })
+             getGlobalMaps()
+           })
+           .catch(err => console.log(err))
+    } else {
+      getGlobalMaps()
+    }
   }
 
-  const getGlobalMaps = () => {
+  const getGlobalMaps = (force = false) => {
     axios.get('/globalmaps', { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
          .then(data => {
-           setGlobalMaps(data.data)
+           dispatch({ type: SET_GLOBAL_MAPS, payload: data.data })
+           if (showMapDeleted_Notification) setShowMapDeleted_Notification(false)
          })
          .catch(err => console.log(err))
   }
 
-  useEffect(() => {
-    populateCodes()
-  }, [])
+  const crudDelete = () => {
+    setShowDeletingMapFromDB_Notification(true)
+    axios.delete(`/globalmaps/${mapIdToDelete}`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+         .then(result => {
+           setShowDeletingMapFromDB_Notification(false)
+           setShowMapDeleted_Notification(true)
+           setTimeout(() => setShowMapDeleted_Notification(false), 2000)
+           setConfirmDeleteModal(false)
+           getGlobalMaps()
+         })
+         .catch(err => console.log(err))
+  }
+
+  const deleteMap = id => {
+    // show modal before user confirms deletion
+    setConfirmDeleteModal(true)
+    setMapIdToDelete(id)
+  }
 
   const createMap = (type, data) => {
     switch (type) {
@@ -115,7 +142,7 @@ const GlobalMaps = ({ ...props }) => {
     })
     props.history.push('/generate-pointmap')
   }
-
+  
   const createSpidermap = data => {
     // clear list
     batch(() => {
@@ -164,22 +191,23 @@ const GlobalMaps = ({ ...props }) => {
     props.history.push('/generate-listview')
   }
 
-  const crudDelete = () => {
-    axios.delete(`/globalmaps/${mapIdToDelete}`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-         .then(result => {
-           getGlobalMaps()
-           setConfirmDeleteModal(false)
-         })
-         .catch(err => console.log(err))
-  }
-
-  const deleteMap = id => {
-    // show modal before user confirms deletion
-    setConfirmDeleteModal(true)
-    setMapIdToDelete(id)
-  }
+  useEffect(() => {
+    populateCodes()
+  }, [])
 
   return (<>
+    {
+      showDeletingMapFromDB_Notification
+      ?
+        (<div className='deleting-or-saving-to-db-strip'> Deleting map from database... </div>)
+      : null
+    }
+    {
+      showMapDeleted_Notification
+      ?
+        (<div className='deleting-or-saving-to-db-strip'> Map deleted! </div>)
+      : null
+    }
     {
       confirmDeleteModal
       ?
@@ -268,6 +296,7 @@ const GlobalMaps = ({ ...props }) => {
             </div>
           </div>
           <div
+            className='scrollable'
             style={{
               height: '100vh',
               overflowX: 'hidden',
@@ -374,7 +403,11 @@ const GlobalMaps = ({ ...props }) => {
                     </Fragment>
                   )
                 })
-              : null
+              : <div
+                  className='loading-text'
+                  style={{
+                    marginLeft: '15px'
+                  }}>Loading Global maps...</div>
             }
             <div style={{ paddingBottom: '150px' }}></div>
           </div>

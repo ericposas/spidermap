@@ -2,12 +2,16 @@
 
 ##To do:
 
+  UI:
+  - Change "Airport Code" / "Category" selection to tab above selection dropdown
+  - Show loading graphic / indicator when loading data in MyMaps or Dropdown UIs
+
+  Search:
+  - Add Filtered Dropdowns
+  - Add Filtered Search for selected locations
+
   Generate PDF:
    - Clean up PDF export for listview (currently cuts words in half at page break)
-
-  Database Saves:
-    - Filter out origin location in destinations list (pointmap map tile)
-    - If 'isadmin' is true, show the option to save to the global map store
 
   Charting:
     - Avoid adding labels twice (if origin label already exists, don't add the destination label for the same place)
@@ -18,12 +22,6 @@
     Charting:Maybe:
       - Add "spread" factor from origin -- meaning, if the end user wants to increase X distance between destinations, they and increase or decrease
       - Add "bend" factor that adds extra curve to the plotted paths
-
-  Optimization:
-    - When a Dropdown component mounts, fetch the api resources (only if not exists in the store). Once set, we shouldn't need to fetch if the data is already in the Redux store. Currently, we fetch new data every time the Dropdown component mounts.
-
-  Extra:
-    - Create search for Adding Destinations / Removing Destinations
 
 
 #Tech Stack:

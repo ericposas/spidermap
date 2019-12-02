@@ -64,12 +64,13 @@ const SelectionView = ({ ...props }) => {
         return (<><div className='subtitle'>Selection View</div></>)
     }
   }
-  
+
   return (
     <>
       <br/>
       <br/>
       <div
+        className='scrollable'
         style={{
           overflow:'scroll',
           height:'100vh',

@@ -93,10 +93,11 @@ const Pointmap = ({ ...props }) => {
       setTimeout(() => props.history.push('/'))
     } else {
       console.log('user is logged in')
+      dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
       setButtonContainerBottom(computeButtonContainerBottom())
     }
   }, [])
-
+  
   return (
     <>
       <div className='row' style={{whiteSpace:'nowrap'}}>

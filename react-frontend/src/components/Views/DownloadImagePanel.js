@@ -68,9 +68,6 @@ const DownloadImagePanel = ({ ...props }) => {
     }
   }
 
-  // var style = document.createElement('style')
-  // style.innerHTML = 'font-family:arial;'
-  // element.appendChild(style)
   const downloadPDF = () => {
     dispatch({ type: DOWNLOADING_PDF })
     var element = document.getElementsByClassName('pdf-content')[0]
@@ -161,43 +158,13 @@ const DownloadImagePanel = ({ ...props }) => {
     {
       savingMapToDB
       ?
-        (<div
-          style={{
-            width: '120%',
-            height: '50px',
-            textAlign: 'center',
-            position: 'absolute',
-            backgroundColor: '#fff',
-            fontWeight: 'bold',
-            color: '#394C75',
-            bottom: '0',
-            paddingTop: '10px',
-            boxShadow: '10px 0 10px 0 rgba(0,0,0,0.2)',
-          }}>
-          <span>
-            Saving map to database...
-          </span>
-        </div>)
+        (<div className='deleting-or-saving-to-db-strip'> Saving map to database... </div>)
       : null
     }
     {
       showSavedMapToDB_Notification
       ?
-        (<div
-          style={{
-            width: '120%',
-            height: '50px',
-            textAlign: 'center',
-            position: 'absolute',
-            backgroundColor: '#fff',
-            fontWeight: 'bold',
-            color: '#394C75',
-            bottom: '0',
-            paddingTop: '10px',
-            boxShadow: '10px 0 10px 0 rgba(0,0,0,0.2)',
-          }}>
-          Saved!
-        </div>)
+        (<div className='deleting-or-saving-to-db-strip'> Saved! </div>)
       : null
     }
     <div

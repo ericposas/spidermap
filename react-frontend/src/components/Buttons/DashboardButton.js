@@ -16,11 +16,11 @@ const DashboardButton = ({ ...props }) => {
     path = path.substr(1, path.length)
     dispatch({ type: CLEAR_SELECTED_MENU_ITEM })
     if (path != 'dashboard') {
-      dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
+      dispatch({ type: LAST_LOCATION, payload: path })
       props.history.push('/dashboard')
     }
   }
-
+  
   return (
     <>
       <button className='button-plain button-dashboard'

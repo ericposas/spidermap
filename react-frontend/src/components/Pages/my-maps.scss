@@ -11,3 +11,20 @@
   color: #fff !important;
   background-color: #CC271E;
 }
+
+.scrollable {
+  scrollbar-color: #006CC4 #fff;
+  scrollbar-width: thin;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+  width: 4px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background: #006CC4;
+}
