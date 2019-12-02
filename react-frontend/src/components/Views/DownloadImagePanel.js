@@ -287,6 +287,7 @@ const DownloadImagePanel = ({ ...props }) => {
                 <span>Save Global</span>
                 <img
                   style={{
+                    margin: '0 0 0 10px',
                     width: '20px',
                   }}
                   src='./img/save.svg'/>
