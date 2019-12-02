@@ -67,7 +67,7 @@ const ListView = ({ ...props }) => {
       setButtonContainerBottom(computeButtonContainerBottom())
     }
   }, [])
-
+  
   return (
     <>
       <div className='row' style={{ whiteSpace:'nowrap' }}>

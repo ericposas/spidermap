@@ -1,15 +1,21 @@
 {
   "connection": "default",
-  "collectionName": "",
+  "collectionName": "globalmap",
   "info": {
     "name": "globalmap",
     "description": ""
   },
   "options": {
-    "timestamps": true
+    "timestamps": [
+      "createdAt",
+      "updatedAt"
+    ]
   },
   "attributes": {
     "locations": {
+      "type": "string"
+    },
+    "type": {
       "type": "string"
     }
   }

@@ -41,6 +41,10 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const selectedDestinationsPointmap = useSelector(state => state.selectedDestinationsPointmap)
 
+  const [savingMapToDB, setSavingMapToDB] = useState(false)
+
+  const [showSavedMapToDB_Notification, setShowSavedMapToDB_Notification] = useState(false)
+
   const handleDownload = () => {
     switch (fileType) {
       case 'PDF':
@@ -114,34 +118,88 @@ const DownloadImagePanel = ({ ...props }) => {
   }
 
   const saveListingPointmap = (global = false) => {
-    let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
-    let arr = Object.keys(selectedDestinationsPointmap).map(idx => {
-      return [idx].concat(selectedDestinationsPointmap[idx].map(_idx => _idx.code))
-    })
-    axios.post(endpoint, { type: type, locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-         .then(response => console.log(response))
-         .catch(err => console.log(err))
+    if (selectedDestinationsPointmap) {
+      let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
+      let arr = Object.keys(selectedDestinationsPointmap).map(idx => {
+        return [idx].concat(selectedDestinationsPointmap[idx].map(_idx => _idx.code))
+      })
+      setSavingMapToDB(true)
+      axios.post(endpoint, { type: type, locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+           .then(response => {
+             setSavingMapToDB(false)
+             setShowSavedMapToDB_Notification(true)
+             setTimeout(() => setShowSavedMapToDB_Notification(false), 2000)
+           })
+           .catch(err => console.log(err))
+    }
   }
-  
+
   const saveListing = (global = false) => {
-    let arr = []
-    let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
-    type == 'listview' ? arr.push(selectedOriginListView.code) : arr.push(selectedOriginSpidermap.code)
-    type == 'listview' ? selectedDestinationsListView.forEach(dest => arr.push(dest.code)) : selectedDestinationsSpidermap.forEach(dest => arr.push(dest.code))
-    axios.post(endpoint, { type: type, locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-         .then(response => console.log(response))
-         .catch(err => console.log(err))
+    if (selectedOriginSpidermap || selectedOriginListView) {
+      let arr = []
+      let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
+      type == 'listview' ? arr.push(selectedOriginListView.code) : arr.push(selectedOriginSpidermap.code)
+      type == 'listview' ? selectedDestinationsListView.forEach(dest => arr.push(dest.code)) : selectedDestinationsSpidermap.forEach(dest => arr.push(dest.code))
+      setSavingMapToDB(true)
+      axios.post(endpoint, { type: type, locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+           .then(response => {
+             setSavingMapToDB(false)
+             setShowSavedMapToDB_Notification(true)
+             setTimeout(() => setShowSavedMapToDB_Notification(false), 2000)
+           })
+           .catch(err => console.log(err))
+    }
   }
 
   useEffect(() => {
     if (type == 'listview') setFileType('PNG')
     window.onafterprint = null
-    window.onafterprint = () => {
-      dispatch({ type: NOT_PRINTING_LISTVIEW })
-    }
+    window.onafterprint = () => dispatch({ type: NOT_PRINTING_LISTVIEW })
   }, [])
 
   return (<>
+    {
+      savingMapToDB
+      ?
+        (<div
+          style={{
+            width: '120%',
+            height: '50px',
+            textAlign: 'center',
+            position: 'absolute',
+            backgroundColor: '#fff',
+            fontWeight: 'bold',
+            color: '#394C75',
+            bottom: '0',
+            paddingTop: '10px',
+            boxShadow: '10px 0 10px 0 rgba(0,0,0,0.2)',
+          }}>
+          <span>
+            Saving map to database...
+          </span>
+        </div>)
+      : null
+    }
+    {
+      showSavedMapToDB_Notification
+      ?
+        (<div
+          style={{
+            width: '120%',
+            height: '50px',
+            textAlign: 'center',
+            position: 'absolute',
+            backgroundColor: '#fff',
+            fontWeight: 'bold',
+            color: '#394C75',
+            bottom: '0',
+            paddingTop: '10px',
+            boxShadow: '10px 0 10px 0 rgba(0,0,0,0.2)',
+          }}>
+          Saved!
+        </div>)
+      : null
+    }
     <div
       className='col-med'
       style={{
@@ -232,7 +290,7 @@ const DownloadImagePanel = ({ ...props }) => {
                 backgroundColor: '#006CC4',
                 color: '#fff'
               }}>
-              <span>Save List</span>
+              <span>Save Map</span>
               <img
                 style={{
                   margin: '0 0 0 10px',
@@ -240,6 +298,34 @@ const DownloadImagePanel = ({ ...props }) => {
                 }}
                 src='./img/save.svg'/>
             </button>
+            <br/>
+            {
+              getUser().user.isadmin == true
+              ?
+              (<button
+                onClick={
+                  type == 'listview' || type == 'spidermap'
+                  ? () => saveListing(true) : () => saveListingPointmap(true)
+                }
+                style={{
+                  height:'60px',
+                  width: '100%',
+                  padding: '0 20px 0 20px',
+                  margin: '0 0 10px 0',
+                  border: 'none',
+                  borderRadius: '5px',
+                  backgroundColor: '#004b84',
+                  color: '#fff'
+                }}>
+                <span>Save Global</span>
+                <img
+                  style={{
+                    width: '20px',
+                  }}
+                  src='./img/save.svg'/>
+              </button>)
+              : null
+            }
           </div>
         </div>
       </div>

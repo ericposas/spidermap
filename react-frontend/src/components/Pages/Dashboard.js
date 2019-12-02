@@ -143,7 +143,8 @@ const Dashboard = ({ ...props }) => {
               <br/>
               <button
                   style={{ marginLeft:'10%', borderBottom: 'none' }}
-                  className='dashboard-menu-button'>
+                  className='dashboard-menu-button'
+                  onClick={() => props.history.push('/global-maps')}>
                 Global Maps
               </button>
             </div>)
@@ -270,7 +271,6 @@ const Dashboard = ({ ...props }) => {
                        backgroundColor: '#fff',
                        boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
                      }}>
-                     {/* empty */}
                    </div>
                  )
             }
