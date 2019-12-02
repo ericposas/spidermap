@@ -1,0 +1,40 @@
+.modal-confirm-delete-backing {
+  display: block;
+  position: absolute;
+  background-color: rgba(0,0,0,0.35);
+  filter: blur(1.5);
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+}
+
+.modal-confirm-delete {
+  display: block;
+  position: absolute;
+  width: 50%;
+  height: 40%;
+  margin: auto;
+  left: 0; right: 0;
+  top: 0; bottom: 0;
+  background-color: #fff;
+  border-radius: 4px;
+  z-index: 201;
+}
+
+.modal-confirm-yes-no-button-container {
+  display: block;
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  margin: auto;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  text-align: center;
+}
+
+.x-button-maps-confirm-modal {
+  float: right;
+  margin-top: -4px;
+  margin-right: -4px;
+  transform: scale(1.35);
+}

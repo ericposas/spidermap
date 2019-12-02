@@ -4,8 +4,9 @@
 
   UI:
   - Change "Airport Code" / "Category" selection to tab above selection dropdown
-  - Show loading graphic / indicator when loading data in MyMaps or Dropdown UIs
-
+  - Remove mandatory filename input before uploading csv
+  - Add notification when csv is loading
+  
   Search:
   - Add Filtered Dropdowns
   - Add Filtered Search for selected locations

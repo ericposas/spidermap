@@ -28,6 +28,7 @@ import {
 import axios from 'axios'
 import './my-maps.scss'
 import '../Buttons/buttons.scss'
+import '../Modals/confirm-delete-modal.scss'
 
 const GlobalMaps = ({ ...props }) => {
 
@@ -142,7 +143,7 @@ const GlobalMaps = ({ ...props }) => {
     })
     props.history.push('/generate-pointmap')
   }
-  
+
   const createSpidermap = data => {
     // clear list
     batch(() => {
@@ -211,57 +212,14 @@ const GlobalMaps = ({ ...props }) => {
     {
       confirmDeleteModal
       ?
-        (<div
-          style={{
-            display: 'block',
-            position: 'absolute',
-            backgroundColor: 'rgba(0,0,0,0.35)',
-            filter: 'blur(1.5)',
-            width: '100%',
-            height: '100%',
-            zIndex: 200,
-          }}
-          className='modal-confirm-delete-backing'>
-          <div
-            style={{
-              display: 'block',
-              position: 'absolute',
-              width: '50%',
-              height: '40%',
-              margin: 'auto',
-              left: 0, right: 0,
-              top: 0, bottom: 0,
-              backgroundColor: '#fff',
-              borderRadius: '4px',
-              zIndex: 201,
-            }}
-            className='modal-confirm-delete'>
+        (<div className='modal-confirm-delete-backing'>
+          <div className='modal-confirm-delete'>
               <div
-                className='x-button'
-                style={{
-                  float: 'right',
-                  marginTop: '-4px',
-                  marginRight: '-4px',
-                  transform: 'scale(1.35)',
-                }}
+                className='x-button x-button-maps-confirm-modal'
                 onClick={() => setConfirmDeleteModal(false)}>
-                <div
-                  className='x-button-x-symbol'>
-                  x
-                </div>
+                <div className='x-button-x-symbol'>x</div>
               </div>
-            <div
-              style={{
-                display: 'block',
-                position: 'absolute',
-                width: '60%',
-                height: '60%',
-                margin: 'auto',
-                top: 0, bottom: 0,
-                left: 0, right: 0,
-                textAlign: 'center',
-              }}
-             className='modal-confirm-yes-no-button-container'>
+            <div className='modal-confirm-yes-no-button-container'>
               <div>Are you sure that you want to delete this map? <span style={{opacity:0}}>{mapIdToDelete}</span></div>
               <br/>
               <button
