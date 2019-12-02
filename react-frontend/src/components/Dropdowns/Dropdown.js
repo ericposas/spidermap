@@ -25,11 +25,8 @@ import '../Buttons/buttons.scss'
 
 const Dropdown = ({ ...props }) => {
 
-  const aa_blue = '#006cc4'
-
   const { type } = props
 
-  // const [data, setData] = useState([])
   const data = useSelector(state => state.allCodesData)
 
   const [selection, setSelection] = useState([])
@@ -216,10 +213,10 @@ const Dropdown = ({ ...props }) => {
      {
        props.output == 'spidermap-origin'
        ?
-          (<>
-            {
-              allCodesData
-              ?
+        (<>
+          {
+            allCodesData
+            ?
               (<>
                 <div className='subtitle' style={{ margin:'0 0 0 10%' }}>Origin Airport</div>
                   <select className='scrollable'
@@ -243,55 +240,66 @@ const Dropdown = ({ ...props }) => {
         :
             props.output == 'listview-origin'
             ?
-               (<select
-                    className='scrollable'
-                    value={ selectedOriginListView ? selectedOriginListView.code : '' }
-                    style={{
-                      display:'block',
-                      backgroundColor: '#fff',
-                      margin: '0 10% 0 10%',
-                      width:'80%',
-                    }}
-                    onChange={ selectionHandlerSingleOrigin }>
-                    <option></option>
-                    {options}
-                </select>)
+              (<>
+                {
+                  allCodesData
+                  ?
+                    (<select
+                        className='scrollable'
+                        value={ selectedOriginListView ? selectedOriginListView.code : '' }
+                        style={{
+                          display:'block',
+                          backgroundColor: '#fff',
+                          margin: '0 10% 0 10%',
+                          width:'80%',
+                        }}
+                        onChange={ selectionHandlerSingleOrigin }>
+                        <option></option>
+                        {options}
+                    </select>)
+                  : <div
+                      className='loading-text'
+                      style={{ marginLeft: '20px' }}>loading data...</div>
+                }
+              </>)
             :
-               (<select
-                  className='multi scrollable'
-                  style={{ margin: '0 0 0 10px',height:'80%',width:'90%'}}
-                  onChange={ setOptionsValues }
-                  multiple={ 'multiple' }>
-                  <option></option>
-                  {options}
-                </select>)
+              (<>
+                {
+                  allCodesData
+                  ?
+                    (<select
+                      className='multi scrollable'
+                      style={{ margin: '0 0 0 10px',height:'80%',width:'90%'}}
+                      onChange={ setOptionsValues }
+                      multiple={ 'multiple' }>
+                      <option></option>
+                      {options}
+                    </select>)
+                  : <div
+                      className='loading-text'
+                      style={{ textAlign: 'center' }}>loading data...</div>
+                }
+              </>)
       }
       {
-        props.output == 'spidermap-origin' || props.output == 'listview-origin'
-          ? null
-          : (<>
-              <div style={{
-                    fontSize:'.75rem',
-                    textAlign:'center'
-                  }}>
-                Hold CTRL / ⌘ to select multiple
-              </div>
-              <br/>
-              <br/>
-              <button
-                className='check-button'
-                onClick={selectionHandler}
-                style={{
-                  margin: '0 0 0 10px',
-                  width:'90%'
-                }}>
-                <div className='check-button-inner'>
-                  <div className='check-button-inner-text'>
-                    √
+          (props.output == 'spidermap-origin' ||
+           props.output == 'listview-origin' || !allCodesData)
+            ? null
+            : (<>
+                <div style={{ fontSize:'.75rem', textAlign:'center' }}>
+                  Hold CTRL / ⌘ to select multiple
+                </div><br/><br/>
+                <button
+                  className='check-button'
+                  onClick={selectionHandler}
+                  style={{ margin: '0 0 0 10px', width:'90%' }}>
+                  <div className='check-button-inner'>
+                    <div className='check-button-inner-text'>
+                      √
+                    </div>
                   </div>
-                </div>
-              </button>
-             </>)
+                </button>
+              </>)
       }
     </>
   )
