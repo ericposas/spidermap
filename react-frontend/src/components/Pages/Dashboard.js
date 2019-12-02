@@ -101,7 +101,7 @@ const Dashboard = ({ ...props }) => {
         return ''
     }
   }
-
+  
   return (
     <>
       <div className='row' style={{whiteSpace:'nowrap'}}>
@@ -111,11 +111,11 @@ const Dashboard = ({ ...props }) => {
           ?
           (<div className='col-med panel-style' style={{ width:'300px', height: '100vh' }}>
             <div
-                className='subtitle'
-                style={{
-                  color: '#ccc', backgroundColor: '#fff',
-                  margin: '50% 0 20% 10%', fontWeight: 'lighter'
-                }}>
+              className='subtitle'
+              style={{
+                color: '#ccc', backgroundColor: '#fff',
+                margin: '50% 0 20% 10%', fontWeight: 'lighter'
+              }}>
               Dashboard
             </div>
               <button
@@ -143,7 +143,7 @@ const Dashboard = ({ ...props }) => {
         }
         {
           (selectedMenuItem == CREATE_A_MAP || selectedMenuItem == SPIDERMAP ||
-          selectedMenuItem == POINTMAP || selectedMenuItem == LISTVIEW)
+           selectedMenuItem == POINTMAP || selectedMenuItem == LISTVIEW)
           ?
            (<>
             <div className='col-med panel-style' style={{ width:'300px', height: '100vh' }}>
@@ -207,25 +207,20 @@ const Dashboard = ({ ...props }) => {
                  style={{ width: '100%', position: 'relative' }}>
                  <div
                    style={{
-                     display: 'block',
-                     position: 'absolute',
-                     margin: 'auto',
-                     left: 0, right: 0,
+                     display: 'block', position: 'absolute',
+                     margin: 'auto', left: 0, right: 0,
                      width: selectedMenuItem == LISTVIEW ? '200px' : selectedMenuItem == POINTMAP ? '220px' : '260px',
-                     height: '300px',
                      backgroundSize: selectedMenuItem == LISTVIEW ? '200px' : selectedMenuItem == POINTMAP ? '220px' : '260px',
-                     backgroundRepeat: 'no-repeat',
+                     height: '300px', backgroundRepeat: 'no-repeat',
                      backgroundImage: getProperIcon(),
                    }}>
                  </div><br/><br/>
-                 <div
-                   style={{
+                 <div style={{
                      color: '#999', fontWeight: 'lighter',
                      margin: '180px 0 0 20px',
                    }}>
                    { selectedMenuItem }
-                   <div
-                     style={{ fontSize: '.6rem' }}>
+                   <div style={{ fontSize: '.6rem' }}>
                      Description here.
                    </div>
                  </div>
