@@ -235,20 +235,12 @@ const GlobalMaps = ({ ...props }) => {
     }
     <div className='row' style={{ whiteSpace:'nowrap' }}>
       <UserLeftSidePanel/>
-      <div className='col-med' style={{
-          width:'200px',
-          height:'100vh',
-          backgroundColor: '#fff',
-          boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
-        }}>
+      <div className='col-med panel-style' style={{ width:'200px', height:'100vh' }}>
         <div style={{
-              width: '100%',
-              height: '100%',
+              width: '100%', height: '100%',
               position: 'relative',
           }}>
-          <div style={{
-            margin: '10% 0 0 10%',
-          }}>
+          <div style={{ margin: '10% 0 0 10%' }}>
             <div className='map-type-title'>
               Global <br/>Saved Maps
             </div>
@@ -256,8 +248,7 @@ const GlobalMaps = ({ ...props }) => {
           <div
             className='scrollable'
             style={{
-              height: '100vh',
-              overflowX: 'hidden',
+              height: '100vh', overflowX: 'hidden',
               overflowY: 'scroll',
             }}>
             <div style={{ paddingBottom: '40px' }}></div>
@@ -278,27 +269,12 @@ const GlobalMaps = ({ ...props }) => {
                           }}
                           onClick={() => deleteMap(globalMaps[i].id)}>
                           <div
-                            style={{
-                              color: '#CC271E',
-                              borderColor: '#CC271E',
-                            }}
+                            style={{ color: '#CC271E', borderColor: '#CC271E' }}
                             className='x-button-x-symbol-map-tile x-button-x-symbol'>x</div>
                           </div>
                           <div
                             onClick={() => createMap(globalMaps[i].type, JSON.parse(globalMaps[i].locations))}
-                            className='my-map-tile'
-                            style={{
-                              textAlign: 'center',
-                              fontSize: '.8rem',
-                              margin: '4% 5% 0 5%',
-                              paddingBottom: '4px',
-                              borderRadius: '4px',
-                              cursor: 'pointer',
-                              color: '#006CC4',
-                              backgroundColor: '#fff',
-                              border: '2px solid #006CC4',
-                              width: '90%',
-                            }}>
+                            className='my-map-tile map-tile'>
                             <div className='map-tile-type-title'>{ globalMaps[i].type.toUpperCase() }</div>
                             {
                               globalMaps[i].type == 'listview' || globalMaps[i].type == 'spidermap'
@@ -307,8 +283,7 @@ const GlobalMaps = ({ ...props }) => {
                                 if (_i == 0) {
                                   return (<Fragment key={'origin-map-tile-label-'+_i}>
                                     <div style={{
-                                      margin: '2px',
-                                      padding: '4px',
+                                      margin: '2px', padding: '4px',
                                       display: 'inline-block',
                                     }}>
                                     <span style={{ fontSize: '.95rem' }}>Origin: <span style={{ fontSize: '.8rem' }}>{ item }</span></span>
@@ -317,10 +292,7 @@ const GlobalMaps = ({ ...props }) => {
                                 } else {
                                   return (<Fragment key={'destinations-map-tile-label-'+_i}>
                                   { _i == 1 ? (<div style={{paddingLeft:'5px',fontSize: '.95rem',}}>Destinations:</div>) : null }
-                                  <span style={{
-                                      margin: '2px',
-                                      padding: '4px',
-                                    }}>
+                                  <span style={{ margin: '2px', padding: '4px' }}>
                                     <span style={{ fontSize: '.8rem' }}>{ item }</span>
                                   </span>
                                   { _i % 4 == 0 ? (<br/>) : null }
@@ -363,9 +335,7 @@ const GlobalMaps = ({ ...props }) => {
                 })
               : <div
                   className='loading-text'
-                  style={{
-                    marginLeft: '15px'
-                  }}>Loading Global maps...</div>
+                  style={{ marginLeft: '15px' }}>Loading Global maps...</div>
             }
             <div style={{ paddingBottom: '150px' }}></div>
           </div>

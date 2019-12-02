@@ -1,3 +1,16 @@
+.map-tile {
+  text-align: center;
+  font-size: .8rem;
+  margin: 4% 5% 0 5%;
+  padding-bottom: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #006CC4;
+  background-color: #fff;
+  border: 2px solid #006CC4;
+  width: 90%;
+}
+
 .my-map-tile:hover {
   // transform: scale(1.05);
 }
