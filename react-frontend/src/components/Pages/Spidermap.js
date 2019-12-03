@@ -138,12 +138,7 @@ const Spidermap = ({ ...props }) => {
              </div>) : null
         }
         {
-          spidermap_selectBy_DestinationsVisibility && selectedOriginSpidermap
-          ? <SelectBy_Destinations_Spidermap/>
-          : null
-        }
-        {
-          spidermap_selectByCodeDestinations && selectedOriginSpidermap && spidermap_selectBy_DestinationsVisibility
+          spidermap_selectByCodeDestinations && selectedOriginSpidermap
           ?
            (<>
              <div
@@ -157,7 +152,7 @@ const Spidermap = ({ ...props }) => {
           : null
         }
         {
-          spidermap_selectByCategoryDestinations && selectedOriginSpidermap && spidermap_selectBy_DestinationsVisibility
+          spidermap_selectByCategoryDestinations && selectedOriginSpidermap
           ?
            (<>
              <div
