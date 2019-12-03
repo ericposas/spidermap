@@ -3,12 +3,10 @@
 ##To do:
 
   UI:
-  - Change "Airport Code" / "Category" selection to tab above selection dropdown
   - Remove mandatory filename input before uploading csv
   - Add notification when csv is loading
-  
-  Search:
-  - Add Filtered Dropdowns
+
+  Filtering Options:
   - Add Filtered Search for selected locations
 
   Generate PDF:
