@@ -167,12 +167,12 @@ const Pointmap = ({ ...props }) => {
              <SelectionView type='pointmap-destinations'/>
            </div>) : null
         }
-        {
+        {/*
           pointmap_selectBy_OriginsVisibility
           ? <SelectBy_Origins type='pointmap'/> : null
-        }
+        */}
         {
-          pointmap_selectByCodeOrigins == true
+          pointmap_selectByCodeOrigins
           ?
            (<>
              <div className='col-med panel-style'
@@ -185,7 +185,7 @@ const Pointmap = ({ ...props }) => {
            </>) : null
         }
         {
-          pointmap_selectByCategoryOrigins == true
+          pointmap_selectByCategoryOrigins
           ?
            (<>
              <div className='col-med panel-style' style={{
@@ -196,11 +196,11 @@ const Pointmap = ({ ...props }) => {
              </div>
            </>) : null
         }
-        {
+        {/*
           pointmap_selectBy_DestinationsVisibility ? <SelectBy_Destinations_Pointmap/> : null
-        }
+        */}
         {
-          pointmap_selectByCodeDestinations == true
+          pointmap_selectByCodeDestinations
           ?
            (<>
              <div
@@ -215,7 +215,7 @@ const Pointmap = ({ ...props }) => {
           : null
         }
         {
-          pointmap_selectByCategoryDestinations == true
+          pointmap_selectByCategoryDestinations
           ?
            (<>
              <div

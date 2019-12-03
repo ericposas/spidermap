@@ -291,7 +291,7 @@ const Dropdown = ({ ...props }) => {
                             ? <SelectBy_Destinations_Pointmap/>
                             :
                               props.output == 'pointmap-origins'
-                              ? <SelectBy_Origins_Pointmap/>
+                              ? <SelectBy_Origins/>
                               : null
                       }
                       <select

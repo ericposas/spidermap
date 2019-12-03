@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch, batch } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import {
   SHOW_SELECT_BY_CODE_ORIGINS_POINTMAP,
   HIDE_SELECT_BY_CODE_ORIGINS_POINTMAP,
@@ -11,12 +11,22 @@ const SelectBy_Origins = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
+  const pointmap_selectByCodeOrigins = useSelector(state => state.pointmap_selectByCodeOrigins)
+
+  const pointmap_selectByCategoryOrigins = useSelector(state => state.pointmap_selectByCategoryOrigins)
+
   return (
     <>
-      <div
-        className='col-med panel-style'
-        style={{ padding:'35px 20px 0 20px' }}>
-        <button
+      <div>
+        <div style={{ marginLeft: '20px' }}>
+          <button
+            style={{
+              display: 'inline-block',
+              border: pointmap_selectByCodeOrigins ? 'none' : '1px solid #ccc',
+              backgroundColor: pointmap_selectByCodeOrigins ? '#37ACF4' : '#fff',
+              color: pointmap_selectByCodeOrigins ? '#fff' : '#666',
+              borderRadius: '2px',
+            }}
             className='select-by-button'
             onClick={() => {
               batch(() => {
@@ -24,11 +34,16 @@ const SelectBy_Origins = ({ ...props }) => {
                 dispatch({ type: HIDE_SELECT_BY_CATEGORY_ORIGINS_POINTMAP })
               })
             }}>
-          Airport Code
-        </button>
-        <br/>
-        <br/>
-        <button
+            Airport Code
+          </button>
+          <button
+            style={{
+              display: 'inline-block',
+              border: pointmap_selectByCategoryOrigins ? 'none' : '1px solid #ccc',
+              backgroundColor: pointmap_selectByCategoryOrigins ? '#37ACF4' : '#fff',
+              color: pointmap_selectByCategoryOrigins ? '#fff' : '#666',
+              borderRadius: '2px',
+            }}
             className='select-by-button'
             onClick={() => {
               batch(() => {
@@ -36,8 +51,9 @@ const SelectBy_Origins = ({ ...props }) => {
                 dispatch({ type: HIDE_SELECT_BY_CODE_ORIGINS_POINTMAP })
               })
             }}>
-          Category
-        </button>
+            Category
+          </button>
+        </div>
       </div>
     </>
   )
