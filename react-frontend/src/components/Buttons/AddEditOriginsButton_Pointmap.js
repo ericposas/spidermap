@@ -35,7 +35,7 @@ const AddEditOriginsButton_Pointmap = ({ ...props }) => {
       <div>+</div>
     </div>
     <div className='add-edit-button-text-content'>
-      &nbsp;&nbsp; Add / Edit Destinations
+      &nbsp;&nbsp; Add / Edit Origins
     </div>
   </button>
   </>)
