@@ -16,6 +16,10 @@ import {
 import {
   SET_ALL_CODES
 } from '../../constants/constants'
+import SelectBy_Origins from '../Views/SelectBy_Origins'
+import SelectBy_Destinations_Pointmap from '../Views/SelectBy_Destinations_Pointmap'
+import SelectBy_Destinations_Spidermap from '../Views/SelectBy_Destinations_Spidermap'
+import SelectBy_Destinations_ListView from '../Views/SelectBy_Destinations_ListView'
 import { checkAuth, getUser } from '../../sessionStore'
 import url from '../../url'
 import axios from 'axios'
@@ -54,6 +58,8 @@ const Dropdown = ({ ...props }) => {
   const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
 
   const allCodesData = useSelector(state => state.allCodesData)
+
+  const [_filter, setFilter] = useState('')
 
   useEffect(() => {
     if (checkAuth()) {
@@ -267,14 +273,44 @@ const Dropdown = ({ ...props }) => {
                 {
                   allCodesData
                   ?
-                    (<select
-                      className='multi scrollable'
-                      style={{ margin: '0 0 0 10px',height:'80%',width:'90%'}}
-                      onChange={ setOptionsValues }
-                      multiple={ 'multiple' }>
-                      <option></option>
-                      {options}
-                    </select>)
+                    (<>
+                      <div style={{ marginLeft: '10px', display: 'inline-block' }}>
+                        Filter: &nbsp;
+                      </div>
+                      <input
+                        style={{ borderRadius: '3px', width: '350px' }}
+                        value={_filter} onChange={e => setFilter(e.target.value)}/><br/><br/>
+                      {
+                        props.output == 'listview-destinations'
+                        ? <SelectBy_Destinations_ListView/>
+                        :
+                          props.output == 'spidermap-destinations'
+                          ? <SelectBy_Destinations_Spidermap/>
+                          :
+                            props.output == 'pointmap-destinations'
+                            ? <SelectBy_Destinations_Pointmap/>
+                            :
+                              props.output == 'pointmap-origins'
+                              ? <SelectBy_Origins_Pointmap/>
+                              : null
+                      }
+                      <select
+                        className='multi scrollable'
+                        style={{ margin: '0 0 0 10px', height:'70%', width:'450px'}}
+                        onChange={ setOptionsValues }
+                        multiple={ 'multiple' }>
+                        <option></option>
+                        {
+                          options.filter(opt => {
+                            if (type == 'code' && opt.props.children.props.children.join('').toLowerCase().indexOf(_filter) > -1) {
+                              return opt
+                            } else if (type == 'category' && opt.props.children.props.value.toLowerCase().indexOf(_filter) > -1) {
+                              return opt
+                            }
+                          })
+                        }
+                      </select>
+                    </>)
                   : <div
                       className='loading-text'
                       style={{ textAlign: 'center' }}>loading data...</div>

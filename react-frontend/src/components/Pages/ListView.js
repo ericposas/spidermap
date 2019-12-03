@@ -5,7 +5,7 @@ import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
 import BackButton from '../Buttons/BackButton'
 import UploadModal from '../Modals/UploadModal'
-import SelectBy_Destinations_ListView from '../Views/SelectBy_Destinations_ListView'
+// import SelectBy_Destinations_ListView from '../Views/SelectBy_Destinations_ListView'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import { checkAuth, getUser } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
@@ -25,7 +25,7 @@ const ListView = ({ ...props }) => {
 
   const selectedDestinationsListView = useSelector(state => state.selectedDestinationsListView)
 
-  const listview_selectBy_DestinationsVisibility = useSelector(state => state.listview_selectBy_DestinationsVisibility)
+  // const listview_selectBy_DestinationsVisibility = useSelector(state => state.listview_selectBy_DestinationsVisibility)
 
   const listview_selectByCodeDestinations = useSelector(state => state.listview_selectByCodeDestinations)
 
@@ -135,11 +135,7 @@ const ListView = ({ ...props }) => {
              </div>) : null
         }
         {
-          listview_selectBy_DestinationsVisibility && selectedOriginListView
-          ? <SelectBy_Destinations_ListView/> : null
-        }
-        {
-          listview_selectByCodeDestinations && selectedOriginListView && listview_selectBy_DestinationsVisibility
+          listview_selectByCodeDestinations && selectedOriginListView
           ?
            (<>
              <div
@@ -151,7 +147,7 @@ const ListView = ({ ...props }) => {
           : null
         }
         {
-          listview_selectByCategoryDestinations && selectedOriginListView && listview_selectBy_DestinationsVisibility
+          listview_selectByCategoryDestinations && selectedOriginListView
           ?
            (<>
              <div
