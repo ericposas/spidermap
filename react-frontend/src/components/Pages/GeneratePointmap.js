@@ -91,7 +91,7 @@ const GeneratePointmap = ({ ...props }) => {
     let startX, endX, distanceBetweenX
     let startY, endY, distanceBetweenY
     let bendX = 20
-    let bendY = 40
+    let bendY = 100
     let cpStartThreshX = .25, cpEndThreshX = .75
     let cpStartThreshY = .25, cpEndThreshY = .75
 
