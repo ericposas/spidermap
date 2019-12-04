@@ -4,6 +4,10 @@
 
 #### Programming:
 
+  - Legal / Comments:
+    - Format legal/comment section in various map views
+  
+
   - UI:
     - Remove mandatory filename input before uploading csv
     - Add notification when csv is loading
@@ -71,10 +75,10 @@
 
 #### Current Deployment Method:
   - Develop application on local machine
-  - ```git push``` on local machine
-  - ```git pull``` on Lightsail instance
-  - ```cd spidermap/strapi-backend/```
-  - ``````
+  - `git push` on local machine
+  - `git pull` on Lightsail instance
+  - `cd spidermap/strapi-backend/`
+  - `pm2 start -- strapi start`
 
 #### Scaling:
   - Pending / TBD
