@@ -79,7 +79,7 @@ const Dashboard = ({ ...props }) => {
     let sessionData = JSON.parse(sessionStorage.getItem(process.env.APP_NAME))
     if (sessionData) {
       setUser(sessionData.data.user.username)
-      enableLogoutTimer()
+      // enableLogoutTimer()
     } else {
       history.push('/')
     }
@@ -101,7 +101,7 @@ const Dashboard = ({ ...props }) => {
         return ''
     }
   }
-  
+
   return (
     <>
       <div className='row' style={{whiteSpace:'nowrap'}}>

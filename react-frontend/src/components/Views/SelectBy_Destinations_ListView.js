@@ -17,13 +17,11 @@ const SelectBy_Destinations_ListView = ({ ...props }) => {
 
   return (<>
     <div>
-      <div style={{ marginLeft: '20px' }}>
+      <div style={{ marginLeft: '1px' }}>
         <button
           style={{
             display: 'inline-block',
-            border: listview_selectByCodeDestinations ? 'none' : '1px solid #ccc',
-            backgroundColor: listview_selectByCodeDestinations ? '#37ACF4' : '#fff',
-            color: listview_selectByCodeDestinations ? '#fff' : '#666',
+            color: listview_selectByCodeDestinations ? '#006CC4' : '#ccc',
             borderRadius: '2px',
           }}
           className='select-by-button'
@@ -35,12 +33,11 @@ const SelectBy_Destinations_ListView = ({ ...props }) => {
           }}>
           Airport Code
         </button>
+        <span>|</span>
         <button
           style={{
             display: 'inline-block',
-            border: listview_selectByCategoryDestinations ? 'none' : '1px solid #ccc',
-            backgroundColor: listview_selectByCategoryDestinations ? '#37ACF4' : '#fff',
-            color: listview_selectByCategoryDestinations ? '#fff' : '#666',
+            color: listview_selectByCategoryDestinations ? '#006CC4' : '#ccc',
             borderRadius: '2px',
           }}
           className='select-by-button'
@@ -52,6 +49,7 @@ const SelectBy_Destinations_ListView = ({ ...props }) => {
           }}>
           Category
         </button>
+        <div style={{ paddingBottom: '5px' }}></div>
       </div>
     </div>
   </>)

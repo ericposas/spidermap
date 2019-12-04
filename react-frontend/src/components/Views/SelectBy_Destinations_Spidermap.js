@@ -15,16 +15,14 @@ const SelectBy_Destinations_Spidermap = ({ ...props }) => {
   const spidermap_selectByCodeDestinations = useSelector(state => state.spidermap_selectByCodeDestinations)
 
   const spidermap_selectByCategoryDestinations = useSelector(state => state.spidermap_selectByCategoryDestinations)
-  
+
   return (<>
     <div>
-      <div style={{ marginLeft: '20px' }}>
+      <div style={{ marginLeft: '1px' }}>
         <button
           style={{
             display: 'inline-block',
-            border: spidermap_selectByCodeDestinations ? 'none' : '1px solid #ccc',
-            backgroundColor: spidermap_selectByCodeDestinations ? '#37ACF4' : '#fff',
-            color: spidermap_selectByCodeDestinations ? '#fff' : '#666',
+            color: spidermap_selectByCodeDestinations ? '#006CC4' : '#ccc',
             borderRadius: '2px',
           }}
           className='select-by-button'
@@ -36,12 +34,11 @@ const SelectBy_Destinations_Spidermap = ({ ...props }) => {
           }}>
           Airport Code
         </button>
+        <span>|</span>
         <button
           style={{
             display: 'inline-block',
-            border: spidermap_selectByCategoryDestinations ? 'none' : '1px solid #ccc',
-            backgroundColor: spidermap_selectByCategoryDestinations ? '#37ACF4' : '#fff',
-            color: spidermap_selectByCategoryDestinations ? '#fff' : '#666',
+            color: spidermap_selectByCategoryDestinations ? '#006CC4' : '#ccc',
             borderRadius: '2px',
           }}
           className='select-by-button'
@@ -53,6 +50,7 @@ const SelectBy_Destinations_Spidermap = ({ ...props }) => {
           }}>
           Category
         </button>
+        <div style={{ paddingBottom: '5px' }}></div>
       </div>
     </div>
   </>)

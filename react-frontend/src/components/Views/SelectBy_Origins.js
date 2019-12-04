@@ -18,13 +18,11 @@ const SelectBy_Origins = ({ ...props }) => {
   return (
     <>
       <div>
-        <div style={{ marginLeft: '20px' }}>
+        <div style={{ marginLeft: '1px' }}>
           <button
             style={{
               display: 'inline-block',
-              border: pointmap_selectByCodeOrigins ? 'none' : '1px solid #ccc',
-              backgroundColor: pointmap_selectByCodeOrigins ? '#37ACF4' : '#fff',
-              color: pointmap_selectByCodeOrigins ? '#fff' : '#666',
+              color: pointmap_selectByCodeOrigins ? '#006CC4' : '#ccc',
               borderRadius: '2px',
             }}
             className='select-by-button'
@@ -36,12 +34,11 @@ const SelectBy_Origins = ({ ...props }) => {
             }}>
             Airport Code
           </button>
+          <span>|</span>
           <button
             style={{
               display: 'inline-block',
-              border: pointmap_selectByCategoryOrigins ? 'none' : '1px solid #ccc',
-              backgroundColor: pointmap_selectByCategoryOrigins ? '#37ACF4' : '#fff',
-              color: pointmap_selectByCategoryOrigins ? '#fff' : '#666',
+              color: pointmap_selectByCategoryOrigins ? '#006CC4' : '#ccc',
               borderRadius: '2px',
             }}
             className='select-by-button'
@@ -53,6 +50,7 @@ const SelectBy_Origins = ({ ...props }) => {
             }}>
             Category
           </button>
+          <div style={{ paddingBottom: '5px' }}></div>
         </div>
       </div>
     </>

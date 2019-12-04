@@ -17,13 +17,11 @@ const SelectBy_Destinations_Pointmap = ({ ...props }) => {
 
   return (<>
     <div>
-      <div style={{ marginLeft: '20px' }}>
+      <div style={{ marginLeft: '1px' }}>
         <button
           style={{
             display: 'inline-block',
-            border: pointmap_selectByCodeDestinations ? 'none' : '1px solid #ccc',
-            backgroundColor: pointmap_selectByCodeDestinations ? '#37ACF4' : '#fff',
-            color: pointmap_selectByCodeDestinations ? '#fff' : '#666',
+            color: pointmap_selectByCodeDestinations ? '#006CC4' : '#ccc',
             borderRadius: '2px',
           }}
           className='select-by-button'
@@ -35,12 +33,11 @@ const SelectBy_Destinations_Pointmap = ({ ...props }) => {
           }}>
           Airport Code
         </button>
+        <span>|</span>
         <button
           style={{
             display: 'inline-block',
-            border: pointmap_selectByCategoryDestinations ? 'none' : '1px solid #ccc',
-            backgroundColor: pointmap_selectByCategoryDestinations ? '#37ACF4' : '#fff',
-            color: pointmap_selectByCategoryDestinations ? '#fff' : '#666',
+            color: pointmap_selectByCategoryDestinations ? '#006CC4' : '#ccc',
             borderRadius: '2px',
           }}
           className='select-by-button'
@@ -52,6 +49,7 @@ const SelectBy_Destinations_Pointmap = ({ ...props }) => {
           }}>
           Category
         </button>
+        <div style={{ paddingBottom: '5px' }}></div>
       </div>
     </div>
   </>)
