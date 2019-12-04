@@ -6,7 +6,8 @@ import SignIn from './SignIn'
 import { getUser, checkAuth } from '../../sessionStore'
 import url from '../../url'
 import axios from 'axios'
-import '../../images/american-airlines-new-logo-slash.svg'
+// import '../../images/american-airlines-new-logo-slash.svg'
+import '../../images/aa-logo-with-subtitle.png'
 import { LAST_LOCATION } from '../../constants/constants'
 
 const LoginPanel = ({ ...props }) => {
@@ -65,12 +66,12 @@ const LoginPanel = ({ ...props }) => {
                }}>
           </div>
           <div style={{width:panelWidth}}>
-            <img src='./img/american-airlines-new-logo-slash.svg'/>
-            <div style={{
-              width:logoWidth+'px',
-              backgroundImage: 'url(./img/american-airlines-new-logo-slash.svg)',
-              backgroundImageSize: logoWidth }}>
-            </div>
+            <img
+              src='./img/aa-logo-with-subtitle.png'
+              style={{
+                width: '250px', margin: '0 20px 0 10px',
+              }}
+            />
             <br/>
             <br/>
             <div style={{
