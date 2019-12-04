@@ -23,10 +23,11 @@ const GeneratePointmap = ({ ...props }) => {
   let linearScaleX, linearScaleY
   let lats = [], longs = []
   let pathCount = -1,
-      labelCount = -1
+      labelCount = -1,
+      whiteBoxUnderLabelCount = -1
   let labelAdjustX = 2,
       labelAdjustY = 2
-
+  
   const origins = useSelector(state => state.selectedOriginsPointmap)
 
   const destinations = useSelector(state => state.selectedDestinationsPointmap)
@@ -40,6 +41,8 @@ const GeneratePointmap = ({ ...props }) => {
   const pathsRef = useRef(destArr.map(() => createRef()))
 
   const labelsRef = origins ? useRef(origins.concat(destArr).map(() => createRef())) : null
+
+  const whiteBoxUnderLabelsRef = origins ? useRef(origins.concat(destArr).map(() => createRef())) : null
 
   const [moveXAmt, setMoveXAmt] = useState({})
 
@@ -266,7 +269,9 @@ const GeneratePointmap = ({ ...props }) => {
                                 cx={getX(ap.longitude)}
                                 cy={getY(ap.latitude)}
                                 fill={destinationDotColor}></circle>
-                        <rect x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
+                        <rect id={`destination-${ap.code}-white-box-under-label`}
+                              ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
+                              x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
                               y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25)}
                               width='100'
                               height='10'
@@ -305,7 +310,9 @@ const GeneratePointmap = ({ ...props }) => {
                             cy={getY(ap.latitude)}
                             fill='none'
                             stroke={originCircleColor}></circle>
-                    <rect x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
+                    <rect id={`origin-${ap.code}-white-box-under-label`}
+                          ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
+                          x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
                           y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
                           width='100'
                           height='10'
