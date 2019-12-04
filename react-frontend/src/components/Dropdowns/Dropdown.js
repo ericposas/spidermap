@@ -322,7 +322,7 @@ const Dropdown = ({ ...props }) => {
            props.output == 'listview-origin' || !allCodesData)
             ? null
             : (<>
-                <div style={{ fontSize:'.75rem', color: '#ccc', marginLeft: '8px' }}>
+                <div style={{ fontSize:'.75rem', color: '#ccc', marginLeft: '10px' }}>
                   Hold CTRL / ⌘ to select multiple
                 </div><br/><br/>
                 <button

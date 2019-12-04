@@ -16,6 +16,9 @@ import {
 import '../../images/listview-icon.png'
 import '../../images/point-to-point-icon.png'
 import '../../images/spidermap-icon.png'
+import '../../images/globe.png'
+import '../../images/pencil.png'
+import '../../images/pin.png'
 
 
 const Dashboard = ({ ...props }) => {
@@ -109,7 +112,7 @@ const Dashboard = ({ ...props }) => {
         {
           !selectedMenuItem
           ?
-          (<div className='col-med panel-style' style={{ width:'300px', height: '100vh' }}>
+          (<div className='col-med panel-style' style={{ width:'400px', height: '100vh' }}>
             <div
               className='subtitle'
               style={{
@@ -122,21 +125,38 @@ const Dashboard = ({ ...props }) => {
                   style={{ marginLeft:'10%' }}
                   className='dashboard-menu-button'
                   onClick={() => dispatch({ type: CREATE_A_MAP })}>
-                Create A Map
+                &nbsp;
+                <img
+                  src='./img/pin.png'
+                  style={{
+                    display: 'inline-block', width: '30px',
+                    marginTop: '-6px'
+                  }} />&nbsp;&nbsp; Create A Map
               </button>
               <br/>
               <button
                   style={{ marginLeft:'10%' }}
                   className='dashboard-menu-button'
                   onClick={() => props.history.push('/my-maps')}>
-                View / Edit My Maps
+                &nbsp;
+                <img
+                  src='./img/pencil.png'
+                  style={{
+                    display: 'inline-block', width: '27px'
+                  }} />&nbsp;&nbsp; View / Edit My Maps
               </button>
               <br/>
               <button
                   style={{ marginLeft:'10%', borderBottom: 'none' }}
                   className='dashboard-menu-button'
                   onClick={() => props.history.push('/global-maps')}>
-                Global Maps
+                &nbsp;
+                <img
+                  src='./img/globe.png'
+                  style={{
+                    display: 'inline-block', width: '30px',
+                    marginTop: '-6px'
+                  }} />&nbsp;&nbsp; Global Maps
               </button>
             </div>)
             : null
