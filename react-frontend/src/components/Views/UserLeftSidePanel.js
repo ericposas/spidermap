@@ -2,7 +2,8 @@ import React, { useState, useEffect, Fragment } from 'react'
 import BackButton from '../Buttons/BackButton'
 import LogoutButton from '../Buttons/LogoutButton'
 import DashboardButton from '../Buttons/DashboardButton'
-import '../../images/american-airlines-new-logo-slash.svg'
+// import '../../images/american-airlines-new-logo-slash.svg'
+import '../../images/aa-logo-with-subtitle.png'
 import { getUser, checkAuth } from '../../sessionStore'
 
 const UserLeftSidePanel = ({ ...props }) => {
@@ -24,14 +25,12 @@ const UserLeftSidePanel = ({ ...props }) => {
              }}>
         </div>
         <div style={{width:panelWidth}}>
-          <img src='./img/american-airlines-new-logo-slash.svg'/>
-          <div style={{
-            width:logoWidth + 'px',
-            backgroundImage: 'url(./img/american-airlines-new-logo-slash.svg)',
-            backgroundImageSize: logoWidth }}>
-          </div>
-          <br/>
-          <br/>
+          <img
+            src='./img/aa-logo-with-subtitle.png'
+            style={{
+              width: '250px', margin: '0 20px 0 10px',
+            }} />
+          <br/><br/>
           <div style={{
               fontWeight: 'lighter', textAlign: 'center',
               fontSize:'1.5rem', color:'#777'
