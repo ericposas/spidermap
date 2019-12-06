@@ -36,8 +36,6 @@ const GeneratePointmap = ({ ...props }) => {
 
   const downloadingPDF = useSelector(state => state.downloadPDFStatus)
 
-  const savingFile = useSelector(state => state.savingFile)
-
   let destArr = []
 
   Object.keys(destinations).forEach(origin => destArr = destArr.concat(destinations[origin]))
@@ -224,16 +222,6 @@ const GeneratePointmap = ({ ...props }) => {
       ? <DownloadingFile_Modal/>
       : null
     */}
-    {
-      savingFile == 'SAVING_FILE'
-      ? (<div className='deleting-or-saving-to-db-strip'> Saving file... </div>)
-      : null
-    }
-    {
-      savingFile == 'FILE_SAVED'
-      ? (<div className='deleting-or-saving-to-db-strip'> File saved! </div>)
-      : null
-    }
     { downloadingPDF ? <div className='white-backing'></div> : null }
     <div className='row'>
       <UserLeftSidePanel/>

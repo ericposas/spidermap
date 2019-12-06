@@ -45,6 +45,8 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const selectedDestinationsPointmap = useSelector(state => state.selectedDestinationsPointmap)
 
+  const savingFile = useSelector(state => state.savingFile)
+
   const [savingMapToDB, setSavingMapToDB] = useState(false)
 
   const [showSavedMapToDB_Notification, setShowSavedMapToDB_Notification] = useState(false)
@@ -264,6 +266,16 @@ const DownloadImagePanel = ({ ...props }) => {
   }, [])
 
   return (<>
+    {
+      savingFile == 'SAVING_FILE'
+      ? (<div className='deleting-or-saving-to-db-strip'> Saving file... </div>)
+      : null
+    }
+    {
+      savingFile == 'FILE_SAVED'
+      ? (<div className='deleting-or-saving-to-db-strip'> File saved! </div>)
+      : null
+    }
     {
       savingMapToDB
       ?

@@ -4,6 +4,10 @@
 
 #### Programming:
 
+  - File Save:
+    - Add JPG support
+
+
   - Legal / Comments:
     - Format legal/comment section in various map views
 
