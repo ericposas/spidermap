@@ -30,6 +30,10 @@ const Spidermap = ({ ...props }) => {
 
   const spidermap_selectByCategoryDestinations = useSelector(state => state.spidermap_selectByCategoryDestinations)
 
+  const uploadingCSVNotification = useSelector(state => state.uploadingCSVNotification)
+
+  const uploadCSVDoneNotification = useSelector(state => state.uploadCSVDoneNotification)
+
   const [showUploadCSVModal, setShowUploadCSVModal] = useState(false)
 
   const setModalVisibility = value => {
@@ -72,6 +76,16 @@ const Spidermap = ({ ...props }) => {
 
   return (
     <>
+      {
+        uploadingCSVNotification
+        ? (<div className='deleting-or-saving-to-db-strip'> Uploading and processing CSV entries.. </div>)
+        : null
+      }
+      {
+        uploadCSVDoneNotification
+        ? (<div className='deleting-or-saving-to-db-strip'> CSV data processed! </div>)
+        : null
+      }
       <div className='row' style={{whiteSpace:'nowrap'}}>
         <UserLeftSidePanel/>
         <div className='col-med panel-style'

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, batch } from 'react-redux'
 import axios from 'axios'
 import LogoutButton from '../Buttons/LogoutButton'
 import { getUser, checkAuth } from '../../sessionStore'
@@ -24,6 +24,10 @@ import {
   SET_DESTINATION_LOCATIONS_LISTVIEW,
   REMOVE_ALL_DESTINATIONS_LISTVIEW
 } from '../../constants/listview'
+import {
+  SHOW_UPLOADING_CSV_NOTIFICATION,
+  SHOW_UPLOADED_CSV_DONE_NOTIFICATION,
+} from '../../constants/constants'
 import '../Buttons/buttons.scss'
 
 const UploadForm = ({ ...props }) => {
@@ -35,7 +39,7 @@ const UploadForm = ({ ...props }) => {
          })
          .catch(err => console.log(err))
   }, [])
-  
+
   const dispatch = useDispatch()
 
   const options = useSelector(state => state.allCodesData)
@@ -73,12 +77,15 @@ const UploadForm = ({ ...props }) => {
         })
         dataObj[arr[0].trim()] = tmpObjArr
       })
-      dispatch({ type: SET_ORIGIN_LOCATIONS_POINTMAP, payload: origins })
-      dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: dataObj })
 
-      console.log(
-        'hide modal and any uploading graphics here..'
-      )
+      batch(() => {
+        dispatch({ type: SET_ORIGIN_LOCATIONS_POINTMAP, payload: origins })
+        dispatch({ type: SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE, payload: dataObj })
+        dispatch({ type: SHOW_UPLOADING_CSV_NOTIFICATION, payload: false })
+        dispatch({ type: SHOW_UPLOADED_CSV_DONE_NOTIFICATION, payload: true })
+      })
+      setTimeout(() => dispatch({ type: SHOW_UPLOADED_CSV_DONE_NOTIFICATION, payload: false }), 2000)
+
       if (props.setModalVisibility) {
         props.setModalVisibility(false)
       }
@@ -112,12 +119,16 @@ const UploadForm = ({ ...props }) => {
           else if (option.code == datum) destinations.push(option)
         })
       })
-      dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: origin })
-      dispatch({ type: SET_DESTINATION_LOCATIONS_SPIDERMAP, payload: { origin: origin, item: destinations.slice(0, destinations.length) } })
 
-      console.log(
-        'hide modal and any uploading graphics here..'
-      )
+      batch(() => {
+        dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: origin })
+        dispatch({ type: SET_DESTINATION_LOCATIONS_SPIDERMAP, payload: { origin: origin, item: destinations.slice(0, destinations.length) } })
+        dispatch({ type: SHOW_UPLOADING_CSV_NOTIFICATION, payload: false })
+        dispatch({ type: SHOW_UPLOADED_CSV_DONE_NOTIFICATION, payload: true })
+      })
+
+      setTimeout(() => dispatch({ type: SHOW_UPLOADED_CSV_DONE_NOTIFICATION, payload: false }), 2000)
+
       if (props.setModalVisibility) {
         props.setModalVisibility(false)
       }
@@ -147,12 +158,16 @@ const UploadForm = ({ ...props }) => {
           else if (option.code == datum) destinations.push(option)
         })
       })
-      dispatch({ type: SET_ORIGIN_LISTVIEW, payload: origin })
-      dispatch({ type: SET_DESTINATION_LOCATIONS_LISTVIEW, payload: { origin: origin, item: destinations.slice(0, destinations.length) } })
 
-      console.log(
-        'hide modal and any uploading graphics here..'
-      )
+      batch(() => {
+        dispatch({ type: SET_ORIGIN_LISTVIEW, payload: origin })
+        dispatch({ type: SET_DESTINATION_LOCATIONS_LISTVIEW, payload: { origin: origin, item: destinations.slice(0, destinations.length) } })
+        dispatch({ type: SHOW_UPLOADING_CSV_NOTIFICATION, payload: false })
+        dispatch({ type: SHOW_UPLOADED_CSV_DONE_NOTIFICATION, payload: true })
+      })
+
+      setTimeout(() => dispatch({ type: SHOW_UPLOADED_CSV_DONE_NOTIFICATION, payload: false }), 2000)
+
       if (props.setModalVisibility) {
         props.setModalVisibility(false)
       }
@@ -171,14 +186,12 @@ const UploadForm = ({ ...props }) => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    // console.log(props)
-    console.log(
-      'show upload circle graphic on the modal/window...'
-    )
 
+    dispatch({ type: SHOW_UPLOADING_CSV_NOTIFICATION, payload: true })
+    
     let formData = new FormData(formRef.current)
 
-    axios.post('/files', { belongsto: getUser().user._id, label }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+    axios.post('/files', { belongsto: getUser().user._id }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
          .then(data => {
            formData.append('ref', 'File')
            formData.append('refId', data.data._id)
@@ -257,19 +270,10 @@ const UploadForm = ({ ...props }) => {
         }
         <br/>
         <form ref={formRef}>
-          <span>File Label:</span><input type='text' value={label} onChange={handleLabelInput} onKeyPress={ e => { if (e.which == 13) e.preventDefault() }}/>
           <br/>
-          <br/>
-          {
-            label != ''
-            ?
-              (<>
-                <input type='file'
-                       name='files'
-                       onChange={handleSubmit}/>
-              </>)
-            : <div style={{color:'red',fontSize:'.8rem'}}>Please provide a label before choosing a .CSV file</div>
-          }
+          <input type='file'
+                 name='files'
+                 onChange={handleSubmit}/>
           {
             showIncorrectFormat
             ?

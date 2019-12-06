@@ -35,6 +35,12 @@
     },
     "category": {
       "type": "string"
+    },
+    "legal": {
+      "type": "string"
+    },
+    "comment": {
+      "type": "string"
     }
   }
 }

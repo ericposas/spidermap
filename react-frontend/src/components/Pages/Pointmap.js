@@ -50,11 +50,13 @@ const Pointmap = ({ ...props }) => {
 
   const lastLocation = useSelector(state => state.lastLocation)
 
+  const uploadingCSVNotification = useSelector(state => state.uploadingCSVNotification)
+
+  const uploadCSVDoneNotification = useSelector(state => state.uploadCSVDoneNotification)
+
   const [showUploadCSVModal, setShowUploadCSVModal] = useState(false)
 
-  const setModalVisibility = value => {
-    setShowUploadCSVModal(value)
-  }
+  const setModalVisibility = value => setShowUploadCSVModal(value)
 
   const uploadButtonRef = useRef()
 
@@ -100,6 +102,16 @@ const Pointmap = ({ ...props }) => {
 
   return (
     <>
+      {
+        uploadingCSVNotification
+        ? (<div className='deleting-or-saving-to-db-strip'> Uploading and processing CSV entries.. </div>)
+        : null
+      }
+      {
+        uploadCSVDoneNotification
+        ? (<div className='deleting-or-saving-to-db-strip'> CSV data processed! </div>)
+        : null
+      }
       <div className='row' style={{whiteSpace:'nowrap'}}>
           <UserLeftSidePanel/>
           <div
@@ -167,10 +179,6 @@ const Pointmap = ({ ...props }) => {
              <SelectionView type='pointmap-destinations'/>
            </div>) : null
         }
-        {/*
-          pointmap_selectBy_OriginsVisibility
-          ? <SelectBy_Origins type='pointmap'/> : null
-        */}
         {
           pointmap_selectByCodeOrigins
           ?
@@ -196,9 +204,6 @@ const Pointmap = ({ ...props }) => {
              </div>
            </>) : null
         }
-        {/*
-          pointmap_selectBy_DestinationsVisibility ? <SelectBy_Destinations_Pointmap/> : null
-        */}
         {
           pointmap_selectByCodeDestinations
           ?

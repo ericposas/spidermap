@@ -5,7 +5,6 @@ import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
 import BackButton from '../Buttons/BackButton'
 import UploadModal from '../Modals/UploadModal'
-// import SelectBy_Destinations_ListView from '../Views/SelectBy_Destinations_ListView'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import { checkAuth, getUser } from '../../sessionStore'
 import { LAST_LOCATION } from '../../constants/constants'
@@ -25,17 +24,17 @@ const ListView = ({ ...props }) => {
 
   const selectedDestinationsListView = useSelector(state => state.selectedDestinationsListView)
 
-  // const listview_selectBy_DestinationsVisibility = useSelector(state => state.listview_selectBy_DestinationsVisibility)
-
   const listview_selectByCodeDestinations = useSelector(state => state.listview_selectByCodeDestinations)
 
   const listview_selectByCategoryDestinations = useSelector(state => state.listview_selectByCategoryDestinations)
 
+  const uploadingCSVNotification = useSelector(state => state.uploadingCSVNotification)
+
+  const uploadCSVDoneNotification = useSelector(state => state.uploadCSVDoneNotification)
+
   const [showUploadCSVModal, setShowUploadCSVModal] = useState(false)
 
-  const setModalVisibility = value => {
-    setShowUploadCSVModal(value)
-  }
+  const setModalVisibility = value => setShowUploadCSVModal(value)
 
   const uploadButtonRef = useRef()
 
@@ -46,7 +45,7 @@ const ListView = ({ ...props }) => {
   const computeButtonContainerBottom = () => {
     return getComputedStyle(uploadButtonRef.current, null).getPropertyValue('height')
   }
-
+  
   const handleGenerateMapClick = () => {
     if (selectedDestinationsListView.length > 0) {
       props.history.push('/generate-listview')
@@ -71,6 +70,16 @@ const ListView = ({ ...props }) => {
 
   return (
     <>
+      {
+        uploadingCSVNotification
+        ? (<div className='deleting-or-saving-to-db-strip'> Uploading and processing CSV entries.. </div>)
+        : null
+      }
+      {
+        uploadCSVDoneNotification
+        ? (<div className='deleting-or-saving-to-db-strip'> CSV data processed! </div>)
+        : null
+      }
       <div className='row' style={{ whiteSpace:'nowrap' }}>
         <UserLeftSidePanel/>
         <div className='col-med panel-style' style={{ width:'300px', height:'100vh' }}>

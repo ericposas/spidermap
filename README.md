@@ -9,8 +9,6 @@
 
 
   - UI:
-    - Remove mandatory filename input before uploading csv
-    - Add notification when csv is loading
     - Add notification for when saving as PNG, SVG, or PDF
 
 

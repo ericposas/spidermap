@@ -30,6 +30,8 @@ import downloadPDFStatus from './downloadPDF'
 import exportFileType from './exportFileType'
 import myMaps from './myMaps'
 import globalMaps from './globalMaps'
+import uploadingCSVNotification from './uploadingCSVNotification'
+import uploadCSVDoneNotification from './uploadCSVDoneNotification'
 
 const rootReducer = combineReducers({
   lastLocation,
@@ -52,7 +54,8 @@ const rootReducer = combineReducers({
   listviewRendering, listviewPrinting,
   downloadPDFStatus,
   exportFileType,
-  myMaps, globalMaps
+  myMaps, globalMaps,
+  uploadingCSVNotification, uploadCSVDoneNotification,
 })
 
 export default rootReducer
