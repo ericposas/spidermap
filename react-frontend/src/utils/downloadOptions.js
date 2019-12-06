@@ -1,4 +1,11 @@
+import { useDispatch } from 'react-redux'
+import {
+  SAVING_FILE,
+  FILE_SAVED
+} from '../constants/constants'
+
 const downloadSVG = (type) => {
+  dispatch({ type: SAVING_FILE })
   var svgData = document.getElementsByTagName('svg')[0].outerHTML;
   var svgBlob = new Blob([svgData], { type:"image/svg+xml;charset=utf-8" });
   var svgUrl = URL.createObjectURL(svgBlob);
@@ -8,9 +15,12 @@ const downloadSVG = (type) => {
   document.body.appendChild(downloadLink);
   downloadLink.click();
   document.body.removeChild(downloadLink);
+  dispatch({ type: FILE_SAVED })
 }
 
 const downloadPNG = (type, resolution) => {
+
+  dispatch({ type: SAVING_FILE })
 
   dlSvg(document.getElementsByTagName('svg')[0], `${type}.png`)
 
@@ -75,6 +85,7 @@ const downloadPNG = (type, resolution) => {
       // document.removeChild(canvas);
     };
     img.src = url;
+    dispatch({ type: FILE_SAVED })
   }
 
 }

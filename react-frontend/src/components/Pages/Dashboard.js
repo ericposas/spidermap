@@ -33,28 +33,28 @@ const Dashboard = ({ ...props }) => {
 
   const pointmapSelect = () => {
     history.push('/pointmap')
-    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
   }
 
   const pointmapButtonClick = () => {
+    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
     dispatch({ type: POINTMAP })
   }
 
   const spidermapSelect = () => {
     history.push('/spidermap')
-    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
   }
 
   const spidermapButtonClick = () => {
+    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
     dispatch({ type: SPIDERMAP })
   }
 
   const listViewSelect = () => {
     history.push('/listView')
-    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
   }
 
   const listViewButtonClick = () => {
+    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
     dispatch({ type: LISTVIEW })
   }
 

@@ -94,8 +94,8 @@ const Pointmap = ({ ...props }) => {
     if (!checkAuth()) {
       setTimeout(() => props.history.push('/'))
     } else {
-      console.log('user is logged in')
-      dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
+      // console.log('user is logged in')
+      // dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
       setButtonContainerBottom(computeButtonContainerBottom())
     }
   }, [])

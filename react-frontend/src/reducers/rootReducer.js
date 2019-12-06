@@ -32,6 +32,7 @@ import myMaps from './myMaps'
 import globalMaps from './globalMaps'
 import uploadingCSVNotification from './uploadingCSVNotification'
 import uploadCSVDoneNotification from './uploadCSVDoneNotification'
+import savingFile from './savingFile'
 
 const rootReducer = combineReducers({
   lastLocation,
@@ -56,6 +57,7 @@ const rootReducer = combineReducers({
   exportFileType,
   myMaps, globalMaps,
   uploadingCSVNotification, uploadCSVDoneNotification,
+  savingFile,
 })
 
 export default rootReducer

@@ -45,7 +45,7 @@ const ListView = ({ ...props }) => {
   const computeButtonContainerBottom = () => {
     return getComputedStyle(uploadButtonRef.current, null).getPropertyValue('height')
   }
-  
+
   const handleGenerateMapClick = () => {
     if (selectedDestinationsListView.length > 0) {
       props.history.push('/generate-listview')
@@ -62,8 +62,8 @@ const ListView = ({ ...props }) => {
   useEffect(() => {
     if (!checkAuth()) setTimeout(() => props.history.push('/'))
     else {
-      console.log('user is logged in')
-      dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
+      // console.log('user is logged in')
+      // dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
       setButtonContainerBottom(computeButtonContainerBottom())
     }
   }, [])

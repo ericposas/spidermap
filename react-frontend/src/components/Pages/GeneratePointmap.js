@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import DownloadImagePanel from '../Views/DownloadImagePanel'
-import DownloadingFile_Modal from '../Modals/DownloadingFile_Modal'
+// import DownloadingFile_Modal from '../Modals/DownloadingFile_Modal'
 import mapSettings from '../../mapSettings.config'
 
 const GeneratePointmap = ({ ...props }) => {
@@ -27,12 +27,16 @@ const GeneratePointmap = ({ ...props }) => {
       whiteBoxUnderLabelCount = -1
   let labelAdjustX = 2,
       labelAdjustY = 2
-  
+
+  const dispatch = useDispatch()
+
   const origins = useSelector(state => state.selectedOriginsPointmap)
 
   const destinations = useSelector(state => state.selectedDestinationsPointmap)
 
   const downloadingPDF = useSelector(state => state.downloadPDFStatus)
+
+  const savingFile = useSelector(state => state.savingFile)
 
   let destArr = []
 
@@ -215,9 +219,19 @@ const GeneratePointmap = ({ ...props }) => {
   }
 
   return (<>
-    {
+    {/*
       downloadingPDF
       ? <DownloadingFile_Modal/>
+      : null
+    */}
+    {
+      savingFile == 'SAVING_FILE'
+      ? (<div className='deleting-or-saving-to-db-strip'> Saving file... </div>)
+      : null
+    }
+    {
+      savingFile == 'FILE_SAVED'
+      ? (<div className='deleting-or-saving-to-db-strip'> File saved! </div>)
       : null
     }
     { downloadingPDF ? <div className='white-backing'></div> : null }
