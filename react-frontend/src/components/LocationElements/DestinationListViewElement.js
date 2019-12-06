@@ -7,7 +7,8 @@ const DestinationListViewElement = ({ ...props }) => {
   const dispatch = useDispatch()
 
   const removeElementHandler = () => {
-    const { destinationObject } = props
+    const { destinationObject, clearFilter } = props
+    clearFilter()
     dispatch({ type: REMOVE_A_DESTINATION_LISTVIEW, payload: destinationObject })
   }
 

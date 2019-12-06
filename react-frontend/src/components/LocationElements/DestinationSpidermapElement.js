@@ -8,10 +8,11 @@ const DestinationSpidermapElement = ({ ...props }) => {
   const dispatch = useDispatch()
 
   const removeElementHandler = () => {
-    const { destinationObject } = props
+    const { destinationObject, clearFilter } = props
+    clearFilter()
     dispatch({ type: REMOVE_A_DESTINATION_SPIDERMAP, payload: destinationObject })
   }
-
+  
   return (
     <>
       <div>

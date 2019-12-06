@@ -32,6 +32,8 @@ const SelectionView = ({ ...props }) => {
 
   const selectBy_DestinationsVisibility = useSelector(state => state.selectBy_DestinationsVisibility)
 
+  const [_filter, setFilter] = useState('')
+
   const label = () => {
     switch (props.type) {
       case 'spidermap-origin':
@@ -44,9 +46,11 @@ const SelectionView = ({ ...props }) => {
           {
             selectedOriginsPointmap
             ?
-              <div style={{display:'inline-block',fontSize:'.85rem'}}>
-                Tap on each Origin to set Destinations
-              </div>
+              <>
+                <div style={{display:'inline-block',fontSize:'.85rem'}}>
+                  Tap on each Origin to set Destinations
+                </div><br/>
+              </>
             : null
           }
         </>)
@@ -77,6 +81,14 @@ const SelectionView = ({ ...props }) => {
           margin:'-48px 0 0 0',
           padding:'15% 20px 0 20px',
         }}>
+        <div style={{  marginTop: '-20px' }}>Filter:</div>
+        <input
+          style={{
+            border: '1px solid #ccc', width: '100%',
+            borderRadius: '2px'
+          }}
+          value={_filter}
+          onChange={e => setFilter(e.target.value)}/><br/><br/>
         <div>{label()}</div>
         <div style={{overflow:'scroll'}}>
           {
@@ -95,34 +107,74 @@ const SelectionView = ({ ...props }) => {
           }
           {
             (props.type == 'pointmap-origins' && selectedOriginsPointmap)
-            ? selectedOriginsPointmap.map(location => (
-              <Fragment key={location.id}>
-                <SelectableOriginPointmapElement originObject={location} code={location.code}/>
-              </Fragment>))
+            ? selectedOriginsPointmap.filter(item => {
+                if (item.code.indexOf(_filter) > -1 || item.fullname.indexOf(_filter) > -1 ||
+                    item.region.indexOf(_filter) > -1 || item.city.indexOf(_filter) > -1 ||
+                    item.code.toLowerCase().indexOf(_filter) > -1 || item.fullname.toLowerCase().indexOf(_filter) > -1 ||
+                    item.region.toLowerCase().indexOf(_filter) > -1 || item.city.toLowerCase().indexOf(_filter) > -1 ||
+                    item.code.toUpperCase().indexOf(_filter) > -1 || item.fullname.toUpperCase().indexOf(_filter) > -1 ||
+                    item.region.toUpperCase().indexOf(_filter) > -1 || item.city.toUpperCase().indexOf(_filter) > -1) {
+                   return item
+                 }
+              })
+              .map(location => (
+                <Fragment key={location.id}>
+                  <SelectableOriginPointmapElement clearFilter={() => setFilter('')} originObject={location} code={location.code}/>
+                </Fragment>))
             : null
           }
           {
             (props.type == 'spidermap-destinations' && selectedDestinationsSpidermap)
-            ? selectedDestinationsSpidermap.map(location => (
-              <Fragment key={location.id}>
-                <DestinationSpidermapElement destinationObject={location} code={location.code}/>
-              </Fragment>))
+            ? selectedDestinationsSpidermap.filter(item => {
+                if (item.code.indexOf(_filter) > -1 || item.fullname.indexOf(_filter) > -1 ||
+                    item.region.indexOf(_filter) > -1 || item.city.indexOf(_filter) > -1 ||
+                    item.code.toLowerCase().indexOf(_filter) > -1 || item.fullname.toLowerCase().indexOf(_filter) > -1 ||
+                    item.region.toLowerCase().indexOf(_filter) > -1 || item.city.toLowerCase().indexOf(_filter) > -1 ||
+                    item.code.toUpperCase().indexOf(_filter) > -1 || item.fullname.toUpperCase().indexOf(_filter) > -1 ||
+                    item.region.toUpperCase().indexOf(_filter) > -1 || item.city.toUpperCase().indexOf(_filter) > -1) {
+                    return item
+                  }
+                })
+                .map(location => (
+                  <Fragment key={location.id}>
+                    <DestinationSpidermapElement clearFilter={() => setFilter('')} destinationObject={location} code={location.code}/>
+                  </Fragment>))
             : null
           }
           {
             (props.type == 'pointmap-destinations' && selectedDestinationsPointmap && selectedDestinationsPointmap[currentlySelectedOriginPointmap])
-            ? selectedDestinationsPointmap[currentlySelectedOriginPointmap].map(location => (
-              <Fragment key={location.id}>
-                <DestinationPointmapElement destinationObject={location} code={location.code}/>
-              </Fragment>))
+            ? selectedDestinationsPointmap[currentlySelectedOriginPointmap].filter(item => {
+                if (item.code.indexOf(_filter) > -1 || item.fullname.indexOf(_filter) > -1 ||
+                    item.region.indexOf(_filter) > -1 || item.city.indexOf(_filter) > -1 ||
+                    item.code.toLowerCase().indexOf(_filter) > -1 || item.fullname.toLowerCase().indexOf(_filter) > -1 ||
+                    item.region.toLowerCase().indexOf(_filter) > -1 || item.city.toLowerCase().indexOf(_filter) > -1 ||
+                    item.code.toUpperCase().indexOf(_filter) > -1 || item.fullname.toUpperCase().indexOf(_filter) > -1 ||
+                    item.region.toUpperCase().indexOf(_filter) > -1 || item.city.toUpperCase().indexOf(_filter) > -1) {
+                    return item
+                  }
+                })
+                .map(location => (
+                  <Fragment key={location.id}>
+                    <DestinationPointmapElement clearFilter={() => setFilter('')} destinationObject={location} code={location.code}/>
+                  </Fragment>))
             : null
           }
           {
             (props.type == 'listview-destinations' && selectedDestinationsListView)
-            ? selectedDestinationsListView.map(location => (
-              <Fragment key={location.id}>
-                <DestinationListViewElement destinationObject={location} code={location.code}/>
-              </Fragment>))
+            ? selectedDestinationsListView.filter(item => {
+                if (item.code.indexOf(_filter) > -1 || item.fullname.indexOf(_filter) > -1 ||
+                    item.region.indexOf(_filter) > -1 || item.city.indexOf(_filter) > -1 ||
+                    item.code.toLowerCase().indexOf(_filter) > -1 || item.fullname.toLowerCase().indexOf(_filter) > -1 ||
+                    item.region.toLowerCase().indexOf(_filter) > -1 || item.city.toLowerCase().indexOf(_filter) > -1 ||
+                    item.code.toUpperCase().indexOf(_filter) > -1 || item.fullname.toUpperCase().indexOf(_filter) > -1 ||
+                    item.region.toUpperCase().indexOf(_filter) > -1 || item.city.toUpperCase().indexOf(_filter) > -1) {
+                    return item
+                  }
+                })
+                .map(location => (
+                  <Fragment key={location.id}>
+                    <DestinationListViewElement clearFilter={() => setFilter('')} destinationObject={location} code={location.code}/>
+                  </Fragment>))
             : null
           }
           {

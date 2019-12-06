@@ -11,7 +11,8 @@ const DestinationPointmapElement = ({ ...props }) => {
   const currentlySelectedOriginPointmap = useSelector(state => state.currentlySelectedOriginPointmap)
 
   const removeElementHandler = () => {
-    const { destinationObject } = props
+    const { destinationObject, clearFilter } = props
+    clearFilter()
     dispatch({ type: REMOVE_A_DESTINATION_FOR_AN_ORIGIN_FOR_POINTMAP, payload: { originCode: currentlySelectedOriginPointmap, destination: destinationObject } })
   }
 

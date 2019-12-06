@@ -278,7 +278,7 @@ const Dropdown = ({ ...props }) => {
                         Filter: &nbsp;
                       </div>
                       <input
-                        style={{ borderRadius: '3px', width: '350px' }}
+                        style={{ border: '1px solid #ccc', borderRadius: '3px', width: '350px' }}
                         value={_filter} onChange={e => setFilter(e.target.value)}/><br/><br/>
                       {
                         props.output == 'listview-destinations'
@@ -302,7 +302,9 @@ const Dropdown = ({ ...props }) => {
                         <option></option>
                         {
                           options.filter(opt => {
-                            if (type == 'code' && opt.props.children.props.children.join('').toLowerCase().indexOf(_filter) > -1) {
+                            if (type == 'code' && (opt.props.children.props.children.join('').toLowerCase().indexOf(_filter) > -1 ||
+                                                   opt.props.children.props.children.join('').toUpperCase().indexOf(_filter) > -1 ||
+                                                   opt.props.children.props.children.join('').indexOf(_filter) > -1)) {
                               return opt
                             } else if (type == 'category' && opt.props.children.props.value.toLowerCase().indexOf(_filter) > -1) {
                               return opt
@@ -323,6 +325,7 @@ const Dropdown = ({ ...props }) => {
             ? null
             : (<>
                 <div style={{ fontSize:'.75rem', color: '#ccc', marginLeft: '10px' }}>
+                  <div style={{ paddingBottom: '5px' }}></div>
                   Hold CTRL / ⌘ to select multiple
                 </div><br/><br/>
                 <button

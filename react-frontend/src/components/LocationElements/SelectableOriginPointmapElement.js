@@ -66,16 +66,14 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
 
   const removeElementHandler = () => {
     if (selectedOriginsPointmap && _.some(selectedOriginsPointmap, props.originObject) == true) {
+      props.clearFilter()
       batch(() => {
         dispatch({ type: REMOVE_AN_ORIGIN_FOR_POINTMAP, payload: props.originObject })
         dispatch({ type: REMOVE_ALL_DESTINATIONS_FOR_AN_ORIGIN_FOR_POINTMAP, payload: props.code })
       })
     }
-    // if (currentlySelectedOriginPointmap == props.originObject.code) {
-      // dispatch({ type: SET_CURRENT_SELECTED_ORIGIN_FOR_POINTMAP, payload: null })
-    // }
   }
-
+  
   const evaluateStyle = () => {
     if (currentlySelectedOriginPointmap == null) {
       return defaultStyle

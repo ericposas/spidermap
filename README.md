@@ -6,16 +6,12 @@
 
   - Legal / Comments:
     - Format legal/comment section in various map views
-  
+
 
   - UI:
     - Remove mandatory filename input before uploading csv
     - Add notification when csv is loading
     - Add notification for when saving as PNG, SVG, or PDF
-
-
-  - Filtering Options:
-    - Add Filtered Search for selected locations: HOLD
 
 
   - Generate PDF:
@@ -33,6 +29,8 @@
 #### Design:
 
   - Throughout:
+    - Shrink down logo by 25%
+    - Use hi-res BG
     - Add AA fonts
     - Use AA grey on all fonts (that are black)
     - Change logo
@@ -65,6 +63,7 @@
     - Widen slightly "Export map" panel
     - File select dropdown -- stylize like mockups
     - Remove "Save map" icon
+
 
 
 #### Tech Stack:
