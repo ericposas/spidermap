@@ -22,6 +22,8 @@ const GenerateListView = ({ ...props }) => {
 
   const regionRef = useRef()
 
+  const [listedLegalLines, setListedLegalLines] = useState([])
+
   useEffect(() => {
     if (!origin) props.history.push('/listview')
     let destinationsObject = {}
@@ -29,6 +31,9 @@ const GenerateListView = ({ ...props }) => {
       if (!destinationsObject[d.region]) destinationsObject[d.region] = []
       destinationsObject[d.region].push(d)
     })
+    let legal = destinations.concat(origin).map(item => { if (item && item.legal) return item.legal })
+    legal = legal.filter((item, i) => i == legal.indexOf(item))
+    setListedLegalLines(legal)
     setOrganizeByCategory(destinationsObject)
     console.log(destinationsObject)
   }, [])
@@ -195,10 +200,15 @@ const GenerateListView = ({ ...props }) => {
                       : processByRegion(region)
                     }
                   </Fragment>)
-                })
-                : null
+                }) : null
               }
             </div>
+            <div style={{ paddingBottom: '20px' }}></div>
+            {
+              listedLegalLines.map(line => line ? <Fragment key={`legal-line-${line}`}><div className='legal-line'><span>*&nbsp;</span>{line}</div></Fragment> : null)
+            }
+            <br/><br/>
+            <div style={{ paddingBottom: '40px' }}></div>
           </div>
         </div>
       </div>

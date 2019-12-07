@@ -52,12 +52,22 @@ const GeneratePointmap = ({ ...props }) => {
 
   const [moveYAmt, setMoveYAmt] = useState({})
 
+  const [listedLegalLines, setListedLegalLines] = useState([])
+
   useEffect(() => {
     if (origins == null) props.history.push('/pointmap')
     else {
       pathsRef.current.forEach(path => console.log(path))
       labelsRef.current.forEach(label => console.log(label))
       areLabelsTouchingOtherLabels() //?
+      let legal = []
+      Object.keys(destinations).forEach((arr, i) => {
+        legal = legal.concat(destinations[arr].map(item => { if (item && item.legal) return item.legal }))
+      })
+      legal = legal.concat(origins.map(item => { if (item && item.legal) return item.legal }))
+      legal = legal.filter((item, i) => i == legal.indexOf(item))
+      console.log(legal)
+      setListedLegalLines(legal)
     }
   }, [])
 
@@ -98,10 +108,10 @@ const GeneratePointmap = ({ ...props }) => {
     let startX, endX, distanceBetweenX
     let startY, endY, distanceBetweenY
     let bendX = 20
-    let bendY = 100
+    let bendY = 40
     let cpStartThreshX = .25, cpEndThreshX = .75
     let cpStartThreshY = .25, cpEndThreshY = .75
-
+    
     startX = getX(ap.longitude)
     endX = getX(originObj[origin].longitude)
     distanceBetweenX = endX - startX
@@ -338,6 +348,24 @@ const GeneratePointmap = ({ ...props }) => {
                 </Fragment>
               ))
             : null
+          }
+          {
+            listedLegalLines.map((line, i) => {
+              if (line) {
+                return (
+                    <Fragment key={`legal-line-${line}`}>
+                      <g>
+                      <text
+                        style={{ fontSize: '.5rem' }}
+                        x={20}
+                        y={innerHeight - (12 * i) - 10}>
+                        * {line}
+                      </text>
+                    </g>
+                  </Fragment>
+                )
+              }
+            })
           }
         </svg>
       </div>

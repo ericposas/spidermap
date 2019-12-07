@@ -4,8 +4,9 @@
 
 #### Programming:
 
-  - Legal / Comments:
-    - Format legal/comment section in various map views
+  - Map Type Selection:
+    - Hover over "Spider Map", "Point-to-Point Map", or "List View" ->  Slides out the description panel
+    - Clicking "Spider Map", "Point-to-Point Map", or "List View" brings the user to that selected page
 
 
   - Generate PDF:
