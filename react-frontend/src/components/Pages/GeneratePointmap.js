@@ -111,7 +111,7 @@ const GeneratePointmap = ({ ...props }) => {
     let bendY = 40
     let cpStartThreshX = .25, cpEndThreshX = .75
     let cpStartThreshY = .25, cpEndThreshY = .75
-    
+
     startX = getX(ap.longitude)
     endX = getX(originObj[origin].longitude)
     distanceBetweenX = endX - startX
@@ -373,8 +373,5 @@ const GeneratePointmap = ({ ...props }) => {
   </>)
 
 }
-
-// dominantBaseline='middle'
-// textAnchor='middle'
 
 export default withRouter(GeneratePointmap)

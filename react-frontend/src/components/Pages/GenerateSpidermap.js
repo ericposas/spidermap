@@ -36,12 +36,17 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const displayMapBG = useSelector(state => state.displayMapBG)
 
+  const [listedLegalLines, setListedLegalLines] = useState([])
+
   useEffect(() => {
     if (origin == null) {
       props.history.push('/spidermap')
     } else {
       pathsRef.current.forEach(path => console.log(path))
       labelsRef.current.forEach(label => console.log(label))
+      let legal = destinations.concat(origin).map(item => { if (item && item.legal) return item.legal })
+      legal = legal.filter((item, i) => i == legal.indexOf(item))
+      setListedLegalLines(legal)
     }
   }, [])
 
@@ -78,7 +83,7 @@ const GenerateSpidermap = ({ ...props }) => {
     let startX, endX, distanceBetweenX
     let startY, endY, distanceBetweenY
     let bendX = 20
-    let bendY = 100
+    let bendY = 40
     let cpStartThreshX = .25, cpEndThreshX = .75
     let cpStartThreshY = .25, cpEndThreshY = .75
 
@@ -205,6 +210,24 @@ const GenerateSpidermap = ({ ...props }) => {
               </g>
             </>)
             : null
+          }
+          {
+            listedLegalLines.map((line, i) => {
+              if (line) {
+                return (
+                    <Fragment key={`legal-line-${line}`}>
+                      <g>
+                      <text
+                        style={{ fontSize: '.5rem' }}
+                        x={20}
+                        y={innerHeight - (12 * i) - 10}>
+                        * {line}
+                      </text>
+                    </g>
+                  </Fragment>
+                )
+              }
+            })
           }
         </svg>
       </div>
