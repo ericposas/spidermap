@@ -48,11 +48,19 @@ const GeneratePointmap = ({ ...props }) => {
 
   const whiteBoxUnderLabelsRef = origins ? useRef(origins.concat(destArr).map(() => createRef())) : null
 
-  const [moveXAmt, setMoveXAmt] = useState({})
+  // const [moveXAmt, setMoveXAmt] = useState({})
 
-  const [moveYAmt, setMoveYAmt] = useState({})
+  // const [moveYAmt, setMoveYAmt] = useState({})
 
   const [listedLegalLines, setListedLegalLines] = useState([])
+
+  const [showContextMenu, setShowContextMenu] = useState(false)
+
+  const [contextMenuPosition, setContextMenuPosition] = useState({})
+
+  const [contextMenuProps, setContextMenuProps] = useState({})
+
+  const [labelPositions, setLabelPositions] = useState({})
 
   useEffect(() => {
     if (origins == null) props.history.push('/pointmap')
@@ -148,33 +156,33 @@ const GeneratePointmap = ({ ...props }) => {
 
   }
 
-  const moveX = (code, type) => {
-    if (moveXAmt[code] != null) {
-      setMoveXAmt({
-        ...moveXAmt,
-        [code]: type == 'plus' ? moveXAmt[code] + labelAdjustX : moveXAmt[code] - labelAdjustX
-      })
-    } else {
-      setMoveXAmt({
-        ...moveXAmt,
-        [code]: type == 'plus' ? labelAdjustX : -labelAdjustX
-      })
-    }
-  }
-
-  const moveY = (code, type) => {
-    if (moveYAmt[code] != null) {
-      setMoveYAmt({
-        ...moveYAmt,
-        [code]: type == 'plus' ? moveYAmt[code] + labelAdjustY : moveYAmt[code] - labelAdjustY
-      })
-    } else {
-      setMoveYAmt({
-        ...moveYAmt,
-        [code]: type == 'plus' ? labelAdjustY : -labelAdjustY
-      })
-    }
-  }
+  // const labelPosition = (code, type) => {
+  //   if (labelPosition[code] != null) {
+  //     setLabelPosition({
+  //       ...labelPosition,
+  //       [code]: type == 'plus' ? moveXAmt[code] + labelAdjustX : moveXAmt[code] - labelAdjustX
+  //     })
+  //   } else {
+  //     setMoveXAmt({
+  //       ...moveXAmt,
+  //       [code]: type == 'plus' ? labelAdjustX : -labelAdjustX
+  //     })
+  //   }
+  // }
+  //
+  // const moveY = (code, type) => {
+  //   if (moveYAmt[code] != null) {
+  //     setMoveYAmt({
+  //       ...moveYAmt,
+  //       [code]: type == 'plus' ? moveYAmt[code] + labelAdjustY : moveYAmt[code] - labelAdjustY
+  //     })
+  //   } else {
+  //     setMoveYAmt({
+  //       ...moveYAmt,
+  //       [code]: type == 'plus' ? labelAdjustY : -labelAdjustY
+  //     })
+  //   }
+  // }
 
   const areLabelsTouchingPaths = () => {
     for(let i = 0; i < labelsRef.current.length; i++){
@@ -258,11 +266,9 @@ const GeneratePointmap = ({ ...props }) => {
             destinations
             ?
               Object.keys(destinations).map(origin => {
-
                   let originObj = {}
                   let originCodes = origins.map(o => o.code)
                   originCodes.forEach((code, i) => originObj[code] = origins[i])
-
                   return destinations[origin].map((ap, i) => <Fragment key={'path'+i}>{calcPath(originObj, origin, ap, i)}</Fragment>)
               })
             : null
@@ -279,29 +285,46 @@ const GeneratePointmap = ({ ...props }) => {
                   return destinations[origin].map((ap, i) => (
                     <Fragment key={ap.code}>
                       <g>
-                        <circle r={destinationDotSize}
-                                cx={getX(ap.longitude)}
-                                cy={getY(ap.latitude)}
-                                fill={destinationDotColor}></circle>
-                        <rect id={`destination-${ap.code}-white-box-under-label`}
-                              ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
-                              x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
-                              y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25)}
-                              width='100'
-                              height='10'
-                              fill='#fff'
-                              style={{
-                                opacity: '0.55'
-                              }}></rect>
-                        <text id={`destination-${ap.code}-label`}
-                              ref={labelsRef.current[labelCount++]}
-                              x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
-                              y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25)}
-                              style={{
-                                textAlign: 'center'
-                              }}
-                              fontSize={destinationLabelFontSize}>
-                          {ap.city} - {ap.code}
+                        <circle
+                          onClick={() => {
+                            setLabelPositions({
+                              ...labelPositions,
+                              [ap.code]: {
+                                position: labelPositions[ap.code] && labelPositions[ap.code].position
+                                          ? labelPositions[ap.code].position : 'top'
+                              }
+                            })
+                            setContextMenuProps({
+                              title: ap.code
+                            })
+                            setContextMenuPosition({ x: getX(ap.longitude), y: getY(ap.latitude) })
+                            setShowContextMenu(true)
+                          }}
+                          r={destinationDotSize}
+                          cx={getX(ap.longitude)}
+                          cy={getY(ap.latitude)}
+                          fill={destinationDotColor}></circle>
+                        <rect
+                          id={`destination-${ap.code}-white-box-under-label`}
+                          ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
+                          x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
+                          y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25)}
+                          width='100'
+                          height='10'
+                          fill='#fff'
+                          style={{ opacity: '0.55' }}></rect>
+                        <text
+                          id={`destination-${ap.code}-label`}
+                          ref={labelsRef.current[labelCount++]}
+                          x={
+                            getX(ap.longitude) - parseInt(destinationLabelFontSize) + 0
+                            }
+                          y={
+                            getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25) + 0
+                          }
+                          style={{ textAlign: 'center' }}
+                          fontSize={destinationLabelFontSize}>
+                            {ap.city} - {ap.code}
                         </text>
                       </g>
                     </Fragment>
@@ -326,21 +349,17 @@ const GeneratePointmap = ({ ...props }) => {
                             stroke={originCircleColor}></circle>
                     <rect id={`origin-${ap.code}-white-box-under-label`}
                           ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
-                          x={getX(ap.longitude) - parseInt(destinationLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
-                          y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
+                          x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
+                          y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25)}
                           width='100'
                           height='10'
                           fill='#fff'
-                          style={{
-                            opacity: '0.55'
-                          }}></rect>
+                          style={{ opacity: '0.55' }}></rect>
                     <text id={`origin-${ap.code}-label`}
                           ref={labelsRef.current[labelCount++]}
-                          x={getX(ap.longitude) - parseInt(originLabelFontSize) + (moveXAmt[ap.code] ? moveXAmt[ap.code] : 0)}
-                          y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25) + (moveYAmt[ap.code] ? moveYAmt[ap.code] : 0)}
-                          style={{
-                            textAlign: 'center'
-                          }}
+                          x={getX(ap.longitude) - parseInt(originLabelFontSize)}
+                          y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25)}
+                          style={{ textAlign: 'center' }}
                           fontSize={originLabelFontSize}>
                       {ap.city}, {ap.region} - {ap.code}
                     </text>
@@ -368,6 +387,38 @@ const GeneratePointmap = ({ ...props }) => {
             })
           }
         </svg>
+        {
+          showContextMenu
+          ?
+            (<div
+              className='context-menu-container'
+              style={{
+                position: 'absolute', top: 0,
+                width: '200px', height: '200px',
+                backgroundColor: '#ccc', transform: `translateX(${contextMenuPosition.x+'px'}) translateY(${contextMenuPosition.y+'px'})`,
+              }}>
+              <div className='context-menu-title'>
+                {contextMenuProps.title}: Context Menu
+              </div>
+              <div className='context-menu-item-list'>
+                <div>Set Label Position</div>
+                <div>Top</div>
+                <div onClick={
+                  () => {
+                    setLabelPositions({
+                      [contextMenuProps.title]: {
+                        position: 'right'
+                      }
+                    })
+                    console.log(labelPositions[contextMenuProps.title].position)
+                  }
+                }>Right</div>
+                <div>Bottom</div>
+                <div>Left</div>
+
+              </div>
+            </div>) : null
+        }
       </div>
     </div>
   </>)
