@@ -62,6 +62,8 @@ const GeneratePointmap = ({ ...props }) => {
 
   const [labelPositions, setLabelPositions] = useState({})
 
+  const [labelDisplayTypes, setLabelDisplayTypes] = useState({})
+
   useEffect(() => {
     if (origins == null) props.history.push('/pointmap')
     else {
@@ -287,13 +289,6 @@ const GeneratePointmap = ({ ...props }) => {
                       <g>
                         <circle
                           onClick={() => {
-                            setLabelPositions({
-                              ...labelPositions,
-                              [ap.code]: {
-                                position: labelPositions[ap.code] && labelPositions[ap.code].position
-                                          ? labelPositions[ap.code].position : 'top'
-                              }
-                            })
                             setContextMenuProps({
                               title: ap.code
                             })
@@ -317,14 +312,74 @@ const GeneratePointmap = ({ ...props }) => {
                           id={`destination-${ap.code}-label`}
                           ref={labelsRef.current[labelCount++]}
                           x={
-                            getX(ap.longitude) - parseInt(destinationLabelFontSize) + 0
+                              getX(ap.longitude) + (
+                                labelPositions && labelPositions[ap.code]
+                                ?
+                                  labelPositions[ap.code].position == 'right'
+                                  ? 6
+                                  :
+                                    labelPositions[ap.code].position == 'left'
+                                    ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width + 5)
+                                    :
+                                      labelPositions[ap.code].position == 'bottom'
+                                      ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                      :
+                                        labelPositions[ap.code].position == 'top'
+                                        ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                        : 0
+
+                                :
+                                  document.getElementById(`destination-${ap.code}-label`)
+                                  ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                  : -((ap.code + ap.city + ap.region) * .5)
+                              )
                             }
                           y={
-                            getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25) + 0
+                            getY(ap.latitude) + (
+                              labelPositions && labelPositions[ap.code]
+                              ?
+                                labelPositions[ap.code].position == 'right'
+                                ? 3
+                                :
+                                  labelPositions[ap.code].position == 'left'
+                                  ? 3
+                                  :
+                                    labelPositions[ap.code].position == 'bottom'
+                                    ? 12
+                                    :
+                                      labelPositions[ap.code].position == 'top'
+                                      ? -6
+                                      : 0
+
+                              : -6
+                            )
                           }
-                          style={{ textAlign: 'center' }}
+                          style={{
+                            textAlign: 'center',
+                            pointerEvents: 'none'
+                          }}
                           fontSize={destinationLabelFontSize}>
-                            {ap.city} - {ap.code}
+                            {
+                              labelDisplayTypes && labelDisplayTypes[ap.code]
+                              ?
+                                labelDisplayTypes[ap.code].displayType == 'code'
+                                ? ap.code
+                                :
+                                  labelDisplayTypes[ap.code].displayType == 'city'
+                                  ? ap.city
+                                  :
+                                    labelDisplayTypes[ap.code].displayType == 'region'
+                                    ? ap.region
+                                    :
+                                      labelDisplayTypes[ap.code].displayType == 'full'
+                                      ? `${ap.code},
+                                         ${ap.city},
+                                         ${ap.region}`
+                                      : `${ap.city},
+                                         ${ap.code}`
+                              : `${ap.city},
+                                 ${ap.code}`
+                            }
                         </text>
                       </g>
                     </Fragment>
@@ -397,25 +452,103 @@ const GeneratePointmap = ({ ...props }) => {
                 width: '200px', height: '200px',
                 backgroundColor: '#ccc', transform: `translateX(${contextMenuPosition.x+'px'}) translateY(${contextMenuPosition.y+'px'})`,
               }}>
+              <div
+                onClick={() => setShowContextMenu(false)}
+                style={{
+                  float: 'right', backgroundColor: 'red',
+                  width: '10px', height: '10px'
+                }}>
+              </div>
               <div className='context-menu-title'>
                 {contextMenuProps.title}: Context Menu
               </div>
-              <div className='context-menu-item-list'>
+              <div
+                style={{
+                  fontSize: '.75rem'
+                }}
+                className='context-menu-item-list'>
                 <div>Set Label Position</div>
-                <div>Top</div>
                 <div onClick={
                   () => {
                     setLabelPositions({
+                      ...labelPositions,
+                      [contextMenuProps.title]: {
+                        position: 'top'
+                      }
+                    })
+                  }
+                }>Top</div>
+                <div onClick={
+                  () => {
+                    setLabelPositions({
+                      ...labelPositions,
                       [contextMenuProps.title]: {
                         position: 'right'
                       }
                     })
-                    console.log(labelPositions[contextMenuProps.title].position)
                   }
                 }>Right</div>
-                <div>Bottom</div>
-                <div>Left</div>
-
+                <div onClick={
+                  () => {
+                    setLabelPositions({
+                      ...labelPositions,
+                      [contextMenuProps.title]: {
+                        position: 'bottom'
+                      }
+                    })
+                  }
+                }>Bottom</div>
+                <div onClick={
+                  () => {
+                    setLabelPositions({
+                      ...labelPositions,
+                      [contextMenuProps.title]: {
+                        position: 'left'
+                      }
+                    })
+                  }
+                }>Left</div>
+              <div>Set Label Display Type</div>
+              <div onClick={
+                  () => {
+                    setLabelDisplayTypes({
+                      ...labelDisplayTypes,
+                      [contextMenuProps.title]: {
+                        displayType: 'full'
+                      }
+                    })
+                  }
+                }>Full</div>
+              <div onClick={
+                  () => {
+                    setLabelDisplayTypes({
+                      ...labelDisplayTypes,
+                      [contextMenuProps.title]: {
+                        displayType: 'region'
+                      }
+                    })
+                  }
+                }>Region</div>
+              <div onClick={
+                  () => {
+                    setLabelDisplayTypes({
+                      ...labelDisplayTypes,
+                      [contextMenuProps.title]: {
+                        displayType: 'city'
+                      }
+                    })
+                  }
+                }>City</div>
+              <div onClick={
+                  () => {
+                    setLabelDisplayTypes({
+                      ...labelDisplayTypes,
+                      [contextMenuProps.title]: {
+                        displayType: 'code'
+                      }
+                    })
+                  }
+                }>Code</div>
               </div>
             </div>) : null
         }
