@@ -19,6 +19,7 @@ import '../../images/spidermap-icon.png'
 import '../../images/globe.png'
 import '../../images/pencil.png'
 import '../../images/pin.png'
+import './dashboard.scss'
 
 
 const Dashboard = ({ ...props }) => {
@@ -31,31 +32,48 @@ const Dashboard = ({ ...props }) => {
 
   const selectedMenuItem = useSelector(state => state.selectedMenuItem)
 
-  const pointmapSelect = () => {
-    history.push('/pointmap')
-  }
+  const [panelSlideActive, setPanelSlideActive] = useState(false)
 
-  const pointmapButtonClick = () => {
-    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
-    dispatch({ type: POINTMAP })
+  const pointmapSelect = () => history.push('/pointmap')
+
+  let panelSlideTimeout
+
+  const pointmapButtonHover = () => {
+    if (selectedMenuItem != POINTMAP) {
+      clearTimeout(panelSlideTimeout)
+      dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
+      dispatch({ type: POINTMAP })
+      setPanelSlideActive(true)
+      panelSlideTimeout = setTimeout(() => setPanelSlideActive(false), 350)
+    }
   }
 
   const spidermapSelect = () => {
     history.push('/spidermap')
   }
 
-  const spidermapButtonClick = () => {
-    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
-    dispatch({ type: SPIDERMAP })
+  const spidermapButtonHover = () => {
+    if (selectedMenuItem != SPIDERMAP) {
+      clearTimeout(panelSlideTimeout)
+      dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
+      dispatch({ type: SPIDERMAP })
+      setPanelSlideActive(true)
+      panelSlideTimeout = setTimeout(() => setPanelSlideActive(false), 350)
+    }
   }
 
   const listViewSelect = () => {
     history.push('/listView')
   }
 
-  const listViewButtonClick = () => {
-    dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
-    dispatch({ type: LISTVIEW })
+  const listViewButtonHover = () => {
+    if (selectedMenuItem != LISTVIEW) {
+      clearTimeout(panelSlideTimeout)
+      dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
+      dispatch({ type: LISTVIEW })
+      setPanelSlideActive(true)
+      panelSlideTimeout = setTimeout(() => setPanelSlideActive(false), 350)
+    }
   }
 
   useEffect(() => {
@@ -176,25 +194,31 @@ const Dashboard = ({ ...props }) => {
               <button
                 style={{ marginLeft:'10%' }}
                 className='dashboard-menu-button'
-                onClick={spidermapButtonClick}>Spider Map</button><br/>
+                onMouseOver={spidermapButtonHover}
+                onClick={spidermapSelect}
+                >Spider Map</button><br/>
               <button
                 style={{ marginLeft:'10%' }}
                 className='dashboard-menu-button'
-                onClick={pointmapButtonClick}>Point-to-Point Map</button><br/>
+                onMouseOver={pointmapButtonHover}
+                onClick={pointmapSelect}
+                >Point-to-Point Map</button><br/>
               <button
                 style={{ marginLeft:'10%', borderBottom: 'none' }}
                 className='dashboard-menu-button'
-                onClick={listViewButtonClick}>List View</button>
+                onMouseOver={listViewButtonHover}
+                onClick={listViewSelect}
+                >List View</button>
             </div>
             {
               (selectedMenuItem == SPIDERMAP || selectedMenuItem == POINTMAP ||
               selectedMenuItem == LISTVIEW)
               ?
                (<div
-                  className='col-med panel-style'
+                  className={`col-med panel-style ${panelSlideActive ? 'panel-slide' : ''}`}
                   style={{
                     width:'300px', height: '100vh',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                   onClick={
                     () => {

@@ -1,0 +1,16 @@
+.panel-slide {
+  z-index: -1;
+  animation-name: panel-slide-animation;
+  animation-duration: .35s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+}
+
+@keyframes panel-slide-animation {
+  0% {
+    transform: translateX(-400px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
