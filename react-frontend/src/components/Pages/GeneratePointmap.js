@@ -36,6 +36,8 @@ const GeneratePointmap = ({ ...props }) => {
 
   const downloadingPDF = useSelector(state => state.downloadPDFStatus)
 
+  const displayMapBG = useSelector(state => state.displayMapBG)
+
   let destArr = []
 
   Object.keys(destinations).forEach(origin => destArr = destArr.concat(destinations[origin]))
@@ -239,7 +241,7 @@ const GeneratePointmap = ({ ...props }) => {
           width={ (innerHeight * 1.25) }
           height={ innerHeight }
           style={{
-            backgroundColor: svgBgColor,
+            backgroundColor: displayMapBG ? svgBgColor : 'rgba(0, 0, 0, 0)',
             boxShadow: downloadingPDF ? '' : 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
           }}>
           {

@@ -4,10 +4,6 @@
 
 #### Programming:
 
-  - File Save:
-    - Add JPG support
-
-
   - Legal / Comments:
     - Format legal/comment section in various map views
 
@@ -16,11 +12,8 @@
    - Clean up PDF export for listview (currently cuts words in half at page break)
 
 
-  - Mapping:
-    - Avoid adding labels twice (if origin label already exists, don't add the destination label for the same place)
-
-
   - Map Right-click Context menu (with a hint on main UI):
+    - Make white box behind label the same width as the label (may have to use jquery)
     - Options for elongating or shortening the location (1. code, 2. city, 3. full city code and region)
     - Options for altering location of the label (in relation to the dot): 1. Above, 2. Below, 3. Left, 4. Right
 

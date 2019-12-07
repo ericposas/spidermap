@@ -16,6 +16,8 @@ const GenerateListView = ({ ...props }) => {
 
   const listviewRendering = useSelector(state => state.listviewRendering)
 
+  const displayMapBG = useSelector(state => state.displayMapBG)
+
   const regionsDict = []
 
   const regionRef = useRef()

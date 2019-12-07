@@ -34,6 +34,8 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const labelsRef = useRef(destinations.concat(origin).map(() => createRef()))
 
+  const displayMapBG = useSelector(state => state.displayMapBG)
+
   useEffect(() => {
     if (origin == null) {
       props.history.push('/spidermap')
@@ -79,7 +81,7 @@ const GenerateSpidermap = ({ ...props }) => {
     let bendY = 100
     let cpStartThreshX = .25, cpEndThreshX = .75
     let cpStartThreshY = .25, cpEndThreshY = .75
-    
+
     startX = getX(ap.longitude)
     endX = getX(origin.longitude)
     distanceBetweenX = endX - startX
@@ -132,7 +134,7 @@ const GenerateSpidermap = ({ ...props }) => {
           width={ downloadingPDF ? 800 : (innerHeight * 1.25) }
           height={ downloadingPDF ? 800 : innerHeight }
           style={{
-            backgroundColor: svgBgColor,
+            backgroundColor: displayMapBG ? svgBgColor : 'rgba(0, 0, 0, 0)',
             boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
           }}>
           {

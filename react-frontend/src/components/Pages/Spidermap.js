@@ -36,9 +36,7 @@ const Spidermap = ({ ...props }) => {
 
   const [showUploadCSVModal, setShowUploadCSVModal] = useState(false)
 
-  const setModalVisibility = value => {
-    setShowUploadCSVModal(value)
-  }
+  const setModalVisibility = value => setShowUploadCSVModal(value)
 
   const uploadButtonRef = useRef()
 
@@ -73,7 +71,7 @@ const Spidermap = ({ ...props }) => {
       setButtonContainerBottom(computeButtonContainerBottom())
     }
   }, [])
-  
+
   return (
     <>
       {
