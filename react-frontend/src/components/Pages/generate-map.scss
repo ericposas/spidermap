@@ -12,7 +12,7 @@ svg {
 .context-menu-container {
   top: 0;
   width: 200px;
-  height: 210px;
+  // height: 210px;
   color: #006CC4;
   position: absolute;
   border-radius: 2px;
@@ -29,14 +29,22 @@ svg {
 
 .context-menu-label-position-type-title,
 .context-menu-label-display-type-title {
-  margin-left: 8px;
   color: #154E8E;
+  margin-left: 8px;
   font-weight: bold;
+  font-size: .8rem;
 }
 
 .context-menu-label-position-type-option,
 .context-menu-label-display-type-option {
+  font-size: .75rem;
   margin-left: 12px;
+  cursor: pointer;
+}
+
+.context-menu-label-position-type-option:hover,
+.context-menu-label-display-type-option:hover {
+  color: #37ACF4;
 }
 
 .context-menu-label-position-type-option::before,

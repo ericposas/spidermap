@@ -4,12 +4,6 @@
 
 #### Programming:
 
-  - Map Right-click Context menu (with a hint on main UI):
-    - Make white box behind label the same width as the label (may have to use jquery)
-    - Options for elongating or shortening the location (1. code, 2. city, 3. full city code and region)
-    - Options for altering location of the label (in relation to the dot): 1. Above, 2. Below, 3. Left, 4. Right
-
-
   - Slide Transitions:
     - Add slide-in transitions to all UI panels
 

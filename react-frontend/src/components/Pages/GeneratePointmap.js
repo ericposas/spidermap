@@ -301,7 +301,7 @@ const GeneratePointmap = ({ ...props }) => {
                             setContextMenuProps({
                               title: ap.code
                             })
-                            setContextMenuPosition({ x: getX(ap.longitude), y: getY(ap.latitude)-100 })
+                            setContextMenuPosition({ x: getX(ap.longitude)+20, y: getY(ap.latitude)-100 })
                             setShowContextMenu(true)
                           }}
                           r={destinationDotSize}
@@ -534,7 +534,7 @@ const GeneratePointmap = ({ ...props }) => {
                         setContextMenuProps({
                           title: ap.code
                         })
-                        setContextMenuPosition({ x: getX(ap.longitude), y: getY(ap.latitude)-100 })
+                        setContextMenuPosition({ x: getX(ap.longitude)+20, y: getY(ap.latitude)-100 })
                         setShowContextMenu(true)
                       }}
                       r={originDotSize}
@@ -794,6 +794,7 @@ const GeneratePointmap = ({ ...props }) => {
                 style={{
                   position: 'absolute',
                   top: 0, right: '4px',
+                  cursor: 'pointer',
                 }}>
                 &#10006;
               </div>
@@ -801,9 +802,6 @@ const GeneratePointmap = ({ ...props }) => {
                 {contextMenuProps.title}: Context Menu
               </div>
               <div
-                style={{
-                  fontSize: '.75rem'
-                }}
                 className='context-menu-item-list'>
                 <div className='context-menu-label-position-type-title'>Set Label Position</div>
                 <div className='context-menu-label-position-type-option' onClick={
