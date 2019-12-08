@@ -284,6 +284,15 @@ const GeneratePointmap = ({ ...props }) => {
                   let originCodes = origins.map(o => o.code)
                   originCodes.forEach((code, i) => originObj[code] = origins[i])
 
+                  destinations[origin].forEach((ap, i) => {
+                    setLabelDisplayTypes[ap.code] = {
+                      displayType: 'city'
+                    }
+                    setLabelPositions[ap.code] = {
+                      position: 'top'
+                    }
+                  })
+
                   return destinations[origin].map((ap, i) => (
                     <Fragment key={ap.code}>
                       <g>
@@ -292,22 +301,13 @@ const GeneratePointmap = ({ ...props }) => {
                             setContextMenuProps({
                               title: ap.code
                             })
-                            setContextMenuPosition({ x: getX(ap.longitude), y: getY(ap.latitude) })
+                            setContextMenuPosition({ x: getX(ap.longitude), y: getY(ap.latitude)-100 })
                             setShowContextMenu(true)
                           }}
                           r={destinationDotSize}
                           cx={getX(ap.longitude)}
                           cy={getY(ap.latitude)}
                           fill={destinationDotColor}></circle>
-                        <rect
-                          id={`destination-${ap.code}-white-box-under-label`}
-                          ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
-                          x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
-                          y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25)}
-                          width='100'
-                          height='10'
-                          fill='#fff'
-                          style={{ opacity: '0.55' }}></rect>
                         <text
                           id={`destination-${ap.code}-label`}
                           ref={labelsRef.current[labelCount++]}
@@ -316,10 +316,10 @@ const GeneratePointmap = ({ ...props }) => {
                                 labelPositions && labelPositions[ap.code]
                                 ?
                                   labelPositions[ap.code].position == 'right'
-                                  ? 6
+                                  ? 10
                                   :
                                     labelPositions[ap.code].position == 'left'
-                                    ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width + 5)
+                                    ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width + 10)
                                     :
                                       labelPositions[ap.code].position == 'bottom'
                                       ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
@@ -345,13 +345,13 @@ const GeneratePointmap = ({ ...props }) => {
                                   ? 3
                                   :
                                     labelPositions[ap.code].position == 'bottom'
-                                    ? 12
+                                    ? 16
                                     :
                                       labelPositions[ap.code].position == 'top'
-                                      ? -6
+                                      ? -10
                                       : 0
 
-                              : -6
+                              : -10
                             )
                           }
                           style={{
@@ -381,6 +381,142 @@ const GeneratePointmap = ({ ...props }) => {
                                  ${ap.code}`
                             }
                         </text>
+                        <rect
+                          style={{
+                            pointerEvents: 'none', zIndex: -1
+                          }}
+                          id={`destination-${ap.code}-white-box-under-label`}
+                          ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
+                          x={
+                              getX(ap.longitude) + (
+                                labelPositions && labelPositions[ap.code]
+                                ?
+                                  labelPositions[ap.code].position == 'right'
+                                  ? 10
+                                  :
+                                    labelPositions[ap.code].position == 'left'
+                                    ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width + 10)
+                                    :
+                                      labelPositions[ap.code].position == 'bottom'
+                                      ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                      :
+                                        labelPositions[ap.code].position == 'top'
+                                        ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                        : 0
+
+                                :
+                                  document.getElementById(`destination-${ap.code}-label`)
+                                  ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                  : -((ap.code + ap.city + ap.region) * .5)
+                              )
+                            }
+                          y={
+                            getY(ap.latitude) + (
+                              labelPositions && labelPositions[ap.code]
+                              ?
+                                labelPositions[ap.code].position == 'right'
+                                ? -4
+                                :
+                                  labelPositions[ap.code].position == 'left'
+                                  ? -4
+                                  :
+                                    labelPositions[ap.code].position == 'bottom'
+                                    ? 8
+                                    :
+                                      labelPositions[ap.code].position == 'top'
+                                      ? -19
+                                      : 0
+
+                              : -19
+                            )
+                          }
+                          width={
+                            document.getElementById(`destination-${ap.code}-label`)
+                            ?
+                              document.getElementById(`destination-${ap.code}-label`).getBBox().width
+                            :
+                              100
+                          }
+                          height={
+                            document.getElementById(`destination-${ap.code}-label`)
+                            ?
+                              document.getElementById(`destination-${ap.code}-label`).getBBox().height
+                            :
+                              10
+                          }
+                          fill='#fff'></rect>
+                          <text
+                            id={`destination-${ap.code}-label-double`}
+                            x={
+                                getX(ap.longitude) + (
+                                  labelPositions && labelPositions[ap.code]
+                                  ?
+                                    labelPositions[ap.code].position == 'right'
+                                    ? 10
+                                    :
+                                      labelPositions[ap.code].position == 'left'
+                                      ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width + 10)
+                                      :
+                                        labelPositions[ap.code].position == 'bottom'
+                                        ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                        :
+                                          labelPositions[ap.code].position == 'top'
+                                          ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                          : 0
+
+                                  :
+                                    document.getElementById(`destination-${ap.code}-label`)
+                                    ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                    : -((ap.code + ap.city + ap.region) * .5)
+                                )
+                              }
+                            y={
+                              getY(ap.latitude) + (
+                                labelPositions && labelPositions[ap.code]
+                                ?
+                                  labelPositions[ap.code].position == 'right'
+                                  ? 3
+                                  :
+                                    labelPositions[ap.code].position == 'left'
+                                    ? 3
+                                    :
+                                      labelPositions[ap.code].position == 'bottom'
+                                      ? 16
+                                      :
+                                        labelPositions[ap.code].position == 'top'
+                                        ? -10
+                                        : 0
+
+                                : -10
+                              )
+                            }
+                            style={{
+                              textAlign: 'center',
+                              pointerEvents: 'none'
+                            }}
+                            fontSize={destinationLabelFontSize}>
+                              {
+                                labelDisplayTypes && labelDisplayTypes[ap.code]
+                                ?
+                                  labelDisplayTypes[ap.code].displayType == 'code'
+                                  ? ap.code
+                                  :
+                                    labelDisplayTypes[ap.code].displayType == 'city'
+                                    ? ap.city
+                                    :
+                                      labelDisplayTypes[ap.code].displayType == 'region'
+                                      ? ap.region
+                                      :
+                                        labelDisplayTypes[ap.code].displayType == 'full'
+                                        ? `${ap.code},
+                                           ${ap.city},
+                                           ${ap.region}`
+                                        : `${ap.city},
+                                           ${ap.code}`
+                                : `${ap.city},
+                                   ${ap.code}`
+                              }
+                          </text>
                       </g>
                     </Fragment>
                 ))
@@ -393,31 +529,233 @@ const GeneratePointmap = ({ ...props }) => {
               origins.map(ap => (
                 <Fragment key={ap.code}>
                   <g>
-                    <circle r={originDotSize}
-                            cx={getX(ap.longitude)}
-                            cy={getY(ap.latitude)}
-                            fill={originDotColor}></circle>
-                    <circle r={originCircleSize}
-                            cx={getX(ap.longitude)}
-                            cy={getY(ap.latitude)}
-                            fill='none'
-                            stroke={originCircleColor}></circle>
-                    <rect id={`origin-${ap.code}-white-box-under-label`}
-                          ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
-                          x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
-                          y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25)}
-                          width='100'
-                          height='10'
-                          fill='#fff'
-                          style={{ opacity: '0.55' }}></rect>
-                    <text id={`origin-${ap.code}-label`}
-                          ref={labelsRef.current[labelCount++]}
-                          x={getX(ap.longitude) - parseInt(originLabelFontSize)}
-                          y={getY(ap.latitude) - (parseInt(originLabelFontSize) * 1.25)}
-                          style={{ textAlign: 'center' }}
-                          fontSize={originLabelFontSize}>
-                      {ap.city}, {ap.region} - {ap.code}
+                    <circle
+                      onClick={() => {
+                        setContextMenuProps({
+                          title: ap.code
+                        })
+                        setContextMenuPosition({ x: getX(ap.longitude), y: getY(ap.latitude)-100 })
+                        setShowContextMenu(true)
+                      }}
+                      r={originDotSize}
+                      cx={getX(ap.longitude)}
+                      cy={getY(ap.latitude)}
+                      fill={originDotColor}></circle>
+                    <circle
+                      r={originCircleSize}
+                      cx={getX(ap.longitude)}
+                      cy={getY(ap.latitude)}
+                      fill='none'
+                      stroke={originCircleColor}></circle>
+                    <text
+                      id={`origin-${ap.code}-label`}
+                      ref={labelsRef.current[labelCount++]}
+                      x={
+                          getX(ap.longitude) + (
+                            labelPositions && labelPositions[ap.code]
+                            ?
+                              labelPositions[ap.code].position == 'right'
+                              ? 10
+                              :
+                                labelPositions[ap.code].position == 'left'
+                                ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width + 10)
+                                :
+                                  labelPositions[ap.code].position == 'bottom'
+                                  ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
+                                  :
+                                    labelPositions[ap.code].position == 'top'
+                                    ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
+                                    : 0
+
+                            :
+                              document.getElementById(`origin-${ap.code}-label`)
+                              ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
+                              : -((ap.code + ap.city + ap.region) * .5)
+                          )
+                        }
+                      y={
+                        getY(ap.latitude) + (
+                          labelPositions && labelPositions[ap.code]
+                          ?
+                            labelPositions[ap.code].position == 'right'
+                            ? 3
+                            :
+                              labelPositions[ap.code].position == 'left'
+                              ? 3
+                              :
+                                labelPositions[ap.code].position == 'bottom'
+                                ? 16
+                                :
+                                  labelPositions[ap.code].position == 'top'
+                                  ? -10
+                                  : 0
+
+                          : -10
+                        )
+                      }
+                      style={{
+                        textAlign: 'center', pointerEvents: 'none',
+                        fontWeight: 'bold'
+                      }}
+                      fontSize={originLabelFontSize}>
+                        {
+                          labelDisplayTypes && labelDisplayTypes[ap.code]
+                          ?
+                            labelDisplayTypes[ap.code].displayType == 'code'
+                            ? ap.code
+                            :
+                              labelDisplayTypes[ap.code].displayType == 'city'
+                              ? ap.city
+                              :
+                                labelDisplayTypes[ap.code].displayType == 'region'
+                                ? ap.region
+                                :
+                                  labelDisplayTypes[ap.code].displayType == 'full'
+                                  ? `${ap.code},
+                                     ${ap.city},
+                                     ${ap.region}`
+                                  : `${ap.city},
+                                     ${ap.code}`
+                          : `${ap.city},
+                             ${ap.code}`
+                        }
                     </text>
+                    <rect
+                      style={{
+                        pointerEvents: 'none', zIndex: -1
+                      }}
+                      id={`origin-${ap.code}-white-box-under-label`}
+                      ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
+                      x={
+                          getX(ap.longitude) + (
+                            labelPositions && labelPositions[ap.code]
+                            ?
+                              labelPositions[ap.code].position == 'right'
+                              ? 10
+                              :
+                                labelPositions[ap.code].position == 'left'
+                                ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width + 10)
+                                :
+                                  labelPositions[ap.code].position == 'bottom'
+                                  ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
+                                  :
+                                    labelPositions[ap.code].position == 'top'
+                                    ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
+                                    : 0
+
+                            :
+                              document.getElementById(`origin-${ap.code}-label`)
+                              ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
+                              : -((ap.code + ap.city + ap.region) * .5)
+                          )
+                        }
+                      y={
+                        getY(ap.latitude) + (
+                          labelPositions && labelPositions[ap.code]
+                          ?
+                            labelPositions[ap.code].position == 'right'
+                            ? -6
+                            :
+                              labelPositions[ap.code].position == 'left'
+                              ? -6
+                              :
+                                labelPositions[ap.code].position == 'bottom'
+                                ? 8
+                                :
+                                  labelPositions[ap.code].position == 'top'
+                                  ? -19
+                                  : 0
+
+                          : -19
+                        )
+                      }
+                      width={
+                        document.getElementById(`origin-${ap.code}-label`)
+                        ?
+                          document.getElementById(`origin-${ap.code}-label`).getBBox().width
+                        :
+                          100
+                      }
+                      height={
+                        document.getElementById(`origin-${ap.code}-label`)
+                        ?
+                          document.getElementById(`origin-${ap.code}-label`).getBBox().height
+                        :
+                          10
+                      }
+                      fill='#fff'></rect>
+                      <text
+                        id={`origin-${ap.code}-label-double`}
+                        x={
+                            getX(ap.longitude) + (
+                              labelPositions && labelPositions[ap.code]
+                              ?
+                                labelPositions[ap.code].position == 'right'
+                                ? 10
+                                :
+                                  labelPositions[ap.code].position == 'left'
+                                  ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width + 10)
+                                  :
+                                    labelPositions[ap.code].position == 'bottom'
+                                    ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
+                                    :
+                                      labelPositions[ap.code].position == 'top'
+                                      ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
+                                      : 0
+
+                              :
+                                document.getElementById(`origin-${ap.code}-label`)
+                                ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
+                                : -((ap.code + ap.city + ap.region) * .5)
+                            )
+                          }
+                        y={
+                          getY(ap.latitude) + (
+                            labelPositions && labelPositions[ap.code]
+                            ?
+                              labelPositions[ap.code].position == 'right'
+                              ? 3
+                              :
+                                labelPositions[ap.code].position == 'left'
+                                ? 3
+                                :
+                                  labelPositions[ap.code].position == 'bottom'
+                                  ? 16
+                                  :
+                                    labelPositions[ap.code].position == 'top'
+                                    ? -10
+                                    : 0
+
+                            : -10
+                          )
+                        }
+                        style={{
+                          textAlign: 'center', pointerEvents: 'none',
+                          fontWeight: 'bold'
+                        }}
+                        fontSize={originLabelFontSize}>
+                          {
+                            labelDisplayTypes && labelDisplayTypes[ap.code]
+                            ?
+                              labelDisplayTypes[ap.code].displayType == 'code'
+                              ? ap.code
+                              :
+                                labelDisplayTypes[ap.code].displayType == 'city'
+                                ? ap.city
+                                :
+                                  labelDisplayTypes[ap.code].displayType == 'region'
+                                  ? ap.region
+                                  :
+                                    labelDisplayTypes[ap.code].displayType == 'full'
+                                    ? `${ap.code},
+                                       ${ap.city},
+                                       ${ap.region}`
+                                    : `${ap.city},
+                                       ${ap.code}`
+                            : `${ap.city},
+                               ${ap.code}`
+                          }
+                      </text>
                   </g>
                 </Fragment>
               ))
@@ -445,19 +783,19 @@ const GeneratePointmap = ({ ...props }) => {
         {
           showContextMenu
           ?
-            (<div
+            (<>
+              <div
               className='context-menu-container'
               style={{
-                position: 'absolute', top: 0,
-                width: '200px', height: '200px',
-                backgroundColor: '#ccc', transform: `translateX(${contextMenuPosition.x+'px'}) translateY(${contextMenuPosition.y+'px'})`,
+                transform: `translateX(${contextMenuPosition.x+'px'}) translateY(${contextMenuPosition.y+'px'})`,
               }}>
               <div
                 onClick={() => setShowContextMenu(false)}
                 style={{
-                  float: 'right', backgroundColor: 'red',
-                  width: '10px', height: '10px'
+                  position: 'absolute',
+                  top: 0, right: '4px',
                 }}>
+                &#10006;
               </div>
               <div className='context-menu-title'>
                 {contextMenuProps.title}: Context Menu
@@ -467,8 +805,8 @@ const GeneratePointmap = ({ ...props }) => {
                   fontSize: '.75rem'
                 }}
                 className='context-menu-item-list'>
-                <div>Set Label Position</div>
-                <div onClick={
+                <div className='context-menu-label-position-type-title'>Set Label Position</div>
+                <div className='context-menu-label-position-type-option' onClick={
                   () => {
                     setLabelPositions({
                       ...labelPositions,
@@ -478,7 +816,7 @@ const GeneratePointmap = ({ ...props }) => {
                     })
                   }
                 }>Top</div>
-                <div onClick={
+              <div className='context-menu-label-position-type-option' onClick={
                   () => {
                     setLabelPositions({
                       ...labelPositions,
@@ -488,7 +826,7 @@ const GeneratePointmap = ({ ...props }) => {
                     })
                   }
                 }>Right</div>
-                <div onClick={
+              <div className='context-menu-label-position-type-option' onClick={
                   () => {
                     setLabelPositions({
                       ...labelPositions,
@@ -498,7 +836,7 @@ const GeneratePointmap = ({ ...props }) => {
                     })
                   }
                 }>Bottom</div>
-                <div onClick={
+              <div className='context-menu-label-position-type-option' onClick={
                   () => {
                     setLabelPositions({
                       ...labelPositions,
@@ -508,8 +846,8 @@ const GeneratePointmap = ({ ...props }) => {
                     })
                   }
                 }>Left</div>
-              <div>Set Label Display Type</div>
-              <div onClick={
+              <div className='context-menu-label-display-type-title'>Set Label Display Type</div>
+              <div className='context-menu-label-display-type-option' onClick={
                   () => {
                     setLabelDisplayTypes({
                       ...labelDisplayTypes,
@@ -519,7 +857,7 @@ const GeneratePointmap = ({ ...props }) => {
                     })
                   }
                 }>Full</div>
-              <div onClick={
+              <div className='context-menu-label-display-type-option' onClick={
                   () => {
                     setLabelDisplayTypes({
                       ...labelDisplayTypes,
@@ -529,7 +867,7 @@ const GeneratePointmap = ({ ...props }) => {
                     })
                   }
                 }>Region</div>
-              <div onClick={
+              <div className='context-menu-label-display-type-option' onClick={
                   () => {
                     setLabelDisplayTypes({
                       ...labelDisplayTypes,
@@ -539,7 +877,7 @@ const GeneratePointmap = ({ ...props }) => {
                     })
                   }
                 }>City</div>
-              <div onClick={
+              <div className='context-menu-label-display-type-option' onClick={
                   () => {
                     setLabelDisplayTypes({
                       ...labelDisplayTypes,
@@ -550,7 +888,8 @@ const GeneratePointmap = ({ ...props }) => {
                   }
                 }>Code</div>
               </div>
-            </div>) : null
+            </div>
+          </>) : null
         }
       </div>
     </div>

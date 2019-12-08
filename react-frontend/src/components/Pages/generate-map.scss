@@ -7,7 +7,39 @@ body {
 svg {
   margin: auto;
   display: block;
-  // position: absolute;
-  // top: 0; bottom: 0;
-  // left: 0; right: 0;
+}
+
+.context-menu-container {
+  top: 0;
+  width: 200px;
+  height: 210px;
+  color: #006CC4;
+  position: absolute;
+  border-radius: 2px;
+  background-color: #fff;
+  border: 2px solid #006CC4;
+}
+
+.context-menu-title {
+  margin-left: 4px;
+  font-size: .85rem;
+  color: #154E8E;
+  font-weight: bold;
+}
+
+.context-menu-label-position-type-title,
+.context-menu-label-display-type-title {
+  margin-left: 8px;
+  color: #154E8E;
+  font-weight: bold;
+}
+
+.context-menu-label-position-type-option,
+.context-menu-label-display-type-option {
+  margin-left: 12px;
+}
+
+.context-menu-label-position-type-option::before,
+.context-menu-label-display-type-option::before {
+  content: '\2022\00A0';
 }
