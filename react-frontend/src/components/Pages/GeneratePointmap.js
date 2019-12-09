@@ -10,6 +10,7 @@ import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import DownloadImagePanel from '../Views/DownloadImagePanel'
 // import DownloadingFile_Modal from '../Modals/DownloadingFile_Modal'
 import mapSettings from '../../mapSettings.config'
+import { CSSTransition } from 'react-transition-group'
 
 const GeneratePointmap = ({ ...props }) => {
 
@@ -298,13 +299,6 @@ const GeneratePointmap = ({ ...props }) => {
                     <Fragment key={ap.code}>
                       <g>
                         <circle
-                          onClick={() => {
-                            setContextMenuProps({
-                              title: ap.code
-                            })
-                            setContextMenuPosition({ x: getX(ap.longitude)+20, y: getY(ap.latitude)-100 })
-                            setShowContextMenu(true)
-                          }}
                           r={destinationDotSize}
                           cx={getX(ap.longitude)}
                           cy={getY(ap.latitude)}
@@ -518,6 +512,21 @@ const GeneratePointmap = ({ ...props }) => {
                                    ${ap.code}`
                               }
                           </text>
+                          <rect
+                            style={{ cursor: 'pointer' }}
+                            x={getX(ap.longitude) - 10}
+                            y={getY(ap.latitude) - 10}
+                            width='20'
+                            height='20'
+                            fill='rgba(0,0,0,0)'
+                            onClick={() => {
+                            setContextMenuProps({
+                              title: ap.code
+                            })
+                            setContextMenuPosition({ x: getX(ap.longitude)+20, y: getY(ap.latitude)-100 })
+                            setShowContextMenu(true)
+                          }}>
+                          </rect>
                       </g>
                     </Fragment>
                 ))
@@ -531,13 +540,6 @@ const GeneratePointmap = ({ ...props }) => {
                 <Fragment key={ap.code}>
                   <g>
                     <circle
-                      onClick={() => {
-                        setContextMenuProps({
-                          title: ap.code
-                        })
-                        setContextMenuPosition({ x: getX(ap.longitude)+20, y: getY(ap.latitude)-100 })
-                        setShowContextMenu(true)
-                      }}
                       r={originDotSize}
                       cx={getX(ap.longitude)}
                       cy={getY(ap.latitude)}
@@ -757,6 +759,20 @@ const GeneratePointmap = ({ ...props }) => {
                                ${ap.code}`
                           }
                       </text>
+                      <rect
+                        style={{ cursor: 'pointer' }}
+                        x={getX(ap.longitude) - 10}
+                        y={getY(ap.latitude) - 10}
+                        width='20'
+                        height='20'
+                        fill='rgba(0,0,0,0)'
+                        onClick={() => {
+                        setContextMenuProps({
+                          title: ap.code
+                        })
+                        setContextMenuPosition({ x: getX(ap.longitude)+20, y: getY(ap.latitude)-100 })
+                        setShowContextMenu(true)
+                      }}></rect>
                   </g>
                 </Fragment>
               ))
@@ -781,10 +797,11 @@ const GeneratePointmap = ({ ...props }) => {
             })
           }
         </svg>
-        {
-          showContextMenu
-          ?
-            (<>
+        <CSSTransition
+          unmountOnExit
+          in={showContextMenu}
+          timeout={300}
+          classNames='alert'>
               <div
               className='context-menu-container'
               style={{
@@ -888,8 +905,7 @@ const GeneratePointmap = ({ ...props }) => {
                 }>Code</div>
               </div>
             </div>
-          </>) : null
-        }
+        </CSSTransition>
       </div>
     </div>
   </>)
