@@ -258,6 +258,7 @@ const Dropdown = ({ ...props }) => {
                           backgroundColor: '#fff',
                           margin: '0 10% 0 10%',
                           width:'80%',
+                          zIndex: 1,
                         }}
                         onChange={ selectionHandlerSingleOrigin }>
                         <option></option>
@@ -278,7 +279,10 @@ const Dropdown = ({ ...props }) => {
                         Filter: &nbsp;
                       </div>
                       <input
-                        style={{ border: '1px solid #ccc', borderRadius: '3px', width: '350px' }}
+                        style={{
+                          border: '1px solid #ccc', borderRadius: '3px',
+                          width: '350px', zIndex: 1,
+                        }}
                         value={_filter} onChange={e => setFilter(e.target.value)}/><br/><br/>
                       {
                         props.output == 'listview-destinations'
@@ -296,7 +300,10 @@ const Dropdown = ({ ...props }) => {
                       }
                       <select
                         className='multi scrollable'
-                        style={{ margin: '0 0 0 10px', height:'70%', width:'450px'}}
+                        style={{
+                          margin: '0 0 0 10px', height:'70%',
+                          width:'450px', zIndex: 1,
+                        }}
                         onChange={ setOptionsValues }
                         multiple={ 'multiple' }>
                         <option></option>

@@ -13,6 +13,7 @@ import {
   SET_ORIGIN_SPIDERMAP,
   REMOVE_ALL_DESTINATIONS_SPIDERMAP,
 } from '../../constants/spidermap'
+import { CSSTransition } from 'react-transition-group'
 
 const Spidermap = ({ ...props }) => {
 
@@ -86,7 +87,7 @@ const Spidermap = ({ ...props }) => {
       }
       <div className='row' style={{whiteSpace:'nowrap'}}>
         <UserLeftSidePanel/>
-        <div className='col-med panel-style'
+        <div key={'spidermap-panel'} className='col-med panel-style'
              style={{
                height:'100vh', minWidth:'300px',
              }}>
@@ -142,31 +143,40 @@ const Spidermap = ({ ...props }) => {
             </div>
           </div>
         </div>
+        <CSSTransition
+          in={selectedOriginSpidermap != null}
+          timeout={300}
+          classNames='slide'>
+          <div className='col-med'>
+            { selectedOriginSpidermap ? <SelectionView type='spidermap-destinations'/> : null }
+          </div>
+        </CSSTransition>
         {
-          selectedOriginSpidermap
+          selectedOriginSpidermap && spidermap_selectByCodeDestinations
           ?
-            (<div className='col-med'>
-              <SelectionView type='spidermap-destinations'/>
-             </div>) : null
-        }
-        {
-          spidermap_selectByCodeDestinations && selectedOriginSpidermap
-          ?
-           (<>
+          <CSSTransition
+            in={spidermap_selectBy_DestinationsVisibility}
+            timeout={300}
+            classNames='slide'
+            >
              <div
+               key={'spidermap-panel-2'}
                className='col-med panel-style'
                style={{
                  minWidth: '200px', padding: '20px 20px 0 20px',
                }}>
                <Dropdown type='code' output='spidermap-destinations'/>
              </div>
-            </>)
-          : null
+          </CSSTransition> : null
         }
         {
-          spidermap_selectByCategoryDestinations && selectedOriginSpidermap
+          spidermap_selectByCategoryDestinations
           ?
-           (<>
+          <CSSTransition
+            in={spidermap_selectByCategoryDestinations}
+            timeout={300}
+            classNames='slide'
+            >
              <div
                className='col-med panel-style'
                style={{
@@ -174,8 +184,7 @@ const Spidermap = ({ ...props }) => {
                }}>
                <Dropdown type='category' output='spidermap-destinations'/>
              </div>
-            </>)
-          : null
+          </CSSTransition> : null
         }
       </div>
       {

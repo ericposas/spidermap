@@ -18,9 +18,61 @@ body {
   font-size: .55rem;
 }
 
+.alert-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.alert-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 500ms, transform 500ms;
+}
+.alert-exit {
+  opacity: 1;
+}
+.alert-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 500ms, transform 500ms;
+}
+
+.slide-enter {
+  z-index: -1;
+  transform: translateX(-300px);
+}
+.slide-enter-active {
+  // z-index: 1;
+  transform: translateX(0px);
+  transition: transform 300ms;
+  transition-timing-function: ease-out;
+}
+.slide-exit {
+  z-index: 1;
+  transform: translateX(0px);
+}
+.slide-exit-active {
+  z-index: -1;
+  transform: translateX(-300px);
+  transition: transform 300ms;
+  transition-timing-function: ease-in;
+}
+
 .panel-style {
+  // animation-name: panel-slide;
+  // animation-duration: .2s;
+  // animation-fill-mode: forwards;
+  // animation-timing-function: ease-out;
   background-color: #fff;
   box-shadow: inset 10px 0 10px -10px rgba(0,0,0,0.2);
+}
+
+@keyframes panel-slide {
+  0% {
+    margin-left: -200px;
+  }
+  100% {
+    margin-left: 0;
+  }
 }
 
 .button-generic {
