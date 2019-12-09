@@ -264,6 +264,7 @@ const GeneratePointmap = ({ ...props }) => {
             backgroundColor: displayMapBG ? svgBgColor : 'rgba(0, 0, 0, 0)',
             boxShadow: downloadingPDF ? '' : 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
           }}>
+          <rect onClick={() => setShowContextMenu(false)} width={innerWidth} height={innerHeight} fill='rgba(0,0,0,0)'></rect>
           {
             destinations
             ?

@@ -170,7 +170,7 @@ const Spidermap = ({ ...props }) => {
           </CSSTransition> : null
         }
         {
-          spidermap_selectByCategoryDestinations
+          selectedOriginSpidermap && spidermap_selectByCategoryDestinations
           ?
           <CSSTransition
             in={spidermap_selectByCategoryDestinations}

@@ -20,6 +20,7 @@ import '../../images/globe.png'
 import '../../images/pencil.png'
 import '../../images/pin.png'
 import './dashboard.scss'
+import { CSSTransition } from 'react-transition-group'
 
 
 const Dashboard = ({ ...props }) => {
@@ -36,15 +37,10 @@ const Dashboard = ({ ...props }) => {
 
   const pointmapSelect = () => history.push('/pointmap')
 
-  let panelSlideTimeout
-
   const pointmapButtonHover = () => {
     if (selectedMenuItem != POINTMAP) {
-      clearTimeout(panelSlideTimeout)
       dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
       dispatch({ type: POINTMAP })
-      setPanelSlideActive(true)
-      panelSlideTimeout = setTimeout(() => setPanelSlideActive(false), 350)
     }
   }
 
@@ -54,11 +50,8 @@ const Dashboard = ({ ...props }) => {
 
   const spidermapButtonHover = () => {
     if (selectedMenuItem != SPIDERMAP) {
-      clearTimeout(panelSlideTimeout)
       dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
       dispatch({ type: SPIDERMAP })
-      setPanelSlideActive(true)
-      panelSlideTimeout = setTimeout(() => setPanelSlideActive(false), 350)
     }
   }
 
@@ -68,11 +61,8 @@ const Dashboard = ({ ...props }) => {
 
   const listViewButtonHover = () => {
     if (selectedMenuItem != LISTVIEW) {
-      clearTimeout(panelSlideTimeout)
       dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
       dispatch({ type: LISTVIEW })
-      setPanelSlideActive(true)
-      panelSlideTimeout = setTimeout(() => setPanelSlideActive(false), 350)
     }
   }
 
@@ -179,105 +169,182 @@ const Dashboard = ({ ...props }) => {
             </div>)
             : null
         }
-        {
-          (selectedMenuItem == CREATE_A_MAP || selectedMenuItem == SPIDERMAP ||
-           selectedMenuItem == POINTMAP || selectedMenuItem == LISTVIEW)
-          ?
-           (<>
-            <div className='col-med panel-style' style={{ width:'300px', height: '100vh' }}>
+        <CSSTransition
+          unmountOnExit
+          in={(selectedMenuItem == CREATE_A_MAP || selectedMenuItem == SPIDERMAP ||
+           selectedMenuItem == POINTMAP || selectedMenuItem == LISTVIEW)}
+          timeout={300}
+          classNames='slide'
+          >
+          <div className='col-med panel-style' style={{ width:'300px', height: '100vh' }}>
             <div
               className='subtitle'
               style={{
                 color: '#ccc', fontWeight: 'lighter',
                 margin: '50% 0 20% 10%',
-              }}>Choose Map Type</div>
-              <button
-                style={{ marginLeft:'10%' }}
-                className='dashboard-menu-button'
-                onMouseOver={spidermapButtonHover}
-                onClick={spidermapSelect}
-                >Spider Map</button><br/>
-              <button
-                style={{ marginLeft:'10%' }}
-                className='dashboard-menu-button'
-                onMouseOver={pointmapButtonHover}
-                onClick={pointmapSelect}
-                >Point-to-Point Map</button><br/>
-              <button
-                style={{ marginLeft:'10%', borderBottom: 'none' }}
-                className='dashboard-menu-button'
-                onMouseOver={listViewButtonHover}
-                onClick={listViewSelect}
-                >List View</button>
+              }}>
+              Choose Map Type
             </div>
-            {
-              (selectedMenuItem == SPIDERMAP || selectedMenuItem == POINTMAP ||
-              selectedMenuItem == LISTVIEW)
-              ?
-               (<div
-                  className={`col-med panel-style ${panelSlideActive ? 'panel-slide' : ''}`}
-                  style={{
-                    width:'300px', height: '100vh',
-                    cursor: 'pointer'
-                  }}
-                  onClick={
-                    () => {
-                      switch (selectedMenuItem) {
-                        case SPIDERMAP:
-                          props.history.push('/spidermap')
-                          break;
-                        case POINTMAP:
-                          props.history.push('/pointmap')
-                          break;
-                        case LISTVIEW:
-                          props.history.push('/listview')
-                          break;
-                        default:
-                          props.history.push('/dashboard')
-                          break;
-                      }
-                    }
-                  }>
-               <div
-                 className='subtitle'
-                 style={{
-                   color: '#ccc', margin: '50% 0 20% 10%',
-                   fontWeight: 'lighter',
-                 }}>
-                 {selectedMenuItem.charAt(0)+selectedMenuItem.substr(1, selectedMenuItem.length).toLowerCase()}
-               </div>
-               <div
-                 className='map-type-icon-container'
-                 style={{ width: '100%', position: 'relative' }}>
-                 <div
-                   style={{
-                     display: 'block', position: 'absolute',
-                     margin: 'auto', left: 0, right: 0,
-                     width: selectedMenuItem == LISTVIEW ? '200px' : selectedMenuItem == POINTMAP ? '220px' : '260px',
-                     backgroundSize: selectedMenuItem == LISTVIEW ? '200px' : selectedMenuItem == POINTMAP ? '220px' : '260px',
-                     height: '300px', backgroundRepeat: 'no-repeat',
-                     backgroundImage: getProperIcon(),
-                   }}>
-                 </div><br/><br/>
-                 <div style={{
-                     color: '#999', fontWeight: 'lighter',
-                     margin: '180px 0 0 20px',
-                   }}>
-                   { selectedMenuItem }
-                   <div style={{ fontSize: '.6rem' }}>
-                     Description here.
-                   </div>
-                 </div>
-               </div>
-               </div>)
-               :
-                 (<div
-                   className='col-med panel-style'
-                   style={{ width:'20px', height: '100vh' }}>
-                  </div>)
-            }
-          </>) : null
-        }
+            <button
+              style={{ marginLeft:'10%' }}
+              className='dashboard-menu-button'
+              onMouseOver={spidermapButtonHover}
+              onClick={spidermapSelect}>
+              Spider Map
+            </button><br/>
+            <button
+              style={{ marginLeft:'10%' }}
+              className='dashboard-menu-button'
+              onMouseOver={pointmapButtonHover}
+              onClick={pointmapSelect}>
+              Point-to-Point Map
+            </button><br/>
+            <button
+              style={{ marginLeft:'10%', borderBottom: 'none' }}
+              className='dashboard-menu-button'
+              onMouseOver={listViewButtonHover}
+              onClick={listViewSelect}>
+              List View
+            </button>
+            <div
+              className='col-med panel-style'
+              style={{ width:'20px', height: '100vh' }}>
+            </div>
+          </div>
+        </CSSTransition>
+        <CSSTransition
+          unmountOnExit
+          in={ selectedMenuItem == SPIDERMAP }
+          timeout={300}
+          classNames='slide'>
+          <div
+            className={`col-med panel-style`}
+            style={{
+              width:'300px', height: '100vh',
+              cursor: 'pointer'
+            }}
+            onClick={() => props.history.push('/spidermap')}>
+            <div
+              className='subtitle'
+              style={{
+                color: '#ccc', margin: '50% 0 20% 10%',
+                fontWeight: 'lighter',
+              }}>
+              { SPIDERMAP }
+            </div>
+            <div
+              className='map-type-icon-container'
+              style={{ width: '100%', position: 'relative' }}>
+              <div
+                style={{
+                  display: 'block', position: 'absolute',
+                  margin: 'auto', left: 0, right: 0,
+                  width: '260px',
+                  backgroundSize: '260px',
+                  height: '300px', backgroundRepeat: 'no-repeat',
+                  backgroundImage: getProperIcon(),
+                }}>
+              </div><br/><br/>
+              <div style={{
+                  color: '#999', fontWeight: 'lighter',
+                  margin: '180px 0 0 20px',
+                }}>
+                { SPIDERMAP }
+                <div style={{ fontSize: '.6rem' }}>
+                  Description here.
+                </div>
+              </div>
+            </div>
+          </div>
+        </CSSTransition>
+        <CSSTransition
+          unmountOnExit
+          in={ selectedMenuItem == POINTMAP }
+          timeout={300}
+          classNames='slide'>
+          <div
+            className={`col-med panel-style`}
+            style={{
+              width:'300px', height: '100vh',
+              cursor: 'pointer'
+            }}
+            onClick={() => props.history.push('/pointmap')}>
+            <div
+              className='subtitle'
+              style={{
+                color: '#ccc', margin: '50% 0 20% 10%',
+                fontWeight: 'lighter',
+              }}>
+              { POINTMAP }
+            </div>
+            <div
+              className='map-type-icon-container'
+              style={{ width: '100%', position: 'relative' }}>
+              <div
+                style={{
+                  display: 'block', position: 'absolute',
+                  margin: 'auto', left: 0, right: 0,
+                  width: '220px', backgroundSize: '220px',
+                  height: '300px', backgroundRepeat: 'no-repeat',
+                  backgroundImage: getProperIcon(),
+                }}>
+              </div><br/><br/>
+              <div style={{
+                  color: '#999', fontWeight: 'lighter',
+                  margin: '180px 0 0 20px',
+                }}>
+                { POINTMAP }
+                <div style={{ fontSize: '.6rem' }}>
+                  Description here.
+                </div>
+              </div>
+            </div>
+          </div>
+        </CSSTransition>
+        <CSSTransition
+          unmountOnExit
+          in={ selectedMenuItem == LISTVIEW }
+          timeout={300}
+          classNames='slide'>
+          <div
+            className={`col-med panel-style`}
+            style={{
+              width:'300px', height: '100vh',
+              cursor: 'pointer'
+            }}
+            onClick={() => props.history.push('/listview')}>
+            <div
+              className='subtitle'
+              style={{
+                color: '#ccc', margin: '50% 0 20% 10%',
+                fontWeight: 'lighter',
+              }}>
+              { LISTVIEW }
+            </div>
+            <div
+              className='map-type-icon-container'
+              style={{ width: '100%', position: 'relative' }}>
+              <div
+                style={{
+                  display: 'block', position: 'absolute',
+                  margin: 'auto', left: 0, right: 0,
+                  width: '220px', backgroundSize: '220px',
+                  height: '300px', backgroundRepeat: 'no-repeat',
+                  backgroundImage: getProperIcon(),
+                }}>
+              </div><br/><br/>
+              <div style={{
+                  color: '#999', fontWeight: 'lighter',
+                  margin: '180px 0 0 20px',
+                }}>
+                { LISTVIEW }
+                <div style={{ fontSize: '.6rem' }}>
+                  Description here.
+                </div>
+              </div>
+            </div>
+          </div>
+        </CSSTransition>
       </div>
     </>
   )

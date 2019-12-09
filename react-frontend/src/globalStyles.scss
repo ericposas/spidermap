@@ -36,12 +36,14 @@ body {
   transition: opacity 500ms, transform 500ms;
 }
 
+
 .slide-enter {
   z-index: -1;
-  transform: translateX(-300px);
+  transform: translateX(-500px);
 }
 .slide-enter-active {
   // z-index: 1;
+  transition-delay: .1s;
   transform: translateX(0px);
   transition: transform 300ms;
   transition-timing-function: ease-out;
@@ -52,9 +54,16 @@ body {
 }
 .slide-exit-active {
   z-index: -1;
-  transform: translateX(-300px);
+  position: absolute;
+  transform: translateX(-500px);
   transition: transform 300ms;
   transition-timing-function: ease-in;
+}
+
+.hide {
+  opacity: 0;
+  z-index: -1;
+  position: absolute;
 }
 
 .panel-style {

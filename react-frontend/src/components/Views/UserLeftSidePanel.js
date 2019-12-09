@@ -1,16 +1,21 @@
 import React, { useState, useEffect, Fragment } from 'react'
+import { useDispatch } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import BackButton from '../Buttons/BackButton'
 import LogoutButton from '../Buttons/LogoutButton'
 import DashboardButton from '../Buttons/DashboardButton'
 // import '../../images/american-airlines-new-logo-slash.svg'
 import '../../images/aa-logo-with-subtitle.png'
 import { getUser, checkAuth } from '../../sessionStore'
+import { CLEAR_SELECTED_MENU_ITEM } from '../../constants/menu'
 
 const UserLeftSidePanel = ({ ...props }) => {
 
   const panelWidth = 250
   const logoWidth = 600
   const blueStrip = { width:30 }
+
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -26,9 +31,14 @@ const UserLeftSidePanel = ({ ...props }) => {
         </div>
         <div style={{width:panelWidth}}>
           <img
+            onClick={() => {
+              dispatch({ type: CLEAR_SELECTED_MENU_ITEM })
+              props.history.push('/dashboard')
+            }}
             src='./img/aa-logo-with-subtitle.png'
             style={{
               width: '250px', margin: '0 20px 0 10px',
+              cursor: 'pointer'
             }} />
           <br/><br/>
           <div style={{
@@ -62,4 +72,4 @@ const UserLeftSidePanel = ({ ...props }) => {
 
 }
 
-export default UserLeftSidePanel
+export default withRouter(UserLeftSidePanel)

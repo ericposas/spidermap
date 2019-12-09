@@ -8,6 +8,10 @@
     - Add slide-in transitions to all UI panels
 
 
+  - Map Labels Context Menu
+    - Create a way to save label positions for the map in DB
+
+
   - Generate PDF:
     - Clean up PDF export for listview (currently cuts words in half at page break)
 
