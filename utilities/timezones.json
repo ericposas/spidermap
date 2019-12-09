@@ -1,0 +1,274 @@
+{
+  "Atlantic/Reykjavik": {
+    "latitude": "64.128288",
+    "longitude": "-21.827774"
+  },
+  "Australia/Sydney": {
+    "latitude": "-33.865143",
+    "longitude": "151.209900"
+  },
+  "Pacific/Honolulu": {
+    "latitude": "21.315603",
+    "longitude": "-157.858093"
+  },
+  "Pacific/Auckland": {
+    "latitude": "-36.848461",
+    "longitude": "174.763336"
+  },
+  "Asia/Shanghai": {
+    "latitude": "31.224361",
+    "longitude": "121.469170"
+  },
+  "Asia/Tokyo": {
+    "latitude": "35.652832",
+    "longitude": "139.839478"
+  },
+  "Asia/Seoul": {
+    "latitude": "37.532600",
+    "longitude": "127.024612"
+  },
+  "Asia/Hong_Kong": {
+    "latitude": "22.302711",
+    "longitude": "114.177216"
+  },
+  "Europe/Zurich": {
+    "latitude": "47.451542",
+    "longitude": "8.564572"
+  },
+  "Europe/Berlin": {
+    "latitude": "52.520008",
+    "longitude": "13.404954"
+  },
+  "Europe/Dublin": {
+    "latitude": "53.350140",
+    "longitude": "-6.266155"
+  },
+  "Europe/Rome": {
+    "latitude": "41.902782",
+    "longitude": "12.496366"
+  },
+  "Europe/London": {
+    "latitude": "51.509865",
+    "longitude": "-0.118092"
+  },
+  "Europe/Madrid": {
+    "latitude": "40.416775",
+    "longitude": "-3.703790"
+  },
+  "Europe/Lisbon": {
+    "latitude": "38.736946",
+    "longitude": "-9.142685"
+  },
+  "Europe/Zagreb": {
+    "latitude": "45.815399",
+    "longitude": "15.966568"
+  },
+  "Europe/Athens": {
+    "latitude": "37.983810",
+    "longitude": "23.727539"
+  },
+  "Europe/Amsterdam": {
+    "latitude": "52.377956",
+    "longitude": "4.897070"
+  },
+  "America/Montevideo": {
+    "latitude": "-34.901112",
+    "longitude": "-56.164532"
+  },
+  "America/Mexico_City": {
+    "latitude": "19.451054",
+    "longitude": "-99.125519"
+  },
+  "America/La_Paz": {
+    "latitude": "-16.489689",
+    "longitude": "-68.119293"
+  },
+  "America/Havana": {
+    "latitude": "23.113592",
+    "longitude": "-82.366592"
+  },
+  "America/Santo_Domingo": {
+    "latitude": "18.483402",
+    "longitude": "-69.929611"
+  },
+  "America/Costa_Rica": {
+    "latitude": "9.934739",
+    "longitude": "-84.087502"
+  },
+  "America/Mazatlan": {
+    "latitude": "23.249414",
+    "longitude": "-106.411140"
+  },
+  "America/Santiago": {
+    "latitude": "-33.447487",
+    "longitude": "-70.673676"
+  },
+  "America/El_Salvador": {
+    "latitude": "13.905190",
+    "longitude": "-89.500206"
+  },
+  "America/Panama": {
+    "latitude": "8.983333",
+    "longitude": "-79.516670"
+  },
+  "America/Guadeloupe": {
+    "latitude": "16.270000",
+    "longitude": "-61.520000"
+  },
+  "America/Port_of_Spain": {
+    "latitude": "10.671067",
+    "longitude": "-61.521206"
+  },
+  "America/Bogota": {
+    "latitude": "4.624335",
+    "longitude": "-74.063644"
+  },
+  "America/Jamaica": {
+    "latitude": "18.476223",
+    "longitude": "-77.893890"
+  },
+  "America/Caracas": {
+    "latitude": "10.500000",
+    "longitude": "-66.916664"
+  },
+  "America/Boa_Vista": {
+    "latitude": "16.095011",
+    "longitude": "-22.807835"
+  },
+  "America/Lima": {
+    "latitude": "-12.046374",
+    "longitude": "-77.042793"
+  },
+  "America/Guatemala": {
+    "latitude": "14.628434",
+    "longitude": "-90.522713"
+  },
+  "America/Sao_Paulo": {
+    "latitude": "-23.533773",
+    "longitude": "-46.625290"
+  },
+  "America/Grenada": {
+    "latitude": "12.104818",
+    "longitude": "-61.670761"
+  },
+  "America/Guyana": {
+    "latitude": "5.175000",
+    "longitude": "-59.480499"
+  },
+  "America/Cayman": {
+    "latitude": "19.292997",
+    "longitude": "-81.366806"
+  },
+  "America/Martinique": {
+    "latitude": "14.469400",
+    "longitude": "-60.865799"
+  },
+  "America/Buenos_Aires": {
+    "latitude": "-34.920345",
+    "longitude": "-57.969559"
+  },
+  "America/Cancun": {
+    "latitude": "19.263021",
+    "longitude": "-87.450912"
+  },
+  "America/Cordoba": {
+    "latitude": "-31.416668",
+    "longitude": "-64.183334"
+  },
+  "America/Belize": {
+    "latitude": "16.513889",
+    "longitude": "-88.366669."
+  },
+  "America/Barbados": {
+    "latitude": "13.193887",
+    "longitude": "-59.543198"
+  },
+  "America/Bermuda": {
+    "latitude": "32.299507",
+    "longitude": "-64.790337"
+  },
+  "America/Aruba": {
+    "latitude": "12.521110",
+    "longitude": "-69.968338"
+  },
+  "America/Antigua": {
+    "latitude": "17.087635",
+    "longitude": "-61.772346"
+  },
+  "America/Anchorage": {
+    "latitude": "61.217381",
+    "longitude": "-149.863129"
+  },
+  "America/Toronto": {
+    "latitude": "43.651070",
+    "longitude": "-79.347015"
+  },
+  "America/Vancouver": {
+    "latitude": "49.246292",
+    "longitude": "-123.116226"
+  },
+  "America/Chicago": {
+    "latitude": "41.881832",
+    "longitude": "-87.623177"
+  },
+  "America/New_York": {
+    "latitude": "40.730610",
+    "longitude": "-73.935242"
+  },
+  "America/Phoenix": {
+    "latitude": "33.448376",
+    "longitude": "-112.074036"
+  },
+  "America/Los_Angeles": {
+    "latitude": "34.052235",
+    "longitude": "-118.243683"
+  },
+  "America/Denver": {
+    "latitude": "39.742043",
+    "longitude": "-104.991531"
+  },
+  "America/Puerto_Rico": {
+    "latitude": "18.200178",
+    "longitude": "-66.664513"
+  },
+  "America/Nassau": {
+    "latitude": "25.059999",
+    "longitude": "-77.345001"
+  },
+  "America/Port-au-Prince": {
+    "latitude": "18.575394",
+    "longitude": "-72.294708"
+  },
+  "America/Grand_Turk": {
+    "latitude": "21.804132",
+    "longitude": "-72.305832"
+  },
+  "America/St_Kitts": {
+    "latitude": "17.363747",
+    "longitude": "-62.754593"
+  },
+  "America/St_Lucia": {
+    "latitude": "13.909444",
+    "longitude": "-60.978893"
+  },
+  "America/St_Vincent": {
+    "latitude": "13.012296",
+    "longitude": "-61.227730"
+  },
+  "America/St_Thomas": {
+    "latitude": "18.3532896",
+    "longitude": "-64.9365344"
+  },
+  "America/Guayaquil": {
+    "latitude": "-2.20584",
+    "longitude": "-79.90795"
+  },
+  "America/Tegucigalpa": {
+    "latitude": "14.081999",
+    "longitude": "-87.202438"
+  },
+  "America/Curacao": {
+    "latitude": "12.169570",
+    "longitude": "-68.990021"
+  },
+}
