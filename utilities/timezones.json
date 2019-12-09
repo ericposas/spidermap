@@ -207,6 +207,10 @@
     "latitude": "49.246292",
     "longitude": "-123.116226"
   },
+  "America/Edmonton": {
+    "latitude": "53.631611",
+    "longitude": "-113.323975"
+  },
   "America/Chicago": {
     "latitude": "41.881832",
     "longitude": "-87.623177"

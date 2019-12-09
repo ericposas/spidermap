@@ -6,7 +6,9 @@ import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import DownloadImagePanel from '../Views/DownloadImagePanel'
+import { SET_TIMEZONE_LATLONGS } from '../../constants/constants'
 import mapSettings from '../../mapSettings.config'
+import axios from 'axios'
 
 const GenerateSpidermap = ({ ...props }) => {
 
@@ -24,6 +26,8 @@ const GenerateSpidermap = ({ ...props }) => {
   let labelAdjustX = 2,
       labelAdjustY = 2
 
+  const dispatch = useDispatch()
+
   const origin = useSelector(state => state.selectedOriginSpidermap)
 
   const destinations = useSelector(state => state.selectedDestinationsSpidermap)
@@ -38,6 +42,8 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const [listedLegalLines, setListedLegalLines] = useState([])
 
+  const timezoneLatLongs = useSelector(state => state.timezoneLatLongs)
+
   useEffect(() => {
     if (origin == null) {
       props.history.push('/spidermap')
@@ -47,6 +53,14 @@ const GenerateSpidermap = ({ ...props }) => {
       let legal = destinations.concat(origin).map(item => { if (item && item.legal) return item.legal })
       legal = legal.filter((item, i) => i == legal.indexOf(item))
       setListedLegalLines(legal)
+      // load timezone data
+      if (!timezoneLatLongs) {
+        axios.get('/timezones', { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+             .then(result => {
+               console.log(result.data[0].all)
+               dispatch({ type: SET_TIMEZONE_LATLONGS, payload: result.data[0].all })
+             })
+      }
     }
   }, [])
 
@@ -69,13 +83,14 @@ const GenerateSpidermap = ({ ...props }) => {
       let arr = destinations.map(ap => ap.latitude)
       lats = lats.concat(arr)
       lats = lats.concat(origin.latitude)
+      // lats = lats.map()
       lats.sort((a, b) => b - a)
     }
     linearScaleY = d3.scaleLinear()
-                     .domain([lats[0], lats[lats.length-1]])
+                     .domain([-lats[0], lats.reduce((a,b) => a + b)])
                      .range([svgMargin, innerHeight - svgMargin])
-
-    return linearScaleY(lat)
+    // the below evenly spaces Y values according to timezone
+    return linearScaleY((lats.reduce((vala, valb) => vala + valb) / lats.length) * lats.indexOf(lat))
   }
 
   const calcPath = (ap, i) => {
@@ -83,17 +98,17 @@ const GenerateSpidermap = ({ ...props }) => {
     let startX, endX, distanceBetweenX
     let startY, endY, distanceBetweenY
     let bendX = 20
-    let bendY = 40
+    let bendY = 45
     let cpStartThreshX = .25, cpEndThreshX = .75
     let cpStartThreshY = .25, cpEndThreshY = .75
-
-    startX = getX(ap.longitude)
-    endX = getX(origin.longitude)
+    
+    startX = getX(timezoneLatLongs[ap.timezone].longitude)
+    endX = getX(timezoneLatLongs[origin.timezone].longitude)
     distanceBetweenX = endX - startX
     cp1.x = startX + (distanceBetweenX * cpStartThreshX)
     cp2.x = startX + (distanceBetweenX * cpEndThreshX)
-    if (startX > endX) { cp1.x += bendX; cp2.x += bendX }
-    else { cp1.x -= bendX; cp2.x -= bendX }
+    if (startX > endX) { cp1.x -= bendX; cp2.x -= bendX }
+    else { cp1.x += bendX; cp2.x += bendX }
 
     startY = getY(ap.latitude)
     endY = getY(origin.latitude)
@@ -124,6 +139,9 @@ const GenerateSpidermap = ({ ...props }) => {
   }
 
   return (<>
+    {
+      timezoneLatLongs
+      ?
     <div className='row'>
       <UserLeftSidePanel/>
       <DownloadImagePanel type='spidermap' label='Spider Map'/>
@@ -153,11 +171,11 @@ const GenerateSpidermap = ({ ...props }) => {
                 <Fragment key={ap.code}>
                   <g>
                     <circle r={destinationDotSize}
-                            cx={getX(ap.longitude)}
+                            cx={getX(timezoneLatLongs[ap.timezone].longitude)}
                             cy={getY(ap.latitude)}
                             fill={destinationDotColor}></circle>
                     <rect
-                      x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
+                      x={getX(timezoneLatLongs[ap.timezone].longitude) - parseInt(destinationLabelFontSize)}
                       y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25)}
                       width='140'
                       height='10'
@@ -167,7 +185,7 @@ const GenerateSpidermap = ({ ...props }) => {
                       }}></rect>
                     <text id={`destination-${ap.city}-label`}
                           ref={labelsRef.current[labelCount++]}
-                          x={getX(ap.longitude) - parseInt(destinationLabelFontSize)}
+                          x={getX(timezoneLatLongs[ap.timezone].longitude) - parseInt(destinationLabelFontSize)}
                           y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25)}
                           fontSize={destinationLabelFontSize}>
                       {ap.city}, {ap.region} - {ap.code}
@@ -183,16 +201,16 @@ const GenerateSpidermap = ({ ...props }) => {
             (<>
               <g>
                 <circle r={originDotSize}
-                        cx={getX(origin.longitude)}
+                        cx={getX(timezoneLatLongs[origin.timezone].longitude)}
                         cy={getY(origin.latitude)}
                         fill={originDotColor}></circle>
                 <circle r={originCircleSize}
-                        cx={getX(origin.longitude)}
+                        cx={getX(timezoneLatLongs[origin.timezone].longitude)}
                         cy={getY(origin.latitude)}
                         fill='none'
                         stroke={originCircleColor}></circle>
                 <rect
-                      x={getX(origin.longitude) - parseInt(originLabelFontSize)}
+                      x={getX(timezoneLatLongs[origin.timezone].longitude) - parseInt(originLabelFontSize)}
                       y={getY(origin.latitude) - (parseInt(originLabelFontSize) * 2.25)}
                       width='140'
                       height='10'
@@ -202,7 +220,7 @@ const GenerateSpidermap = ({ ...props }) => {
                       }}></rect>
                 <text id={`origin-${origin.code}-label`}
                       ref={labelsRef.current[labelCount++]}
-                      x={getX(origin.longitude) - parseInt(originLabelFontSize)}
+                      x={getX(timezoneLatLongs[origin.timezone].longitude) - parseInt(originLabelFontSize)}
                       y={getY(origin.latitude) - (parseInt(originLabelFontSize) * 1.25)}
                       fontSize={originLabelFontSize}>
                   {origin.city}, {origin.region} - {origin.code}
@@ -232,6 +250,8 @@ const GenerateSpidermap = ({ ...props }) => {
         </svg>
       </div>
     </div>
+    : null
+  }
   </>)
 
 }

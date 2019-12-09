@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { getUser } from '../../sessionStore'
 import Dropdown from '../Dropdowns/Dropdown'
 import LogoutButton from '../Buttons/LogoutButton'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
@@ -21,6 +22,7 @@ import '../../images/pencil.png'
 import '../../images/pin.png'
 import './dashboard.scss'
 import { CSSTransition } from 'react-transition-group'
+import axios from 'axios'
 
 
 const Dashboard = ({ ...props }) => {
@@ -32,6 +34,8 @@ const Dashboard = ({ ...props }) => {
   const { logoutHandler, history } = props
 
   const selectedMenuItem = useSelector(state => state.selectedMenuItem)
+
+  const timezoneLatLongs = useSelector(state => state.timezoneLatLongs)
 
   const [panelSlideActive, setPanelSlideActive] = useState(false)
 

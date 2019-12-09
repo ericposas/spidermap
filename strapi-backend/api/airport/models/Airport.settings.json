@@ -41,6 +41,9 @@
     },
     "comment": {
       "type": "string"
+    },
+    "timezone": {
+      "type": "string"
     }
   }
 }

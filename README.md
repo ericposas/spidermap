@@ -4,8 +4,17 @@
 
 #### Programming:
 
+  - Rework Spidermap:
+    - Rework Spidermap.js to organize cities by timezone
+    - Then, we can adjust or spread out the Y values from there
+
+
   - Slide Transitions:
     - Add slide-in transitions to all UI panels
+
+
+  - Sort Lists:
+    - Sort lists alphabetically
 
 
   - Map Labels Context Menu

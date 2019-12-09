@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/timezones",
+      "handler": "Timezones.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/timezones/count",
+      "handler": "Timezones.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/timezones/:id",
+      "handler": "Timezones.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/timezones",
+      "handler": "Timezones.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/timezones/:id",
+      "handler": "Timezones.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/timezones/:id",
+      "handler": "Timezones.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

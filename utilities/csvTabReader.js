@@ -26,7 +26,8 @@ const insertIntoDB = async data => {
         city: data[i][0],
         latitude: data[i][4],
         longitude: data[i][5],
-        category: data[i][1]
+        category: data[i][1],
+        timezone: data[i][9],
       })
       console.log(`successful insert for ${data[i][2]}`)
     } catch (err) {

@@ -49,10 +49,6 @@ const GeneratePointmap = ({ ...props }) => {
 
   const whiteBoxUnderLabelsRef = origins ? useRef(origins.concat(destArr).map(() => createRef())) : null
 
-  // const [moveXAmt, setMoveXAmt] = useState({})
-
-  // const [moveYAmt, setMoveYAmt] = useState({})
-
   const [listedLegalLines, setListedLegalLines] = useState([])
 
   const [showContextMenu, setShowContextMenu] = useState(false)
@@ -68,16 +64,12 @@ const GeneratePointmap = ({ ...props }) => {
   useEffect(() => {
     if (origins == null) props.history.push('/pointmap')
     else {
-      pathsRef.current.forEach(path => console.log(path))
-      labelsRef.current.forEach(label => console.log(label))
-      areLabelsTouchingOtherLabels() //?
       let legal = []
       Object.keys(destinations).forEach((arr, i) => {
         legal = legal.concat(destinations[arr].map(item => { if (item && item.legal) return item.legal }))
       })
       legal = legal.concat(origins.map(item => { if (item && item.legal) return item.legal }))
       legal = legal.filter((item, i) => i == legal.indexOf(item))
-      console.log(legal)
       setListedLegalLines(legal)
     }
   }, [])
@@ -159,92 +151,7 @@ const GeneratePointmap = ({ ...props }) => {
 
   }
 
-  // const labelPosition = (code, type) => {
-  //   if (labelPosition[code] != null) {
-  //     setLabelPosition({
-  //       ...labelPosition,
-  //       [code]: type == 'plus' ? moveXAmt[code] + labelAdjustX : moveXAmt[code] - labelAdjustX
-  //     })
-  //   } else {
-  //     setMoveXAmt({
-  //       ...moveXAmt,
-  //       [code]: type == 'plus' ? labelAdjustX : -labelAdjustX
-  //     })
-  //   }
-  // }
-  //
-  // const moveY = (code, type) => {
-  //   if (moveYAmt[code] != null) {
-  //     setMoveYAmt({
-  //       ...moveYAmt,
-  //       [code]: type == 'plus' ? moveYAmt[code] + labelAdjustY : moveYAmt[code] - labelAdjustY
-  //     })
-  //   } else {
-  //     setMoveYAmt({
-  //       ...moveYAmt,
-  //       [code]: type == 'plus' ? labelAdjustY : -labelAdjustY
-  //     })
-  //   }
-  // }
-
-  const areLabelsTouchingPaths = () => {
-    for(let i = 0; i < labelsRef.current.length; i++){
-      if (labelsRef.current[i] && labelsRef.current[i].current) {
-        let label = labelsRef.current[i].current,
-            label_rect = label.getBoundingClientRect()
-        for(let j = 0; j < pathsRef.current.length; j++ ){
-          let path = pathsRef.current[j].current
-          let path_rect = path.getBoundingClientRect()
-          if(!( path_rect.left > label_rect.right
-              || path_rect.right < label_rect.left
-              || path_rect.top > label_rect.bottom
-              || path_rect.bottom < label_rect.top)) {
-            // move text over
-            console.log(`${path.id} and ${label.id} bounding boxes intersect`)
-            // get all points within label boundingBox
-            console.log(label_rect.left, label_rect.right)
-            console.log(label_rect.top, label_rect.bottom)
-          }
-        }
-      }
-    }
-  }
-
-  const areLabelsTouchingOtherLabels = () => {
-    for(let i = 0; i < labelsRef.current.length; i++){
-      if (labelsRef.current[i] && labelsRef.current[i].current) {
-        let label = labelsRef.current[i].current,
-            label_rect = label.getBoundingClientRect()
-        for(let j = 0; j < labelsRef.current.length; j++ ){
-          let label2 = labelsRef.current[j].current
-          let label_rect2
-          // let amt = 0
-          if (label2 && label != label2) {
-            label_rect2 = label2.getBoundingClientRect()
-            if(!( label_rect2.left > label_rect.right
-                || label_rect2.right < label_rect.left
-                || label_rect2.top > label_rect.bottom
-                || label_rect2.bottom < label_rect.top)) {
-              // move text over
-              console.log(`${label2.id} and ${label.id} bounding boxes intersect`)
-              // amt += 10
-              // TweenLite.set(`#${label2.id}`, { y: amt })
-              // get all points within label boundingBox
-              console.log(label_rect.left, label_rect.right)
-              console.log(label_rect.top, label_rect.bottom)
-            }
-          }
-        }
-      }
-    }
-  }
-
   return (<>
-    {/*
-      downloadingPDF
-      ? <DownloadingFile_Modal/>
-      : null
-    */}
     { downloadingPDF ? <div className='white-backing'></div> : null }
     <div className='row'>
       <UserLeftSidePanel/>
@@ -265,7 +172,7 @@ const GeneratePointmap = ({ ...props }) => {
             backgroundColor: displayMapBG ? svgBgColor : 'rgba(0, 0, 0, 0)',
             boxShadow: downloadingPDF ? '' : 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
           }}>
-          <rect onClick={() => setShowContextMenu(false)} width={innerWidth} height={innerHeight} fill='rgba(0,0,0,0)'></rect>
+          <rect onClick={() => setShowContextMenu(false)} width={innerWidth} height={innerHeight} fill='rgba(0,0,0,0)' opacity='0'></rect>
           {
             destinations
             ?
@@ -285,15 +192,6 @@ const GeneratePointmap = ({ ...props }) => {
                   let originObj = {}
                   let originCodes = origins.map(o => o.code)
                   originCodes.forEach((code, i) => originObj[code] = origins[i])
-
-                  destinations[origin].forEach((ap, i) => {
-                    setLabelDisplayTypes[ap.code] = {
-                      displayType: 'city'
-                    }
-                    setLabelPositions[ap.code] = {
-                      position: 'top'
-                    }
-                  })
 
                   return destinations[origin].map((ap, i) => (
                     <Fragment key={ap.code}>
@@ -519,6 +417,7 @@ const GeneratePointmap = ({ ...props }) => {
                             width='20'
                             height='20'
                             fill='rgba(0,0,0,0)'
+                            opacity='0'
                             onClick={() => {
                             setContextMenuProps({
                               title: ap.code
@@ -766,6 +665,7 @@ const GeneratePointmap = ({ ...props }) => {
                         width='20'
                         height='20'
                         fill='rgba(0,0,0,0)'
+                        opacity='0'
                         onClick={() => {
                         setContextMenuProps({
                           title: ap.code
