@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-// import { getUser } from '../../sessionStore'
+import { getUser } from '../../sessionStore'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
@@ -14,9 +14,9 @@ import {
   SET_ORIGIN_SPIDERMAP,
   REMOVE_ALL_DESTINATIONS_SPIDERMAP,
 } from '../../constants/spidermap'
-// import { SET_TIMEZONE_LATLONGS } from '../../constants/constants'
+import { SET_TIMEZONE_LATLONGS } from '../../constants/constants'
 import { CSSTransition } from 'react-transition-group'
-// import axios from 'axios'
+import axios from 'axios'
 
 const Spidermap = ({ ...props }) => {
 
@@ -38,7 +38,7 @@ const Spidermap = ({ ...props }) => {
 
   const uploadCSVDoneNotification = useSelector(state => state.uploadCSVDoneNotification)
 
-  // const timezoneLatLongs = useSelector(state => state.timezoneLatLongs)
+  const timezoneLatLongs = useSelector(state => state.timezoneLatLongs)
 
   const [showUploadCSVModal, setShowUploadCSVModal] = useState(false)
 
@@ -73,6 +73,14 @@ const Spidermap = ({ ...props }) => {
     if (!checkAuth()) setTimeout(() => props.history.push('/'))
     else {
       setButtonContainerBottom(computeButtonContainerBottom())
+      // load timezone data
+      if (!timezoneLatLongs) {
+        axios.get('/timezones', { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+             .then(result => {
+               console.log(result.data[0].all)
+               dispatch({ type: SET_TIMEZONE_LATLONGS, payload: result.data[0].all })
+             })
+      }
     }
   }, [])
 

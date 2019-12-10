@@ -8,6 +8,7 @@ import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import DownloadImagePanel from '../Views/DownloadImagePanel'
 import { SET_TIMEZONE_LATLONGS } from '../../constants/constants'
 import mapSettings from '../../mapSettings.config'
+import { CSSTransition } from 'react-transition-group'
 import axios from 'axios'
 
 const GenerateSpidermap = ({ ...props }) => {
@@ -22,7 +23,8 @@ const GenerateSpidermap = ({ ...props }) => {
   let linearScaleX, linearScaleY
   let lats = [], longs = []
   let pathCount = -1,
-      labelCount = -1
+      labelCount = -1,
+      whiteBoxUnderLabelCount = -1
   let labelAdjustX = 2,
       labelAdjustY = 2
 
@@ -38,11 +40,23 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const labelsRef = useRef(destinations.concat(origin).map(() => createRef()))
 
+  const whiteBoxUnderLabelsRef = useRef(destinations.concat(origin).map(() => createRef()))
+
   const displayMapBG = useSelector(state => state.displayMapBG)
+
+  const timezoneLatLongs = useSelector(state => state.timezoneLatLongs)
 
   const [listedLegalLines, setListedLegalLines] = useState([])
 
-  const timezoneLatLongs = useSelector(state => state.timezoneLatLongs)
+  const [showContextMenu, setShowContextMenu] = useState(false)
+
+  const [contextMenuPosition, setContextMenuPosition] = useState({})
+
+  const [contextMenuProps, setContextMenuProps] = useState({})
+
+  const [labelPositions, setLabelPositions] = useState({})
+
+  const [labelDisplayTypes, setLabelDisplayTypes] = useState({})
 
   useEffect(() => {
     if (origin == null) {
@@ -63,7 +77,7 @@ const GenerateSpidermap = ({ ...props }) => {
       }
     }
   }, [])
-
+  
   const getX = long => {
     if (!longs.includes(long)) {
       let arr = destinations.map(ap => timezoneLatLongs[ap.timezone].longitude)
@@ -73,11 +87,11 @@ const GenerateSpidermap = ({ ...props }) => {
     }
     linearScaleX = d3.scaleLinear()
                      .domain([longs[0], longs[longs.length-1]])
-                     .range([svgMargin, (innerHeight * 1.25) - svgMargin])
+                     .range([svgMargin, (innerHeight * 1.15) - svgMargin])
 
     return linearScaleX(long)
   }
-  
+
   const getY = lat => {
     if (!lats.includes(lat)) {
       let arr = destinations.map(ap => ap.latitude)
@@ -107,8 +121,8 @@ const GenerateSpidermap = ({ ...props }) => {
     distanceBetweenX = endX - startX
     cp1.x = startX + (distanceBetweenX * cpStartThreshX)
     cp2.x = startX + (distanceBetweenX * cpEndThreshX)
-    if (startX > endX) { cp1.x += bendX; cp2.x += bendX }
-    else { cp1.x -= bendX; cp2.x -= bendX }
+    if (startX > endX) { cp1.x -= bendX; cp2.x -= bendX }
+    else { cp1.x += bendX; cp2.x += bendX }
 
     startY = getY(ap.latitude)
     endY = getY(origin.latitude)
@@ -160,6 +174,7 @@ const GenerateSpidermap = ({ ...props }) => {
             backgroundColor: displayMapBG ? svgBgColor : 'rgba(0, 0, 0, 0)',
             boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
           }}>
+          <rect onClick={() => setShowContextMenu(false)} width={innerWidth} height={innerHeight} fill='rgba(0,0,0,0)' opacity='0'></rect>
           {
             destinations
             ? destinations.map((ap, i) => (<Fragment key={'path'+i}>{calcPath(ap, i)}</Fragment>)) : null
@@ -170,26 +185,236 @@ const GenerateSpidermap = ({ ...props }) => {
               destinations.map((ap, i) => (
                 <Fragment key={ap.code}>
                   <g>
-                    <circle r={destinationDotSize}
-                            cx={getX(timezoneLatLongs[ap.timezone].longitude)}
-                            cy={getY(ap.latitude)}
-                            fill={destinationDotColor}></circle>
-                    <rect
-                      x={getX(timezoneLatLongs[ap.timezone].longitude) - parseInt(destinationLabelFontSize)}
-                      y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 2.25)}
-                      width='140'
-                      height='10'
-                      fill='#fff'
+                  <circle
+                    r={destinationDotSize}
+                    cx={getX(timezoneLatLongs[ap.timezone].longitude)}
+                    cy={getY(ap.latitude)}
+                    fill={destinationDotColor}></circle>
+                  <text
+                    id={`destination-${ap.code}-label`}
+                    ref={labelsRef.current[labelCount++]}
+                    x={
+                        getX(timezoneLatLongs[ap.timezone].longitude) + (
+                          labelPositions && labelPositions[ap.code]
+                          ?
+                            labelPositions[ap.code].position == 'right'
+                            ? 10
+                            :
+                              labelPositions[ap.code].position == 'left'
+                              ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width + 10)
+                              :
+                                labelPositions[ap.code].position == 'bottom'
+                                ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                :
+                                  labelPositions[ap.code].position == 'top'
+                                  ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                  : 0
+
+                          :
+                            document.getElementById(`destination-${ap.code}-label`)
+                            ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                            : -((ap.code + ap.city + ap.region) * .5)
+                        )
+                      }
+                    y={
+                      getY(ap.latitude) + (
+                        labelPositions && labelPositions[ap.code]
+                        ?
+                          labelPositions[ap.code].position == 'right'
+                          ? 3
+                          :
+                            labelPositions[ap.code].position == 'left'
+                            ? 3
+                            :
+                              labelPositions[ap.code].position == 'bottom'
+                              ? 16
+                              :
+                                labelPositions[ap.code].position == 'top'
+                                ? -10
+                                : 0
+
+                        : -10
+                      )
+                    }
+                    style={{
+                      textAlign: 'center',
+                      pointerEvents: 'none'
+                    }}
+                    fontSize={destinationLabelFontSize}>
+                      {
+                        labelDisplayTypes && labelDisplayTypes[ap.code]
+                        ?
+                          labelDisplayTypes[ap.code].displayType == 'code'
+                          ? ap.code
+                          :
+                            labelDisplayTypes[ap.code].displayType == 'city'
+                            ? ap.city
+                            :
+                              labelDisplayTypes[ap.code].displayType == 'region'
+                              ? ap.region
+                              :
+                                labelDisplayTypes[ap.code].displayType == 'full'
+                                ? `${ap.code},
+                                   ${ap.city},
+                                   ${ap.region}`
+                                : `${ap.city},
+                                   ${ap.code}`
+                        : `${ap.city},
+                           ${ap.code}`
+                      }
+                  </text>
+                  <rect
+                    style={{
+                      pointerEvents: 'none', zIndex: -1
+                    }}
+                    id={`destination-${ap.code}-white-box-under-label`}
+                    ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
+                    x={
+                        getX(timezoneLatLongs[ap.timezone].longitude) + (
+                          labelPositions && labelPositions[ap.code]
+                          ?
+                            labelPositions[ap.code].position == 'right'
+                            ? 10
+                            :
+                              labelPositions[ap.code].position == 'left'
+                              ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width + 10)
+                              :
+                                labelPositions[ap.code].position == 'bottom'
+                                ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                :
+                                  labelPositions[ap.code].position == 'top'
+                                  ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                  : 0
+
+                          :
+                            document.getElementById(`destination-${ap.code}-label`)
+                            ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                            : -((ap.code + ap.city + ap.region) * .5)
+                        )
+                      }
+                    y={
+                      getY(ap.latitude) + (
+                        labelPositions && labelPositions[ap.code]
+                        ?
+                          labelPositions[ap.code].position == 'right'
+                          ? -4
+                          :
+                            labelPositions[ap.code].position == 'left'
+                            ? -4
+                            :
+                              labelPositions[ap.code].position == 'bottom'
+                              ? 8
+                              :
+                                labelPositions[ap.code].position == 'top'
+                                ? -19
+                                : 0
+
+                        : -19
+                      )
+                    }
+                    width={
+                      document.getElementById(`destination-${ap.code}-label`)
+                      ?
+                        document.getElementById(`destination-${ap.code}-label`).getBBox().width
+                      :
+                        100
+                    }
+                    height={
+                      document.getElementById(`destination-${ap.code}-label`)
+                      ?
+                        document.getElementById(`destination-${ap.code}-label`).getBBox().height
+                      :
+                        10
+                    }
+                    fill='#fff'></rect>
+                    <text
+                      id={`destination-${ap.code}-label-double`}
+                      x={
+                          getX(timezoneLatLongs[ap.timezone].longitude) + (
+                            labelPositions && labelPositions[ap.code]
+                            ?
+                              labelPositions[ap.code].position == 'right'
+                              ? 10
+                              :
+                                labelPositions[ap.code].position == 'left'
+                                ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width + 10)
+                                :
+                                  labelPositions[ap.code].position == 'bottom'
+                                  ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                  :
+                                    labelPositions[ap.code].position == 'top'
+                                    ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                    : 0
+
+                            :
+                              document.getElementById(`destination-${ap.code}-label`)
+                              ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                              : -((ap.code + ap.city + ap.region) * .5)
+                          )
+                        }
+                      y={
+                        getY(ap.latitude) + (
+                          labelPositions && labelPositions[ap.code]
+                          ?
+                            labelPositions[ap.code].position == 'right'
+                            ? 3
+                            :
+                              labelPositions[ap.code].position == 'left'
+                              ? 3
+                              :
+                                labelPositions[ap.code].position == 'bottom'
+                                ? 16
+                                :
+                                  labelPositions[ap.code].position == 'top'
+                                  ? -10
+                                  : 0
+
+                          : -10
+                        )
+                      }
                       style={{
-                        opacity: '0.55'
-                      }}></rect>
-                    <text id={`destination-${ap.city}-label`}
-                          ref={labelsRef.current[labelCount++]}
-                          x={getX(timezoneLatLongs[ap.timezone].longitude) - parseInt(destinationLabelFontSize)}
-                          y={getY(ap.latitude) - (parseInt(destinationLabelFontSize) * 1.25)}
-                          fontSize={destinationLabelFontSize}>
-                      {ap.city}, {ap.region} - {ap.code}
+                        textAlign: 'center',
+                        pointerEvents: 'none'
+                      }}
+                      fontSize={destinationLabelFontSize}>
+                        {
+                          labelDisplayTypes && labelDisplayTypes[ap.code]
+                          ?
+                            labelDisplayTypes[ap.code].displayType == 'code'
+                            ? ap.code
+                            :
+                              labelDisplayTypes[ap.code].displayType == 'city'
+                              ? ap.city
+                              :
+                                labelDisplayTypes[ap.code].displayType == 'region'
+                                ? ap.region
+                                :
+                                  labelDisplayTypes[ap.code].displayType == 'full'
+                                  ? `${ap.code},
+                                     ${ap.city},
+                                     ${ap.region}`
+                                  : `${ap.city},
+                                     ${ap.code}`
+                          : `${ap.city},
+                             ${ap.code}`
+                        }
                     </text>
+                    <rect
+                      style={{ cursor: 'pointer' }}
+                      x={getX(timezoneLatLongs[ap.timezone].longitude) - 7}
+                      y={getY(ap.latitude) - 7}
+                      width='14'
+                      height='14'
+                      fill='rgba(0,0,0,0)'
+                      opacity='0'
+                      onClick={() => {
+                      setContextMenuProps({
+                        title: ap.code
+                      })
+                      setContextMenuPosition({ x: getX(timezoneLatLongs[ap.timezone].longitude)+20, y: getY(ap.latitude)-100 })
+                      setShowContextMenu(true)
+                    }}>
+                    </rect>
                   </g>
                 </Fragment>
               ))
@@ -200,31 +425,238 @@ const GenerateSpidermap = ({ ...props }) => {
             ?
             (<>
               <g>
-                <circle r={originDotSize}
-                        cx={getX(timezoneLatLongs[origin.timezone].longitude)}
-                        cy={getY(origin.latitude)}
-                        fill={originDotColor}></circle>
-                <circle r={originCircleSize}
-                        cx={getX(timezoneLatLongs[origin.timezone].longitude)}
-                        cy={getY(origin.latitude)}
-                        fill='none'
-                        stroke={originCircleColor}></circle>
-                <rect
-                      x={getX(timezoneLatLongs[origin.timezone].longitude) - parseInt(originLabelFontSize)}
-                      y={getY(origin.latitude) - (parseInt(originLabelFontSize) * 2.25)}
-                      width='140'
-                      height='10'
-                      fill='#fff'
-                      style={{
-                        opacity: '0.55'
-                      }}></rect>
-                <text id={`origin-${origin.code}-label`}
-                      ref={labelsRef.current[labelCount++]}
-                      x={getX(timezoneLatLongs[origin.timezone].longitude) - parseInt(originLabelFontSize)}
-                      y={getY(origin.latitude) - (parseInt(originLabelFontSize) * 1.25)}
-                      fontSize={originLabelFontSize}>
-                  {origin.city}, {origin.region} - {origin.code}
-                </text>
+              <circle r={originDotSize}
+                      cx={getX(timezoneLatLongs[origin.timezone].longitude)}
+                      cy={getY(origin.latitude)}
+                      fill={originDotColor}></circle>
+              <circle r={originCircleSize}
+                      cx={getX(timezoneLatLongs[origin.timezone].longitude)}
+                      cy={getY(origin.latitude)}
+                      fill='none'
+                      stroke={originCircleColor}></circle>
+                        <text
+                          id={`origin-${origin.code}-label`}
+                          x={
+                              getX(timezoneLatLongs[origin.timezone].longitude) + (
+                                labelPositions && labelPositions[origin.code]
+                                ?
+                                  labelPositions[origin.code].position == 'right'
+                                  ? 10
+                                  :
+                                    labelPositions[origin.code].position == 'left'
+                                    ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width + 10)
+                                    :
+                                      labelPositions[origin.code].position == 'bottom'
+                                      ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                      :
+                                        labelPositions[origin.code].position == 'top'
+                                        ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                        : 0
+
+                                :
+                                  document.getElementById(`origin-${origin.code}-label`)
+                                  ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                  : -((origin.code + origin.city + origin.region) * .5)
+                              )
+                            }
+                          y={
+                            getY(origin.latitude) + (
+                              labelPositions && labelPositions[origin.code]
+                              ?
+                                labelPositions[origin.code].position == 'right'
+                                ? 3
+                                :
+                                  labelPositions[origin.code].position == 'left'
+                                  ? 3
+                                  :
+                                    labelPositions[origin.code].position == 'bottom'
+                                    ? 16
+                                    :
+                                      labelPositions[origin.code].position == 'top'
+                                      ? -10
+                                      : 0
+
+                              : -10
+                            )
+                          }
+                          style={{
+                            textAlign: 'center', pointerEvents: 'none',
+                            fontWeight: 'bold'
+                          }}
+                          fontSize={originLabelFontSize}>
+                            {
+                              labelDisplayTypes && labelDisplayTypes[origin.code]
+                              ?
+                                labelDisplayTypes[origin.code].displayType == 'code'
+                                ? origin.code
+                                :
+                                  labelDisplayTypes[origin.code].displayType == 'city'
+                                  ? origin.city
+                                  :
+                                    labelDisplayTypes[origin.code].displayType == 'region'
+                                    ? origin.region
+                                    :
+                                      labelDisplayTypes[origin.code].displayType == 'full'
+                                      ? `${origin.code},
+                                         ${origin.city},
+                                         ${origin.region}`
+                                      : `${origin.city},
+                                         ${origin.code}`
+                              : `${origin.city},
+                                 ${origin.code}`
+                            }
+                        </text>
+                        <rect
+                          style={{
+                            pointerEvents: 'none', zIndex: -1
+                          }}
+                          id={`origin-${origin.code}-white-box-under-label`}
+                          ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
+                          x={
+                              getX(timezoneLatLongs[origin.timezone].longitude) + (
+                                labelPositions && labelPositions[origin.code]
+                                ?
+                                  labelPositions[origin.code].position == 'right'
+                                  ? 10
+                                  :
+                                    labelPositions[origin.code].position == 'left'
+                                    ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width + 10)
+                                    :
+                                      labelPositions[origin.code].position == 'bottom'
+                                      ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                      :
+                                        labelPositions[origin.code].position == 'top'
+                                        ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                        : 0
+
+                                :
+                                  document.getElementById(`origin-${origin.code}-label`)
+                                  ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                  : -((origin.code + origin.city + origin.region) * .5)
+                              )
+                            }
+                          y={
+                            getY(origin.latitude) + (
+                              labelPositions && labelPositions[origin.code]
+                              ?
+                                labelPositions[origin.code].position == 'right'
+                                ? -6
+                                :
+                                  labelPositions[origin.code].position == 'left'
+                                  ? -6
+                                  :
+                                    labelPositions[origin.code].position == 'bottom'
+                                    ? 8
+                                    :
+                                      labelPositions[origin.code].position == 'top'
+                                      ? -19
+                                      : 0
+
+                              : -19
+                            )
+                          }
+                          width={
+                            document.getElementById(`origin-${origin.code}-label`)
+                            ?
+                              document.getElementById(`origin-${origin.code}-label`).getBBox().width
+                            :
+                              100
+                          }
+                          height={
+                            document.getElementById(`origin-${origin.code}-label`)
+                            ?
+                              document.getElementById(`origin-${origin.code}-label`).getBBox().height
+                            :
+                              10
+                          }
+                          fill='#fff'></rect>
+                          <text
+                            id={`origin-${origin.code}-label-double`}
+                            x={
+                                getX(timezoneLatLongs[origin.timezone].longitude) + (
+                                  labelPositions && labelPositions[origin.code]
+                                  ?
+                                    labelPositions[origin.code].position == 'right'
+                                    ? 10
+                                    :
+                                      labelPositions[origin.code].position == 'left'
+                                      ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width + 10)
+                                      :
+                                        labelPositions[origin.code].position == 'bottom'
+                                        ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                        :
+                                          labelPositions[origin.code].position == 'top'
+                                          ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                          : 0
+
+                                  :
+                                    document.getElementById(`origin-${origin.code}-label`)
+                                    ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                    : -((origin.code + origin.city + origin.region) * .5)
+                                )
+                              }
+                            y={
+                              getY(origin.latitude) + (
+                                labelPositions && labelPositions[origin.code]
+                                ?
+                                  labelPositions[origin.code].position == 'right'
+                                  ? 3
+                                  :
+                                    labelPositions[origin.code].position == 'left'
+                                    ? 3
+                                    :
+                                      labelPositions[origin.code].position == 'bottom'
+                                      ? 16
+                                      :
+                                        labelPositions[origin.code].position == 'top'
+                                        ? -10
+                                        : 0
+
+                                : -10
+                              )
+                            }
+                            style={{
+                              textAlign: 'center', pointerEvents: 'none',
+                              fontWeight: 'bold'
+                            }}
+                            fontSize={originLabelFontSize}>
+                              {
+                                labelDisplayTypes && labelDisplayTypes[origin.code]
+                                ?
+                                  labelDisplayTypes[origin.code].displayType == 'code'
+                                  ? origin.code
+                                  :
+                                    labelDisplayTypes[origin.code].displayType == 'city'
+                                    ? origin.city
+                                    :
+                                      labelDisplayTypes[origin.code].displayType == 'region'
+                                      ? origin.region
+                                      :
+                                        labelDisplayTypes[origin.code].displayType == 'full'
+                                        ? `${origin.code},
+                                           ${origin.city},
+                                           ${origin.region}`
+                                        : `${origin.city},
+                                           ${origin.code}`
+                                : `${origin.city},
+                                   ${origin.code}`
+                              }
+                          </text>
+                          <rect
+                            style={{ cursor: 'pointer' }}
+                            x={getX(timezoneLatLongs[origin.timezone].longitude) - 7}
+                            y={getY(origin.latitude) - 7}
+                            width='14'
+                            height='14'
+                            fill='rgba(0,0,0,0)'
+                            opacity='0'
+                            onClick={() => {
+                            setContextMenuProps({
+                              title: origin.code
+                            })
+                            setContextMenuPosition({ x: getX(timezoneLatLongs[origin.timezone].longitude)+20, y: getY(origin.latitude)-100 })
+                            setShowContextMenu(true)
+                          }}></rect>
               </g>
             </>)
             : null
@@ -248,6 +680,115 @@ const GenerateSpidermap = ({ ...props }) => {
             })
           }
         </svg>
+        <CSSTransition
+          unmountOnExit
+          in={showContextMenu}
+          timeout={300}
+          classNames='alert'>
+              <div
+              className='context-menu-container'
+              style={{
+                transform: `translateX(${contextMenuPosition.x+'px'}) translateY(${contextMenuPosition.y+'px'})`,
+              }}>
+              <div
+                onClick={() => setShowContextMenu(false)}
+                style={{
+                  position: 'absolute',
+                  top: 0, right: '4px',
+                  cursor: 'pointer',
+                }}>
+                &#10006;
+              </div>
+              <div className='context-menu-title'>
+                {contextMenuProps.title}: Context Menu
+              </div>
+              <div
+                className='context-menu-item-list'>
+                <div className='context-menu-label-position-type-title'>Set Label Position</div>
+                <div className='context-menu-label-position-type-option' onClick={
+                  () => {
+                    setLabelPositions({
+                      ...labelPositions,
+                      [contextMenuProps.title]: {
+                        position: 'top'
+                      }
+                    })
+                  }
+                }>Top</div>
+              <div className='context-menu-label-position-type-option' onClick={
+                  () => {
+                    setLabelPositions({
+                      ...labelPositions,
+                      [contextMenuProps.title]: {
+                        position: 'right'
+                      }
+                    })
+                  }
+                }>Right</div>
+              <div className='context-menu-label-position-type-option' onClick={
+                  () => {
+                    setLabelPositions({
+                      ...labelPositions,
+                      [contextMenuProps.title]: {
+                        position: 'bottom'
+                      }
+                    })
+                  }
+                }>Bottom</div>
+              <div className='context-menu-label-position-type-option' onClick={
+                  () => {
+                    setLabelPositions({
+                      ...labelPositions,
+                      [contextMenuProps.title]: {
+                        position: 'left'
+                      }
+                    })
+                  }
+                }>Left</div>
+              <div className='context-menu-label-display-type-title'>Set Label Display Type</div>
+              <div className='context-menu-label-display-type-option' onClick={
+                  () => {
+                    setLabelDisplayTypes({
+                      ...labelDisplayTypes,
+                      [contextMenuProps.title]: {
+                        displayType: 'full'
+                      }
+                    })
+                  }
+                }>Full</div>
+              <div className='context-menu-label-display-type-option' onClick={
+                  () => {
+                    setLabelDisplayTypes({
+                      ...labelDisplayTypes,
+                      [contextMenuProps.title]: {
+                        displayType: 'region'
+                      }
+                    })
+                  }
+                }>Region</div>
+              <div className='context-menu-label-display-type-option' onClick={
+                  () => {
+                    setLabelDisplayTypes({
+                      ...labelDisplayTypes,
+                      [contextMenuProps.title]: {
+                        displayType: 'city'
+                      }
+                    })
+                  }
+                }>City</div>
+              <div className='context-menu-label-display-type-option' onClick={
+                  () => {
+                    setLabelDisplayTypes({
+                      ...labelDisplayTypes,
+                      [contextMenuProps.title]: {
+                        displayType: 'code'
+                      }
+                    })
+                  }
+                }>Code</div>
+              </div>
+            </div>
+        </CSSTransition>
       </div>
     </div>
     : null

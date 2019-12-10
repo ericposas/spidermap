@@ -107,7 +107,13 @@ const SelectionView = ({ ...props }) => {
           }
           {
             (props.type == 'pointmap-origins' && selectedOriginsPointmap)
-            ? selectedOriginsPointmap.filter(item => {
+            ? selectedOriginsPointmap
+                .sort((a,b) => {
+                  if (a.code < b.code) return -1
+                  if (a.code > b.code) return 1
+                  return 0
+                })
+                .filter(item => {
                 if (item.code.indexOf(_filter) > -1 || item.fullname.indexOf(_filter) > -1 ||
                     item.region.indexOf(_filter) > -1 || item.city.indexOf(_filter) > -1 ||
                     item.code.toLowerCase().indexOf(_filter) > -1 || item.fullname.toLowerCase().indexOf(_filter) > -1 ||
@@ -125,14 +131,20 @@ const SelectionView = ({ ...props }) => {
           }
           {
             (props.type == 'spidermap-destinations' && selectedDestinationsSpidermap)
-            ? selectedDestinationsSpidermap.filter(item => {
-                if (item.code.indexOf(_filter) > -1 || item.fullname.indexOf(_filter) > -1 ||
-                    item.region.indexOf(_filter) > -1 || item.city.indexOf(_filter) > -1 ||
-                    item.code.toLowerCase().indexOf(_filter) > -1 || item.fullname.toLowerCase().indexOf(_filter) > -1 ||
-                    item.region.toLowerCase().indexOf(_filter) > -1 || item.city.toLowerCase().indexOf(_filter) > -1 ||
-                    item.code.toUpperCase().indexOf(_filter) > -1 || item.fullname.toUpperCase().indexOf(_filter) > -1 ||
-                    item.region.toUpperCase().indexOf(_filter) > -1 || item.city.toUpperCase().indexOf(_filter) > -1) {
-                    return item
+            ? selectedDestinationsSpidermap
+                .sort((a,b) => {
+                  if (a.code < b.code) return -1
+                  if (a.code > b.code) return 1
+                  return 0
+                })
+                .filter(item => {
+                  if (item.code.indexOf(_filter) > -1 || item.fullname.indexOf(_filter) > -1 ||
+                      item.region.indexOf(_filter) > -1 || item.city.indexOf(_filter) > -1 ||
+                      item.code.toLowerCase().indexOf(_filter) > -1 || item.fullname.toLowerCase().indexOf(_filter) > -1 ||
+                      item.region.toLowerCase().indexOf(_filter) > -1 || item.city.toLowerCase().indexOf(_filter) > -1 ||
+                      item.code.toUpperCase().indexOf(_filter) > -1 || item.fullname.toUpperCase().indexOf(_filter) > -1 ||
+                      item.region.toUpperCase().indexOf(_filter) > -1 || item.city.toUpperCase().indexOf(_filter) > -1) {
+                        return item
                   }
                 })
                 .map(location => (
@@ -143,14 +155,20 @@ const SelectionView = ({ ...props }) => {
           }
           {
             (props.type == 'pointmap-destinations' && selectedDestinationsPointmap && selectedDestinationsPointmap[currentlySelectedOriginPointmap])
-            ? selectedDestinationsPointmap[currentlySelectedOriginPointmap].filter(item => {
-                if (item.code.indexOf(_filter) > -1 || item.fullname.indexOf(_filter) > -1 ||
-                    item.region.indexOf(_filter) > -1 || item.city.indexOf(_filter) > -1 ||
-                    item.code.toLowerCase().indexOf(_filter) > -1 || item.fullname.toLowerCase().indexOf(_filter) > -1 ||
-                    item.region.toLowerCase().indexOf(_filter) > -1 || item.city.toLowerCase().indexOf(_filter) > -1 ||
-                    item.code.toUpperCase().indexOf(_filter) > -1 || item.fullname.toUpperCase().indexOf(_filter) > -1 ||
-                    item.region.toUpperCase().indexOf(_filter) > -1 || item.city.toUpperCase().indexOf(_filter) > -1) {
-                    return item
+            ? selectedDestinationsPointmap[currentlySelectedOriginPointmap]
+                .sort((a,b) => {
+                  if (a.code < b.code) return -1
+                  if (a.code > b.code) return 1
+                  return 0
+                })
+                .filter(item => {
+                  if (item.code.indexOf(_filter) > -1 || item.fullname.indexOf(_filter) > -1 ||
+                      item.region.indexOf(_filter) > -1 || item.city.indexOf(_filter) > -1 ||
+                      item.code.toLowerCase().indexOf(_filter) > -1 || item.fullname.toLowerCase().indexOf(_filter) > -1 ||
+                      item.region.toLowerCase().indexOf(_filter) > -1 || item.city.toLowerCase().indexOf(_filter) > -1 ||
+                      item.code.toUpperCase().indexOf(_filter) > -1 || item.fullname.toUpperCase().indexOf(_filter) > -1 ||
+                      item.region.toUpperCase().indexOf(_filter) > -1 || item.city.toUpperCase().indexOf(_filter) > -1) {
+                        return item
                   }
                 })
                 .map(location => (
@@ -161,14 +179,20 @@ const SelectionView = ({ ...props }) => {
           }
           {
             (props.type == 'listview-destinations' && selectedDestinationsListView)
-            ? selectedDestinationsListView.filter(item => {
-                if (item.code.indexOf(_filter) > -1 || item.fullname.indexOf(_filter) > -1 ||
-                    item.region.indexOf(_filter) > -1 || item.city.indexOf(_filter) > -1 ||
-                    item.code.toLowerCase().indexOf(_filter) > -1 || item.fullname.toLowerCase().indexOf(_filter) > -1 ||
-                    item.region.toLowerCase().indexOf(_filter) > -1 || item.city.toLowerCase().indexOf(_filter) > -1 ||
-                    item.code.toUpperCase().indexOf(_filter) > -1 || item.fullname.toUpperCase().indexOf(_filter) > -1 ||
-                    item.region.toUpperCase().indexOf(_filter) > -1 || item.city.toUpperCase().indexOf(_filter) > -1) {
-                    return item
+            ? selectedDestinationsListView
+                .sort((a,b) => {
+                  if (a.code < b.code) return -1
+                  if (a.code > b.code) return 1
+                  return 0
+                })
+                .filter(item => {
+                  if (item.code.indexOf(_filter) > -1 || item.fullname.indexOf(_filter) > -1 ||
+                      item.region.indexOf(_filter) > -1 || item.city.indexOf(_filter) > -1 ||
+                      item.code.toLowerCase().indexOf(_filter) > -1 || item.fullname.toLowerCase().indexOf(_filter) > -1 ||
+                      item.region.toLowerCase().indexOf(_filter) > -1 || item.city.toLowerCase().indexOf(_filter) > -1 ||
+                      item.code.toUpperCase().indexOf(_filter) > -1 || item.fullname.toUpperCase().indexOf(_filter) > -1 ||
+                      item.region.toUpperCase().indexOf(_filter) > -1 || item.city.toUpperCase().indexOf(_filter) > -1) {
+                        return item
                   }
                 })
                 .map(location => (

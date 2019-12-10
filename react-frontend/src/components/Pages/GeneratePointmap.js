@@ -412,10 +412,10 @@ const GeneratePointmap = ({ ...props }) => {
                           </text>
                           <rect
                             style={{ cursor: 'pointer' }}
-                            x={getX(ap.longitude) - 10}
-                            y={getY(ap.latitude) - 10}
-                            width='20'
-                            height='20'
+                            x={getX(ap.longitude) - 7}
+                            y={getY(ap.latitude) - 7}
+                            width='14'
+                            height='14'
                             fill='rgba(0,0,0,0)'
                             opacity='0'
                             onClick={() => {
@@ -660,10 +660,10 @@ const GeneratePointmap = ({ ...props }) => {
                       </text>
                       <rect
                         style={{ cursor: 'pointer' }}
-                        x={getX(ap.longitude) - 10}
-                        y={getY(ap.latitude) - 10}
-                        width='20'
-                        height='20'
+                        x={getX(ap.longitude) - 7}
+                        y={getY(ap.latitude) - 7}
+                        width='14'
+                        height='14'
                         fill='rgba(0,0,0,0)'
                         opacity='0'
                         onClick={() => {

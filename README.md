@@ -4,7 +4,11 @@
 
 #### Programming:
 
-  - Add back label editing to Spidermap.js component
+  - Try to match Spider Map to AA's radial example
+
+
+  - Add "Change all Labels" to a certain format option (full, city, code, etc.) at top of maps pages
+
 
   - Slide Transitions:
     - Add slide-in transitions to all UI panels
