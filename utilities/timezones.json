@@ -3,6 +3,10 @@
     "latitude": "64.128288",
     "longitude": "-21.827774"
   },
+  "Atlantic/Bermuda": {
+    "latitude": "32.299507",
+    "longitude": "-64.790337"
+  },
   "Australia/Sydney": {
     "latitude": "-33.865143",
     "longitude": "151.209900"
@@ -31,9 +35,17 @@
     "latitude": "22.302711",
     "longitude": "114.177216"
   },
+  "Europe/Paris": {
+    "latitude": "48.864716",
+    "longitude": "2.349014"
+  },
   "Europe/Zurich": {
     "latitude": "47.451542",
     "longitude": "8.564572"
+  },
+  "Europe/Budapest": {
+    "latitude": "47.497913",
+    "longitude": "19.040236"
   },
   "Europe/Berlin": {
     "latitude": "52.520008",
@@ -70,6 +82,14 @@
   "Europe/Amsterdam": {
     "latitude": "52.377956",
     "longitude": "4.897070"
+  },
+  "Europe/Prague": {
+    "latitude": "50.08804",
+    "longitude": "14.42076"
+  },
+  "America/Managua": {
+    "latitude": "12.136389",
+    "longitude": "-86.251389"
   },
   "America/Montevideo": {
     "latitude": "-34.901112",

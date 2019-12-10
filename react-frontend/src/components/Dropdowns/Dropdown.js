@@ -26,6 +26,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import './dropdown.scss'
 import '../Buttons/buttons.scss'
+// import alphaSort from 'alpha-sort'
 
 const Dropdown = ({ ...props }) => {
 
@@ -75,14 +76,24 @@ const Dropdown = ({ ...props }) => {
       let resultArr
       if (!allCodesData) {
         let result = await axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-        dispatch({ type: SET_ALL_CODES, payload: result.data })
-        resultArr = result.data.map(ap => {
+        let sorted = result.data
+          .map(ap => ap.code).sort((a,b) => {
+            if (a < b) return -1
+            if (a > b) return 1
+            return 0
+          })
+        let _sorted = []
+        sorted.forEach(code => {
+          result.data.forEach(obj => { if (obj.code == code) _sorted.push(obj) })
+        })
+        resultArr = _sorted.map(ap => {
           if (ap.code != null) {
             return (<Fragment key={ap.code}>
                       <option value={ap.code}>{ap.code} - {ap.city} - {ap.region}</option>
                     </Fragment>)
           }
         })
+        dispatch({ type: SET_ALL_CODES, payload: _sorted })
         setOptions(resultArr)
       } else {
         resultArr = allCodesData.map(ap => {
@@ -316,6 +327,10 @@ const Dropdown = ({ ...props }) => {
                             } else if (type == 'category' && opt.props.children.props.value.toLowerCase().indexOf(_filter) > -1) {
                               return opt
                             }
+                          }).sort((a,b) => {
+                            if (a < b) return -1
+                            if (a > b) return 1
+                            return 0
                           })
                         }
                       </select>

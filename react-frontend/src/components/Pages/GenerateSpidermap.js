@@ -66,18 +66,18 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const getX = long => {
     if (!longs.includes(long)) {
-      let arr = destinations.map(ap => ap.longitude)
+      let arr = destinations.map(ap => timezoneLatLongs[ap.timezone].longitude)
       longs = longs.concat(arr)
-      longs = longs.concat(origin.longitude)
+      longs = longs.concat(timezoneLatLongs[origin.timezone].longitude)
       longs.sort((a, b) => a - b)
     }
     linearScaleX = d3.scaleLinear()
                      .domain([longs[0], longs[longs.length-1]])
-                     .range([svgMargin, (innerHeight * 1.15) - svgMargin])
+                     .range([svgMargin, (innerHeight * 1.25) - svgMargin])
 
     return linearScaleX(long)
   }
-
+  
   const getY = lat => {
     if (!lats.includes(lat)) {
       let arr = destinations.map(ap => ap.latitude)
@@ -87,10 +87,10 @@ const GenerateSpidermap = ({ ...props }) => {
       lats.sort((a, b) => b - a)
     }
     linearScaleY = d3.scaleLinear()
-                     .domain([-lats[0], lats.reduce((a,b) => a + b)])
+                     .domain([(lats[0] * -.5), lats.reduce((a, b) => a + b)])
                      .range([svgMargin, innerHeight - svgMargin])
     // the below evenly spaces Y values according to timezone
-    return linearScaleY((lats.reduce((vala, valb) => vala + valb) / lats.length) * lats.indexOf(lat))
+    return linearScaleY(((lats.reduce((a, b) => a + b) / lats.length)) * lats.indexOf(lat))
   }
 
   const calcPath = (ap, i) => {
@@ -98,17 +98,17 @@ const GenerateSpidermap = ({ ...props }) => {
     let startX, endX, distanceBetweenX
     let startY, endY, distanceBetweenY
     let bendX = 20
-    let bendY = 45
+    let bendY = 30
     let cpStartThreshX = .25, cpEndThreshX = .75
     let cpStartThreshY = .25, cpEndThreshY = .75
-    
+
     startX = getX(timezoneLatLongs[ap.timezone].longitude)
     endX = getX(timezoneLatLongs[origin.timezone].longitude)
     distanceBetweenX = endX - startX
     cp1.x = startX + (distanceBetweenX * cpStartThreshX)
     cp2.x = startX + (distanceBetweenX * cpEndThreshX)
-    if (startX > endX) { cp1.x -= bendX; cp2.x -= bendX }
-    else { cp1.x += bendX; cp2.x += bendX }
+    if (startX > endX) { cp1.x += bendX; cp2.x += bendX }
+    else { cp1.x -= bendX; cp2.x -= bendX }
 
     startY = getY(ap.latitude)
     endY = getY(origin.latitude)
