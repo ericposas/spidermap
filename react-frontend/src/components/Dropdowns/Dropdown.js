@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   SET_ORIGIN_LISTVIEW,
-  SET_DESTINATION_LOCATIONS_LISTVIEW
+  SET_DESTINATION_LOCATIONS_LISTVIEW,
 } from '../../constants/listview'
 import {
   SET_ORIGIN_LOCATIONS_POINTMAP,
@@ -11,7 +11,6 @@ import {
 import {
   SET_ORIGIN_SPIDERMAP,
   SET_DESTINATION_LOCATIONS_SPIDERMAP,
-  HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP
 } from '../../constants/spidermap'
 import {
   SET_ALL_CODES
@@ -222,7 +221,6 @@ const Dropdown = ({ ...props }) => {
         setCategorySelection(val, props.output)
       })
     }
-    dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP })
   }
 
   return (

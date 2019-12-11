@@ -77,7 +77,7 @@ const GenerateSpidermap = ({ ...props }) => {
       }
     }
   }, [])
-  
+
   const getX = long => {
     if (!longs.includes(long)) {
       let arr = destinations.map(ap => timezoneLatLongs[ap.timezone].longitude)
@@ -210,10 +210,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                   ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
                                   : 0
 
-                          :
-                            document.getElementById(`destination-${ap.code}-label`)
-                            ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
-                            : -((ap.code + ap.city + ap.region) * .5)
+                          : 10
                         )
                       }
                     y={
@@ -221,10 +218,10 @@ const GenerateSpidermap = ({ ...props }) => {
                         labelPositions && labelPositions[ap.code]
                         ?
                           labelPositions[ap.code].position == 'right'
-                          ? 3
+                          ? 4
                           :
                             labelPositions[ap.code].position == 'left'
-                            ? 3
+                            ? 4
                             :
                               labelPositions[ap.code].position == 'bottom'
                               ? 16
@@ -233,7 +230,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                 ? -10
                                 : 0
 
-                        : -10
+                        : 4
                       )
                     }
                     style={{
@@ -286,10 +283,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                   ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
                                   : 0
 
-                          :
-                            document.getElementById(`destination-${ap.code}-label`)
-                            ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
-                            : -((ap.code + ap.city + ap.region) * .5)
+                          : 10
                         )
                       }
                     y={
@@ -309,7 +303,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                 ? -19
                                 : 0
 
-                        : -19
+                        : -4
                       )
                     }
                     width={
@@ -324,7 +318,7 @@ const GenerateSpidermap = ({ ...props }) => {
                       ?
                         document.getElementById(`destination-${ap.code}-label`).getBBox().height
                       :
-                        10
+                        11
                     }
                     fill='#fff'></rect>
                     <text
@@ -346,10 +340,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                     ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
                                     : 0
 
-                            :
-                              document.getElementById(`destination-${ap.code}-label`)
-                              ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
-                              : -((ap.code + ap.city + ap.region) * .5)
+                            : 10
                           )
                         }
                       y={
@@ -357,10 +348,10 @@ const GenerateSpidermap = ({ ...props }) => {
                           labelPositions && labelPositions[ap.code]
                           ?
                             labelPositions[ap.code].position == 'right'
-                            ? 3
+                            ? 4
                             :
                               labelPositions[ap.code].position == 'left'
-                              ? 3
+                              ? 4
                               :
                                 labelPositions[ap.code].position == 'bottom'
                                 ? 16
@@ -369,7 +360,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                   ? -10
                                   : 0
 
-                          : -10
+                          : 4
                         )
                       }
                       style={{
@@ -453,10 +444,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                         ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
                                         : 0
 
-                                :
-                                  document.getElementById(`origin-${origin.code}-label`)
-                                  ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
-                                  : -((origin.code + origin.city + origin.region) * .5)
+                                : 10
                               )
                             }
                           y={
@@ -476,7 +464,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                       ? -10
                                       : 0
 
-                              : -10
+                              : 3
                             )
                           }
                           style={{
@@ -529,10 +517,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                         ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
                                         : 0
 
-                                :
-                                  document.getElementById(`origin-${origin.code}-label`)
-                                  ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
-                                  : -((origin.code + origin.city + origin.region) * .5)
+                                : 10
                               )
                             }
                           y={
@@ -552,7 +537,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                       ? -19
                                       : 0
 
-                              : -19
+                              : -6
                             )
                           }
                           width={
@@ -589,10 +574,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                           ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
                                           : 0
 
-                                  :
-                                    document.getElementById(`origin-${origin.code}-label`)
-                                    ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
-                                    : -((origin.code + origin.city + origin.region) * .5)
+                                  : 10
                                 )
                               }
                             y={
@@ -612,7 +594,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                         ? -10
                                         : 0
 
-                                : -10
+                                : 3
                               )
                             }
                             style={{
