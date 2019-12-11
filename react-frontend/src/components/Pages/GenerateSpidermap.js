@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import DownloadImagePanel from '../Views/DownloadImagePanel'
 import { SET_TIMEZONE_LATLONGS } from '../../constants/constants'
+import { SET_LABEL_POSITION_SPIDERMAP, SET_LABEL_DISPLAY_TYPE_SPIDERMAP } from '../../constants/spidermap'
 import mapSettings from '../../mapSettings.config'
 import { CSSTransition } from 'react-transition-group'
 import axios from 'axios'
@@ -54,9 +55,9 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const [contextMenuProps, setContextMenuProps] = useState({})
 
-  const [labelPositions, setLabelPositions] = useState({})
+  const labelPositions = useSelector(state => state.spidermap_labelPositions)
 
-  const [labelDisplayTypes, setLabelDisplayTypes] = useState({})
+  const labelDisplayTypes = useSelector(state => state.spidermap_labelDisplayTypes)
 
   useEffect(() => {
     if (origin == null) {
@@ -195,7 +196,7 @@ const GenerateSpidermap = ({ ...props }) => {
                     ref={labelsRef.current[labelCount++]}
                     x={
                         getX(timezoneLatLongs[ap.timezone].longitude) + (
-                          labelPositions && labelPositions[ap.code]
+                          labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
                           ?
                             labelPositions[ap.code].position == 'right'
                             ? 10
@@ -268,7 +269,7 @@ const GenerateSpidermap = ({ ...props }) => {
                     ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
                     x={
                         getX(timezoneLatLongs[ap.timezone].longitude) + (
-                          labelPositions && labelPositions[ap.code]
+                          labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
                           ?
                             labelPositions[ap.code].position == 'right'
                             ? 10
@@ -325,7 +326,7 @@ const GenerateSpidermap = ({ ...props }) => {
                       id={`destination-${ap.code}-label-double`}
                       x={
                           getX(timezoneLatLongs[ap.timezone].longitude) + (
-                            labelPositions && labelPositions[ap.code]
+                            labelPositions && labelPositions[ap.code]  && document.getElementById(`destination-${ap.code}-label`)
                             ?
                               labelPositions[ap.code].position == 'right'
                               ? 10
@@ -429,7 +430,7 @@ const GenerateSpidermap = ({ ...props }) => {
                           id={`origin-${origin.code}-label`}
                           x={
                               getX(timezoneLatLongs[origin.timezone].longitude) + (
-                                labelPositions && labelPositions[origin.code]
+                                labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
                                 ?
                                   labelPositions[origin.code].position == 'right'
                                   ? 10
@@ -502,7 +503,7 @@ const GenerateSpidermap = ({ ...props }) => {
                           ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
                           x={
                               getX(timezoneLatLongs[origin.timezone].longitude) + (
-                                labelPositions && labelPositions[origin.code]
+                                labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
                                 ?
                                   labelPositions[origin.code].position == 'right'
                                   ? 10
@@ -559,7 +560,7 @@ const GenerateSpidermap = ({ ...props }) => {
                             id={`origin-${origin.code}-label-double`}
                             x={
                                 getX(timezoneLatLongs[origin.timezone].longitude) + (
-                                  labelPositions && labelPositions[origin.code]
+                                  labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
                                   ?
                                     labelPositions[origin.code].position == 'right'
                                     ? 10
@@ -687,86 +688,38 @@ const GenerateSpidermap = ({ ...props }) => {
               <div
                 className='context-menu-item-list'>
                 <div className='context-menu-label-position-type-title'>Set Label Position</div>
-                <div className='context-menu-label-position-type-option' onClick={
-                  () => {
-                    setLabelPositions({
-                      ...labelPositions,
-                      [contextMenuProps.title]: {
-                        position: 'top'
-                      }
-                    })
-                  }
+                <div className='context-menu-label-position-type-option'
+                  onClick={
+                  () => dispatch({ type: SET_LABEL_POSITION_SPIDERMAP, which: contextMenuProps.title, position: 'top' })
                 }>Top</div>
-              <div className='context-menu-label-position-type-option' onClick={
-                  () => {
-                    setLabelPositions({
-                      ...labelPositions,
-                      [contextMenuProps.title]: {
-                        position: 'right'
-                      }
-                    })
-                  }
+              <div className='context-menu-label-position-type-option'
+                onClick={
+                  () => dispatch({ type: SET_LABEL_POSITION_SPIDERMAP, which: contextMenuProps.title, position: 'right' })
                 }>Right</div>
-              <div className='context-menu-label-position-type-option' onClick={
-                  () => {
-                    setLabelPositions({
-                      ...labelPositions,
-                      [contextMenuProps.title]: {
-                        position: 'bottom'
-                      }
-                    })
-                  }
+              <div className='context-menu-label-position-type-option'
+                onClick={
+                  () => dispatch({ type: SET_LABEL_POSITION_SPIDERMAP, which: contextMenuProps.title, position: 'bottom' })
                 }>Bottom</div>
-              <div className='context-menu-label-position-type-option' onClick={
-                  () => {
-                    setLabelPositions({
-                      ...labelPositions,
-                      [contextMenuProps.title]: {
-                        position: 'left'
-                      }
-                    })
-                  }
+              <div className='context-menu-label-position-type-option'
+                onClick={
+                  () => dispatch({ type: SET_LABEL_POSITION_SPIDERMAP, which: contextMenuProps.title, position: 'left' })
                 }>Left</div>
               <div className='context-menu-label-display-type-title'>Set Label Display Type</div>
-              <div className='context-menu-label-display-type-option' onClick={
-                  () => {
-                    setLabelDisplayTypes({
-                      ...labelDisplayTypes,
-                      [contextMenuProps.title]: {
-                        displayType: 'full'
-                      }
-                    })
-                  }
+              <div className='context-menu-label-display-type-option'
+                onClick={
+                  () => dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: contextMenuProps.title, displayType: 'full' })
                 }>Full</div>
-              <div className='context-menu-label-display-type-option' onClick={
-                  () => {
-                    setLabelDisplayTypes({
-                      ...labelDisplayTypes,
-                      [contextMenuProps.title]: {
-                        displayType: 'region'
-                      }
-                    })
-                  }
+              <div className='context-menu-label-display-type-option'
+                onClick={
+                  () => dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: contextMenuProps.title, displayType: 'region' })
                 }>Region</div>
-              <div className='context-menu-label-display-type-option' onClick={
-                  () => {
-                    setLabelDisplayTypes({
-                      ...labelDisplayTypes,
-                      [contextMenuProps.title]: {
-                        displayType: 'city'
-                      }
-                    })
-                  }
+              <div className='context-menu-label-display-type-option'
+                onClick={
+                  () => dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: contextMenuProps.title, displayType: 'city' })
                 }>City</div>
-              <div className='context-menu-label-display-type-option' onClick={
-                  () => {
-                    setLabelDisplayTypes({
-                      ...labelDisplayTypes,
-                      [contextMenuProps.title]: {
-                        displayType: 'code'
-                      }
-                    })
-                  }
+              <div className='context-menu-label-display-type-option'
+                onClick={
+                  () => dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: contextMenuProps.title, displayType: 'code' })
                 }>Code</div>
               </div>
             </div>

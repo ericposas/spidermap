@@ -35,6 +35,8 @@ import uploadCSVDoneNotification from './uploadCSVDoneNotification'
 import savingFile from './savingFile'
 import displayMapBG from './displayMapBG'
 import timezoneLatLongs from './timezoneLatLongs'
+import spidermap_labelDisplayTypes from './spidermap/spidermap_labelDisplayTypes'
+import spidermap_labelPositions from './spidermap/spidermap_labelPositions'
 
 const rootReducer = combineReducers({
   lastLocation,
@@ -53,6 +55,7 @@ const rootReducer = combineReducers({
   selectedDestinationsSpidermap, spidermap_selectByCodeDestinations,
   spidermap_selectByCategoryDestinations, spidermap_selectBy_DestinationsVisibility,
   spidermap_destinationPanelVisibility,
+  spidermap_labelPositions, spidermap_labelDisplayTypes,
   selectedMenuItem,
   listviewRendering, listviewPrinting,
   downloadPDFStatus,
