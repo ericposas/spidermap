@@ -6,7 +6,6 @@ import {
   SHOW_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP,
   HIDE_SELECT_BY_CATEGORY_DESTINATIONS_SPIDERMAP,
   SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP,
-  // HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_SPIDERMAP,
 } from '../../constants/spidermap'
 import './buttons.scss'
 
@@ -24,7 +23,6 @@ const AddEditDestinationsButton_Spidermap = ({ ...props }) => {
             dispatch({ type: SHOW_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP })
             dispatch({ type: SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP })
           }, 50)
-          // dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_SPIDERMAP })
         })
       }}>
       <div className='plus-symbol'>

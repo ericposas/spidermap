@@ -13,6 +13,7 @@ import {
   REMOVE_ALL_DESTINATIONS_LISTVIEW,
 } from '../../constants/listview'
 import axios from 'axios'
+import { CSSTransition } from 'react-transition-group'
 
 const ListView = ({ ...props }) => {
 
@@ -27,6 +28,8 @@ const ListView = ({ ...props }) => {
   const listview_selectByCodeDestinations = useSelector(state => state.listview_selectByCodeDestinations)
 
   const listview_selectByCategoryDestinations = useSelector(state => state.listview_selectByCategoryDestinations)
+
+  const listview_selectBy_DestinationsVisibility = useSelector(state => state.listview_selectBy_DestinationsVisibility)
 
   const uploadingCSVNotification = useSelector(state => state.uploadingCSVNotification)
 
@@ -136,36 +139,44 @@ const ListView = ({ ...props }) => {
             </div>
           </div>
         </div>
+        <CSSTransition
+          in={selectedOriginListView != null}
+          unmountOnExit
+          classNames='slide'
+          timeout={300}>
+          <div className='col-med'>
+            <SelectionView type='listview-destinations'/>
+          </div>
+        </CSSTransition>
         {
-          selectedOriginListView
+          selectedOriginListView != null && listview_selectByCodeDestinations
           ?
-            (<div className='col-med'>
-              <SelectionView type='listview-destinations'/>
-             </div>) : null
-        }
-        {
-          listview_selectByCodeDestinations && selectedOriginListView
-          ?
-           (<>
+           <CSSTransition
+             in={listview_selectBy_DestinationsVisibility}
+             unmountOnExit
+             classNames='slide'
+             timeout={300}>
              <div
                className='col-med panel-style'
                style={{ minWidth: '200px', padding: '20px 20px 0 20px' }}>
                <Dropdown type='code' output='listview-destinations'/>
              </div>
-            </>)
-          : null
+          </CSSTransition> : null
         }
         {
-          listview_selectByCategoryDestinations && selectedOriginListView
+          selectedOriginListView != null && listview_selectByCategoryDestinations
           ?
-           (<>
+           <CSSTransition
+             in={listview_selectByCategoryDestinations}
+             unmountOnExit
+             classNames='slide'
+             timeout={300}>
              <div
                className='col-med panel-style'
                style={{ minWidth: '200px', padding: '20px 20px 0 20px' }}>
                <Dropdown type='category' output='listview-destinations'/>
              </div>
-            </>)
-          : null
+          </CSSTransition> : null
         }
       </div>
       {
