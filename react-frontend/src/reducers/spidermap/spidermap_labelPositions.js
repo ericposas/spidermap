@@ -1,5 +1,6 @@
 import {
-  SET_LABEL_POSITION_SPIDERMAP
+  SET_LABEL_POSITION_SPIDERMAP,
+  SET_ALL_LABEL_POSITIONS_SPIDERMAP,
 } from '../../constants/spidermap'
 
 const spidermap_labelPositions = (state = {}, action) => {
@@ -13,6 +14,8 @@ const spidermap_labelPositions = (state = {}, action) => {
         }
       }
       break;
+    case SET_ALL_LABEL_POSITIONS_SPIDERMAP:
+      return action.payload
     default:
       return state
   }

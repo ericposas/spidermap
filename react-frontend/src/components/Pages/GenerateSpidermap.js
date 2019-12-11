@@ -7,7 +7,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import DownloadImagePanel from '../Views/DownloadImagePanel'
 import { SET_TIMEZONE_LATLONGS } from '../../constants/constants'
-import { SET_LABEL_POSITION_SPIDERMAP, SET_LABEL_DISPLAY_TYPE_SPIDERMAP } from '../../constants/spidermap'
+import {
+  SET_LABEL_POSITION_SPIDERMAP, SET_LABEL_DISPLAY_TYPE_SPIDERMAP,
+  SET_ALL_LABEL_POSITIONS_SPIDERMAP, SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP,
+} from '../../constants/spidermap'
 import mapSettings from '../../mapSettings.config'
 import { CSSTransition } from 'react-transition-group'
 import axios from 'axios'
@@ -58,6 +61,25 @@ const GenerateSpidermap = ({ ...props }) => {
   const labelPositions = useSelector(state => state.spidermap_labelPositions)
 
   const labelDisplayTypes = useSelector(state => state.spidermap_labelDisplayTypes)
+
+  const changeAllLabelPositions = e => {
+    let val = e.target.value
+    let obj = {}
+    let codes = destinations.concat(origin)
+                  .map(loc => loc.code)
+    codes.forEach(code => obj[code] = { position: val })
+    dispatch({ type: SET_ALL_LABEL_POSITIONS_SPIDERMAP, payload: obj })
+  }
+
+  const changeAllLabelDisplayTypes = e => {
+    let val = e.target.value
+    let obj = {}
+    let codes = destinations.concat(origin)
+                  .map(loc => loc.code)
+    codes.forEach(code => obj[code] = { displayType: val })
+    dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP, payload: obj })
+    console.log(obj)
+  }
 
   useEffect(() => {
     if (origin == null) {
@@ -167,6 +189,29 @@ const GenerateSpidermap = ({ ...props }) => {
           height:'100vh',
           backgroundColor: '#fff',
         }}>
+        <div style={{ position: 'absolute' }}>
+          <div style={{ display: 'inline-block' }}>
+            <div>Change all labels</div>
+            <div>Position</div>
+            <select
+              onChange={changeAllLabelPositions}>
+              <option value='top'>Top</option>
+              <option value='right'>Right</option>
+              <option value='bottom'>Bottom</option>
+              <option value='left'>Left</option>
+            </select>
+          </div>
+          <div style={{ display: 'inline-block' }}>
+            <div>Display</div>
+            <select
+              onChange={changeAllLabelDisplayTypes}>
+              <option value='full'>Full</option>
+              <option value='region'>Region</option>
+              <option value='city'>City</option>
+              <option value='code'>Code</option>
+            </select>
+          </div>
+        </div>
         <svg
           className='svg-map-area'
           width={ downloadingPDF ? 800 : (innerHeight * 1.25) }
@@ -308,18 +353,14 @@ const GenerateSpidermap = ({ ...props }) => {
                       )
                     }
                     width={
-                      document.getElementById(`destination-${ap.code}-label`)
-                      ?
-                        document.getElementById(`destination-${ap.code}-label`).getBBox().width
-                      :
-                        100
+                      document.getElementById(`destination-${ap.code}-label`) && document.getElementById(`destination-${ap.code}-label`).getBBox
+                      ? document.getElementById(`destination-${ap.code}-label`).getBBox().width
+                      : 100
                     }
                     height={
-                      document.getElementById(`destination-${ap.code}-label`)
-                      ?
-                        document.getElementById(`destination-${ap.code}-label`).getBBox().height
-                      :
-                        11
+                      document.getElementById(`destination-${ap.code}-label`) && document.getElementById(`destination-${ap.code}-label`).getBBox
+                      ? document.getElementById(`destination-${ap.code}-label`).getBBox().height
+                      : 11
                     }
                     fill='#fff'></rect>
                     <text

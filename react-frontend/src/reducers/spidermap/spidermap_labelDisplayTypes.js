@@ -1,5 +1,6 @@
 import {
-  SET_LABEL_DISPLAY_TYPE_SPIDERMAP
+  SET_LABEL_DISPLAY_TYPE_SPIDERMAP,
+  SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP,
 } from '../../constants/spidermap'
 
 const spidermap_labelDisplayTypes = (state = {}, action) => {
@@ -13,6 +14,8 @@ const spidermap_labelDisplayTypes = (state = {}, action) => {
         }
       }
       break;
+    case SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP:
+      return action.payload
     default:
       return state
   }

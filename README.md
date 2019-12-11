@@ -10,11 +10,8 @@
   - Add "Change all Labels" to a certain format option (full, city, code, etc.) at top of maps pages
 
 
-  - Slide Transitions:
-    - Add slide-in transitions to all UI panels
-
-
   - Map Labels Context Menu
+    - Change to component state to use redux global state
     - Create a way to save label positions for the map in DB
 
 
