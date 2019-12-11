@@ -23,6 +23,7 @@ import {
   CLEAR_ORIGIN_LOCATIONS_POINTMAP,
   SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE,
 } from '../../constants/pointmap'
+import { CSSTransition } from 'react-transition-group'
 
 const Pointmap = ({ ...props }) => {
 
@@ -64,9 +65,7 @@ const Pointmap = ({ ...props }) => {
 
   const [buttonContainerBottom, setButtonContainerBottom] = useState(0)
 
-  const computeButtonContainerBottom = () => {
-    return getComputedStyle(uploadButtonRef.current, null).getPropertyValue('height')
-  }
+  const computeButtonContainerBottom = () => getComputedStyle(uploadButtonRef.current, null).getPropertyValue('height')
 
   const handleGenerateMapClick = () => {
     if (Object.keys(selectedDestinationsPointmap).length > 0) {
@@ -172,42 +171,56 @@ const Pointmap = ({ ...props }) => {
               </div>
             </div>
           </div>
-        {
-          pointmap_destinationPanelVisibility
-          ?
-           (<div className='col-med'>
+        <CSSTransition
+          in={pointmap_destinationPanelVisibility}
+          unmountOnExit
+          classNames='slide'
+          timeout={300}>
+          <div className='col-med'>
              <SelectionView type='pointmap-destinations'/>
-           </div>) : null
-        }
+          </div>
+        </CSSTransition>
         {
           pointmap_selectByCodeOrigins
           ?
-           (<>
-             <div className='col-med panel-style'
-               style={{
-                 minWidth:'300px', height:'100vh',
-                 padding: '20px 20px 0 20px',
-               }}>
-               <Dropdown type='code' output='pointmap-origins'/>
-             </div>
-           </>) : null
+            <CSSTransition
+              in={pointmap_selectBy_OriginsVisibility}
+              unmountOnExit
+              classNames='slide'
+              timeout={300}>
+              <div className='col-med panel-style'
+                style={{
+                  minWidth:'300px', height:'100vh',
+                  padding: '20px 20px 0 20px',
+                }}>
+                <Dropdown type='code' output='pointmap-origins'/>
+              </div>
+            </CSSTransition> : null
         }
         {
           pointmap_selectByCategoryOrigins
           ?
-           (<>
-             <div className='col-med panel-style' style={{
-                 minWidth:'300px', height:'100vh',
-                 padding: '20px 20px 0 20px',
-               }}>
-               <Dropdown type='category' output='pointmap-origins'/>
-             </div>
-           </>) : null
+          <CSSTransition
+            in={pointmap_selectByCategoryOrigins}
+            unmountOnExit
+            classNames='slide'
+            timeout={300}>
+            <div className='col-med panel-style' style={{
+                minWidth:'300px', height:'100vh',
+                padding: '20px 20px 0 20px',
+              }}>
+              <Dropdown type='category' output='pointmap-origins'/>
+            </div>
+          </CSSTransition> : null
         }
         {
           pointmap_selectByCodeDestinations
           ?
-           (<>
+          <CSSTransition
+            in={pointmap_selectBy_DestinationsVisibility}
+            unmountOnExit
+            classNames='slide'
+            timeout={300}>
              <div
                className='col-med panel-style'
                style={{
@@ -216,13 +229,16 @@ const Pointmap = ({ ...props }) => {
                }}>
                <Dropdown type='code' output='pointmap-destinations'/>
              </div>
-            </>)
-          : null
-        }
-        {
-          pointmap_selectByCategoryDestinations
-          ?
-           (<>
+           </CSSTransition> : null
+         }
+         {
+           pointmap_selectByCategoryDestinations
+           ?
+           <CSSTransition
+             in={pointmap_selectByCategoryDestinations}
+             unmountOnExit
+             classNames='slide'
+             timeout={300}>
              <div
                className='col-med panel-style'
                style={{
@@ -231,9 +247,8 @@ const Pointmap = ({ ...props }) => {
                }}>
                <Dropdown type='category' output='pointmap-destinations'/>
              </div>
-            </>)
-          : null
-        }
+           </CSSTransition> : null
+         }
       </div>
       {
         showUploadCSVModal

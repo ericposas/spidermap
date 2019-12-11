@@ -2,11 +2,10 @@ import React from 'react'
 import { useDispatch, batch } from 'react-redux'
 import {
   SHOW_SELECT_BY_CODE_DESTINATIONS_POINTMAP,
+  HIDE_SELECT_BY_CODE_DESTINATIONS_POINTMAP,
+  SHOW_SELECT_BY_CATEGORY_DESTINATIONS_POINTMAP,
   HIDE_SELECT_BY_CATEGORY_DESTINATIONS_POINTMAP,
-  HIDE_SELECT_BY_CATEGORY_ORIGINS_POINTMAP,
-  HIDE_SELECT_BY_CODE_ORIGINS_POINTMAP,
-  // SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_POINTMAP,
-  // HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_POINTMAP,
+  SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_POINTMAP,
 } from '../../constants/pointmap'
 import './buttons.scss'
 
@@ -19,12 +18,11 @@ const AddEditDestinationsButton_Pointmap = ({ ...props }) => {
       className='add-edit-button'
       onClick={() => {
         batch(() => {
-          dispatch({ type: SHOW_SELECT_BY_CODE_DESTINATIONS_POINTMAP })
           dispatch({ type: HIDE_SELECT_BY_CATEGORY_DESTINATIONS_POINTMAP })
-          dispatch({ type: HIDE_SELECT_BY_CATEGORY_ORIGINS_POINTMAP })
-          dispatch({ type: HIDE_SELECT_BY_CODE_ORIGINS_POINTMAP })
-          // dispatch({ type: SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_POINTMAP })
-          // dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_POINTMAP })
+          setTimeout(() => {
+            dispatch({ type: SHOW_SELECT_BY_CODE_DESTINATIONS_POINTMAP })
+            dispatch({ type: SHOW_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_POINTMAP })
+          }, 50)
         })
       }}>
         <div className='plus-symbol'>
