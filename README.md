@@ -7,11 +7,7 @@
   - Try to match Spider Map to AA's radial example
 
 
-  - Add "Change all Labels" to a certain format option (full, city, code, etc.) at top of maps pages
-
-
   - Map Labels Context Menu
-    - Change to component state to use redux global state
     - Create a way to save label positions for the map in DB
 
 
