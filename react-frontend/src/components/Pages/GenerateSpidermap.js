@@ -11,7 +11,8 @@ import {
   SET_LABEL_POSITION_SPIDERMAP, SET_LABEL_DISPLAY_TYPE_SPIDERMAP,
   SET_ALL_LABEL_POSITIONS_SPIDERMAP, SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP,
 } from '../../constants/spidermap'
-import ChangeAllLabelsMenu from '../Views/ChangeAllLabelsMenu'
+import ChangeAllLabelsMenu from '../Menus/ChangeAllLabelsMenu'
+import MapContextMenu from '../Menus/MapContextMenu'
 import mapSettings from '../../mapSettings.config'
 import { CSSTransition } from 'react-transition-group'
 import axios from 'axios'
@@ -712,71 +713,14 @@ const GenerateSpidermap = ({ ...props }) => {
             })
           }
         </svg>
-        <CSSTransition
-          unmountOnExit
-          in={showContextMenu}
-          timeout={300}
-          classNames='alert'>
-              <div
-              className='context-menu-container'
-              style={{
-                transform: `translateX(${contextMenuPosition.x+'px'}) translateY(${contextMenuPosition.y+'px'})`,
-              }}>
-              <div
-                onClick={() => setShowContextMenu(false)}
-                style={{
-                  position: 'absolute',
-                  top: 0, right: '4px',
-                  cursor: 'pointer',
-                }}>
-                &#10006;
-              </div>
-              <div className='context-menu-title'>
-                {contextMenuProps.title}: Context Menu
-              </div>
-              <div
-                className='context-menu-item-list'>
-                <div className='context-menu-label-position-type-title'>Set Label Position</div>
-                <div className='context-menu-label-position-type-option'
-                  onClick={
-                  () => dispatch({ type: SET_LABEL_POSITION_SPIDERMAP, which: contextMenuProps.title, position: 'top' })
-                }>Top</div>
-              <div className='context-menu-label-position-type-option'
-                onClick={
-                  () => dispatch({ type: SET_LABEL_POSITION_SPIDERMAP, which: contextMenuProps.title, position: 'right' })
-                }>Right</div>
-              <div className='context-menu-label-position-type-option'
-                onClick={
-                  () => dispatch({ type: SET_LABEL_POSITION_SPIDERMAP, which: contextMenuProps.title, position: 'bottom' })
-                }>Bottom</div>
-              <div className='context-menu-label-position-type-option'
-                onClick={
-                  () => dispatch({ type: SET_LABEL_POSITION_SPIDERMAP, which: contextMenuProps.title, position: 'left' })
-                }>Left</div>
-              <div className='context-menu-label-display-type-title'>Set Label Display Type</div>
-              <div className='context-menu-label-display-type-option'
-                onClick={
-                  () => dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: contextMenuProps.title, displayType: 'full' })
-                }>Full</div>
-              <div className='context-menu-label-display-type-option'
-                onClick={
-                  () => dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: contextMenuProps.title, displayType: 'region' })
-                }>Region</div>
-              <div className='context-menu-label-display-type-option'
-                onClick={
-                  () => dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: contextMenuProps.title, displayType: 'city' })
-                }>City</div>
-              <div className='context-menu-label-display-type-option'
-                onClick={
-                  () => dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: contextMenuProps.title, displayType: 'code' })
-                }>Code</div>
-              <div className='context-menu-label-display-type-option'
-                onClick={
-                  () => dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: contextMenuProps.title, displayType: 'city-and-code' })
-                }>City, Code</div>
-              </div>
-            </div>
-        </CSSTransition>
+        <MapContextMenu
+          showContextMenu={showContextMenu}
+          setShowContextMenu={setShowContextMenu}
+          contextMenuProps={contextMenuProps}
+          contextMenuPosition={contextMenuPosition}
+          labelDisplayTypeAction={SET_LABEL_DISPLAY_TYPE_SPIDERMAP}
+          labelPositionAction={SET_LABEL_POSITION_SPIDERMAP}
+          />
       </div>
     </div>
     : null

@@ -37,6 +37,8 @@ import displayMapBG from './displayMapBG'
 import timezoneLatLongs from './timezoneLatLongs'
 import spidermap_labelDisplayTypes from './spidermap/spidermap_labelDisplayTypes'
 import spidermap_labelPositions from './spidermap/spidermap_labelPositions'
+import pointmap_labelDisplayTypes from './pointmap/pointmap_labelDisplayTypes'
+import pointmap_labelPositions from './pointmap/pointmap_labelPositions'
 
 const rootReducer = combineReducers({
   lastLocation,
@@ -51,6 +53,7 @@ const rootReducer = combineReducers({
   pointmap_selectByCodeDestinations, pointmap_selectByCategoryDestinations,
   pointmap_selectBy_DestinationsVisibility, pointmap_selectBy_OriginsVisibility,
   pointmap_destinationPanelVisibility,
+  pointmap_labelPositions, pointmap_labelDisplayTypes,
   selectedOriginSpidermap,
   selectedDestinationsSpidermap, spidermap_selectByCodeDestinations,
   spidermap_selectByCategoryDestinations, spidermap_selectBy_DestinationsVisibility,

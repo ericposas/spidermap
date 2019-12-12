@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import { TweenLite } from 'gsap'
+// import { TweenLite } from 'gsap'
 import './generate-map.scss'
 import url from '../../url'
 import { getUser } from '../../sessionStore'
@@ -9,6 +9,12 @@ import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import DownloadImagePanel from '../Views/DownloadImagePanel'
 // import DownloadingFile_Modal from '../Modals/DownloadingFile_Modal'
+import {
+  SET_LABEL_POSITION_POINTMAP, SET_LABEL_DISPLAY_TYPE_POINTMAP,
+  SET_ALL_LABEL_POSITIONS_POINTMAP, SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP,
+} from '../../constants/pointmap'
+import ChangeAllLabelsMenu from '../Menus/ChangeAllLabelsMenu'
+import MapContextMenu from '../Menus/MapContextMenu'
 import mapSettings from '../../mapSettings.config'
 import { CSSTransition } from 'react-transition-group'
 
@@ -57,9 +63,9 @@ const GeneratePointmap = ({ ...props }) => {
 
   const [contextMenuProps, setContextMenuProps] = useState({})
 
-  const [labelPositions, setLabelPositions] = useState({})
+  const labelPositions = useSelector(state => state.pointmap_labelPositions)
 
-  const [labelDisplayTypes, setLabelDisplayTypes] = useState({})
+  const labelDisplayTypes = useSelector(state => state.pointmap_labelDisplayTypes)
 
   useEffect(() => {
     if (origins == null) props.history.push('/pointmap')
@@ -73,6 +79,34 @@ const GeneratePointmap = ({ ...props }) => {
       setListedLegalLines(legal)
     }
   }, [])
+
+  const processCodes = () => {
+    let _destinations = []
+    Object.keys(destinations).forEach(origin => {
+      _destinations = _destinations.concat(destinations[origin])
+    })
+    let locations = origins.concat(_destinations)
+    let codes = locations.map(loc => loc.code)
+    return codes
+  }
+
+  const changeAllLabelPositions = e => {
+    let val = e.target.value
+    let obj = {}
+    let codes = processCodes()
+    codes.forEach(code => obj[code] = { position: val })
+    dispatch({ type: SET_ALL_LABEL_POSITIONS_POINTMAP, payload: obj })
+  }
+
+  const changeAllLabelDisplayTypes = e => {
+    let val = e.target.value
+    let obj = {}
+    let codes = processCodes()
+    codes.forEach(code => obj[code] = { displayType: val })
+    dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP, payload: obj })
+    setShowContextMenu(true)
+    setTimeout(() => setShowContextMenu(false), 10)
+  }
 
   const getX = long => {
     if (!longs.includes(long)) {
@@ -164,6 +198,9 @@ const GeneratePointmap = ({ ...props }) => {
           height:'100vh',
           backgroundColor: '#fff',
         }}>
+        <ChangeAllLabelsMenu
+          changeAllLabelPositions={changeAllLabelPositions}
+          changeAllLabelDisplayTypes={changeAllLabelDisplayTypes}/>
         <svg
           className='svg-map-area'
           width={ (innerHeight * 1.25) }
@@ -206,7 +243,7 @@ const GeneratePointmap = ({ ...props }) => {
                           ref={labelsRef.current[labelCount++]}
                           x={
                               getX(ap.longitude) + (
-                                labelPositions && labelPositions[ap.code]
+                                labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`) && document.getElementById(`destination-${ap.code}-label`).getBBox
                                 ?
                                   labelPositions[ap.code].position == 'right'
                                   ? 10
@@ -221,10 +258,7 @@ const GeneratePointmap = ({ ...props }) => {
                                         ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
                                         : 0
 
-                                :
-                                  document.getElementById(`destination-${ap.code}-label`)
-                                  ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
-                                  : -((ap.code + ap.city + ap.region) * .5)
+                                : 10
                               )
                             }
                           y={
@@ -244,7 +278,7 @@ const GeneratePointmap = ({ ...props }) => {
                                       ? -10
                                       : 0
 
-                              : -10
+                              : 3
                             )
                           }
                           style={{
@@ -282,7 +316,7 @@ const GeneratePointmap = ({ ...props }) => {
                           ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
                           x={
                               getX(ap.longitude) + (
-                                labelPositions && labelPositions[ap.code]
+                                labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`) && document.getElementById(`destination-${ap.code}-label`).getBBox
                                 ?
                                   labelPositions[ap.code].position == 'right'
                                   ? 10
@@ -297,10 +331,7 @@ const GeneratePointmap = ({ ...props }) => {
                                         ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
                                         : 0
 
-                                :
-                                  document.getElementById(`destination-${ap.code}-label`)
-                                  ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
-                                  : -((ap.code + ap.city + ap.region) * .5)
+                                : 10
                               )
                             }
                           y={
@@ -320,29 +351,25 @@ const GeneratePointmap = ({ ...props }) => {
                                       ? -19
                                       : 0
 
-                              : -19
+                              : -4
                             )
                           }
                           width={
-                            document.getElementById(`destination-${ap.code}-label`)
-                            ?
-                              document.getElementById(`destination-${ap.code}-label`).getBBox().width
-                            :
-                              100
+                            document.getElementById(`destination-${ap.code}-label`) && document.getElementById(`destination-${ap.code}-label`).getBBox
+                            ? document.getElementById(`destination-${ap.code}-label`).getBBox().width
+                            : 100
                           }
                           height={
-                            document.getElementById(`destination-${ap.code}-label`)
-                            ?
-                              document.getElementById(`destination-${ap.code}-label`).getBBox().height
-                            :
-                              10
+                            document.getElementById(`destination-${ap.code}-label`) && document.getElementById(`destination-${ap.code}-label`).getBBox
+                            ? document.getElementById(`destination-${ap.code}-label`).getBBox().height
+                            : 10
                           }
                           fill='#fff'></rect>
                           <text
                             id={`destination-${ap.code}-label-double`}
                             x={
                                 getX(ap.longitude) + (
-                                  labelPositions && labelPositions[ap.code]
+                                  labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`) && document.getElementById(`destination-${ap.code}-label`).getBBox
                                   ?
                                     labelPositions[ap.code].position == 'right'
                                     ? 10
@@ -357,10 +384,7 @@ const GeneratePointmap = ({ ...props }) => {
                                           ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
                                           : 0
 
-                                  :
-                                    document.getElementById(`destination-${ap.code}-label`)
-                                    ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
-                                    : -((ap.code + ap.city + ap.region) * .5)
+                                  : 10
                                 )
                               }
                             y={
@@ -380,7 +404,7 @@ const GeneratePointmap = ({ ...props }) => {
                                         ? -10
                                         : 0
 
-                                : -10
+                                : 3
                               )
                             }
                             style={{
@@ -454,7 +478,7 @@ const GeneratePointmap = ({ ...props }) => {
                       ref={labelsRef.current[labelCount++]}
                       x={
                           getX(ap.longitude) + (
-                            labelPositions && labelPositions[ap.code]
+                            labelPositions && labelPositions[ap.code] && document.getElementById(`origin-${ap.code}-label`) && document.getElementById(`origin-${ap.code}-label`).getBBox
                             ?
                               labelPositions[ap.code].position == 'right'
                               ? 10
@@ -469,10 +493,7 @@ const GeneratePointmap = ({ ...props }) => {
                                     ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
                                     : 0
 
-                            :
-                              document.getElementById(`origin-${ap.code}-label`)
-                              ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
-                              : -((ap.code + ap.city + ap.region) * .5)
+                            : 10
                           )
                         }
                       y={
@@ -492,7 +513,7 @@ const GeneratePointmap = ({ ...props }) => {
                                   ? -10
                                   : 0
 
-                          : -10
+                          : 3
                         )
                       }
                       style={{
@@ -530,7 +551,7 @@ const GeneratePointmap = ({ ...props }) => {
                       ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
                       x={
                           getX(ap.longitude) + (
-                            labelPositions && labelPositions[ap.code]
+                            labelPositions && labelPositions[ap.code] && document.getElementById(`origin-${ap.code}-label`) && document.getElementById(`origin-${ap.code}-label`).getBBox
                             ?
                               labelPositions[ap.code].position == 'right'
                               ? 10
@@ -545,10 +566,7 @@ const GeneratePointmap = ({ ...props }) => {
                                     ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
                                     : 0
 
-                            :
-                              document.getElementById(`origin-${ap.code}-label`)
-                              ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
-                              : -((ap.code + ap.city + ap.region) * .5)
+                            : 10
                           )
                         }
                       y={
@@ -568,29 +586,25 @@ const GeneratePointmap = ({ ...props }) => {
                                   ? -19
                                   : 0
 
-                          : -19
+                          : -6
                         )
                       }
                       width={
-                        document.getElementById(`origin-${ap.code}-label`)
-                        ?
-                          document.getElementById(`origin-${ap.code}-label`).getBBox().width
-                        :
-                          100
+                        document.getElementById(`origin-${ap.code}-label`) && document.getElementById(`origin-${ap.code}-label`).getBBox
+                        ? document.getElementById(`origin-${ap.code}-label`).getBBox().width
+                        : 100
                       }
                       height={
-                        document.getElementById(`origin-${ap.code}-label`)
-                        ?
-                          document.getElementById(`origin-${ap.code}-label`).getBBox().height
-                        :
-                          10
+                        document.getElementById(`origin-${ap.code}-label`) && document.getElementById(`origin-${ap.code}-label`).getBBox
+                        ? document.getElementById(`origin-${ap.code}-label`).getBBox().height
+                        : 10
                       }
                       fill='#fff'></rect>
                       <text
                         id={`origin-${ap.code}-label-double`}
                         x={
                             getX(ap.longitude) + (
-                              labelPositions && labelPositions[ap.code]
+                              labelPositions && labelPositions[ap.code] && document.getElementById(`origin-${ap.code}-label`) && document.getElementById(`origin-${ap.code}-label`).getBBox
                               ?
                                 labelPositions[ap.code].position == 'right'
                                 ? 10
@@ -605,10 +619,7 @@ const GeneratePointmap = ({ ...props }) => {
                                       ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
                                       : 0
 
-                              :
-                                document.getElementById(`origin-${ap.code}-label`)
-                                ? -(document.getElementById(`origin-${ap.code}-label`).getBBox().width * .5)
-                                : -((ap.code + ap.city + ap.region) * .5)
+                              : 10
                             )
                           }
                         y={
@@ -628,7 +639,7 @@ const GeneratePointmap = ({ ...props }) => {
                                     ? -10
                                     : 0
 
-                            : -10
+                            : 3
                           )
                         }
                         style={{
@@ -697,115 +708,14 @@ const GeneratePointmap = ({ ...props }) => {
             })
           }
         </svg>
-        <CSSTransition
-          unmountOnExit
-          in={showContextMenu}
-          timeout={300}
-          classNames='alert'>
-              <div
-              className='context-menu-container'
-              style={{
-                transform: `translateX(${contextMenuPosition.x+'px'}) translateY(${contextMenuPosition.y+'px'})`,
-              }}>
-              <div
-                onClick={() => setShowContextMenu(false)}
-                style={{
-                  position: 'absolute',
-                  top: 0, right: '4px',
-                  cursor: 'pointer',
-                }}>
-                &#10006;
-              </div>
-              <div className='context-menu-title'>
-                {contextMenuProps.title}: Context Menu
-              </div>
-              <div
-                className='context-menu-item-list'>
-                <div className='context-menu-label-position-type-title'>Set Label Position</div>
-                <div className='context-menu-label-position-type-option' onClick={
-                  () => {
-                    setLabelPositions({
-                      ...labelPositions,
-                      [contextMenuProps.title]: {
-                        position: 'top'
-                      }
-                    })
-                  }
-                }>Top</div>
-              <div className='context-menu-label-position-type-option' onClick={
-                  () => {
-                    setLabelPositions({
-                      ...labelPositions,
-                      [contextMenuProps.title]: {
-                        position: 'right'
-                      }
-                    })
-                  }
-                }>Right</div>
-              <div className='context-menu-label-position-type-option' onClick={
-                  () => {
-                    setLabelPositions({
-                      ...labelPositions,
-                      [contextMenuProps.title]: {
-                        position: 'bottom'
-                      }
-                    })
-                  }
-                }>Bottom</div>
-              <div className='context-menu-label-position-type-option' onClick={
-                  () => {
-                    setLabelPositions({
-                      ...labelPositions,
-                      [contextMenuProps.title]: {
-                        position: 'left'
-                      }
-                    })
-                  }
-                }>Left</div>
-              <div className='context-menu-label-display-type-title'>Set Label Display Type</div>
-              <div className='context-menu-label-display-type-option' onClick={
-                  () => {
-                    setLabelDisplayTypes({
-                      ...labelDisplayTypes,
-                      [contextMenuProps.title]: {
-                        displayType: 'full'
-                      }
-                    })
-                  }
-                }>Full</div>
-              <div className='context-menu-label-display-type-option' onClick={
-                  () => {
-                    setLabelDisplayTypes({
-                      ...labelDisplayTypes,
-                      [contextMenuProps.title]: {
-                        displayType: 'region'
-                      }
-                    })
-                  }
-                }>Region</div>
-              <div className='context-menu-label-display-type-option' onClick={
-                  () => {
-                    setLabelDisplayTypes({
-                      ...labelDisplayTypes,
-                      [contextMenuProps.title]: {
-                        displayType: 'city'
-                      }
-                    })
-                  }
-                }>City</div>
-              <div className='context-menu-label-display-type-option' onClick={
-                  () => {
-                    setLabelDisplayTypes({
-                      ...labelDisplayTypes,
-                      [contextMenuProps.title]: {
-                        displayType: 'code'
-                      }
-                    })
-                  }
-                }>Code</div>
-              </div>
-            </div>
-        </CSSTransition>
+        <MapContextMenu
+          showContextMenu={showContextMenu}
+          setShowContextMenu={setShowContextMenu}
+          contextMenuProps={contextMenuProps}
+          contextMenuPosition={contextMenuPosition}
+          labelDisplayTypeAction={SET_LABEL_DISPLAY_TYPE_POINTMAP}
+          labelPositionAction={SET_LABEL_POSITION_POINTMAP}
+          />
       </div>
     </div>
   </>)
