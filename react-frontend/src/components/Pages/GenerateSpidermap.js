@@ -58,6 +58,8 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const [contextMenuProps, setContextMenuProps] = useState({})
 
+  const [showChangeAllLabelsMenu, setShowChangeAllLabelsMenu] = useState(false)
+
   const labelPositions = useSelector(state => state.spidermap_labelPositions)
 
   const labelDisplayTypes = useSelector(state => state.spidermap_labelDisplayTypes)
@@ -78,7 +80,8 @@ const GenerateSpidermap = ({ ...props }) => {
                   .map(loc => loc.code)
     codes.forEach(code => obj[code] = { displayType: val })
     dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP, payload: obj })
-    console.log(obj)
+    setShowContextMenu(true)
+    setTimeout(() => setShowContextMenu(false), 10)
   }
 
   useEffect(() => {
@@ -110,7 +113,7 @@ const GenerateSpidermap = ({ ...props }) => {
     }
     linearScaleX = d3.scaleLinear()
                      .domain([longs[0], longs[longs.length-1]])
-                     .range([svgMargin, (innerHeight * 1.15) - svgMargin])
+                     .range([svgMargin, (innerHeight * 1.15)])
 
     return linearScaleX(long)
   }
@@ -189,27 +192,62 @@ const GenerateSpidermap = ({ ...props }) => {
           height:'100vh',
           backgroundColor: '#fff',
         }}>
-        <div style={{ position: 'absolute' }}>
-          <div style={{ display: 'inline-block' }}>
-            <div>Change all labels</div>
-            <div>Position</div>
-            <select
-              onChange={changeAllLabelPositions}>
-              <option value='top'>Top</option>
-              <option value='right'>Right</option>
-              <option value='bottom'>Bottom</option>
-              <option value='left'>Left</option>
-            </select>
-          </div>
-          <div style={{ display: 'inline-block' }}>
-            <div>Display</div>
-            <select
-              onChange={changeAllLabelDisplayTypes}>
-              <option value='full'>Full</option>
-              <option value='region'>Region</option>
-              <option value='city'>City</option>
-              <option value='code'>Code</option>
-            </select>
+        <div style={{
+            position: 'absolute', right: 0,
+            border: showChangeAllLabelsMenu ? '1px solid #999' : 'none', backgroundColor: '#fff',
+            borderRadius: '2px', padding: '4px'
+          }}>
+          {
+            showChangeAllLabelsMenu
+            ?
+              <div
+                onClick={() => setShowChangeAllLabelsMenu(false)}
+                style={{
+                  textDecoration: 'underline', cursor: 'pointer',
+                  backgroundColor: '#fff', fontSize: '.6rem',
+                  float: 'right'
+                }}>
+                <div>collapse menu</div>
+              </div>
+            :
+              <div
+                onClick={() => setShowChangeAllLabelsMenu(true)}
+                style={{
+                  textDecoration: 'underline', cursor: 'pointer',
+                  backgroundColor: '#fff', fontSize: '.6rem',
+                }}>
+                <div>change all labels</div>
+              </div>
+          }
+          <div style={{ display: 'inline-block', position: 'relative' }}>
+            {
+              showChangeAllLabelsMenu
+              ?
+              <>
+                <div>Change all labels</div>
+                <div style={{ display: 'inline-block' }}>
+                  <div>Position</div>
+                  <select
+                    onChange={changeAllLabelPositions}>
+                    <option value='right'>Right</option>
+                    <option value='top'>Top</option>
+                    <option value='bottom'>Bottom</option>
+                    <option value='left'>Left</option>
+                  </select>
+                </div>
+                <div style={{ display: 'inline-block' }}>
+                  <div>Display</div>
+                  <select
+                    onChange={changeAllLabelDisplayTypes}>
+                    <option value='city-and-code'>City, Code</option>
+                    <option value='full'>Full</option>
+                    <option value='region'>Region</option>
+                    <option value='city'>City</option>
+                    <option value='code'>Code</option>
+                  </select>
+                </div>
+              </> : null
+          }
           </div>
         </div>
         <svg
@@ -300,8 +338,14 @@ const GenerateSpidermap = ({ ...props }) => {
                                 ? `${ap.code},
                                    ${ap.city},
                                    ${ap.region}`
-                                : `${ap.city},
-                                   ${ap.code}`
+                                :
+                                  labelDisplayTypes[ap.code].displayType == 'city-and-code'
+                                  ?
+                                    `${ap.city},
+                                     ${ap.code}`
+                                  :
+                                    `${ap.city},
+                                     ${ap.code}`
                         : `${ap.city},
                            ${ap.code}`
                       }
@@ -426,8 +470,14 @@ const GenerateSpidermap = ({ ...props }) => {
                                   ? `${ap.code},
                                      ${ap.city},
                                      ${ap.region}`
-                                  : `${ap.city},
-                                     ${ap.code}`
+                                  :
+                                    labelDisplayTypes[ap.code].displayType == 'city-and-code'
+                                    ?
+                                      `${ap.city},
+                                       ${ap.code}`
+                                    :
+                                      `${ap.city},
+                                       ${ap.code}`
                           : `${ap.city},
                              ${ap.code}`
                         }
@@ -530,8 +580,14 @@ const GenerateSpidermap = ({ ...props }) => {
                                       ? `${origin.code},
                                          ${origin.city},
                                          ${origin.region}`
-                                      : `${origin.city},
-                                         ${origin.code}`
+                                      :
+                                        labelDisplayTypes[origin.code].displayType == 'city-and-code'
+                                        ?
+                                          `${origin.city},
+                                           ${origin.code}`
+                                        :
+                                          `${origin.city},
+                                           ${origin.code}`
                               : `${origin.city},
                                  ${origin.code}`
                             }
@@ -660,8 +716,14 @@ const GenerateSpidermap = ({ ...props }) => {
                                         ? `${origin.code},
                                            ${origin.city},
                                            ${origin.region}`
-                                        : `${origin.city},
-                                           ${origin.code}`
+                                        :
+                                          labelDisplayTypes[origin.code].displayType == 'city-and-code'
+                                          ?
+                                            `${origin.city},
+                                             ${origin.code}`
+                                          :
+                                            `${origin.city},
+                                             ${origin.code}`
                                 : `${origin.city},
                                    ${origin.code}`
                               }
@@ -762,6 +824,10 @@ const GenerateSpidermap = ({ ...props }) => {
                 onClick={
                   () => dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: contextMenuProps.title, displayType: 'code' })
                 }>Code</div>
+              <div className='context-menu-label-display-type-option'
+                onClick={
+                  () => dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: contextMenuProps.title, displayType: 'city-and-code' })
+                }>City, Code</div>
               </div>
             </div>
         </CSSTransition>
