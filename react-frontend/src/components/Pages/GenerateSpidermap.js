@@ -11,6 +11,7 @@ import {
   SET_LABEL_POSITION_SPIDERMAP, SET_LABEL_DISPLAY_TYPE_SPIDERMAP,
   SET_ALL_LABEL_POSITIONS_SPIDERMAP, SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP,
 } from '../../constants/spidermap'
+import ChangeAllLabelsMenu from '../Views/ChangeAllLabelsMenu'
 import mapSettings from '../../mapSettings.config'
 import { CSSTransition } from 'react-transition-group'
 import axios from 'axios'
@@ -58,7 +59,7 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const [contextMenuProps, setContextMenuProps] = useState({})
 
-  const [showChangeAllLabelsMenu, setShowChangeAllLabelsMenu] = useState(false)
+  // const [showChangeAllLabelsMenu, setShowChangeAllLabelsMenu] = useState(false)
 
   const labelPositions = useSelector(state => state.spidermap_labelPositions)
 
@@ -192,64 +193,9 @@ const GenerateSpidermap = ({ ...props }) => {
           height:'100vh',
           backgroundColor: '#fff',
         }}>
-        <div style={{
-            position: 'absolute', right: 0,
-            border: showChangeAllLabelsMenu ? '1px solid #999' : 'none', backgroundColor: '#fff',
-            borderRadius: '2px', padding: '4px'
-          }}>
-          {
-            showChangeAllLabelsMenu
-            ?
-              <div
-                onClick={() => setShowChangeAllLabelsMenu(false)}
-                style={{
-                  textDecoration: 'underline', cursor: 'pointer',
-                  backgroundColor: '#fff', fontSize: '.6rem',
-                  float: 'right'
-                }}>
-                <div>collapse menu</div>
-              </div>
-            :
-              <div
-                onClick={() => setShowChangeAllLabelsMenu(true)}
-                style={{
-                  textDecoration: 'underline', cursor: 'pointer',
-                  backgroundColor: '#fff', fontSize: '.6rem',
-                }}>
-                <div>change all labels</div>
-              </div>
-          }
-          <div style={{ display: 'inline-block', position: 'relative' }}>
-            {
-              showChangeAllLabelsMenu
-              ?
-              <>
-                <div>Change all labels</div>
-                <div style={{ display: 'inline-block' }}>
-                  <div>Position</div>
-                  <select
-                    onChange={changeAllLabelPositions}>
-                    <option value='right'>Right</option>
-                    <option value='top'>Top</option>
-                    <option value='bottom'>Bottom</option>
-                    <option value='left'>Left</option>
-                  </select>
-                </div>
-                <div style={{ display: 'inline-block' }}>
-                  <div>Display</div>
-                  <select
-                    onChange={changeAllLabelDisplayTypes}>
-                    <option value='city-and-code'>City, Code</option>
-                    <option value='full'>Full</option>
-                    <option value='region'>Region</option>
-                    <option value='city'>City</option>
-                    <option value='code'>Code</option>
-                  </select>
-                </div>
-              </> : null
-          }
-          </div>
-        </div>
+        <ChangeAllLabelsMenu
+          changeAllLabelPositions={changeAllLabelPositions}
+          changeAllLabelDisplayTypes={changeAllLabelDisplayTypes}/>
         <svg
           className='svg-map-area'
           width={ downloadingPDF ? 800 : (innerHeight * 1.25) }
