@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
-import DownloadImagePanel from '../Views/DownloadImagePanel'
+import DownloadImagePanel from '../Views/DownloadAndSavePanel'
 import '../../images/aa-logo.png'
 import './generate-listview.scss'
 

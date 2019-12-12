@@ -22,6 +22,7 @@ import {
 } from '../../constants/constants'
 import { checkAuth, getUser } from '../../sessionStore'
 import '../../images/save.svg'
+import '../Pages/my-maps.scss'
 import axios from 'axios'
 
 const DownloadImagePanel = ({ ...props }) => {
@@ -47,6 +48,14 @@ const DownloadImagePanel = ({ ...props }) => {
   const selectedDestinationsPointmap = useSelector(state => state.selectedDestinationsPointmap)
 
   const savingFile = useSelector(state => state.savingFile)
+
+  const pointmap_labelPositions = useSelector(state => state.pointmap_labelPositions)
+
+  const pointmap_labelDisplayTypes = useSelector(state => state.pointmap_labelDisplayTypes)
+
+  const spidermap_labelPositions = useSelector(state => state.spidermap_labelPositions)
+
+  const spidermap_labelDisplayTypes = useSelector(state => state.spidermap_labelDisplayTypes)
 
   const [savingMapToDB, setSavingMapToDB] = useState(false)
 
@@ -193,7 +202,7 @@ const DownloadImagePanel = ({ ...props }) => {
                 .catch(err => console.log(err))
     }, 2000)
   }
-  
+
   const downloadListviewImage = (ext) => {
     batch(() => {
       // if (ext == 'png') dispatch({ type: HIDE_MAP_BG })
@@ -236,11 +245,11 @@ const DownloadImagePanel = ({ ...props }) => {
         return [idx].concat(selectedDestinationsPointmap[idx].map(_idx => _idx.code))
       })
       setSavingMapToDB(true)
-      axios.post(endpoint, { type: type, locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+      axios.post(endpoint, { type: type, labels: JSON.stringify({ positions: pointmap_labelPositions, displayTypes: pointmap_labelDisplayTypes }), locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
            .then(response => {
              setSavingMapToDB(false)
              setShowSavedMapToDB_Notification(true)
-             setTimeout(() => setShowSavedMapToDB_Notification(false), 2000)
+             setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
            })
            .catch(err => console.log(err))
     }
@@ -253,11 +262,11 @@ const DownloadImagePanel = ({ ...props }) => {
       type == 'listview' ? arr.push(selectedOriginListView.code) : arr.push(selectedOriginSpidermap.code)
       type == 'listview' ? selectedDestinationsListView.forEach(dest => arr.push(dest.code)) : selectedDestinationsSpidermap.forEach(dest => arr.push(dest.code))
       setSavingMapToDB(true)
-      axios.post(endpoint, { type: type, locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+      axios.post(endpoint, { type: type, labels: JSON.stringify({ positions: spidermap_labelPositions, displayTypes: spidermap_labelDisplayTypes }), locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
            .then(response => {
              setSavingMapToDB(false)
              setShowSavedMapToDB_Notification(true)
-             setTimeout(() => setShowSavedMapToDB_Notification(false), 2000)
+             setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
            })
            .catch(err => console.log(err))
     }
@@ -308,12 +317,28 @@ const DownloadImagePanel = ({ ...props }) => {
             {props.label}
           </div>
           <div
+            className='my-map-option'
             onClick={() => {
               dispatch({ type: LAST_LOCATION, payload: `generate-${type}` })
               props.history.push(`/${type}`)
-            }}
-            style={{ cursor: 'pointer', color: '#006CC4' }}>
-            Edit
+            }}>
+            Edit This Map
+          </div>
+          <div
+            className='my-map-option'
+            onClick={() => {
+              dispatch({ type: LAST_LOCATION, payload: `generate-${type}` })
+              props.history.push(`/my-maps`)
+            }}>
+            To My Saved Maps
+          </div>
+          <div
+            className='my-map-option'
+            onClick={() => {
+              dispatch({ type: LAST_LOCATION, payload: `generate-${type}` })
+              props.history.push(`/global-maps`)
+            }}>
+            To Global Maps
           </div>
           <br/>
           <div

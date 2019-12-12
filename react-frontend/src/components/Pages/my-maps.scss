@@ -1,3 +1,15 @@
+.my-map-option {
+  color: #006CC4;
+  cursor: pointer;
+  transform: translateX(0);
+}
+
+.my-map-option:hover {
+  color: #37ACF4;
+  transform: translateX(2px);
+  transition: transform .25s ease-out, color .25s ease-out;
+}
+
 .map-tile {
   text-align: center;
   font-size: .8rem;

@@ -14,11 +14,15 @@ import {
   REMOVE_ALL_DESTINATIONS_SPIDERMAP,
   SET_ORIGIN_SPIDERMAP,
   SET_DESTINATION_LOCATIONS_SPIDERMAP,
+  SET_ALL_LABEL_POSITIONS_SPIDERMAP,
+  SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP,
 } from '../../constants/spidermap'
 import {
   CLEAR_ORIGIN_LOCATIONS_POINTMAP,
   SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE,
   SET_ORIGIN_LOCATIONS_POINTMAP,
+  SET_ALL_LABEL_POSITIONS_POINTMAP,
+  SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP,
 } from '../../constants/pointmap'
 import {
   SET_ALL_CODES,
@@ -75,13 +79,13 @@ const MyMaps = ({ ...props }) => {
          .then(result => {
            setShowDeletingMapFromDB_Notification(false)
            setShowMapDeleted_Notification(true)
-           setTimeout(() => setShowMapDeleted_Notification(false), 2000)
+           setTimeout(() => setShowMapDeleted_Notification(false), 500)
            setConfirmDeleteModal(false)
            getMyMaps()
          })
          .catch(err => console.log(err))
   }
-
+  
   const deleteMap = id => {
     // show modal before user confirms deletion
     setConfirmDeleteModal(true)
@@ -191,6 +195,33 @@ const MyMaps = ({ ...props }) => {
     props.history.push('/generate-listview')
   }
 
+  const setLabels = (type, data) => {
+    switch (type) {
+      case 'spidermap':
+        setLabelsAndPositionsSpidermap(data)
+        break;
+      case 'pointmap':
+        setLabelsAndPositionsPointmap(data)
+        break;
+      default:
+        setLabelsAndPositionsSpidermap(data)
+    }
+  }
+
+  const setLabelsAndPositionsSpidermap = (data) => {
+    batch(() => {
+      dispatch({ type: SET_ALL_LABEL_POSITIONS_SPIDERMAP, payload: data.positions })
+      dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP, payload: data.displayTypes })
+    })
+  }
+
+  const setLabelsAndPositionsPointmap = (data) => {
+    batch(() => {
+      dispatch({ type: SET_ALL_LABEL_POSITIONS_POINTMAP, payload: data.positions })
+      dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP, payload: data.displayTypes })
+    })
+  }
+
   useEffect(() => {
     populateCodes()
   }, [])
@@ -274,7 +305,10 @@ const MyMaps = ({ ...props }) => {
                             className='x-button-x-symbol-map-tile x-button-x-symbol'>x</div>
                           </div>
                           <div
-                            onClick={() => createMap(myMaps[i].type, JSON.parse(myMaps[i].locations))}
+                            onClick={() => {
+                              createMap(myMaps[i].type, JSON.parse(myMaps[i].locations))
+                              setLabels(myMaps[i].type, JSON.parse(myMaps[i].labels))
+                            }}
                             className='my-map-tile map-tile'
                             style={{}}>
                             <div className='map-tile-type-title'>{ myMaps[i].type.toUpperCase() }</div>

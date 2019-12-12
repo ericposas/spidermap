@@ -5,7 +5,7 @@ import { getUser } from '../../sessionStore'
 import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
-import DownloadImagePanel from '../Views/DownloadImagePanel'
+import DownloadImagePanel from '../Views/DownloadAndSavePanel'
 import mapSettings from '../../mapSettings.config'
 import { CSSTransition } from 'react-transition-group'
 
@@ -100,7 +100,7 @@ const GenerateSpidermap = ({ ...props }) => {
     let bendY = 60
     let cpStartThreshX = .25, cpEndThreshX = .75
     let cpStartThreshY = .25, cpEndThreshY = .75
-    
+
     startX = getX(ap.longitude)
     endX = getX(origin.longitude)
     distanceBetweenX = endX - startX

@@ -5,7 +5,7 @@ import { getUser } from '../../sessionStore'
 import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
-import DownloadImagePanel from '../Views/DownloadImagePanel'
+import DownloadImagePanel from '../Views/DownloadAndSavePanel'
 import { SET_TIMEZONE_LATLONGS } from '../../constants/constants'
 import {
   SET_LABEL_POSITION_SPIDERMAP, SET_LABEL_DISPLAY_TYPE_SPIDERMAP,

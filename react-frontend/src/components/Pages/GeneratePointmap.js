@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
-import DownloadImagePanel from '../Views/DownloadImagePanel'
+import DownloadImagePanel from '../Views/DownloadAndSavePanel'
 // import DownloadingFile_Modal from '../Modals/DownloadingFile_Modal'
 import {
   SET_LABEL_POSITION_POINTMAP, SET_LABEL_DISPLAY_TYPE_POINTMAP,
