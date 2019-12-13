@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import LoginPanel from './components/Login/LoginPanel'
 import SignUp from './components/Login/SignUp'
 import Dashboard from './components/Pages/Dashboard'
@@ -13,8 +14,24 @@ import Upload from './components/Pages/Upload'
 import MyFiles from './components/Pages/MyFiles'
 import MyMaps from './components/Pages/MyMaps'
 import GlobalMaps from './components/Pages/GlobalMaps'
+import { WINDOW_RESIZE, RESIZE_ADDED } from './constants/constants'
 
 const App = ({ ...props }) => {
+
+  const dispatch = useDispatch()
+
+  const windowSize = useSelector(state => state.windowSize)
+
+  const resizeListenerAdded = useSelector(state => state.resizeListenerAdded)
+
+  useEffect(() => {
+    if (resizeListenerAdded == false) {
+      dispatch({ type: RESIZE_ADDED })
+      window.addEventListener('resize', () => {
+        dispatch({ type: WINDOW_RESIZE, payload: { innerWidth, innerHeight } })
+      })
+    }
+  }, [])
 
   return (<>
     <Router>

@@ -35,12 +35,17 @@ import uploadCSVDoneNotification from './uploadCSVDoneNotification'
 import savingFile from './savingFile'
 import displayMapBG from './displayMapBG'
 import timezoneLatLongs from './timezoneLatLongs'
+import windowSize from './windowSize'
+import resizeListenerAdded from './resizeListenerAdded'
 import spidermap_labelDisplayTypes from './spidermap/spidermap_labelDisplayTypes'
 import spidermap_labelPositions from './spidermap/spidermap_labelPositions'
 import pointmap_labelDisplayTypes from './pointmap/pointmap_labelDisplayTypes'
 import pointmap_labelPositions from './pointmap/pointmap_labelPositions'
 
+
 const rootReducer = combineReducers({
+  windowSize,
+  resizeListenerAdded,
   lastLocation,
   allCodesData,
   selectedOriginListView,

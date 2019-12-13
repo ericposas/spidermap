@@ -58,6 +58,12 @@ $blue: #006CC4;
   }
 }
 
+@media screen and (max-height: 650px) {
+  .sign-up-prompt {
+    visibility: hidden;
+  }
+}
+
 html,
 body {
   font-family: AmericanSansLight, Arial;
