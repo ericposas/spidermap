@@ -5,7 +5,7 @@
 #### Programming:
 
   - Try to match Spider Map to AA's radial example
-  
+
 
   - Generate PDF:
     - Clean up PDF export for listview (currently cuts words in half at page break)
@@ -14,19 +14,12 @@
 #### Design:
 
   - Throughout:
-    - Shrink down logo by 25%
     - Use hi-res BG
-    - Add AA fonts
-    - Use AA grey on all fonts (that are black)
-    - Change logo
 
 
   - Login:
     - On input boxes, hide border, add bottom border only
     - "Please sign-in to continue" - change size to half to 75% of current size
-    - Submit button - change to blue button style
-    - Create account button - grey btn style
-    - Align "create account" items to bottom of page
 
 
   - Dashboard:
@@ -47,7 +40,6 @@
     - Alter "Clear list" to be less prominent, text-style button (like "Edit")
     - Widen slightly "Export map" panel
     - File select dropdown -- stylize like mockups
-    - Remove "Save map" icon
 
 
 

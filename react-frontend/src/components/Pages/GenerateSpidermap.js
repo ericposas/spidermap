@@ -259,19 +259,19 @@ const GenerateSpidermap = ({ ...props }) => {
                         labelPositions && labelPositions[ap.code]
                         ?
                           labelPositions[ap.code].position == 'right'
-                          ? 4
+                          ? 3
                           :
                             labelPositions[ap.code].position == 'left'
-                            ? 4
+                            ? 3
                             :
                               labelPositions[ap.code].position == 'bottom'
-                              ? 16
+                              ? 15
                               :
                                 labelPositions[ap.code].position == 'top'
-                                ? -10
+                                ? -9
                                 : 0
 
-                        : 4
+                        : 3
                       )
                     }
                     style={{
@@ -347,7 +347,7 @@ const GenerateSpidermap = ({ ...props }) => {
                               ? 8
                               :
                                 labelPositions[ap.code].position == 'top'
-                                ? -19
+                                ? -16
                                 : 0
 
                         : -4
@@ -361,7 +361,7 @@ const GenerateSpidermap = ({ ...props }) => {
                     height={
                       document.getElementById(`destination-${ap.code}-label`) && document.getElementById(`destination-${ap.code}-label`).getBBox
                       ? document.getElementById(`destination-${ap.code}-label`).getBBox().height
-                      : 11
+                      : 12
                     }
                     fill='#fff'></rect>
                     <text
@@ -391,19 +391,19 @@ const GenerateSpidermap = ({ ...props }) => {
                           labelPositions && labelPositions[ap.code]
                           ?
                             labelPositions[ap.code].position == 'right'
-                            ? 4
+                            ? 3
                             :
                               labelPositions[ap.code].position == 'left'
-                              ? 4
+                              ? 3
                               :
                                 labelPositions[ap.code].position == 'bottom'
-                                ? 16
+                                ? 15
                                 :
                                   labelPositions[ap.code].position == 'top'
-                                  ? -10
+                                  ? -9
                                   : 0
 
-                          : 4
+                          : 3
                         )
                       }
                       style={{
@@ -507,10 +507,10 @@ const GenerateSpidermap = ({ ...props }) => {
                                   ? 3
                                   :
                                     labelPositions[origin.code].position == 'bottom'
-                                    ? 16
+                                    ? 15
                                     :
                                       labelPositions[origin.code].position == 'top'
-                                      ? -10
+                                      ? -9
                                       : 0
 
                               : 3
@@ -580,19 +580,19 @@ const GenerateSpidermap = ({ ...props }) => {
                               labelPositions && labelPositions[origin.code]
                               ?
                                 labelPositions[origin.code].position == 'right'
-                                ? -6
+                                ? -5
                                 :
                                   labelPositions[origin.code].position == 'left'
-                                  ? -6
+                                  ? -5
                                   :
                                     labelPositions[origin.code].position == 'bottom'
                                     ? 8
                                     :
                                       labelPositions[origin.code].position == 'top'
-                                      ? -19
+                                      ? -17
                                       : 0
 
-                              : -6
+                              : -5
                             )
                           }
                           width={
@@ -607,7 +607,7 @@ const GenerateSpidermap = ({ ...props }) => {
                             ?
                               document.getElementById(`origin-${origin.code}-label`).getBBox().height
                             :
-                              10
+                              12
                           }
                           fill='#fff'></rect>
                           <text
@@ -643,10 +643,10 @@ const GenerateSpidermap = ({ ...props }) => {
                                     ? 3
                                     :
                                       labelPositions[origin.code].position == 'bottom'
-                                      ? 16
+                                      ? 15
                                       :
                                         labelPositions[origin.code].position == 'top'
-                                        ? -10
+                                        ? -9
                                         : 0
 
                                 : 3

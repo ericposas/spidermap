@@ -73,7 +73,7 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
       })
     }
   }
-  
+
   const evaluateStyle = () => {
     if (currentlySelectedOriginPointmap == null) {
       return defaultStyle
@@ -102,7 +102,7 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
              className='x-button'
              onClick={removeElementHandler}>
           <div className='x-button-x-symbol'>
-            x
+            &#10005;
           </div>
         </div>
       </div>

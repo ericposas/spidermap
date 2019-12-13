@@ -12,7 +12,7 @@ const DestinationSpidermapElement = ({ ...props }) => {
     clearFilter()
     dispatch({ type: REMOVE_A_DESTINATION_SPIDERMAP, payload: destinationObject })
   }
-  
+
   return (
     <>
       <div>
@@ -22,7 +22,7 @@ const DestinationSpidermapElement = ({ ...props }) => {
           {props.code} - {props.destinationObject.city} - {props.destinationObject.region} &nbsp;
         </div>
         <div className='x-button' style={{display:'inline-block'}} onClick={removeElementHandler}>
-          <div className='x-button-x-symbol'>x</div>
+          <div className='x-button-x-symbol'>&#10005;</div>
         </div>
       </div>
     </>

@@ -27,7 +27,7 @@ const DestinationPointmapElement = ({ ...props }) => {
         </div>
         <div className='x-button' style={{display:'inline-block'}} onClick={removeElementHandler}>
           <div className='x-button-x-symbol'>
-            x
+            &#10005;
           </div>
         </div>
       </div>

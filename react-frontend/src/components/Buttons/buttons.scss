@@ -1,11 +1,16 @@
-$default-button-color: #1B85BF;
-$default-button-text-color: #FFF;
-$plain-button-color: #FFF;
-$plain-button-text-color: #000;
+$default-button-color: #777;
+$default-button-text-color: #fff;
+$plain-button-color: #96A7B0;
+$plain-button-text-color: #fff;
 $aa-blue: #006cc4;
 $aa-light-blue: #37ACF4;
+$aa-grey: #96A7B0;
 $grey: #999;
 $darkgrey: #666;
+
+.logout-text-button:hover {
+  transform: scale(1.05);
+}
 
 .button-default {
   border: none;
@@ -14,14 +19,23 @@ $darkgrey: #666;
   cursor: pointer;
   font-size: 1rem;
   border-radius: 4px;
-  background-color: $default-button-color;
+  background-color: $aa-blue;
 }
 
 .button-plain {
   @extend .button-default;
-  border: 1px solid #CCC;
+  // border: 1px solid #CCC;
   color: $plain-button-text-color;
   background-color: $plain-button-color;
+}
+
+.button-plain:hover,
+.button-default:hover,
+.button-dashboard:hover,
+.button-logout:hover,
+.button-back:hover
+{
+  transform: scale(1.02);
 }
 
 .button-dashboard,
@@ -39,18 +53,24 @@ $darkgrey: #666;
 }
 
 .add-edit-button {
+  font-family: Arial;
   color: $grey;
   background-color: rgba(0, 0, 0, 0);
   border: none;
 }
 
+.plus-symbol:hover {
+  transform: scale(1.1);
+}
+
 .add-edit-button > .plus-symbol {
+  font-family: Arial;
   display: inline-block;
   background-color: #fff;
   border-radius: 20px;
   width: 20px;
   height: 20px;
-  line-height: 14px;
+  line-height: 16px;
   border: 2px solid $aa-blue;
   color: $aa-blue;
   cursor: pointer;
@@ -69,11 +89,16 @@ $darkgrey: #666;
   text-align: center;
 }
 
+.x-button:hover {
+  transform: scale(1.1);
+}
+
 .x-button > .x-button-x-symbol {
   @extend .plus-symbol;
   color: $grey;
   border-color: $grey;
   user-select: none;
+  line-height: 14px;
 }
 
 .select-by-button {
@@ -85,6 +110,10 @@ $darkgrey: #666;
 .check-button {
   border: none;
   background-color: rgba(0,0,0,0);
+}
+
+.check-button-image:hover {
+  transform: scale(1.05);
 }
 
 .check-button-inner {

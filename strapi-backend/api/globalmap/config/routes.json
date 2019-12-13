@@ -2,6 +2,11 @@
   "routes": [
     {
       "method": "GET",
+      "path": "/globalmaps/:id",
+      "handler": "Globalmap.findByUserId"
+    },
+    {
+      "method": "GET",
       "path": "/globalmaps",
       "handler": "Globalmap.find",
       "config": {

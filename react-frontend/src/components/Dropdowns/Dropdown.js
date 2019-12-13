@@ -25,6 +25,8 @@ import axios from 'axios'
 import _ from 'lodash'
 import './dropdown.scss'
 import '../Buttons/buttons.scss'
+import '../../images/checkmark-hi.png'
+import '../../images/checkmark-plain.png'
 // import alphaSort from 'alpha-sort'
 
 const Dropdown = ({ ...props }) => {
@@ -352,11 +354,11 @@ const Dropdown = ({ ...props }) => {
                   className='check-button'
                   onClick={selectionHandler}
                   style={{ margin: '0 0 0 10px', width:'90%' }}>
-                  <div className='check-button-inner'>
-                    <div className='check-button-inner-text'>
-                      √
-                    </div>
-                  </div>
+                  <img
+                    className='check-button-image'
+                    style={{ marginTop: '-40px', width: '80px' }}
+                    src='./img/checkmark-hi.png'
+                    />
                 </button>
               </>)
       }

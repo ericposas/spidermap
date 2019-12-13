@@ -66,7 +66,7 @@ const MyMaps = ({ ...props }) => {
   }
 
   const getMyMaps = (force = false) => {
-    axios.get('/mymaps', { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+    axios.get(`/mymaps/${getUser().user._id}`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
          .then(data => {
            dispatch({ type: SET_MY_MAPS, payload: data.data })
          })
@@ -85,7 +85,7 @@ const MyMaps = ({ ...props }) => {
          })
          .catch(err => console.log(err))
   }
-  
+
   const deleteMap = id => {
     // show modal before user confirms deletion
     setConfirmDeleteModal(true)
@@ -368,9 +368,18 @@ const MyMaps = ({ ...props }) => {
                     </Fragment>
                   )
                 })
-              : <div
+              :
+                <div
                   className='loading-text'
                   style={{ marginLeft: '15px' }}>Loading saved maps...</div>
+            }
+            {
+              myMaps && myMaps.length == 0
+              ?
+                <div
+                  className='loading-text'
+                  style={{ marginLeft: '15px' }}>You haven't created <br/>any maps yet...</div>
+              : null
             }
             <div style={{ paddingBottom: '150px' }}></div>
           </div>

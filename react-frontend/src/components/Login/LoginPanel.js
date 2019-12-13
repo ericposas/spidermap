@@ -111,7 +111,13 @@ const LoginPanel = ({ ...props }) => {
                       }}>
                       <SignIn triggerLoginChange={handleLoginChange}/>
                       <br/>
-                      <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
+                      <div
+                        style={{
+                          position: 'absolute',
+                          bottom: 0
+                        }}>
+                        <SignUpPrompt signUpClickHandler={handleSignUpClick}/>
+                      </div>
                     </div>
                   </>) : ''
               }

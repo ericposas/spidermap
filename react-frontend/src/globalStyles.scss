@@ -36,8 +36,14 @@ $blue: #006CC4;
 
 html,
 body {
-  font-family: 'AmericanSansLight';
+  font-family: AmericanSansLight, Arial;
   width: 200%;
+  color: #777;
+}
+
+input, select, option {
+  font-family: AmericanSansLight, Arial;
+  font-weight: lighter;
 }
 
 .listview-legal-line {

@@ -66,14 +66,14 @@ const GlobalMaps = ({ ...props }) => {
   }
 
   const getGlobalMaps = (force = false) => {
-    axios.get('/globalmaps', { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+    axios.get(`/globalmaps`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
          .then(data => {
            dispatch({ type: SET_GLOBAL_MAPS, payload: data.data })
            if (showMapDeleted_Notification) setShowMapDeleted_Notification(false)
          })
          .catch(err => console.log(err))
   }
-
+  
   const crudDelete = () => {
     setShowDeletingMapFromDB_Notification(true)
     axios.delete(`/globalmaps/${mapIdToDelete}`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
@@ -222,7 +222,7 @@ const GlobalMaps = ({ ...props }) => {
       dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP, payload: data.displayTypes })
     })
   }
-  
+
   useEffect(() => {
     populateCodes()
   }, [])
@@ -370,6 +370,14 @@ const GlobalMaps = ({ ...props }) => {
               : <div
                   className='loading-text'
                   style={{ marginLeft: '15px' }}>Loading Global maps...</div>
+            }
+            {
+              globalMaps && globalMaps.length == 0
+              ?
+                <div
+                  className='loading-text'
+                  style={{ marginLeft: '15px' }}>No global maps<br/> created yet...</div>
+              : null
             }
             <div style={{ paddingBottom: '150px' }}></div>
           </div>

@@ -2,6 +2,11 @@
   "routes": [
     {
       "method": "GET",
+      "path": "/mymaps/:id",
+      "handler": "Mymap.findByUserId"
+    },
+    {
+      "method": "GET",
       "path": "/mymaps",
       "handler": "Mymap.find",
       "config": {

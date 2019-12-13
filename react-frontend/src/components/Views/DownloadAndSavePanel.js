@@ -237,7 +237,7 @@ const DownloadImagePanel = ({ ...props }) => {
       }
     }
   }
-
+  
   const saveListingPointmap = (global = false) => {
     if (selectedDestinationsPointmap) {
       let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
@@ -245,7 +245,7 @@ const DownloadImagePanel = ({ ...props }) => {
         return [idx].concat(selectedDestinationsPointmap[idx].map(_idx => _idx.code))
       })
       setSavingMapToDB(true)
-      axios.post(endpoint, { type: type, labels: JSON.stringify({ positions: pointmap_labelPositions, displayTypes: pointmap_labelDisplayTypes }), locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+      axios.post(endpoint, { belongsto: getUser().user._id, type: type, labels: JSON.stringify({ positions: pointmap_labelPositions, displayTypes: pointmap_labelDisplayTypes }), locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
            .then(response => {
              setSavingMapToDB(false)
              setShowSavedMapToDB_Notification(true)
@@ -262,7 +262,7 @@ const DownloadImagePanel = ({ ...props }) => {
       type == 'listview' ? arr.push(selectedOriginListView.code) : arr.push(selectedOriginSpidermap.code)
       type == 'listview' ? selectedDestinationsListView.forEach(dest => arr.push(dest.code)) : selectedDestinationsSpidermap.forEach(dest => arr.push(dest.code))
       setSavingMapToDB(true)
-      axios.post(endpoint, { type: type, labels: JSON.stringify({ positions: spidermap_labelPositions, displayTypes: spidermap_labelDisplayTypes }), locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+      axios.post(endpoint, { belongsto: getUser().user._id, type: type, labels: JSON.stringify({ positions: spidermap_labelPositions, displayTypes: spidermap_labelDisplayTypes }), locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
            .then(response => {
              setSavingMapToDB(false)
              setShowSavedMapToDB_Notification(true)
@@ -384,9 +384,6 @@ const DownloadImagePanel = ({ ...props }) => {
               style={{ backgroundColor: '#006CC4' }}
               onClick={type == 'listview' || type == 'spidermap' ? saveListing : saveListingPointmap}>
               <span>Save Map</span>
-              <img
-                style={{ margin: '0 0 0 10px', width: '20px' }}
-                src='./img/save.svg'/>
             </button>
             <br/>
             {
@@ -400,9 +397,6 @@ const DownloadImagePanel = ({ ...props }) => {
                 }
                 style={{ backgroundColor: '#004b84' }}>
                 <span>Save Global</span>
-                <img
-                  style={{ margin: '0 0 0 10px', width: '20px' }}
-                  src='./img/save.svg'/>
               </button>)
               : null
             }

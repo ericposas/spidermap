@@ -7,6 +7,7 @@ import DashboardButton from '../Buttons/DashboardButton'
 // import '../../images/american-airlines-new-logo-slash.svg'
 import '../../images/aa-logo-with-subtitle.png'
 import { getUser, checkAuth } from '../../sessionStore'
+import { LAST_LOCATION } from '../../constants/constants'
 import { CLEAR_SELECTED_MENU_ITEM } from '../../constants/menu'
 
 const UserLeftSidePanel = ({ ...props }) => {
@@ -29,7 +30,10 @@ const UserLeftSidePanel = ({ ...props }) => {
                backgroundColor: '#37acf4', width: blueStrip.width+'px'
              }}>
         </div>
-        <div style={{width:panelWidth}}>
+        <div style={{
+            marginTop: '100px',
+            width:panelWidth
+          }}>
           <img
             onClick={() => {
               dispatch({ type: CLEAR_SELECTED_MENU_ITEM })
@@ -37,7 +41,7 @@ const UserLeftSidePanel = ({ ...props }) => {
             }}
             src='./img/aa-logo-with-subtitle.png'
             style={{
-              width: '250px', margin: '0 20px 0 10px',
+              width: '220px', margin: '0 20px 0 25px',
               cursor: 'pointer'
             }} />
           <br/><br/>
@@ -57,13 +61,43 @@ const UserLeftSidePanel = ({ ...props }) => {
               : null
             }
           </div>
+          <div
+            className='logout-text-button'
+            onClick={
+              () => {
+                sessionStorage.removeItem(process.env.APP_NAME)
+                let path = props.history.location.pathname
+                path = path.substr(1, path.length)
+                dispatch({ type: LAST_LOCATION, payload: path })
+                props.history.push('/')
+            }}
+            style={{
+              color: '#777', textAlign: 'center',
+              cursor: 'pointer', fontSize: '.85rem'
+            }}>Log out</div>
           <br/>
-          <div>
-            <DashboardButton/><br/>
-            <BackButton/><br/>
+          <div style={{
+              position: 'relative',
+              marginTop: '40px'
+            }}>
+            <div style={{
+                width: '70%',
+                position: 'absolute',
+                margin: 'auto',
+                left: 0, right: 0
+              }}>
+              <DashboardButton/>
+              <div style={{ paddingBottom: '10px' }}></div>
+              <BackButton/>
+            </div>
             <br/>
             <br/>
-            <LogoutButton/>
+            {/*<div style={{
+                position: 'absolute',
+                bottom: 0, width: '200px'
+              }}>
+              <LogoutButton/>
+            </div>*/}
           </div>
         </div>
       </div>

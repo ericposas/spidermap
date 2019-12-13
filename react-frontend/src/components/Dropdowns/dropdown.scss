@@ -14,10 +14,11 @@ option:checked {
 }
 
 option:checked::after {
-  content: '√';
+  // content: url('./img/checkmark-plain.png');
   display: block;
   color: $dark-blue;
   float: right;
+  font-family: Arial, Calibri, sans-serif;
 }
 
 .multi {

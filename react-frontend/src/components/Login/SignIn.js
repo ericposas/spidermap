@@ -73,13 +73,13 @@ const SignIn = ({ ...props }) => {
     <>
       { successModalVis ? <><div className='modal-success' style={{ margin: '0 0 0 -17.5%' }}>Sign-in successful!</div></> : '' }
       { failModalVis ? <><div className='modal-errored' style={{ margin: '0 0 0 -17.5%' }}>Sign-in failed.</div></> : '' }
-      <div>Please sign-in to continue</div>
+      <div style={{ fontSize: '.9rem' }}>Please sign-in to continue</div>
       <form>
         <input type='text' name='email' value={email} onChange={handleChangeEmail} placeholder='email address'/><br/>
         { validEmail ? '' : <><div className='warning-required'>valid email required</div></> }
         <input type='password' name='password' value={password} onChange={handleChangePassword} placeholder='password'/><br/>
         { validPassword ? '' : <><div className='warning-required'>required</div></> }
-        { submitVis ? <input className='button-plain' type='submit' name='submit' value='submit' onClick={handleSubmit} /> : '' }
+        { submitVis ? <input className='button-default' type='submit' name='submit' value='Sign in' onClick={handleSubmit} /> : '' }
       </form>
     </>
   )

@@ -10,8 +10,10 @@ const SignUpPrompt = ({ ...props }) => {
   const divs = (
     <>
       <br/>
-      <div>Not signed up? <br/>Create a new account</div>
+      <div style={{ fontSize: '.85rem' }}>Not signed up?</div>
       <button className='button-plain' onClick={signUpClickHandler}>Create account</button>
+      <br/>
+      <br/>
     </>
   )
 
