@@ -3,19 +3,17 @@ import DropdownGraphicStyle from '../Dropdowns/DropdownGraphicStyle'
 
 const ChangeAllLabelsMenu = ({ ...props }) => {
 
-  const [showChangeAllLabelsMenu, setShowChangeAllLabelsMenu] = useState(false)
-
   return (
     <div style={{
         position: 'absolute', right: 0,
-        border: showChangeAllLabelsMenu ? '1px solid #999' : 'none', backgroundColor: '#fff',
+        border: props.showChangeAllLabelsMenu ? '1px solid #999' : 'none', backgroundColor: '#fff',
         borderRadius: '2px', padding: '4px 10px 0 10px'
       }}>
       {
-        showChangeAllLabelsMenu
+        props.showChangeAllLabelsMenu
         ?
           <div
-            onClick={() => setShowChangeAllLabelsMenu(false)}
+            onClick={() => props.setShowChangeAllLabelsMenu(false)}
             style={{
               textDecoration: 'underline', cursor: 'pointer',
               backgroundColor: '#fff', fontSize: '.6rem',
@@ -25,7 +23,7 @@ const ChangeAllLabelsMenu = ({ ...props }) => {
           </div>
         :
           <div
-            onClick={() => setShowChangeAllLabelsMenu(true)}
+            onClick={() => props.setShowChangeAllLabelsMenu(true)}
             style={{
               textDecoration: 'underline', cursor: 'pointer',
               backgroundColor: '#fff', fontSize: '.6rem',
@@ -35,7 +33,7 @@ const ChangeAllLabelsMenu = ({ ...props }) => {
       }
       <div style={{ display: 'inline-block', position: 'relative' }}>
         {
-          showChangeAllLabelsMenu
+          props.showChangeAllLabelsMenu
           ?
           <>
             <div style={{ color: '#555', fontWeight: 'lighter' }}>Change all labels</div>
@@ -46,6 +44,7 @@ const ChangeAllLabelsMenu = ({ ...props }) => {
                   opacity: '0.001', backgroundColor: '#fff', color: '#222'
                 }}
                 onChange={props.changeAllLabelPositions}>
+                <option></option>
                 <option value='right'>Right</option>
                 <option value='top'>Top</option>
                 <option value='bottom'>Bottom</option>
@@ -59,6 +58,7 @@ const ChangeAllLabelsMenu = ({ ...props }) => {
                   opacity: '0.001', backgroundColor: '#fff', color: '#222'
                 }}
                 onChange={props.changeAllLabelDisplayTypes}>
+                <option></option>
                 <option value='city-and-code'>City, Code</option>
                 <option value='full'>Full</option>
                 <option value='region'>Region</option>

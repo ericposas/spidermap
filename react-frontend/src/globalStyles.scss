@@ -9,8 +9,34 @@ $blue: #006CC4;
   }
 }
 
+@font-face {
+  font-family: 'AmericanSansBold';
+  src: url('./fonts/AmericanSans-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'AmericanSansBook';
+  src: url('./fonts/AmericanSans-Book.ttf');
+}
+
+@font-face {
+  font-family: 'AmericanSansLight';
+  src: url('./fonts/AmericanSans-Light.ttf');
+}
+
+@font-face {
+  font-family: 'AmericanSansMedium';
+  src: url('./fonts/AmericanSans-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'AmericanSansRegular';
+  src: url('./fonts/AmericanSans-Regular.ttf');
+}
+
 html,
 body {
+  font-family: 'AmericanSansLight';
   width: 200%;
 }
 

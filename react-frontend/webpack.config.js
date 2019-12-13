@@ -55,17 +55,13 @@ module.exports = () => {
         },
         {
           test: /\.(otf|ttf)$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                limit: 100000,
-                mimetype: 'application/font-woff',
-                name: '[name].[ext]',
-                outputPath: 'fonts'
-              }
+          use: {
+            loader: 'url-loader',
+            query: {
+              limit: 100000,
+              name: './fonts/[name].[ext]'
             }
-          ]
+          }
         }
       ]
     },

@@ -60,7 +60,7 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const [contextMenuProps, setContextMenuProps] = useState({})
 
-  // const [showChangeAllLabelsMenu, setShowChangeAllLabelsMenu] = useState(false)
+  const [showChangeAllLabelsMenu, setShowChangeAllLabelsMenu] = useState(false)
 
   const labelPositions = useSelector(state => state.spidermap_labelPositions)
 
@@ -195,6 +195,8 @@ const GenerateSpidermap = ({ ...props }) => {
           backgroundColor: '#fff',
         }}>
         <ChangeAllLabelsMenu
+          showChangeAllLabelsMenu={showChangeAllLabelsMenu}
+          setShowChangeAllLabelsMenu={setShowChangeAllLabelsMenu}
           changeAllLabelPositions={changeAllLabelPositions}
           changeAllLabelDisplayTypes={changeAllLabelDisplayTypes}/>
         <svg
@@ -205,7 +207,15 @@ const GenerateSpidermap = ({ ...props }) => {
             backgroundColor: displayMapBG ? svgBgColor : 'rgba(0, 0, 0, 0)',
             boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
           }}>
-          <rect onClick={() => setShowContextMenu(false)} width={innerWidth} height={innerHeight} fill='rgba(0,0,0,0)' opacity='0'></rect>
+          <rect
+            onClick={() => {
+              setShowContextMenu(false)
+              setShowChangeAllLabelsMenu(false)
+            }}
+            width={innerWidth}
+            height={innerHeight}
+            fill='rgba(0,0,0,0)'
+            opacity='0'></rect>
           {
             destinations
             ? destinations.map((ap, i) => (<Fragment key={'path'+i}>{calcPath(ap, i)}</Fragment>)) : null

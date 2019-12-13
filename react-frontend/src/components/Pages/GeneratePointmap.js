@@ -63,6 +63,8 @@ const GeneratePointmap = ({ ...props }) => {
 
   const [contextMenuProps, setContextMenuProps] = useState({})
 
+  const [showChangeAllLabelsMenu, setShowChangeAllLabelsMenu] = useState(false)
+
   const labelPositions = useSelector(state => state.pointmap_labelPositions)
 
   const labelDisplayTypes = useSelector(state => state.pointmap_labelDisplayTypes)
@@ -199,6 +201,8 @@ const GeneratePointmap = ({ ...props }) => {
           backgroundColor: '#fff',
         }}>
         <ChangeAllLabelsMenu
+          showChangeAllLabelsMenu={showChangeAllLabelsMenu}
+          setShowChangeAllLabelsMenu={setShowChangeAllLabelsMenu}
           changeAllLabelPositions={changeAllLabelPositions}
           changeAllLabelDisplayTypes={changeAllLabelDisplayTypes}/>
         <svg
@@ -209,7 +213,15 @@ const GeneratePointmap = ({ ...props }) => {
             backgroundColor: displayMapBG ? svgBgColor : 'rgba(0, 0, 0, 0)',
             boxShadow: downloadingPDF ? '' : 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
           }}>
-          <rect onClick={() => setShowContextMenu(false)} width={innerWidth} height={innerHeight} fill='rgba(0,0,0,0)' opacity='0'></rect>
+          <rect
+            onClick={() => {
+              setShowContextMenu(false)
+              setShowChangeAllLabelsMenu(false)
+            }}
+            width={innerWidth}
+            height={innerHeight}
+            fill='rgba(0,0,0,0)'
+            opacity='0'></rect>
           {
             destinations
             ?

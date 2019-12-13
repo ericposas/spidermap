@@ -7,6 +7,17 @@ import App from './App'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './globalStyles.scss'
 import './images/GettyImages-157529424.png'
+// fonts
+import './fonts/AmericanSans-Bold Italic.ttf'
+import './fonts/AmericanSans-Bold.ttf'
+import './fonts/AmericanSans-Book.ttf'
+import './fonts/AmericanSans-BookItalic.ttf'
+import './fonts/AmericanSans-Light Italic.ttf'
+import './fonts/AmericanSans-Light.ttf'
+import './fonts/AmericanSans-Medium Italic.ttf'
+import './fonts/AmericanSans-Medium.ttf'
+import './fonts/AmericanSans-Regular.ttf'
+import './fonts/AmericanSans-RegularItalic.ttf'
 
 window.beforeunload = () => { sessionStorage.removeItem(process.env.APP_NAME) }
 window.unload = () => { sessionStorage.removeItem(process.env.APP_NAME) }

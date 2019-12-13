@@ -142,7 +142,7 @@ const Dashboard = ({ ...props }) => {
                   src='./img/pin.png'
                   style={{
                     display: 'inline-block', width: '30px',
-                    marginTop: '-6px'
+                    marginTop: '-6px', fontWeight: 'lighter'
                   }} />&nbsp;&nbsp; Create A Map
               </button>
               <br/>
