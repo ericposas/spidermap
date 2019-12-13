@@ -171,15 +171,19 @@ const Pointmap = ({ ...props }) => {
               </div>
             </div>
           </div>
-        <CSSTransition
-          in={pointmap_destinationPanelVisibility}
-          unmountOnExit
-          classNames='slide'
-          timeout={300}>
-          <div className='col-med'>
-             <SelectionView type='pointmap-destinations'/>
-          </div>
-        </CSSTransition>
+        {
+          selectedOriginsPointmap && Object.keys(selectedOriginsPointmap).length > 0
+          ?
+          <CSSTransition
+            in={pointmap_destinationPanelVisibility}
+            unmountOnExit
+            classNames='slide'
+            timeout={300}>
+            <div className='col-med'>
+              <SelectionView type='pointmap-destinations'/>
+            </div>
+          </CSSTransition> : null
+        }
         {
           pointmap_selectByCodeOrigins
           ?
@@ -214,7 +218,7 @@ const Pointmap = ({ ...props }) => {
           </CSSTransition> : null
         }
         {
-          pointmap_selectByCodeDestinations
+          pointmap_selectByCodeDestinations && selectedOriginsPointmap && Object.keys(selectedOriginsPointmap).length > 0
           ?
           <CSSTransition
             in={pointmap_selectBy_DestinationsVisibility}
@@ -232,7 +236,7 @@ const Pointmap = ({ ...props }) => {
            </CSSTransition> : null
          }
          {
-           pointmap_selectByCategoryDestinations
+           pointmap_selectByCategoryDestinations && selectedOriginsPointmap && Object.keys(selectedOriginsPointmap).length > 0
            ?
            <CSSTransition
              in={pointmap_selectByCategoryDestinations}

@@ -44,7 +44,7 @@ const SelectionView = ({ ...props }) => {
         return (<>
           <div className='subtitle'>Origins</div>
           {
-            selectedOriginsPointmap
+            selectedOriginsPointmap && Object.keys(selectedOriginsPointmap).length > 0
             ?
               <>
                 <div style={{display:'inline-block',fontSize:'.85rem'}}>
@@ -81,16 +81,35 @@ const SelectionView = ({ ...props }) => {
           margin:'-48px 0 0 0',
           padding:'15% 20px 0 20px',
         }}>
-        <div style={{  marginTop: '-20px' }}>Filter:</div>
-        <input
-          style={{
-            border: '1px solid #ccc', width: '100%',
-            borderRadius: '2px'
-          }}
-          value={_filter}
-          onChange={e => setFilter(e.target.value)}/><br/><br/>
+        {
+          props.type == 'pointmap-origins' && selectedOriginsPointmap && Object.keys(selectedOriginsPointmap).length > 0
+          ?
+            <>
+              <div style={{  marginTop: '-20px', display: 'inline-block', paddingRight: '4px' }}>Filter:</div>
+              <input
+                className='filter'
+                style={{
+                  border: '1px solid #ccc',
+                  borderRadius: '2px', display: 'inline-block',
+                }}
+                value={_filter}
+                onChange={e => setFilter(e.target.value)}/><br/><br/></>
+          :
+            props.type != 'pointmap-origins'
+            ?
+              <>
+                <div style={{  marginTop: '-20px', display: 'inline-block', paddingRight: '4px' }}>Filter:</div>
+                <input
+                  className='filter'
+                  style={{
+                    border: '1px solid #ccc',
+                    borderRadius: '2px', display: 'inline-block',
+                  }}
+                  value={_filter}
+                  onChange={e => setFilter(e.target.value)}/><br/><br/></> : null
+        }
         <div>{label()}</div>
-        <div style={{overflow:'scroll'}}>
+        <div style={{ overflowX: 'hidden', overflowY:'scroll', width: '400px' }}>
           {
             (props.type == 'listview-origin' && selectedOriginListView)
             ? (<Fragment key={selectedOriginListView.id}>

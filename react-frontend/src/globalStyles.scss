@@ -76,6 +76,15 @@ input, select, option {
   font-weight: lighter;
 }
 
+input {
+  border: none;
+  border-bottom: 1px solid #777;
+}
+
+.filter {
+  width: 200px !important;
+}
+
 .listview-legal-line {
   font-size: .55rem;
 }

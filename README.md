@@ -15,13 +15,6 @@
 
   - Login:
     - On input boxes, hide border, add bottom border only
-    
-
-  - Dashboard:
-    - Move all Dashboard item down towards center (logo lockup, welcome msg, buttons)
-    - Add all icons on options -- "create a map", "edit/view", etc.
-    - Add a little more space between "create a map", "edit/view" buttons and widen the column that they live on
-    - Shorten "Dashboard", "Back", and "Log out" buttons
 
 
   - Spidermap, Pointmap, Listview panel buttons:

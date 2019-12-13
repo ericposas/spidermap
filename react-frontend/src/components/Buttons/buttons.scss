@@ -90,7 +90,7 @@ $darkgrey: #666;
 }
 
 .x-button:hover {
-  transform: scale(1.1);
+  transform: scale(1.02);
 }
 
 .x-button > .x-button-x-symbol {
@@ -98,7 +98,7 @@ $darkgrey: #666;
   color: $grey;
   border-color: $grey;
   user-select: none;
-  line-height: 14px;
+  line-height: 15px;
 }
 
 .select-by-button {

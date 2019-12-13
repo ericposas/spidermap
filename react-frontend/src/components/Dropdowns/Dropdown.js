@@ -290,6 +290,7 @@ const Dropdown = ({ ...props }) => {
                         Filter: &nbsp;
                       </div>
                       <input
+                        className='filter'
                         style={{
                           border: '1px solid #ccc', borderRadius: '3px',
                           width: '200px', zIndex: 1,
@@ -313,7 +314,7 @@ const Dropdown = ({ ...props }) => {
                         className='multi scrollable'
                         style={{
                           margin: '0 0 0 10px', height:'70%',
-                          width:'450px', zIndex: 1,
+                          width:'400px', zIndex: 1,
                         }}
                         onChange={ setOptionsValues }
                         multiple={ 'multiple' }>
