@@ -13,16 +13,12 @@
 
 #### Design:
 
-  - Login:
-    - On input boxes, hide border, add bottom border only
+  - Style upload .CSV modal
 
+  - Style MyMaps and GlobalMaps map tiles
 
   - Dropdowns:
     - Move multi-select dropdown by 10% to 20% of page height
-    - Alter "Clear list" to be less prominent, text-style button (like "Edit")
-    - Widen slightly "Export map" panel
-    - File select dropdown -- stylize like mockups
-
 
 
 #### Tech Stack:
