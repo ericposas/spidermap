@@ -6,7 +6,7 @@ import rootReducer from './reducers/rootReducer'
 import App from './App'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './globalStyles.scss'
-import './images/GettyImages-157529424.png'
+import './images/AA-background-wide.jpg'
 // fonts
 import './fonts/AmericanSans-Bold Italic.ttf'
 import './fonts/AmericanSans-Bold.ttf'

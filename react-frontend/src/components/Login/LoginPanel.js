@@ -69,7 +69,7 @@ const LoginPanel = ({ ...props }) => {
             <img
               src='./img/aa-logo-with-subtitle.png'
               style={{
-                width: '250px', margin: '0 0 0 30px',
+                width: '180px', margin: '50% 0 0 65px',
               }}
             />
             <br/>

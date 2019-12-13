@@ -31,7 +31,7 @@ const UserLeftSidePanel = ({ ...props }) => {
              }}>
         </div>
         <div style={{
-            marginTop: '100px',
+            marginTop: '60%',
             width:panelWidth
           }}>
           <img
@@ -41,7 +41,7 @@ const UserLeftSidePanel = ({ ...props }) => {
             }}
             src='./img/aa-logo-with-subtitle.png'
             style={{
-              width: '220px', margin: '0 20px 0 25px',
+              width: '180px', margin: '0 20px 0 45px',
               cursor: 'pointer'
             }} />
           <br/><br/>

@@ -34,6 +34,30 @@ $blue: #006CC4;
   src: url('./fonts/AmericanSans-Regular.ttf');
 }
 
+@media screen and (min-width: 0px) {
+  body {
+    background-size: 1920px;
+    background-repeat: no-repeat;
+    background-position: -100px 0px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  body {
+    background-size: 1920px;
+    background-repeat: no-repeat;
+    background-position: 100px 0px;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  body {
+    background-size: 1920px;
+    background-repeat: no-repeat;
+    background-position: 200px 0px;
+  }
+}
+
 html,
 body {
   font-family: AmericanSansLight, Arial;

@@ -13,14 +13,9 @@
 
 #### Design:
 
-  - Throughout:
-    - Use hi-res BG
-
-
   - Login:
     - On input boxes, hide border, add bottom border only
-    - "Please sign-in to continue" - change size to half to 75% of current size
-
+    
 
   - Dashboard:
     - Move all Dashboard item down towards center (logo lockup, welcome msg, buttons)
