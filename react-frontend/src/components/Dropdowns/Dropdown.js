@@ -241,8 +241,8 @@ const Dropdown = ({ ...props }) => {
                           style={{
                             display:'block',
                             backgroundColor: '#fff',
-                            margin: '0 10% 0 10%',
-                            width:'80%',
+                            margin: '0 10% 0 0',
+                            width:'350px',
                           }}
                           onChange={ selectionHandlerSingleOrigin }>
                           <option></option>
@@ -268,7 +268,7 @@ const Dropdown = ({ ...props }) => {
                           display:'block',
                           backgroundColor: '#fff',
                           margin: '0 10% 0 10%',
-                          width:'80%',
+                          width:'350px',
                           zIndex: 1,
                         }}
                         onChange={ selectionHandlerSingleOrigin }>
@@ -292,7 +292,7 @@ const Dropdown = ({ ...props }) => {
                       <input
                         style={{
                           border: '1px solid #ccc', borderRadius: '3px',
-                          width: '350px', zIndex: 1,
+                          width: '200px', zIndex: 1,
                         }}
                         value={_filter} onChange={e => setFilter(e.target.value)}/><br/><br/>
                       {

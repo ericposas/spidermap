@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { getUser } from '../../sessionStore'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
+import DropdownGraphicStyle from '../Dropdowns/DropdownGraphicStyle'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import SelectBy_Destinations_Spidermap from '../Views/SelectBy_Destinations_Spidermap'
 import UploadModal from '../Modals/UploadModal'
@@ -116,12 +117,23 @@ const Spidermap = ({ ...props }) => {
               </div>
             </div>
             <br/>
-            <Dropdown type='code' output='spidermap-origin'/>
+            <span style={{ position: 'absolute', left: '10%', margin: 'auto', width: '100px', marginTop: '5%' }}>
+              <DropdownGraphicStyle overrideStyle={{ fontSize: '1.5rem' }}>
+                {
+                  !selectedOriginSpidermap
+                  ? <>Origin Airport</>
+                : selectedOriginSpidermap.city
+                }
+              </DropdownGraphicStyle>
+            </span>
+            <span style={{ opacity: '0.001' }}>
+              <Dropdown type='code' output='spidermap-origin'/>
+            </span>
             <div ref={buttonContainerRef}
                  className='button-container'
                  style={{
                    bottom: buttonContainerBottom,
-                   width: '70%', margin: 'auto',
+                   width: '60%', margin: 'auto',
                    left: 0, right: 0, position: 'absolute',
                 }}>
               <button
