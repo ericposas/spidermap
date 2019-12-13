@@ -8,6 +8,13 @@ $aa-grey: #96A7B0;
 $grey: #999;
 $darkgrey: #666;
 
+.clear-list-button {
+   margin: 0 0 10px 0;
+   background-color: rgba(0,0,0,0);
+   color: #006CC4;
+   border: none;
+}
+
 .logout-text-button:hover {
   transform: scale(1.05);
 }
@@ -57,6 +64,10 @@ $darkgrey: #666;
   color: $grey;
   background-color: rgba(0, 0, 0, 0);
   border: none;
+}
+
+.plus-symbol {
+  line-height: 16px;
 }
 
 .plus-symbol:hover {

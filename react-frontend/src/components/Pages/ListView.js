@@ -3,6 +3,7 @@ import { useDispatch, useSelector, batch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import SelectionView from '../Views/SelectionView'
 import Dropdown from '../Dropdowns/Dropdown'
+import DropdownGraphicStyle from '../Dropdowns/DropdownGraphicStyle'
 import BackButton from '../Buttons/BackButton'
 import UploadModal from '../Modals/UploadModal'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
@@ -96,12 +97,23 @@ const ListView = ({ ...props }) => {
               </div>
             </div>
             <br/>
-            <Dropdown type='code' output='listview-origin'/>
+            <span style={{ position: 'absolute', left: '10%', margin: 'auto', width: '100px', marginTop: '5%' }}>
+              <DropdownGraphicStyle overrideStyle={{ fontSize: '1.5rem' }}>
+                {
+                  !selectedOriginListView
+                  ? <>Origin Airport</>
+                : selectedOriginListView.city
+                }
+              </DropdownGraphicStyle>
+            </span>
+            <span style={{ opacity: '0.001' }}>
+              <Dropdown type='code' output='listview-origin'/>
+            </span>
             <div ref={buttonContainerRef}
                  className='button-container'
                  style={{
                    bottom: buttonContainerBottom,
-                   width: '70%', margin: 'auto',
+                   width: '60%', margin: 'auto',
                    left: 0, right: 0, position: 'absolute'
                  }}>
               <button
@@ -116,10 +128,10 @@ const ListView = ({ ...props }) => {
                 ref={uploadButtonRef}
                 onClick={handleGenerateMapClick}
                 style={{
-                  border: selectedOriginListView && selectedDestinationsListView.length > 0 ? 'none' : '1px solid #ccc',
+                  border: selectedOriginListView && selectedDestinationsListView.length > 0 ? 'none' : '1px solid #e8e8e8',
                   pointerEvents: selectedOriginListView && selectedDestinationsListView.length > 0 ? 'all' : 'none',
-                  color: selectedOriginListView && selectedDestinationsListView.length > 0 ? 'white' : '#ccc',
-                  backgroundColor: selectedOriginListView && selectedDestinationsListView.length > 0 ? 'red' : '#fff'
+                  color: selectedOriginListView && selectedDestinationsListView.length > 0 ? 'white' : '#fff',
+                  backgroundColor: selectedOriginListView && selectedDestinationsListView.length > 0 ? 'red' : '#e8e8e8'
                 }}>
                 Generate List View
               </button>
@@ -128,9 +140,9 @@ const ListView = ({ ...props }) => {
                 selectedOriginListView && selectedDestinationsListView.length > 0
                 ?
                   (<button
-                    className='button-generic'
+                    className='clear-list-button'
                     onClick={clearList}
-                    style={{ backgroundColor: '#006CC4' }}>
+                    style={{}}>
                     Clear List
                   </button>)
                 : null

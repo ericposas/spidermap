@@ -76,6 +76,10 @@ input, select, option {
   font-weight: lighter;
 }
 
+select {
+  cursor: pointer;
+}
+
 input {
   border: none;
   border-bottom: 1px solid #777;

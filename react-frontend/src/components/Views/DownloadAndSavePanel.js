@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import html2canvas from 'html2canvas'
@@ -21,6 +21,7 @@ import {
   HIDE_MAP_BG,
 } from '../../constants/constants'
 import { checkAuth, getUser } from '../../sessionStore'
+import DropdownGraphicStyle from '../Dropdowns/DropdownGraphicStyle'
 import '../../images/save.svg'
 import '../Pages/my-maps.scss'
 import axios from 'axios'
@@ -34,6 +35,8 @@ const DownloadImagePanel = ({ ...props }) => {
   const [fileType, setFileType] = useState('SVG')
 
   const [resolution, setResolution] = useState(2)
+
+  const windowSize = useSelector(state => state.windowSize)
 
   const selectedOriginListView = useSelector(state => state.selectedOriginListView)
 
@@ -60,6 +63,8 @@ const DownloadImagePanel = ({ ...props }) => {
   const [savingMapToDB, setSavingMapToDB] = useState(false)
 
   const [showSavedMapToDB_Notification, setShowSavedMapToDB_Notification] = useState(false)
+
+  const [buttonsContainerBottom, setButtonsContainerBottom] = useState(0)
 
   const handleDownload = () => {
     switch (fileType) {
@@ -237,7 +242,7 @@ const DownloadImagePanel = ({ ...props }) => {
       }
     }
   }
-  
+
   const saveListingPointmap = (global = false) => {
     if (selectedDestinationsPointmap) {
       let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
@@ -272,10 +277,19 @@ const DownloadImagePanel = ({ ...props }) => {
     }
   }
 
+  const downloadSaveButtonsContainerRef = useRef()
+
+  const getButtonsContainerBottom = () => (
+    downloadSaveButtonsContainerRef && downloadSaveButtonsContainerRef.current
+    ? (parseInt(getComputedStyle(downloadSaveButtonsContainerRef.current, null).getPropertyValue('height')) * (fileType && (fileType == 'PNG' || fileType == 'JPG') ? .575 : .75)) + 'px'
+    : 0
+  )
+
   useEffect(() => {
     if (type == 'listview') setFileType('PNG')
     window.onafterprint = null
     window.onafterprint = () => dispatch({ type: NOT_PRINTING_LISTVIEW })
+    setButtonsContainerBottom(getButtonsContainerBottom())
   }, [])
 
   return (<>
@@ -303,12 +317,13 @@ const DownloadImagePanel = ({ ...props }) => {
     }
     <div
       className='col-med panel-style'
-      style={{ height: '100vh', width:'200px' }}>
+      style={{ height: '100vh', width:'300px' }}>
       <div
         style={{
           width: '100%',
           height: '100%',
-          position: 'relative',
+          zIndex: 20,
+          position: windowSize && windowSize.innerHeight > 600 ? 'relative' : '',
         }}>
         <div
           style={{ margin: '50% 0 0 0', padding: '0 10% 0 15%' }}>
@@ -322,7 +337,7 @@ const DownloadImagePanel = ({ ...props }) => {
               dispatch({ type: LAST_LOCATION, payload: `generate-${type}` })
               props.history.push(`/${type}`)
             }}>
-            Edit This Map
+            <>Edit This {type != 'listview' ? 'Map' : 'List' }</>
           </div>
           <div
             className='my-map-option'
@@ -342,14 +357,28 @@ const DownloadImagePanel = ({ ...props }) => {
           </div>
           <br/>
           <div
-            className='download-file-selection-container'
+            ref={downloadSaveButtonsContainerRef}
             style={{
+              margin: 'auto',
               position: 'absolute',
-              bottom: '20%',
+              backgroundColor: '#fff',
+              border: windowSize && windowSize.innerHeight > 600 ? 'none' : '1px solid #ccc',
+              padding: windowSize && windowSize.innerHeight > 600 ? 0 : '20px',
+              left: windowSize && windowSize.innerHeight > 600 ? 0 : 'auto',
+              right: 0,
+              // right: windowSize && windowSize.innerHeight > 600 ? 0 : -windowSize.innerWidth,
+              width: '150px',
+              bottom: windowSize && windowSize.innerHeight > 600 ? buttonsContainerBottom : 0,
             }}>
             <div>Select file type:</div>
+            <DropdownGraphicStyle overrideStyle={{}}>{fileType}</DropdownGraphicStyle>
             <select
-              onChange={e => setFileType(e.target.value)}>
+              style={{ opacity: '0.001' }}
+              onClick={() => setButtonsContainerBottom(getButtonsContainerBottom())}
+              onChange={e => {
+                setFileType(e.target.value)
+                setButtonsContainerBottom(getButtonsContainerBottom())
+              }}>
               { type != 'listview' ? <option value='SVG'>SVG</option> : null }
               <option value='PNG'>PNG</option>
               <option value='JPG'>JPG</option>
@@ -360,9 +389,15 @@ const DownloadImagePanel = ({ ...props }) => {
               ?
                 (<>
                   <div>Select resolution:</div>
+                  <DropdownGraphicStyle overrideStyle={{}}>{resolution}</DropdownGraphicStyle>
                   <select
+                    style={{ opacity: '0.001' }}
                     defaultValue='2'
-                    onChange={e => setResolution(e.target.value)}>
+                    onClick={() => setButtonsContainerBottom(getButtonsContainerBottom())}
+                    onChange={e => {
+                      setResolution(e.target.value)
+                      setButtonsContainerBottom(getButtonsContainerBottom())
+                    }}>
                     <option value='1'>1x</option>
                     <option value='2'>2x</option>
                     <option value='3'>3x</option>

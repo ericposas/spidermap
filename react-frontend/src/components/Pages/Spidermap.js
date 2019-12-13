@@ -148,10 +148,10 @@ const Spidermap = ({ ...props }) => {
                 ref={uploadButtonRef}
                 onClick={handleGenerateMapClick}
                 style={{
-                  border: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'none' : '1px solid #ccc',
+                  border: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'none' : '1px solid #e8e8e8',
                   pointerEvents: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'all' : 'none',
-                  color: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'white' : '#ccc',
-                  backgroundColor: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'red' : '#fff'
+                  color: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'white' : '#fff',
+                  backgroundColor: selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0 ? 'red' : '#e8e8e8'
                 }}>
                 Generate Spidermap
               </button>
@@ -160,9 +160,9 @@ const Spidermap = ({ ...props }) => {
                 selectedOriginSpidermap && selectedDestinationsSpidermap.length > 0
                 ?
                   (<button
-                    className='button-generic'
+                    className='clear-list-button'
                     onClick={clearList}
-                    style={{ margin: '0 0 10px 0', backgroundColor: '#006CC4' }}>
+                    style={{ margin: '0 0 10px 0' }}>
                     Clear List
                   </button>)
                 : null

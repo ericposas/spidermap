@@ -134,7 +134,7 @@ const Pointmap = ({ ...props }) => {
                 className='button-container'
                 style={{
                   bottom: buttonContainerBottom,
-                  width: '70%', margin: 'auto',
+                  width: '60%', margin: 'auto',
                   left: 0, right: 0, position: 'absolute',
                 }}>
                 <button
@@ -149,10 +149,10 @@ const Pointmap = ({ ...props }) => {
                   ref={uploadButtonRef}
                   onClick={handleGenerateMapClick}
                   style={{
-                    border: selectedOriginsPointmap && Object.keys(selectedDestinationsPointmap).length > 0 ? 'none' : '1px solid #ccc',
+                    border: selectedOriginsPointmap && Object.keys(selectedDestinationsPointmap).length > 0 ? 'none' : '1px solid #e8e8e8',
                     pointerEvents: selectedOriginsPointmap && Object.keys(selectedDestinationsPointmap).length > 0 ? 'all' : 'none',
-                    color: selectedOriginsPointmap && Object.keys(selectedDestinationsPointmap).length > 0 ? 'white' : '#ccc',
-                    backgroundColor: selectedOriginsPointmap && Object.keys(selectedDestinationsPointmap).length > 0 ? 'red' : 'white'
+                    color: selectedOriginsPointmap && Object.keys(selectedDestinationsPointmap).length > 0 ? 'white' : '#fff',
+                    backgroundColor: selectedOriginsPointmap && Object.keys(selectedDestinationsPointmap).length > 0 ? 'red' : '#e8e8e8'
                   }}>
                   Generate Pointmap
                 </button>
@@ -161,9 +161,9 @@ const Pointmap = ({ ...props }) => {
                   selectedOriginsPointmap && selectedOriginsPointmap.length > 0
                   ?
                     (<button
-                      className='button-generic'
+                      className='clear-list-button'
                       onClick={clearList}
-                      style={{ margin: '0 0 10px 0', backgroundColor: '#006CC4' }}>
+                      style={{ margin: '0 0 10px 0'}}>
                       Clear List
                     </button>)
                   : null

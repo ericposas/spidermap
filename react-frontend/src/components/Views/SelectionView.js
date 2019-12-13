@@ -62,7 +62,13 @@ const SelectionView = ({ ...props }) => {
         return (<><div className='subtitle'>Destination Airports from {selectedOriginSpidermap.code}</div></>)
         break;
       case 'listview-destinations':
-        return (<><div className='subtitle'>Destination Airports from {selectedOriginListView.code}</div></>)
+        return (<>
+          {
+            selectedOriginListView
+            ? <><div className='subtitle'>Destination Airports from {selectedOriginListView.code}</div></>
+            : null
+          }
+        </>)
         break;
       default:
         return (<><div className='subtitle'>Selection View</div></>)
@@ -111,7 +117,7 @@ const SelectionView = ({ ...props }) => {
         <div>{label()}</div>
         <div style={{ overflowX: 'hidden', overflowY:'scroll', width: '400px' }}>
           {
-            (props.type == 'listview-origin' && selectedOriginListView)
+            (selectedOriginListView && props.type == 'listview-origin')
             ? (<Fragment key={selectedOriginListView.id}>
                 <OriginListViewElement originObject={selectedOriginListView} code={selectedOriginListView.code}/>
                </Fragment>)

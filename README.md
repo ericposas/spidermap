@@ -17,12 +17,6 @@
     - On input boxes, hide border, add bottom border only
 
 
-  - Spidermap, Pointmap, Listview panel buttons:
-    - Match closer to mockups
-    - Match dropdown input elements to mockups
-    - reverse grey/white colors on inactive "generate map" buttons
-
-
   - Dropdowns:
     - Move multi-select dropdown by 10% to 20% of page height
     - Alter "Clear list" to be less prominent, text-style button (like "Edit")

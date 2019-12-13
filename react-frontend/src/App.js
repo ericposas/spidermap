@@ -27,6 +27,7 @@ const App = ({ ...props }) => {
   useEffect(() => {
     if (resizeListenerAdded == false) {
       dispatch({ type: RESIZE_ADDED })
+      dispatch({ type: WINDOW_RESIZE, payload: { innerWidth, innerHeight } })
       window.addEventListener('resize', () => {
         dispatch({ type: WINDOW_RESIZE, payload: { innerWidth, innerHeight } })
       })
