@@ -391,7 +391,7 @@ const DownloadImagePanel = ({ ...props }) => {
               { type != 'listview' ? <option value='SVG'>SVG</option> : null }
               <option value='PNG'>PNG</option>
               <option value='JPG'>JPG</option>
-              <option value='PDF'>PDF</option>
+              { type == 'listview' ? <option value='PDF'>PDF</option> : null }
             </select>
             {
               fileType == 'PNG' || fileType == 'JPG'
@@ -437,7 +437,8 @@ const DownloadImagePanel = ({ ...props }) => {
                 className='button-generic'
                 onClick={
                   type == 'listview' || type == 'spidermap'
-                  ? () => saveListing(true) : () => saveListingPointmap(true)
+                  ? () => saveListing(true)
+                  : () => saveListingPointmap(true)
                 }
                 style={{ backgroundColor: '#004b84' }}>
                 <span>Save Global</span>
