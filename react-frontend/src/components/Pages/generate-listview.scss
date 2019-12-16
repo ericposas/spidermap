@@ -24,13 +24,24 @@ html, body {
 }
 
 .listview-region {
+  color: #37ACF4;
+  padding: 0 0 0 10px;
+  font-size: 1.5rem;
+}
+
+.listview-origin-region {
   font-size: 1.5rem;
 }
 
 .listview-city {
-  padding: 0 0 0 15px;
+  padding: 0 0 0 10px;
   margin: 0 0 0 2px;
   font-size: 11px;
+  color: #999;
+}
+
+.listview-city:last-child {
+  margin-bottom: 60px;
 }
 
 .listview-content {
@@ -40,8 +51,8 @@ html, body {
   display: block;
   left: 0; right: 0;
   overflow-y: scroll;
-  background-color: #fff;
-  border-left: 1px solid #ccc;
+  // background-color: #fff;
+  // border-left: 1px solid #ccc;
   // font-variant: normal;
   // letter-spacing: 1;
   // position: absolute;
@@ -58,7 +69,8 @@ html, body {
   display: block;
   position: relative;
   left: 0; right: 0;
-  background-color: #fff;
+  background-color: rgba(0,0,0,0);
+  margin-top: -100px;
 }
 
 .listview-title-content {
@@ -70,7 +82,8 @@ html, body {
 }
 
 .listview-origin-title {
-  font-size: 10rem;
+  color: #37ACF4;
+  font-size: 8rem;
   display: inline-block;
   text-align: center;
   line-height: 20rem;
@@ -79,19 +92,20 @@ html, body {
 
 .listview-origin-title-divider {
   @extend .listview-origin-title;
-  font-size: 4rem;
+  font-size: 2.5rem;
   font-weight: lighter;
-  transform: scaleY(2);
+  transform: scaleY(2.5);
+  color: #777777;
 }
 
 .listview-origin-title-divider-inner {
   position: absolute;
-  margin-top: -195px;
+  margin-top: -178px;
   margin-left: 40px;
 }
 
 .listview-origin-subtitle {
-  font-size: 20px;
+  font-size: 1rem;
   text-align: left;
   display: inline-block;
   font-weight: 500;
@@ -99,7 +113,7 @@ html, body {
 
 .listview-origin-subtitle-inner {
   position: absolute;
-  margin-top: -84px;
+  margin-top: -70px;
   margin-left: 80px;
 }
 

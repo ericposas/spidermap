@@ -52,6 +52,8 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const savingFile = useSelector(state => state.savingFile)
 
+  const listviewRendering = useSelector(state => state.listviewRendering)
+
   const pointmap_labelPositions = useSelector(state => state.pointmap_labelPositions)
 
   const pointmap_labelDisplayTypes = useSelector(state => state.pointmap_labelDisplayTypes)
@@ -188,6 +190,7 @@ const DownloadImagePanel = ({ ...props }) => {
     })
     var element = document.getElementsByClassName('pdf-content')[0]
     var opt = {
+      pagebreak: { mode: 'avoid-all' },
       filename: `${type}.pdf`,
       image:  { type: 'png', quality: 0.99 },
       html2canvas:  { scale: 2 },
@@ -215,9 +218,9 @@ const DownloadImagePanel = ({ ...props }) => {
       dispatch({ type: LISTVIEW_RENDERING })
       dispatch({ type: SAVING_FILE })
     })
-    setTimeout(initRender, 2000)
+    setTimeout(initRender, 3000)
     function initRender () {
-      html2canvas(document.querySelector('#listview-content'), { letterRendering: true, allowTaint: true, useCORS: true })
+      html2canvas(document.querySelector('#listview-content'), { letterRendering: true, allowTaint: true, useCORS: true, backgroundColor: ext == 'png' ? "rgba(0,0,0,0)" : '#fff' })
           .then((canvas) => {
             saveAs(canvas.toDataURL(), `listview.${ext}`)
             setTimeout(() => {
@@ -286,7 +289,13 @@ const DownloadImagePanel = ({ ...props }) => {
   )
 
   useEffect(() => {
-    if (type == 'listview') setFileType('PNG')
+    if (type == 'listview') {
+      setFileType('PNG')
+      dispatch({ type: SELECTED_FILE_TYPE, payload: 'PNG' })
+    } else {
+      setFileType('SVG')
+      dispatch({ type: SELECTED_FILE_TYPE, payload: 'SVG' })
+    }
     window.onafterprint = null
     window.onafterprint = () => dispatch({ type: NOT_PRINTING_LISTVIEW })
     setButtonsContainerBottom(getButtonsContainerBottom())

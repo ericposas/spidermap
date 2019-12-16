@@ -8,6 +8,8 @@ import './generate-listview.scss'
 
 const GenerateListView = ({ ...props }) => {
 
+  let regionCount = 0
+
   const origin = useSelector(state => state.selectedOriginListView)
 
   const destinations = useSelector(state => state.selectedDestinationsListView)
@@ -17,6 +19,10 @@ const GenerateListView = ({ ...props }) => {
   const listviewRendering = useSelector(state => state.listviewRendering)
 
   const displayMapBG = useSelector(state => state.displayMapBG)
+
+  const downloadingPDF = useSelector(state => state.downloadPDFStatus)
+
+  const exportFileType = useSelector(state => state.exportFileType)
 
   const regionsDict = []
 
@@ -35,7 +41,7 @@ const GenerateListView = ({ ...props }) => {
     legal = legal.filter((item, i) => i == legal.indexOf(item))
     setListedLegalLines(legal)
     setOrganizeByCategory(destinationsObject)
-    console.log(destinationsObject)
+    // console.log(destinationsObject)
   }, [])
 
   const processByRegion = region => {
@@ -70,13 +76,14 @@ const GenerateListView = ({ ...props }) => {
 
     for (let i = 0, incr = 20; i < arr.length; i+=incr) {
       let _arr = arr.slice(i, i + incr)
-      console.log(_arr.length)
+      // console.log(_arr.length)
       let _arrLen = _arr.length
 
       if (i == 0) {
         _arr.unshift((
           <Fragment key={region + count + i}>
-            <div className='listview-region'>
+            <div
+              className='listview-region'>
               {
                 region.trim() == 'United States'
                 ? 'USA'
@@ -85,12 +92,12 @@ const GenerateListView = ({ ...props }) => {
             </div>
           </Fragment>
         ))
-        _arr.push((
-          <Fragment key={'br' + count + i}>
-            <br/>
-            <br/>
-          </Fragment>
-        ))
+        // _arr.push((
+        //   <Fragment key={'br' + count + i}>
+        //     <br/>
+        //     <br/>
+        //   </Fragment>
+        // ))
       } else {
         _arr.unshift((
           <Fragment key={'spacer' + count + i}>
@@ -101,7 +108,27 @@ const GenerateListView = ({ ...props }) => {
 
       arrays.push((
         <Fragment key={'col' + count + i}>
-          <div className='col-med listview-column'>
+          <div
+            className='col-med listview-column'
+            style={{
+              height: '100%',
+              position: 'relative',
+            }}>
+            <div
+              style={{
+                // top: i > 19 ? '32px' : '8px',
+                // height: i > 19 ? 'calc(100% - 64px)' : 'calc(100% - 32px)',
+                top: '8px',
+                height: 'calc(100% - 72px)',
+                position: 'absolute',
+                borderLeft: i < 20 ? '1px solid #000' : 'none',
+              }}>
+              <div
+                style={{
+                }}>
+              </div>
+            </div>
+            {/*
             <div
               style={{
                 position: 'relative'
@@ -113,15 +140,15 @@ const GenerateListView = ({ ...props }) => {
                     style={{
                       position: 'absolute',
                       transform: _arrLen > 15 ? `scaleY(${_arrLen + 3})` : `scaleY(${_arrLen + 1})`,
-                      top: _arrLen > 15 ? `calc(2rem + ${(_arrLen + 3) * .35}rem)` : `calc(2rem + ${_arrLen * .35}rem)`,
+                      top: _arrLen > 15 ? `calc(2rem + ${(_arrLen + 3) * .4}rem)` : `calc(2rem + ${_arrLen * .4}rem)`,
                     }}
                     className='listview-divider'>
                     |
                   </div>)
                 : null
               }
-              </div>
-          {_arr}
+              </div>*/}
+            {_arr}
           </div>
         </Fragment>
       ))
@@ -141,18 +168,18 @@ const GenerateListView = ({ ...props }) => {
         className='col-med'
         style={{
           height:'100vh',
-          backgroundColor: '#fff',
+          backgroundColor: exportFileType == 'PNG' && listviewRendering ? 'rgba(0,0,0,0)' : '#fff',
           boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
         }}>
         <div
           id='listview-content'
-          className={listviewRendering ? 'listview-content listview-content-rendering pdf-content' : 'listview-content pdf-content'}>
-          <div className='listview-logo-container'>
-            <img
-              className='listview-logo'
-              src='./img/aa-logo.png'/>
-          </div>
+          className={`listview-content pdf-content ${ listviewRendering ? 'listview-content-rendering' : '' }`}
+          style={{
+            borderLeft: downloadingPDF ? 'none' : '1px solid #ccc'
+          }}>
+          {/*<div className='listview-logo-container'></div>*/}
           <div className='listview-title-content'>
+            {/*<img className='listview-logo' src='./img/aa-logo.png'/>*/}
             <div className='listview-origin-title'>{ origin ? origin.code : '' }</div>
             <div className='listview-origin-title-divider'>
               <div className='listview-origin-title-divider-inner'>
@@ -164,12 +191,12 @@ const GenerateListView = ({ ...props }) => {
                 &nbsp;&nbsp;Direct&nbsp;flights&nbsp;to&nbsp;and&nbsp;from<br/>
                 &nbsp;&nbsp;{
                   origin
-                  ? origin.city.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span>{item}</span>{ i < (origin.city.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                  ? origin.city.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span className='listview-origin-region'>{item}</span>{ i < (origin.city.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
                   : ''
                 }&nbsp;,&nbsp;
                 {
                   origin
-                  ? origin.region.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span>{item}</span>{ i < (origin.region.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                  ? origin.region.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span className='listview-origin-region'>{item}</span>{ i < (origin.region.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
                   : ''
                 }
               </div>
@@ -182,25 +209,36 @@ const GenerateListView = ({ ...props }) => {
               {
                 organizeByCategory
                 ?
-                Object.keys(organizeByCategory).map(region => {
-                  return (<Fragment key={region}>
-                    {
-                      region.trim() == 'United States' || organizeByCategory[region].length > 20
-                      ? (<>
-                          <div
-                            className='row'
-                            style={{
-                              margin: '0 0 0 2px'
-                            }}>
+                  Object.keys(organizeByCategory).map(region => {
+                    return (<Fragment key={region}>
+                      {
+                        region.trim() == 'United States' || organizeByCategory[region].length > 20
+                        ? (<>
+                            {
+                              (() => { regionCount++ })()
+                            }
+                            <div
+                              className='row'
+                              style={{
+                                margin: '0 0 0 2px'
+                              }}>
+                              {
+                                processByRegion(region)
+                              }
+                            </div>
+                          </>)
+                        :
+                          <>
+                            {
+                              (() => { regionCount++ })()
+                            }
                             {
                               processByRegion(region)
                             }
-                          </div>
-                         </>)
-                      : processByRegion(region)
-                    }
-                  </Fragment>)
-                }) : null
+                          </>
+                      }
+                    </Fragment>)
+                  }) : null
               }
             </div>
             <div style={{ paddingBottom: '20px' }}></div>

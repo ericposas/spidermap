@@ -1,6 +1,6 @@
 import { LISTVIEW_RENDERING, LISTVIEW_NOT_RENDERING } from '../../constants/listview'
 
-const listviewRenderingState = (state = false, action) => {
+const listviewRendering = (state = false, action) => {
   switch (action.type) {
     case LISTVIEW_RENDERING:
       return true;
@@ -9,8 +9,8 @@ const listviewRenderingState = (state = false, action) => {
       return false;
       break;
     default:
-      return false;
+      return state
   }
 }
 
-export default listviewRenderingState
+export default listviewRendering

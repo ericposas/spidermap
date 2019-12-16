@@ -68,6 +68,7 @@ const ListView = ({ ...props }) => {
     else {
       // console.log('user is logged in')
       // dispatch({ type: LAST_LOCATION, payload: 'dashboard' })
+      // dispatch({ type: SELECTED_FILE_TYPE, payload: 'PNG' })
       setButtonContainerBottom(computeButtonContainerBottom())
     }
   }, [])

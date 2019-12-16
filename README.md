@@ -4,11 +4,7 @@
 
 #### Programming:
 
-  - Try to match Spider Map to AA's radial example
-
-
-  - Generate PDF:
-    - Clean up PDF export for listview (currently cuts words in half at page break)
+  - Add "Update Existing" and "Save as New" options when saving maps to DB
 
 
 #### Design:
@@ -16,9 +12,6 @@
   - Style upload .CSV modal
 
   - Style MyMaps and GlobalMaps map tiles
-
-  - Dropdowns:
-    - Move multi-select dropdown by 10% to 20% of page height
 
 
 #### Tech Stack:
