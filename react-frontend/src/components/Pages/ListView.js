@@ -72,7 +72,7 @@ const ListView = ({ ...props }) => {
       setButtonContainerBottom(computeButtonContainerBottom())
     }
   }, [])
-
+  
   return (
     <>
       {

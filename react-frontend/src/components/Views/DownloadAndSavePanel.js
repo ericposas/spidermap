@@ -19,6 +19,7 @@ import {
   HIDE_FILE_SAVE_NOTIFICATION,
   DISPLAY_MAP_BG,
   HIDE_MAP_BG,
+  EXPORT_RESOLUTION,
 } from '../../constants/constants'
 import { checkAuth, getUser } from '../../sessionStore'
 import DropdownGraphicStyle from '../Dropdowns/DropdownGraphicStyle'
@@ -35,6 +36,8 @@ const DownloadImagePanel = ({ ...props }) => {
   const [fileType, setFileType] = useState('SVG')
 
   const [resolution, setResolution] = useState(2)
+
+  const exportResolution = useSelector(state => state.exportResolution)
 
   const windowSize = useSelector(state => state.windowSize)
 
@@ -284,7 +287,7 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const getButtonsContainerBottom = () => (
     downloadSaveButtonsContainerRef && downloadSaveButtonsContainerRef.current
-    ? (parseInt(getComputedStyle(downloadSaveButtonsContainerRef.current, null).getPropertyValue('height')) * (fileType && (fileType == 'PNG' || fileType == 'JPG') ? .575 : .75)) + 'px'
+    ? (parseInt(getComputedStyle(downloadSaveButtonsContainerRef.current, null).getPropertyValue('height')) * (fileType && type != 'listview' && (fileType == 'PNG' || fileType == 'JPG') ? .575 : .75)) + 'px'
     : 0
   )
 
@@ -292,9 +295,11 @@ const DownloadImagePanel = ({ ...props }) => {
     if (type == 'listview') {
       setFileType('PNG')
       dispatch({ type: SELECTED_FILE_TYPE, payload: 'PNG' })
+      // dispatch({ type: EXPORT_RESOLUTION, payload: 2 })
     } else {
       setFileType('SVG')
       dispatch({ type: SELECTED_FILE_TYPE, payload: 'SVG' })
+      // dispatch({ type: EXPORT_RESOLUTION, payload: 2 })
     }
     window.onafterprint = null
     window.onafterprint = () => dispatch({ type: NOT_PRINTING_LISTVIEW })
@@ -394,17 +399,18 @@ const DownloadImagePanel = ({ ...props }) => {
               { type == 'listview' ? <option value='PDF'>PDF</option> : null }
             </select>
             {
-              fileType == 'PNG' || fileType == 'JPG'
+              (fileType == 'PNG' || fileType == 'JPG') && type != 'listview'
               ?
                 (<>
                   <div>Select resolution:</div>
                   <DropdownGraphicStyle overrideStyle={{}}>{resolution}</DropdownGraphicStyle>
                   <select
                     style={{ opacity: '0.001' }}
-                    defaultValue='2'
+                    defaultValue={resolution}
                     onClick={() => setButtonsContainerBottom(getButtonsContainerBottom())}
                     onChange={e => {
                       setResolution(e.target.value)
+                      // dispatch({ type: EXPORT_RESOLUTION, payload: e.target.value })
                       setButtonsContainerBottom(getButtonsContainerBottom())
                     }}>
                     <option value='1'>1x</option>

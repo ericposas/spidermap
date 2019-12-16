@@ -24,6 +24,8 @@ const GenerateListView = ({ ...props }) => {
 
   const exportFileType = useSelector(state => state.exportFileType)
 
+  // const exportResolution = useSelector(state => state.exportResolution)
+
   const regionsDict = []
 
   const regionRef = useRef()
@@ -51,8 +53,15 @@ const GenerateListView = ({ ...props }) => {
       // because html2canvas does not format the city names properly,
       // we have to manually split the text and add space where needed -- between capitalized letters and hyphens
       return (<Fragment key={item.code}>
-                <div className='listview-city'>
+                <div
+                  style={{
+                    // wordSpacing: exportResolution > 1 ? '-3rem' : 'auto',
+                    // lineHeight: exportResolution > 1 ? '-10rem' : 'auto'
+                  }}
+                  className='listview-city'>
                   {
+                    exportFileType == 'PDF'
+                    ?
                     item.city.split(/(?=[A-Z])/)
                              .map((_item,i) => (
                                <Fragment key={_item+'-city-span'}>
@@ -67,6 +76,7 @@ const GenerateListView = ({ ...props }) => {
                                 </span>{ i < (item.city.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }
                                </Fragment>
                              ))
+                    : item.city
                   }
                 </div>
               </Fragment>)
@@ -87,7 +97,14 @@ const GenerateListView = ({ ...props }) => {
               {
                 region.trim() == 'United States'
                 ? 'USA'
-                : region.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-region-span'}><span>{item}</span>{ i < (region.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                :
+                  <>
+                  {
+                    exportFileType == 'PDF'
+                    ? region.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-region-span'}><span>{item}</span>{ i < (region.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                    : region
+                  }
+                  </>
               }
             </div>
           </Fragment>
@@ -169,6 +186,7 @@ const GenerateListView = ({ ...props }) => {
         style={{
           height:'100vh',
           backgroundColor: exportFileType == 'PNG' && listviewRendering ? 'rgba(0,0,0,0)' : '#fff',
+          // transform: `scale(${exportResolution}, ${exportResolution})`,
           boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
         }}>
         <div
@@ -191,12 +209,26 @@ const GenerateListView = ({ ...props }) => {
                 &nbsp;&nbsp;Direct&nbsp;flights&nbsp;to&nbsp;and&nbsp;from<br/>
                 &nbsp;&nbsp;{
                   origin
-                  ? origin.city.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span className='listview-origin-region'>{item}</span>{ i < (origin.city.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                  ?
+                    <>
+                    {
+                      exportFileType == 'PDF'
+                      ? origin.city.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span className='listview-origin-region'>{item}</span>{ i < (origin.city.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                      : origin.city
+                    }
+                    </>
                   : ''
                 }&nbsp;,&nbsp;
                 {
                   origin
-                  ? origin.region.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span className='listview-origin-region'>{item}</span>{ i < (origin.region.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                  ?
+                    <>
+                    {
+                      exportFileType == 'PDF'
+                      ? origin.region.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span className='listview-origin-region'>{item}</span>{ i < (origin.region.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
+                      : origin.region
+                    }
+                    </>
                   : ''
                 }
               </div>

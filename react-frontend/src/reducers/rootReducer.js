@@ -28,6 +28,7 @@ import listviewRendering from './listview/listviewRendering'
 import listviewPrinting from './listview/listviewPrinting'
 import downloadPDFStatus from './downloadPDF'
 import exportFileType from './exportFileType'
+import exportResolution from './exportResolution'
 import myMaps from './myMaps'
 import globalMaps from './globalMaps'
 import uploadingCSVNotification from './uploadingCSVNotification'
@@ -68,6 +69,7 @@ const rootReducer = combineReducers({
   listviewRendering, listviewPrinting,
   downloadPDFStatus,
   exportFileType,
+  exportResolution,
   myMaps, globalMaps,
   uploadingCSVNotification, uploadCSVDoneNotification,
   savingFile,
