@@ -254,11 +254,13 @@ const Pointmap = ({ ...props }) => {
            </CSSTransition> : null
          }
       </div>
-      {
-        showUploadCSVModal
-        ? <UploadModal type='pointmap' setModalVisibility={setShowUploadCSVModal} />
-        : null
-      }
+      <CSSTransition
+        in={showUploadCSVModal}
+        unmountOnExit
+        timeout={300}
+        classNames='alert'>
+        <UploadModal type='pointmap' setModalVisibility={setShowUploadCSVModal} />
+      </CSSTransition>
     </>
   )
 

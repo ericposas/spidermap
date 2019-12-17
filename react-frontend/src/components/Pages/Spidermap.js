@@ -214,9 +214,13 @@ const Spidermap = ({ ...props }) => {
           </CSSTransition> : null
         }
       </div>
-      {
-        showUploadCSVModal ? <UploadModal type='spidermap' setModalVisibility={setShowUploadCSVModal} /> : null
-      }
+      <CSSTransition
+        in={showUploadCSVModal}
+        unmountOnExit
+        timeout={300}
+        classNames='alert'>
+        <UploadModal type='spidermap' setModalVisibility={setShowUploadCSVModal} />
+      </CSSTransition>
     </>
   )
 

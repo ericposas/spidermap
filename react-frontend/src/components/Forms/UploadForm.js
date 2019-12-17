@@ -46,6 +46,8 @@ const UploadForm = ({ ...props }) => {
 
   const [showIncorrectFormat, setShowIncorrectFormat] = useState()
 
+  const [mouseState, setMouseState] = useState('')
+
   const processForPointmap = data => {
     // clear our list first, then process new CSV
     dispatch({ type: CLEAR_ORIGIN_LOCATIONS_POINTMAP })
@@ -93,7 +95,10 @@ const UploadForm = ({ ...props }) => {
     } else {
       console.log('incorrect csv format for point-to-point-map')
       setShowIncorrectFormat('pointmap')
-      setTimeout(() => setShowIncorrectFormat(null), 2000)
+      dispatch({ type: SHOW_UPLOADING_CSV_NOTIFICATION, payload: false })
+      setTimeout(() => {
+        setShowIncorrectFormat(null)
+      }, 2000)
     }
 
   }
@@ -108,7 +113,10 @@ const UploadForm = ({ ...props }) => {
     if (data[1]) {
       console.log('incorrect csv format for spidermap')
       setShowIncorrectFormat('spidermap')
-      setTimeout(() => setShowIncorrectFormat(null), 2000)
+      dispatch({ type: SHOW_UPLOADING_CSV_NOTIFICATION, payload: false })
+      setTimeout(() => {
+        setShowIncorrectFormat(null)
+      }, 2000)
     } else {
       // process csv entries
       let _data = data[0].map(item => item.trim())
@@ -147,7 +155,10 @@ const UploadForm = ({ ...props }) => {
     if (data[1]) {
       console.log('incorrect csv format for listview')
       setShowIncorrectFormat('listview')
-      setTimeout(() => setShowIncorrectFormat(null), 2000)
+      dispatch({ type: SHOW_UPLOADING_CSV_NOTIFICATION, payload: false })
+      setTimeout(() => {
+        setShowIncorrectFormat(null)
+      }, 2000)
     } else {
       // process csv entries
       let _data = data[0].map(item => item.trim())
@@ -188,7 +199,7 @@ const UploadForm = ({ ...props }) => {
     e.preventDefault()
 
     dispatch({ type: SHOW_UPLOADING_CSV_NOTIFICATION, payload: true })
-    
+
     let formData = new FormData(formRef.current)
 
     axios.post('/files', { belongsto: getUser().user._id }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
@@ -240,46 +251,72 @@ const UploadForm = ({ ...props }) => {
         <div
           className='x-button'
           style={{
-            transform: 'scale(1.35)',
             position: 'absolute',
-            top: '-5px', right: '-5px',
+            transition: 'transform .2s ease-out',
+            transform: mouseState != 'over' ? 'scale(1.25)' : 'scale(1.5)',
+            top: '2px', right: '8px',
+            cursor: 'pointer'
           }}
-          onClick={() => props.setModalVisibility(false)}>
-          <div className='x-button-x-symbol'>x</div>
+          onClick={() => props.setModalVisibility(false)}
+          onMouseOver={() => setMouseState('over')}
+          onMouseOut={() => setMouseState('out')}>
+          <div className='x-button-symbol-modal'>
+            &#10006;
+          </div>
         </div>
         {
           props.type == 'spidermap' || props.type == 'listview'
           ?
             (<div className='hint-text'>
-              Upload a CSV for all destinations <br/>
-              (first airport code is designated as the origin airport)<br/>
-              in the below example, DFW would be the origin, with all others being the destinations <br/>
-              DFW, CLT, ORD, LAX, PHX <br/>
+              <span style={{ fontSize: '1.75rem' }}>Upload CSV</span><br/>
+              <span style={{ fontSize: '.75rem' }}>(first airport code is designated as the origin airport)</span><br/>
+              {/*in the below example, DFW would be the origin, with all others being the destinations <br/>
+              DFW, CLT, ORD, LAX, PHX <br/>*/}
               <br/>
             </div>)
           :
             (<div className='hint-text'>
-              Upload a CSV for all destinations <br/>
-              (first airport code of each line in the .csv file is designated as the origin airport)<br/>
-              e.g. below: <br/>
+              <span style={{ fontSize: '1.75rem' }}>Upload CSV</span><br/>
+              <span style={{ fontSize: '.75rem' }}>(first airport code of each line in the .csv file is designated as the origin airport)</span><br/>
+              {/*e.g. below: <br/>
               DFW, LAX, JFK, PHX <br/>
               PHX, PHL, CLT, LGA <br/>
-              (DFW and PHX would be designated as the origin airports, with the following airports in their respective lines being their destinations)<br/>
+            (DFW and PHX would be designated as the origin airports, with the following airports in their respective lines being their destinations)<br/>*/}
               <br/>
             </div>)
         }
         <br/>
         <form ref={formRef}>
           <br/>
-          <input type='file'
-                 name='files'
-                 onChange={handleSubmit}/>
+          <input
+            style={{
+              opacity: '0.001'
+            }}
+            type='file'
+            name='files'
+            onChange={handleSubmit}/>
+          <div
+            style={{
+              borderBottom: '1px solid #888',
+              width: '250px',
+              color: '#37ACF4',
+              userSelect: 'none',
+              marginTop: '-25px',
+              marginLeft: '10px',
+              pointerEvents: 'none'
+            }}>
+            Click to Select File
+          </div>
           {
             showIncorrectFormat
             ?
-              <div>
-                <div className='modal-incorrect-csv-format'>Incorrect CSV file format for {showIncorrectFormat}</div>
-              </div>
+              <>
+                {
+                  <div>
+                    <div className='modal-incorrect-csv-format'>Incorrect CSV file format for {showIncorrectFormat}</div>
+                  </div>
+                }
+              </>
             : null
           }
         </form>

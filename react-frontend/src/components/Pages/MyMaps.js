@@ -33,6 +33,7 @@ import axios from 'axios'
 import './my-maps.scss'
 import '../Buttons/buttons.scss'
 import '../Modals/confirm-delete-modal.scss'
+import { CSSTransition } from 'react-transition-group'
 
 const MyMaps = ({ ...props }) => {
 
@@ -239,19 +240,23 @@ const MyMaps = ({ ...props }) => {
         (<div className='deleting-or-saving-to-db-strip'> Map deleted! </div>)
       : null
     }
-    {
-      confirmDeleteModal
-      ?
-        (<div className='modal-confirm-delete-backing'>
+    <CSSTransition
+      in={confirmDeleteModal}
+      unmountOnExit
+      timeout={300}
+      classNames='alert'>
+        <div
+          className='modal-confirm-delete-backing'>
           <div className='modal-confirm-delete'>
               <div
-                className='x-button x-button-maps-confirm-modal'
+                className='x-button-maps-modal'
                 onClick={() => setConfirmDeleteModal(false)}>
-                <div className='x-button-x-symbol'>x</div>
+                <div className='x-button-x-symbol'>&#10006;</div>
               </div>
-            <div className='modal-confirm-yes-no-button-container'>
-              <div>Are you sure that you want to delete this map? <span style={{opacity:0}}>{mapIdToDelete}</span></div>
-              <br/>
+            <div
+              onClick={()=>{}}
+              className='modal-confirm-yes-no-button-container'>
+              <div>Are you sure that you want to delete this map? <span style={{opacity:0}}>{ mapIdToDelete }</span></div>
               <button
               className='button-plain button-decline'
               onClick={() => setConfirmDeleteModal(false)} style={{ display:'inline-block' }}>Nevermind.</button>
@@ -261,8 +266,8 @@ const MyMaps = ({ ...props }) => {
               onClick={crudDelete} style={{ display:'inline-block' }}>Confirm.</button>
             </div>
           </div>
-        </div>) : null
-    }
+        </div>
+    </CSSTransition>
     <div className='row' style={{ whiteSpace:'nowrap' }}>
       <UserLeftSidePanel/>
       <div
@@ -379,7 +384,9 @@ const MyMaps = ({ ...props }) => {
 
                                     JSON.parse(myMaps[i].locations).map((destArr, _i) => {
                                       return (
-                                        <div style={{
+                                        <div
+                                          key={'pointmap-tile-'+destArr[_i]}
+                                          style={{
                                             textAlign: 'left',
                                           }}>
                                           <div

@@ -72,7 +72,7 @@ const ListView = ({ ...props }) => {
       setButtonContainerBottom(computeButtonContainerBottom())
     }
   }, [])
-  
+
   return (
     <>
       {
@@ -192,9 +192,13 @@ const ListView = ({ ...props }) => {
           </CSSTransition> : null
         }
       </div>
-      {
-        showUploadCSVModal ? <UploadModal type='listview' setModalVisibility={setShowUploadCSVModal} /> : null
-      }
+      <CSSTransition
+        in={showUploadCSVModal}
+        unmountOnExit
+        timeout={300}
+        classNames='alert'>
+        <UploadModal type='listview' setModalVisibility={setShowUploadCSVModal} />
+      </CSSTransition>
     </>
   )
 

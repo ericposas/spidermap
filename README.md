@@ -9,8 +9,6 @@
 
 #### Design:
 
-  - Style upload .CSV modal
-
   - Copy over MyMaps generated styles to GlobalMaps
 
 
