@@ -95,12 +95,18 @@ const GenerateSpidermap = ({ ...props }) => {
       let legal = destinations.concat(origin).map(item => { if (item && item.legal) return item.legal })
       legal = legal.filter((item, i) => i == legal.indexOf(item))
       setListedLegalLines(legal)
+      // hack to re-render svg data
+      setShowContextMenu(true)
+      setTimeout(() => setShowContextMenu(false), 10)
       // load timezone data
       if (!timezoneLatLongs) {
         axios.get('/timezones', { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
              .then(result => {
                console.log(result.data[0].all)
                dispatch({ type: SET_TIMEZONE_LATLONGS, payload: result.data[0].all })
+               // hack to re-render svg data
+               setShowContextMenu(true)
+               setTimeout(() => setShowContextMenu(false), 10)
              })
       }
     }
