@@ -328,15 +328,18 @@ const MyMaps = ({ ...props }) => {
                             {
                               myMaps[i].type == 'listview' || myMaps[i].type == 'spidermap'
                               ?
-                              <div style={{
-                                float: 'left',
-                                textAlign: 'left',
-                                margin: '0 0 0 12px',
-                                display: 'inline-block',
-                              }}>
-                                Origin: <br/><div style={{ fontSize: '1.35rem' }}> { JSON.parse(myMaps[i].locations)[0] }
-                              </div>
-                            </div> : null
+                                <div style={{
+                                  float: 'left',
+                                  textAlign: 'left',
+                                  margin: '0 0 0 12px',
+                                  display: 'inline-block',
+                                }}>
+                                  Origin: <br/>
+                                  <div style={{ fontSize: '1.35rem' }}>
+                                    { JSON.parse(myMaps[i].locations)[0] }
+                                  </div>
+                                </div>
+                              : null
                             }
                             {
                               myMaps[i].type == 'listview' || myMaps[i].type == 'spidermap'
@@ -373,38 +376,64 @@ const MyMaps = ({ ...props }) => {
                                     }
                                 </div>
                               :
-                                <div
-                                  style={{
-                                    textAlign: 'left',
-                                    display: 'inline-block',
-                                  }}> Destinations:<br/>
-                                  {
-                                      JSON.parse(myMaps[i].locations).map((item, _i) => {
-                                        if (_i != 0) {
-                                          return (
-                                            <Fragment key={'destinations-map-tile-label-'+_i}>
-                                              <div
-                                                style={{
-                                                  display: 'inline-block'
-                                                }}>
-                                                &nbsp;{ item }&nbsp;
-                                              </div>
-                                              {
-                                                _i % 5 == 0
-                                                ? <><br/></>
-                                                : null
+
+                                    JSON.parse(myMaps[i].locations).map((destArr, _i) => {
+                                      return (
+                                        <div style={{
+                                            textAlign: 'left',
+                                          }}>
+                                          <div
+                                            style={{
+                                              float: 'left',
+                                              textAlign: 'left',
+                                              margin: '0 0 0 12px',
+                                              display: 'inline-block',
+                                              width: '100px'
+                                            }}>
+                                            Origin: <br/>
+                                            <div style={{ fontSize: '1.35rem' }}>
+                                              { destArr[0] }
+                                            </div>
+                                          </div>
+                                          <div
+                                            style={{
+                                              textAlign: 'left',
+                                              margin: '0 0 0 12px',
+                                              display: 'inline-block',
+                                            }}>
+                                            Destinations: <br/>
+                                          {
+                                            destArr.map((item, __i) => {
+                                              if (__i != 0) {
+                                                return (
+                                                  <Fragment key={'destinations-map-tile-label-'+__i}>
+                                                    <div
+                                                      style={{
+                                                        textAlign: 'left',
+                                                        display: 'inline-block',
+                                                      }}>
+                                                      &nbsp;{ item }&nbsp;
+                                                    </div>
+                                                    {
+                                                      __i % 5 == 0
+                                                      ? <><br/></>
+                                                      : null
+                                                    }
+                                                    {
+                                                      __i == destArr.length-1
+                                                      ? <div style={{ paddingBottom: '18px' }}></div>
+                                                      : null
+                                                    }
+                                                  </Fragment>
+                                                )
                                               }
-                                              {
-                                                _i == JSON.parse(myMaps[i].locations).length-1
-                                                ? <div style={{ paddingBottom: '18px' }}></div>
-                                                : null
-                                              }
-                                            </Fragment>
-                                          )
-                                        }
-                                      })
-                                  }
-                                </div>
+                                            })
+                                          }
+                                        </div>
+                                      </div>
+                                    )
+                                  })
+
                             }
                             </div>
                           </div>
