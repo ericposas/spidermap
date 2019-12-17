@@ -11,7 +11,7 @@
 
   - Style upload .CSV modal
 
-  - Style MyMaps and GlobalMaps map tiles
+  - Copy over MyMaps generated styles to GlobalMaps
 
 
 #### Tech Stack:
