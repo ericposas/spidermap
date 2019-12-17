@@ -298,151 +298,148 @@ const GlobalMaps = ({ ...props }) => {
                     <Fragment key={'map-tile-'+i}>
                       <div style={{ position: 'relative' }}>
                         <div
-                          className='x-button x-button-map-tile'
-                          style={{
-                            float: 'right',
-                            marginTop: '0px',
-                            marginRight: '18px',
-                            zIndex: '10',
-                            // transform: 'scale(1.35)',
+                          onClick={() => {
+                            createMap(globalMaps[i].type, JSON.parse(globalMaps[i].locations))
+                            setLabels(globalMaps[i].type, JSON.parse(globalMaps[i].labels))
                           }}
-                          onClick={() => deleteMap(globalMaps[i].id)}>
+                          className='my-map-tile map-tile'>
                           <div
-                            style={{ zIndex: '10' }}
-                            className='x-button-x-symbol-map-tile'>
-                            &#10006;
-                          </div>
-                          </div>
-                          <div
-                            onClick={() => {
-                              createMap(globalMaps[i].type, JSON.parse(globalMaps[i].locations))
-                              setLabels(globalMaps[i].type, JSON.parse(globalMaps[i].labels))
+                            style={{
+                              textAlign: 'left',
+                              padding: '8px 0 0 12px',
                             }}
-                            className='my-map-tile map-tile'>
-                            <div
-                              style={{
+                            className='map-tile-type-title'>{ globalMaps[i].type.toUpperCase() }</div>
+                          <div
+                            className='map-tile-data-container'
+                            style={{
+                              width: '350px',
+                              color: '#777',
+                            }}>
+                          {
+                            globalMaps[i].type == 'listview' || globalMaps[i].type == 'spidermap'
+                            ?
+                              <div style={{
+                                float: 'left',
                                 textAlign: 'left',
-                                padding: '8px 0 0 12px',
-                              }}
-                              className='map-tile-type-title'>{ globalMaps[i].type.toUpperCase() }</div>
-                            <div
-                              className='map-tile-data-container'
-                              style={{
-                                width: '350px',
-                                color: '#777',
+                                margin: '0 0 0 12px',
+                                display: 'inline-block',
                               }}>
-                            {
-                              globalMaps[i].type == 'listview' || globalMaps[i].type == 'spidermap'
-                              ?
-                                <div style={{
-                                  float: 'left',
+                                Origin: <br/>
+                                <div style={{ fontSize: '1.35rem' }}>
+                                  { JSON.parse(globalMaps[i].locations)[0] }
+                                </div>
+                              </div>
+                            : null
+                          }
+                          {
+                            globalMaps[i].type == 'listview' || globalMaps[i].type == 'spidermap'
+                            ?
+                              <div
+                                style={{
                                   textAlign: 'left',
-                                  margin: '0 0 0 12px',
                                   display: 'inline-block',
-                                }}>
-                                  Origin: <br/>
-                                  <div style={{ fontSize: '1.35rem' }}>
-                                    { JSON.parse(globalMaps[i].locations)[0] }
-                                  </div>
-                                </div>
-                              : null
-                            }
-                            {
-                              globalMaps[i].type == 'listview' || globalMaps[i].type == 'spidermap'
-                              ?
-                                <div
-                                  style={{
-                                    textAlign: 'left',
-                                    display: 'inline-block',
-                                  }}> Destinations:<br/>
-                                    {
-                                      JSON.parse(globalMaps[i].locations).map((item, _i) => {
-                                        if (_i != 0) {
-                                          return (
-                                            <Fragment key={'destinations-map-tile-label-'+_i}>
-                                              <div style={{
-                                                  display: 'inline-block'
-                                                }}>
-                                                &nbsp;{ item }&nbsp;
-                                              </div>
-                                              {
-                                                _i % 5 == 0
-                                                ? <><br/></>
-                                                : null
-                                              }
-                                              {
-                                                _i == JSON.parse(globalMaps[i].locations).length-1
-                                                ? <div style={{ paddingBottom: '18px' }}></div>
-                                                : null
-                                              }
-                                            </Fragment>
-                                          )
-                                        }
-                                      })
-                                    }
-                                </div>
-                              :
-
-                                    JSON.parse(globalMaps[i].locations).map((destArr, _i) => {
-                                      return (
+                                }}> Destinations:<br/>
+                                  {
+                                    JSON.parse(globalMaps[i].locations).map((item, _i) => {
+                                      if (_i != 0) {
+                                        return (
+                                          <Fragment key={'destinations-map-tile-label-'+_i}>
+                                            <div style={{
+                                                display: 'inline-block'
+                                              }}>
+                                              &nbsp;{ item }&nbsp;
+                                            </div>
+                                            {
+                                              _i % 5 == 0
+                                              ? <><br/></>
+                                              : null
+                                            }
+                                            {
+                                              _i == JSON.parse(globalMaps[i].locations).length-1
+                                              ? <div style={{ paddingBottom: '18px' }}></div>
+                                              : null
+                                            }
+                                          </Fragment>
+                                        )
+                                      }
+                                    })
+                                  }
+                              </div>
+                            :
+                                JSON.parse(globalMaps[i].locations).map((destArr, _i) => {
+                                    return (
+                                      <div
+                                        key={'pointmap-tile-'+destArr[_i]}
+                                        style={{
+                                          textAlign: 'left',
+                                        }}>
                                         <div
-                                          key={'pointmap-tile-'+destArr[_i]}
+                                          style={{
+                                            float: 'left',
+                                            textAlign: 'left',
+                                            margin: '0 0 0 12px',
+                                            display: 'inline-block',
+                                            width: '100px'
+                                          }}>
+                                          Origin: <br/>
+                                          <div style={{ fontSize: '1.35rem' }}>
+                                            { destArr[0] }
+                                          </div>
+                                        </div>
+                                        <div
                                           style={{
                                             textAlign: 'left',
+                                            margin: '0 0 0 12px',
+                                            display: 'inline-block',
                                           }}>
-                                          <div
-                                            style={{
-                                              float: 'left',
-                                              textAlign: 'left',
-                                              margin: '0 0 0 12px',
-                                              display: 'inline-block',
-                                              width: '100px'
-                                            }}>
-                                            Origin: <br/>
-                                            <div style={{ fontSize: '1.35rem' }}>
-                                              { destArr[0] }
-                                            </div>
-                                          </div>
-                                          <div
-                                            style={{
-                                              textAlign: 'left',
-                                              margin: '0 0 0 12px',
-                                              display: 'inline-block',
-                                            }}>
-                                            Destinations: <br/>
-                                          {
-                                            destArr.map((item, __i) => {
-                                              if (__i != 0) {
-                                                return (
-                                                  <Fragment key={'destinations-map-tile-label-'+__i}>
-                                                    <div
-                                                      style={{
-                                                        textAlign: 'left',
-                                                        display: 'inline-block',
-                                                      }}>
-                                                      &nbsp;{ item }&nbsp;
-                                                    </div>
-                                                    {
-                                                      __i % 5 == 0
-                                                      ? <><br/></>
-                                                      : null
-                                                    }
-                                                    {
-                                                      __i == destArr.length-1
-                                                      ? <div style={{ paddingBottom: '18px' }}></div>
-                                                      : null
-                                                    }
-                                                  </Fragment>
-                                                )
-                                              }
-                                            })
-                                          }
-                                        </div>
+                                          Destinations: <br/>
+                                        {
+                                          destArr.map((item, __i) => {
+                                            if (__i != 0) {
+                                              return (
+                                                <Fragment key={'destinations-map-tile-label-'+__i}>
+                                                  <div
+                                                    style={{
+                                                      textAlign: 'left',
+                                                      display: 'inline-block',
+                                                    }}>
+                                                    &nbsp;{ item }&nbsp;
+                                                  </div>
+                                                  {
+                                                    __i % 5 == 0
+                                                    ? <><br/></>
+                                                    : null
+                                                  }
+                                                  {
+                                                    __i == destArr.length-1
+                                                    ? <div style={{ paddingBottom: '18px' }}></div>
+                                                    : null
+                                                  }
+                                                </Fragment>
+                                              )
+                                            }
+                                          })
+                                        }
                                       </div>
-                                    )
-                                  })
-
+                                    </div>
+                                  )
+                                })
                             }
+                            </div>
+                          </div>
+                          <div
+                            className='x-button x-button-map-tile'
+                            style={{
+                              top: 0, right: '24px',
+                              position: 'absolute',
+                              zIndex: '10',
+                              width: '10px',
+                            }}
+                            onClick={() => deleteMap(myMaps[i].id)}>
+                            <div
+                              style={{ zIndex: '10' }}
+                              className='x-button-x-symbol-map-tile'>
+                              &#10006;
                             </div>
                           </div>
                         </div>

@@ -434,7 +434,6 @@ const MyMaps = ({ ...props }) => {
                               position: 'absolute',
                               zIndex: '10',
                               width: '10px',
-                              // backgroundColor: 'red'
                             }}
                             onClick={() => deleteMap(myMaps[i].id)}>
                             <div
