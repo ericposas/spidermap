@@ -270,6 +270,7 @@ const Dropdown = ({ ...props }) => {
                           backgroundColor: '#fff',
                           margin: '0 10% 0 10%',
                           width:'350px',
+                          opacity: '0.001',
                           zIndex: 1,
                         }}
                         onChange={ selectionHandlerSingleOrigin }>
