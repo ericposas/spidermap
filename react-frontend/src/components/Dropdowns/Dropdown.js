@@ -243,6 +243,7 @@ const Dropdown = ({ ...props }) => {
                             backgroundColor: '#fff',
                             margin: '0 10% 0 0',
                             width:'350px',
+                            opacity: '0.001'
                           }}
                           onChange={ selectionHandlerSingleOrigin }>
                           <option></option>
