@@ -121,10 +121,12 @@ const Dashboard = ({ ...props }) => {
     <>
       <div className='row' style={{whiteSpace:'nowrap'}}>
         <UserLeftSidePanel/>
-        {
-          !selectedMenuItem
-          ?
-          (<div className='col-med panel-style' style={{ width:'400px', height: '100vh' }}>
+        <CSSTransition
+          unmountOnExit
+          in={!selectedMenuItem}
+          timeout={300}
+          classNames='slide'>
+          <div className='col-med panel-style' style={{ width:'400px', height: '100vh' }}>
             <div
               className='subtitle'
               style={{
@@ -170,16 +172,14 @@ const Dashboard = ({ ...props }) => {
                     marginTop: '-6px'
                   }} />&nbsp;&nbsp; Global Maps
               </button>
-            </div>)
-            : null
-        }
+            </div>
+        </CSSTransition>
         <CSSTransition
           unmountOnExit
           in={(selectedMenuItem == CREATE_A_MAP || selectedMenuItem == SPIDERMAP ||
            selectedMenuItem == POINTMAP || selectedMenuItem == LISTVIEW)}
           timeout={300}
-          classNames='slide'
-          >
+          classNames='slide'>
           <div className='col-med panel-style' style={{ width:'300px', height: '100vh' }}>
             <div
               className='subtitle'
