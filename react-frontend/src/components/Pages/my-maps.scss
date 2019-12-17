@@ -15,26 +15,42 @@
   font-size: .8rem;
   margin: 4% 5% 0 5%;
   padding-bottom: 4px;
-  border-radius: 4px;
+  // border-radius: 4px;
   cursor: pointer;
   color: #006CC4;
   background-color: #fff;
-  border: 2px solid #006CC4;
+  border-top: 1px solid #777;
   width: 90%;
 }
 
+.my-map-tile {
+  z-index: 2;
+  transform: translateX(0);
+  transition: transform .2s ease-in;
+}
+
 .my-map-tile:hover {
-  // transform: scale(1.05);
+  // transform: scale(1.025);
+  transform: translateX(-4px);
+  transition: transform .2s ease-out;
 }
 
 .x-button-map-tile:hover {
-  color: #fff !important;
-  border-color: #fff !important;
+  cursor: pointer;
+}
+
+.x-button-map-tile:hover {
+  // color: #888;
+}
+
+.x-button-x-symbol-map-tile {
+  // right:
+  transform: translateX(0);
+  z-index: 3;
 }
 
 .x-button-x-symbol-map-tile:hover {
-  color: #fff !important;
-  background-color: #CC271E;
+  color: #555;
 }
 
 .scrollable {
