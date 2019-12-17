@@ -7,11 +7,6 @@
   - Add "Update Existing" and "Save as New" options when saving maps to DB
 
 
-#### Design:
-
-  - Copy over MyMaps generated styles to GlobalMaps
-
-
 #### Tech Stack:
   - Lightsail ec2 compute instance
   - nginx server with reverse proxy
