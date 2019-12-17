@@ -324,7 +324,6 @@ const MyMaps = ({ ...props }) => {
                               style={{
                                 width: '350px',
                                 color: '#777',
-                                // backgroundColor: 'red',
                               }}>
                             {
                               myMaps[i].type == 'listview' || myMaps[i].type == 'spidermap'
@@ -333,51 +332,80 @@ const MyMaps = ({ ...props }) => {
                                 float: 'left',
                                 textAlign: 'left',
                                 margin: '0 0 0 12px',
-                                // width: '100px',
-                                // padding: '4px',
                                 display: 'inline-block',
-                                // backgroundColor: 'limegreen'
                               }}>
                                 Origin: <br/><div style={{ fontSize: '1.35rem' }}> { JSON.parse(myMaps[i].locations)[0] }
                               </div>
                             </div> : null
                             }
-                            <div style={{
-                                // width: '100px',
-                                // float: 'right',
-                                textAlign: 'left',
-                                display: 'inline-block',
-                                // backgroundColor: 'cyan',
-                              }}> Destinations:<br/>
-                              {
-                                myMaps[i].type == 'listview' || myMaps[i].type == 'spidermap'
-                                ?
-                                  JSON.parse(myMaps[i].locations).map((item, _i) => {
-                                    if (_i != 0) {
-                                      return (
-                                        <Fragment key={'destinations-map-tile-label-'+_i}>
-                                          <div style={{
-                                              display: 'inline-block'
-                                            }}>
-                                            &nbsp;{ item }&nbsp;
-                                          </div>
-                                          {
-                                            _i % 5 == 0
-                                            ? <><br/></>
-                                            : null
-                                          }
-                                          {
-                                            _i == JSON.parse(myMaps[i].locations).length-1
-                                            ? <div style={{ paddingBottom: '18px' }}></div>
-                                            : null
-                                          }
-                                        </Fragment>
-                                      )
+                            {
+                              myMaps[i].type == 'listview' || myMaps[i].type == 'spidermap'
+                              ?
+                                <div
+                                  style={{
+                                    textAlign: 'left',
+                                    display: 'inline-block',
+                                  }}> Destinations:<br/>
+                                    {
+                                      JSON.parse(myMaps[i].locations).map((item, _i) => {
+                                        if (_i != 0) {
+                                          return (
+                                            <Fragment key={'destinations-map-tile-label-'+_i}>
+                                              <div style={{
+                                                  display: 'inline-block'
+                                                }}>
+                                                &nbsp;{ item }&nbsp;
+                                              </div>
+                                              {
+                                                _i % 5 == 0
+                                                ? <><br/></>
+                                                : null
+                                              }
+                                              {
+                                                _i == JSON.parse(myMaps[i].locations).length-1
+                                                ? <div style={{ paddingBottom: '18px' }}></div>
+                                                : null
+                                              }
+                                            </Fragment>
+                                          )
+                                        }
+                                      })
                                     }
-                                  })
-                                : null
-                              }
-                              </div>
+                                </div>
+                              :
+                                <div
+                                  style={{
+                                    textAlign: 'left',
+                                    display: 'inline-block',
+                                  }}> Destinations:<br/>
+                                  {
+                                      JSON.parse(myMaps[i].locations).map((item, _i) => {
+                                        if (_i != 0) {
+                                          return (
+                                            <Fragment key={'destinations-map-tile-label-'+_i}>
+                                              <div
+                                                style={{
+                                                  display: 'inline-block'
+                                                }}>
+                                                &nbsp;{ item }&nbsp;
+                                              </div>
+                                              {
+                                                _i % 5 == 0
+                                                ? <><br/></>
+                                                : null
+                                              }
+                                              {
+                                                _i == JSON.parse(myMaps[i].locations).length-1
+                                                ? <div style={{ paddingBottom: '18px' }}></div>
+                                                : null
+                                              }
+                                            </Fragment>
+                                          )
+                                        }
+                                      })
+                                  }
+                                </div>
+                            }
                             </div>
                           </div>
                         </div>
