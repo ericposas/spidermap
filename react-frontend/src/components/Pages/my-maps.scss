@@ -30,7 +30,7 @@
 }
 
 .my-map-tile:hover {
-  // transform: scale(1.025);
+  transform: scale(1.025);
   transform: translateX(-4px);
   transition: transform .2s ease-out;
 }

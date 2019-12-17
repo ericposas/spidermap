@@ -251,7 +251,8 @@ const MyMaps = ({ ...props }) => {
               <div
                 className='x-button-maps-modal'
                 onClick={() => setConfirmDeleteModal(false)}>
-                <div className='x-button-x-symbol'>&#10006;</div>
+                <div
+                  className='x-button-x-symbol'>&#10006;</div>
               </div>
             <div
               onClick={()=>{}}
@@ -296,22 +297,6 @@ const MyMaps = ({ ...props }) => {
                   return (
                     <Fragment key={'map-tile-'+i}>
                       <div style={{ position: 'relative' }}>
-                        <div
-                          className='x-button x-button-map-tile'
-                          style={{
-                            float: 'right',
-                            marginTop: '0px',
-                            marginRight: '18px',
-                            zIndex: '10',
-                            // transform: 'scale(1.35)',
-                          }}
-                          onClick={() => deleteMap(myMaps[i].id)}>
-                          <div
-                            style={{ zIndex: '10' }}
-                            className='x-button-x-symbol-map-tile'>
-                            &#10006;
-                          </div>
-                          </div>
                           <div
                             onClick={() => {
                               createMap(myMaps[i].type, JSON.parse(myMaps[i].locations))
@@ -381,67 +366,81 @@ const MyMaps = ({ ...props }) => {
                                     }
                                 </div>
                               :
-
-                                    JSON.parse(myMaps[i].locations).map((destArr, _i) => {
-                                      return (
-                                        <div
-                                          key={'pointmap-tile-'+destArr[_i]}
-                                          style={{
-                                            textAlign: 'left',
-                                          }}>
-                                          <div
-                                            style={{
-                                              float: 'left',
-                                              textAlign: 'left',
-                                              margin: '0 0 0 12px',
-                                              display: 'inline-block',
-                                              width: '100px'
-                                            }}>
-                                            Origin: <br/>
-                                            <div style={{ fontSize: '1.35rem' }}>
-                                              { destArr[0] }
-                                            </div>
-                                          </div>
-                                          <div
-                                            style={{
-                                              textAlign: 'left',
-                                              margin: '0 0 0 12px',
-                                              display: 'inline-block',
-                                            }}>
-                                            Destinations: <br/>
-                                          {
-                                            destArr.map((item, __i) => {
-                                              if (__i != 0) {
-                                                return (
-                                                  <Fragment key={'destinations-map-tile-label-'+__i}>
-                                                    <div
-                                                      style={{
-                                                        textAlign: 'left',
-                                                        display: 'inline-block',
-                                                      }}>
-                                                      &nbsp;{ item }&nbsp;
-                                                    </div>
-                                                    {
-                                                      __i % 5 == 0
-                                                      ? <><br/></>
-                                                      : null
-                                                    }
-                                                    {
-                                                      __i == destArr.length-1
-                                                      ? <div style={{ paddingBottom: '18px' }}></div>
-                                                      : null
-                                                    }
-                                                  </Fragment>
-                                                )
-                                              }
-                                            })
-                                          }
+                                JSON.parse(myMaps[i].locations).map((destArr, _i) => {
+                                  return (
+                                    <div
+                                      key={'pointmap-tile-'+destArr[_i]}
+                                      style={{
+                                        textAlign: 'left',
+                                      }}>
+                                      <div
+                                        style={{
+                                          float: 'left',
+                                          textAlign: 'left',
+                                          margin: '0 0 0 12px',
+                                          display: 'inline-block',
+                                          width: '100px'
+                                        }}>
+                                        Origin: <br/>
+                                        <div style={{ fontSize: '1.35rem' }}>
+                                          { destArr[0] }
                                         </div>
                                       </div>
-                                    )
-                                  })
-
+                                      <div
+                                        style={{
+                                          textAlign: 'left',
+                                          margin: '0 0 0 12px',
+                                          display: 'inline-block',
+                                        }}>
+                                        Destinations: <br/>
+                                      {
+                                        destArr.map((item, __i) => {
+                                          if (__i != 0) {
+                                            return (
+                                              <Fragment key={'destinations-map-tile-label-'+__i}>
+                                                <div
+                                                  style={{
+                                                    textAlign: 'left',
+                                                    display: 'inline-block',
+                                                  }}>
+                                                  &nbsp;{ item }&nbsp;
+                                                </div>
+                                                {
+                                                  __i % 5 == 0
+                                                  ? <><br/></>
+                                                  : null
+                                                }
+                                                {
+                                                  __i == destArr.length-1
+                                                  ? <div style={{ paddingBottom: '18px' }}></div>
+                                                  : null
+                                                }
+                                                </Fragment>
+                                              )
+                                            }
+                                          })
+                                        }
+                                      </div>
+                                    </div>
+                                  )
+                              })
                             }
+                            </div>
+                          </div>
+                          <div
+                            className='x-button x-button-map-tile'
+                            style={{
+                              top: 0, right: '24px',
+                              position: 'absolute',
+                              zIndex: '10',
+                              width: '10px',
+                              // backgroundColor: 'red'
+                            }}
+                            onClick={() => deleteMap(myMaps[i].id)}>
+                            <div
+                              style={{ zIndex: '10' }}
+                              className='x-button-x-symbol-map-tile'>
+                              &#10006;
                             </div>
                           </div>
                         </div>
