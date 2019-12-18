@@ -225,7 +225,11 @@ const GlobalMaps = ({ ...props }) => {
   }
 
   useEffect(() => {
-    populateCodes()
+    if (!checkAuth()) {
+      props.history.push('/')
+    } else {
+      populateCodes()
+    }
   }, [])
 
   return (<>

@@ -224,9 +224,13 @@ const MyMaps = ({ ...props }) => {
   }
 
   useEffect(() => {
-    populateCodes()
+    if (!checkAuth()) {
+      props.history.push('/')
+    } else {
+      populateCodes()
+    }
   }, [])
-
+  
   return (<>
     {
       showDeletingMapFromDB_Notification
