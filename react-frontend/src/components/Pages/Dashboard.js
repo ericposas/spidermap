@@ -122,6 +122,7 @@ const Dashboard = ({ ...props }) => {
       <div className='row' style={{whiteSpace:'nowrap'}}>
         <UserLeftSidePanel/>
         <CSSTransition
+          appear
           unmountOnExit
           in={!selectedMenuItem}
           timeout={300}

@@ -83,7 +83,7 @@ const GenerateSpidermap = ({ ...props }) => {
     codes.forEach(code => obj[code] = { displayType: val })
     dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP, payload: obj })
     setShowContextMenu(true)
-    setTimeout(() => setShowContextMenu(false), 10)
+    setTimeout(() => setShowContextMenu(false), 5)
   }
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const GenerateSpidermap = ({ ...props }) => {
       setListedLegalLines(legal)
       // hack to re-render svg data
       setShowContextMenu(true)
-      setTimeout(() => setShowContextMenu(false), 10)
+      setTimeout(() => setShowContextMenu(false), 5)
       // load timezone data
       if (!timezoneLatLongs) {
         axios.get('/timezones', { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
@@ -106,7 +106,7 @@ const GenerateSpidermap = ({ ...props }) => {
                dispatch({ type: SET_TIMEZONE_LATLONGS, payload: result.data[0].all })
                // hack to re-render svg data
                setShowContextMenu(true)
-               setTimeout(() => setShowContextMenu(false), 10)
+               setTimeout(() => setShowContextMenu(false), 5)
              })
       }
     }
