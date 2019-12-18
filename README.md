@@ -4,6 +4,8 @@
 
 #### Programming:
 
+  - Add "appear" transitions to all panels
+
   - Add "Update Existing" and "Save as New" options when saving maps to DB
 
 
