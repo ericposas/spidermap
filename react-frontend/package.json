@@ -27,6 +27,7 @@
     "jquery": "^3.4.1",
     "jspdf": "^1.5.3",
     "lodash": "^4.17.15",
+    "path-intersection": "^2.1.0",
     "random": "^2.1.1",
     "react": "^16.10.1",
     "react-addons-css-transition-group": "^15.6.2",

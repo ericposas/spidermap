@@ -14,6 +14,7 @@ import Upload from './components/Pages/Upload'
 import MyFiles from './components/Pages/MyFiles'
 import MyMaps from './components/Pages/MyMaps'
 import GlobalMaps from './components/Pages/GlobalMaps'
+import GenerateSpidermapTest from './components/Pages/GenerateSpidermapTest'
 import { WINDOW_RESIZE, RESIZE_ADDED } from './constants/constants'
 
 const App = ({ ...props }) => {
@@ -37,6 +38,7 @@ const App = ({ ...props }) => {
   return (<>
     <Router>
       <Switch>
+        <Route path='/spidermap-test' component={GenerateSpidermapTest}/>
         <Route exact path='/'>
           <Redirect to='/login'/>
         </Route>
