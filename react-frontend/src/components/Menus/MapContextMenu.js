@@ -55,7 +55,7 @@ const MapContextMenu = ({ ...props }) => {
         () => {
           dispatch({ type: props.labelDisplayTypeAction, which: props.contextMenuProps.title, displayType: 'full' })
           props.setShowContextMenu(false)
-          setTimeout(() => props.setShowContextMenu(true), 10)
+          setTimeout(() => props.setShowContextMenu(true), 5)
         }
       }>Full</div>
     <div className='context-menu-label-display-type-option'
@@ -63,7 +63,7 @@ const MapContextMenu = ({ ...props }) => {
         () => {
           dispatch({ type: props.labelDisplayTypeAction, which: props.contextMenuProps.title, displayType: 'region' })
           props.setShowContextMenu(false)
-          setTimeout(() => props.setShowContextMenu(true), 10)
+          setTimeout(() => props.setShowContextMenu(true), 5)
         }
       }>Region</div>
     <div className='context-menu-label-display-type-option'
@@ -71,7 +71,7 @@ const MapContextMenu = ({ ...props }) => {
         () => {
           dispatch({ type: props.labelDisplayTypeAction, which: props.contextMenuProps.title, displayType: 'city' })
           props.setShowContextMenu(false)
-          setTimeout(() => props.setShowContextMenu(true), 10)
+          setTimeout(() => props.setShowContextMenu(true), 5)
         }
       }>City</div>
     <div className='context-menu-label-display-type-option'
@@ -79,7 +79,7 @@ const MapContextMenu = ({ ...props }) => {
         () => {
           dispatch({ type: props.labelDisplayTypeAction, which: props.contextMenuProps.title, displayType: 'code' })
           props.setShowContextMenu(false)
-          setTimeout(() => props.setShowContextMenu(true), 10)
+          setTimeout(() => props.setShowContextMenu(true), 5)
         }
       }>Code</div>
     <div className='context-menu-label-display-type-option'
@@ -87,7 +87,7 @@ const MapContextMenu = ({ ...props }) => {
         () => {
           dispatch({ type: props.labelDisplayTypeAction, which: props.contextMenuProps.title, displayType: 'city-and-code' })
           props.setShowContextMenu(false)
-          setTimeout(() => props.setShowContextMenu(true), 10)
+          setTimeout(() => props.setShowContextMenu(true), 5)
         }
       }>City, Code</div>
     </div>

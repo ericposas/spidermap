@@ -107,7 +107,7 @@ const GeneratePointmap = ({ ...props }) => {
     codes.forEach(code => obj[code] = { displayType: val })
     dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP, payload: obj })
     setShowContextMenu(true)
-    setTimeout(() => setShowContextMenu(false), 10)
+    setTimeout(() => setShowContextMenu(false), 5)
   }
 
   const getX = long => {
