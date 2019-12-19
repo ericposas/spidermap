@@ -186,7 +186,7 @@ const GeneratePointmap = ({ ...props }) => {
     )
 
   }
-
+  
   return (<>
     { downloadingPDF ? <div className='white-backing'></div> : null }
     <div className='row'>

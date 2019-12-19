@@ -38,7 +38,6 @@ const App = ({ ...props }) => {
   return (<>
     <Router>
       <Switch>
-        <Route path='/spidermap-test' component={GenerateSpidermapTest}/>
         <Route exact path='/'>
           <Redirect to='/login'/>
         </Route>
@@ -49,7 +48,7 @@ const App = ({ ...props }) => {
         <Route path='/my-maps' component={MyMaps}/>
         <Route path='/global-maps' component={GlobalMaps}/>
         <Route path='/generate-listview' component={GenerateListView}/>
-        <Route path='/generate-spidermap' component={GenerateSpidermap}/>
+        <Route path='/generate-spidermap' component={GenerateSpidermapTest}/>
         <Route path='/generate-pointmap' component={GeneratePointmap}/>
         <Route path='/listview' component={ListView}/>
         <Route path='/pointmap' component={Pointmap}/>
