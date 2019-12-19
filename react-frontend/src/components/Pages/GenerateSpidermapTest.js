@@ -42,32 +42,38 @@ const GenerateSpidermapTest = ({ ...props }) => {
 
   const sortCodesForSpidermap = data => {
 
-    let firstRing =[], secondRing = [], thirdRing = [], fourthRing = []
+    let firstRing =[], secondRing = [], thirdRing = [], fourthRing = [], fifthRing = []
 
     data.forEach(dest => {
       if ((selectedOriginSpidermap.longitude - dest.longitude) < -20 && (selectedOriginSpidermap.longitude - dest.longitude) > -300) {
-        fourthRing.push(dest)
+        fifthRing.push(dest)
       }
       if ((selectedOriginSpidermap.longitude - dest.longitude) < -15 && (selectedOriginSpidermap.longitude - dest.longitude) > -20) {
-        thirdRing.push(dest)
+        fourthRing.push(dest)
       }
       if ((selectedOriginSpidermap.longitude - dest.longitude) < -10 && (selectedOriginSpidermap.longitude - dest.longitude) > -15) {
-        secondRing.push(dest)
-      }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) < 0 && (selectedOriginSpidermap.longitude - dest.longitude) > -10) {
-        firstRing.push(dest)
-      }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) > 0 && (selectedOriginSpidermap.longitude - dest.longitude) < 10) {
-        firstRing.push(dest)
-      }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) > 10 && (selectedOriginSpidermap.longitude - dest.longitude) < 15) {
-        secondRing.push(dest)
-      }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) > 15 && (selectedOriginSpidermap.longitude - dest.longitude) < 20) {
         thirdRing.push(dest)
       }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) > 20 && (selectedOriginSpidermap.longitude - dest.longitude) < 300) {
+      if ((selectedOriginSpidermap.longitude - dest.longitude) < -5 && (selectedOriginSpidermap.longitude - dest.longitude) > -10) {
+        secondRing.push(dest)
+      }
+      if ((selectedOriginSpidermap.longitude - dest.longitude) < 0 && (selectedOriginSpidermap.longitude - dest.longitude) > -5) {
+        firstRing.push(dest)
+      }
+      if ((selectedOriginSpidermap.longitude - dest.longitude) > 0 && (selectedOriginSpidermap.longitude - dest.longitude) < 5) {
+        firstRing.push(dest)
+      }
+      if ((selectedOriginSpidermap.longitude - dest.longitude) > 5 && (selectedOriginSpidermap.longitude - dest.longitude) < 10) {
+        secondRing.push(dest)
+      }
+      if ((selectedOriginSpidermap.longitude - dest.longitude) > 10 && (selectedOriginSpidermap.longitude - dest.longitude) < 15) {
+        thirdRing.push(dest)
+      }
+      if ((selectedOriginSpidermap.longitude - dest.longitude) > 15 && (selectedOriginSpidermap.longitude - dest.longitude) < 20) {
         fourthRing.push(dest)
+      }
+      if ((selectedOriginSpidermap.longitude - dest.longitude) > 20 && (selectedOriginSpidermap.longitude - dest.longitude) < 300) {
+        fifthRing.push(dest)
       }
 
     })
@@ -76,12 +82,14 @@ const GenerateSpidermapTest = ({ ...props }) => {
     secondRing = secondRing.sort(sortFunction)
     thirdRing = thirdRing.sort(sortFunction)
     fourthRing = fourthRing.sort(sortFunction)
-    
+    fifthRing = fifthRing.sort(sortFunction)
+
     return {
       'one': firstRing,
       'two': secondRing,
       'three': thirdRing,
       'four': fourthRing,
+      'five': fifthRing,
     }
 
   }
@@ -92,32 +100,38 @@ const GenerateSpidermapTest = ({ ...props }) => {
     let startX = innerWidth/2, startY = innerWidth/2
     let distanceBetweenX, distanceBetweenY
     let bendX = (
-      groupName == 'four'
-      ? 50
+      groupName == 'five'
+      ? 25
       :
-        groupName == 'three'
-        ? 20
+        groupName == 'four'
+        ? 15
         :
-          groupName == 'two'
-          ? 15
+          groupName == 'three'
+          ? 10
           :
-            groupName == 'one'
-            ? 10
-            : 0
+            groupName == 'two'
+            ? 5
+            :
+              groupName == 'one'
+              ? 2
+              : 0
     )
     let bendY = (
-      groupName == 'four'
-      ? innerWidth * .05
+      groupName == 'five'
+      ? innerWidth * .03
       :
-        groupName == 'three'
-        ? innerWidth * .025
+        groupName == 'four'
+        ? innerWidth * .02
         :
-          groupName == 'two'
-          ? innerWidth * .015
+          groupName == 'three'
+          ? innerWidth * .01
           :
-            groupName == 'one'
-            ? innerWidth * .01
-            : innerWidth * .00
+            groupName == 'two'
+            ? innerWidth * .005
+            :
+              groupName == 'one'
+              ? innerWidth * .0025
+              : innerWidth * .00
     )
     let cpStartThreshX = .25, cpEndThreshX = .75
     let cpStartThreshY = .25, cpEndThreshY = .75
@@ -148,304 +162,105 @@ const GenerateSpidermapTest = ({ ...props }) => {
   const calcYRadialExtra = (groupArray, _i) => ((((innerWidth * 4)/(groupArray.length * 2)) * _i) - (innerWidth * .65))
 
   const drawLinesFromCenter = (groupName, groupArray, loc, _i) => {
+    let fifthRingPath = `
+      M ${innerWidth/2}, ${innerWidth/2}
+      m -${innerWidth * .375}, 0
+      a ${innerWidth * .375},${innerWidth * .375} 0 1,0 ${innerWidth * .75},0
+      a ${innerWidth * .375},${innerWidth * .375} 0 1,0 -${innerWidth * .75},0
+    `;
     let fourthRingPath = `
       M ${innerWidth/2}, ${innerWidth/2}
-      m -${innerWidth * .35}, 0
-      a ${innerWidth * .35},${innerWidth * .35} 0 1,0 ${innerWidth * .7},0
-      a ${innerWidth * .35},${innerWidth * .35} 0 1,0 -${innerWidth * .7},0
+      m -${innerWidth * .3}, 0
+      a ${innerWidth * .3},${innerWidth * .3} 0 1,0 ${innerWidth * .6},0
+      a ${innerWidth * .3},${innerWidth * .3} 0 1,0 -${innerWidth * .6},0
     `;
     let thirdRingPath = `
       M ${innerWidth/2}, ${innerWidth/2}
-      m -${innerWidth * .25}, 0
-      a ${innerWidth * .25},${innerWidth * .25} 0 1,0 ${innerWidth * .5},0
-      a ${innerWidth * .25},${innerWidth * .25} 0 1,0 -${innerWidth * .5},0
+      m -${innerWidth * .225}, 0
+      a ${innerWidth * .225},${innerWidth * .225} 0 1,0 ${innerWidth * .45},0
+      a ${innerWidth * .225},${innerWidth * .225} 0 1,0 -${innerWidth * .45},0
     `;
     let secondRingPath = `
       M ${innerWidth/2}, ${innerWidth/2}
-      m -${innerWidth * .175}, 0
-      a ${innerWidth * .175},${innerWidth * .175} 0 1,0 ${innerWidth * .35},0
-      a ${innerWidth * .175},${innerWidth * .175} 0 1,0 -${innerWidth * .35},0
+      m -${innerWidth * .15}, 0
+      a ${innerWidth * .15},${innerWidth * .15} 0 1,0 ${innerWidth * .3},0
+      a ${innerWidth * .15},${innerWidth * .15} 0 1,0 -${innerWidth * .3},0
     `;
     let firstRingPath = `
       M ${innerWidth/2}, ${innerWidth/2}
-      m -${innerWidth * .1}, 0
-      a ${innerWidth * .1},${innerWidth * .1} 0 1,0 ${innerWidth * .2},0
-      a ${innerWidth * .1},${innerWidth * .1} 0 1,0 -${innerWidth * .2},0
+      m -${innerWidth * .075}, 0
+      a ${innerWidth * .075},${innerWidth * .075} 0 1,0 ${innerWidth * .15},0
+      a ${innerWidth * .075},${innerWidth * .075} 0 1,0 -${innerWidth * .15},0
     `;
-    switch (groupName) {
-      case 'four': {
-        let path = `
-          M ${innerWidth/2}, ${innerWidth/2}
-          L ${ loc.longitude < selectedOriginSpidermap.longitude ? 0 : innerWidth }, ${calcYRadialExtra(groupArray, _i)}
-        `;
-        let point = intersect(fourthRingPath, path)[0]
-        let { cp1, cp2 } = calcPath(point.x, point.y, groupName)
-        return (
-          <g key={'path-ring-four-'+_i}>
-            <path
-              fill={'none'}
-              stroke={'#006CC4'}
-              strokeWidth={2}
-              d={`
-                M ${innerWidth/2}, ${innerWidth/2}
-                C ${cp1.x},${cp1.y}
-                  ${cp2.x},${cp2.y}
-                  ${point.x},${point.y}`
-                }>
-            </path>
-            <circle
-              ref={mapDotRefs.current[_i]}
-              r={5}
-              cx={point.x}
-              cy={point.y}
-              fill={'#000'}>
-            </circle>
-            <text
-              ref={destinationTextRefs.current[_i]}
-              style={{
-                fontSize: '.65rem'
-              }}
-              x={
-                loc.longitude < selectedOriginSpidermap.longitude
-                ?
-                  point.x - (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().width + 10
-                    : 0
-                  )
-                :
-                  (point.x + 10)
-              }
-              y={
-                point.y > innerHeight/2
-                ?
-                  point.y + (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().height
-                    : 0
-                  )
-                :
-                  point.y - (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().height * .5
-                    : 0
-                  )
-              }>
-              {loc.city}, {loc.code}
-            </text>
-          </g>
-        )
+    const getProperRing = gpName => {
+      switch (gpName) {
+        case 'one':
+          return firstRingPath
+          break;
+        case 'two':
+          return secondRingPath
+          break;
+        case 'three':
+          return thirdRingPath
+          break;
+        case 'four':
+          return fourthRingPath
+          break;
+        case 'five':
+          return fifthRingPath
+          break;
+        default:
+          return firstRingPath
       }
-        break;
-      case 'three': {
-        let path = `
-          M ${innerWidth/2}, ${innerWidth/2}
-          L ${ loc.longitude < selectedOriginSpidermap.longitude ? 0 : innerWidth }, ${calcYRadial(groupArray, _i)}
-        `;
-        let point = intersect(thirdRingPath, path)[0]
-        let { cp1, cp2 } = calcPath(point.x, point.y, groupName)
-        return (
-          <g key={'path-ring-three-'+_i}>
-            {/*<path
-              stroke={'#000'}
-              strokeWidth={'1'}
-              d={path}>
-              </path>*/}
-            {/*<path
-              stroke={'#000'}
-              strokeWidth={'1'}
-              d={`
-                M ${innerWidth/2}, ${innerWidth/2}
-                L ${point.x}, ${point.y}
-                `}>
-              </path>*/}
-            <path
-              fill={'none'}
-              stroke={'#006CC4'}
-              strokeWidth={2}
-              d={`
-                M ${innerWidth/2}, ${innerWidth/2}
-                C ${cp1.x},${cp1.y}
-                  ${cp2.x},${cp2.y}
-                  ${point.x},${point.y}`
-                }>
-            </path>
-            <circle
-              ref={mapDotRefs.current[_i]}
-              r={5}
-              cx={point.x}
-              cy={point.y}
-              fill={'#000'}>
-            </circle>
-            <text
-              ref={destinationTextRefs.current[_i]}
-              style={{
-                fontSize: '.65rem'
-              }}
-              x={
-                loc.longitude < selectedOriginSpidermap.longitude
-                ?
-                  point.x - (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().width + 10
-                    : 0
-                  )
-                :
-                  (point.x + 10)
-              }
-              y={
-                point.y > innerHeight/2
-                ?
-                  point.y + (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().height
-                    : 0
-                  )
-                :
-                  point.y - (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().height * .5
-                    : 0
-                  )
-              }>
-              {loc.city}, {loc.code}
-            </text>
-          </g>
-        )
-      }
-        break;
-      case 'two': {
-        let path = `
-          M ${innerWidth/2}, ${innerWidth/2}
-          L ${ loc.longitude < selectedOriginSpidermap.longitude ? 0 : innerWidth }, ${calcYRadial(groupArray, _i)}
-        `;
-        let point = intersect(secondRingPath, path)[0]
-        let { cp1, cp2 } = calcPath(point.x, point.y, groupName)
-        return (
-          <g key={'path-ring-two-'+_i}>
-            <path
-              fill={'none'}
-              stroke={'#006CC4'}
-              strokeWidth={2}
-              d={`
-                M ${innerWidth/2}, ${innerWidth/2}
-                C ${cp1.x},${cp1.y}
-                  ${cp2.x},${cp2.y}
-                  ${point.x},${point.y}`
-                }>
-            </path>
-            <circle
-              ref={mapDotRefs.current[_i]}
-              r={5}
-              cx={point.x}
-              cy={point.y}
-              fill={'#000'}>
-            </circle>
-            <text
-              ref={destinationTextRefs.current[_i]}
-              style={{
-                fontSize: '.65rem'
-              }}
-              x={
-                loc.longitude < selectedOriginSpidermap.longitude
-                ?
-                  point.x - (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().width + 10
-                    : 0
-                  )
-                :
-                  (point.x + 10)
-              }
-              y={
-                point.y > innerHeight/2
-                ?
-                  point.y + (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().height
-                    : 0
-                  )
-                :
-                  point.y - (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().height * .5
-                    : 0
-                  )
-              }>
-              {loc.city}, {loc.code}
-            </text>
-          </g>
-        )
-      }
-        break;
-      case 'one': {
-        let path = `
-          M ${innerWidth/2}, ${innerWidth/2}
-          L ${ loc.longitude < selectedOriginSpidermap.longitude ? 0 : innerWidth }, ${calcYRadial(groupArray, _i)}
-        `;
-        let point = intersect(firstRingPath, path)[0]
-        let { cp1, cp2 } = calcPath(point.x, point.y, groupName)
-        return (
-          <g key={`path-ring-one-${_i}`}>
-            <path
-              fill={'none'}
-              stroke={'#006CC4'}
-              strokeWidth={2}
-              d={`
-                M ${innerWidth/2}, ${innerWidth/2}
-                C ${cp1.x},${cp1.y}
-                  ${cp2.x},${cp2.y}
-                  ${point.x},${point.y}`
-              }>
-            </path>
-            <circle
-              ref={mapDotRefs.current[_i]}
-              r={5}
-              cx={point.x}
-              cy={point.y}
-              fill={'#000'}>
-            </circle>
-            <text
-              ref={destinationTextRefs.current[_i]}
-              style={{
-                fontSize: '.65rem'
-              }}
-              x={
-                loc.longitude < selectedOriginSpidermap.longitude
-                ?
-                  point.x - (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().width + 10
-                    : 0
-                  )
-                :
-                  (point.x + 10)
-              }
-              y={
-                point.y > innerHeight/2
-                ?
-                  point.y + (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().height
-                    : 0
-                  )
-                :
-                  point.y - (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? destinationTextRefs.current[_i].current.getBBox().height * .5
-                    : 0
-                  )
-              }>
-              {loc.city}, {loc.code}
-            </text>
-          </g>
-        )
-      }
-        break;
-      default:
-
     }
+    let path = `
+      M ${innerWidth/2}, ${innerWidth/2}
+      L ${ loc.longitude < selectedOriginSpidermap.longitude ? 0 : innerWidth }, ${calcYRadialExtra(groupArray, _i)}
+    `;
+    let point = intersect(getProperRing(groupName), path)[0]
+    let { cp1, cp2 } = calcPath(point.x, point.y, groupName)
 
+    return (
+          <g key={`path-ring-${groupName}-${_i}`}>
+            <path
+              fill={'none'}
+              stroke={'#006CC4'}
+              strokeWidth={2}
+              d={`
+                M ${innerWidth/2}, ${innerWidth/2}
+                C ${cp1.x},${cp1.y}
+                  ${cp2.x},${cp2.y}
+                  ${point.x},${point.y}`
+              }>
+            </path>
+            <circle
+              ref={mapDotRefs.current[_i]}
+              r={5}
+              cx={point.x}
+              cy={point.y}
+              fill={'#000'}>
+            </circle>
+            <text
+              ref={destinationTextRefs.current[_i]}
+              style={{
+                fontSize: '.65rem'
+              }}
+              x={
+                point.x < (innerWidth/2)
+                ?
+                  point.x - (
+                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
+                    ? (destinationTextRefs.current[_i].current.getBBox().width + 10)
+                    : 0
+                  )
+                :
+                  (point.x + 10)
+              }
+              y={point.y}>
+              {loc.city}, {loc.code}
+            </text>
+          </g>
+        )
   }
 
   // <rect
@@ -634,7 +449,7 @@ const GenerateSpidermapTest = ({ ...props }) => {
             <text
               ref={originTextRef}
               x={ (originTextRef && originTextRef.current ? innerWidth/2 - originTextRef.current.getBBox().width/2 : 0) }
-              y={ (originTextRef && originTextRef.current ? innerWidth/2 + originTextRef.current.getBBox().height * 1.5 : 0) }>
+              y={ (originTextRef && originTextRef.current ? innerWidth/2 - originTextRef.current.getBBox().height * 1.5 : 0) }>
               {selectedOriginSpidermap && selectedOriginSpidermap.city},&nbsp;
               {selectedOriginSpidermap && selectedOriginSpidermap.code}
             </text>
