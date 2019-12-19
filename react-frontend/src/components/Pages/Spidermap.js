@@ -25,6 +25,8 @@ const Spidermap = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
+  const allCodes = useSelector(state => state.allCodesData)
+
   const lastLocation = useSelector(state => state.lastLocation)
 
   const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
@@ -120,9 +122,16 @@ const Spidermap = ({ ...props }) => {
             <span style={{ position: 'absolute', left: '10%', margin: 'auto', width: '100px', marginTop: '5%' }}>
               <DropdownGraphicStyle overrideStyle={{ fontSize: '1.5rem' }}>
                 {
-                  !selectedOriginSpidermap
-                  ? <>Origin Airport</>
-                : selectedOriginSpidermap.city
+                  allCodes
+                  ?
+                    <>
+                    {
+                      !selectedOriginSpidermap
+                      ? <>Origin Airport</>
+                      : selectedOriginSpidermap.city
+                    }
+                    </>
+                  : <>Loading data...</>
                 }
               </DropdownGraphicStyle>
             </span>
