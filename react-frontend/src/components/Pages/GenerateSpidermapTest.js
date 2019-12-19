@@ -13,8 +13,8 @@ const GenerateSpidermapTest = ({ ...props }) => {
   // const pathsRef = useRef(destinations.map(() => createRef()))
 
   const sortFunction = (a, b) => {
-    if (a < b) return -1
-    if (a > b) return 1
+    if (a.latitude < b.latitude) return 1
+    if (a.latitude > b.latitude) return -1
     return 0
   }
 
@@ -24,7 +24,7 @@ const GenerateSpidermapTest = ({ ...props }) => {
 
   const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
 
-  const selectedDestinationsSpidermap = useSelector(state => state.selectedDestinationsSpidermap)
+  const selectedDestinationsSpidermap = useSelector(state => state.selectedDestinationsSpidermap.sort(sortFunction))
 
   const destinationTextRefs = useRef(selectedDestinationsSpidermap.sort(sortFunction).map(() => createRef()))
 
@@ -50,28 +50,28 @@ const GenerateSpidermapTest = ({ ...props }) => {
       if ((selectedOriginSpidermap.longitude - dest.longitude) < -20 && (selectedOriginSpidermap.longitude - dest.longitude) > -300) {
         fifthRing.push(dest)
       }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) < -15 && (selectedOriginSpidermap.longitude - dest.longitude) > -20) {
+      if ((selectedOriginSpidermap.longitude - dest.longitude) < -12 && (selectedOriginSpidermap.longitude - dest.longitude) > -20) {
         fourthRing.push(dest)
       }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) < -10 && (selectedOriginSpidermap.longitude - dest.longitude) > -15) {
+      if ((selectedOriginSpidermap.longitude - dest.longitude) < -5 && (selectedOriginSpidermap.longitude - dest.longitude) > -12) {
         thirdRing.push(dest)
       }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) < -5 && (selectedOriginSpidermap.longitude - dest.longitude) > -10) {
+      if ((selectedOriginSpidermap.longitude - dest.longitude) < -2 && (selectedOriginSpidermap.longitude - dest.longitude) > -5) {
         secondRing.push(dest)
       }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) < 0 && (selectedOriginSpidermap.longitude - dest.longitude) > -5) {
+      if ((selectedOriginSpidermap.longitude - dest.longitude) < 0 && (selectedOriginSpidermap.longitude - dest.longitude) > -2) {
         firstRing.push(dest)
       }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) > 0 && (selectedOriginSpidermap.longitude - dest.longitude) < 5) {
+      if ((selectedOriginSpidermap.longitude - dest.longitude) > 0 && (selectedOriginSpidermap.longitude - dest.longitude) < 2) {
         firstRing.push(dest)
       }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) > 5 && (selectedOriginSpidermap.longitude - dest.longitude) < 10) {
+      if ((selectedOriginSpidermap.longitude - dest.longitude) > 2 && (selectedOriginSpidermap.longitude - dest.longitude) < 5) {
         secondRing.push(dest)
       }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) > 10 && (selectedOriginSpidermap.longitude - dest.longitude) < 15) {
+      if ((selectedOriginSpidermap.longitude - dest.longitude) > 5 && (selectedOriginSpidermap.longitude - dest.longitude) < 12) {
         thirdRing.push(dest)
       }
-      if ((selectedOriginSpidermap.longitude - dest.longitude) > 15 && (selectedOriginSpidermap.longitude - dest.longitude) < 20) {
+      if ((selectedOriginSpidermap.longitude - dest.longitude) > 12 && (selectedOriginSpidermap.longitude - dest.longitude) < 20) {
         fourthRing.push(dest)
       }
       if ((selectedOriginSpidermap.longitude - dest.longitude) > 20 && (selectedOriginSpidermap.longitude - dest.longitude) < 300) {
@@ -80,11 +80,11 @@ const GenerateSpidermapTest = ({ ...props }) => {
 
     })
 
-    firstRing = firstRing.sort(sortFunction)
-    secondRing = secondRing.sort(sortFunction)
-    thirdRing = thirdRing.sort(sortFunction)
-    fourthRing = fourthRing.sort(sortFunction)
-    fifthRing = fifthRing.sort(sortFunction)
+    // firstRing = firstRing.sort(sortFunction)
+    // secondRing = secondRing.sort(sortFunction)
+    // thirdRing = thirdRing.sort(sortFunction)
+    // fourthRing = fourthRing.sort(sortFunction)
+    // fifthRing = fifthRing.sort(sortFunction)
 
     return {
       'one': firstRing,
@@ -141,13 +141,13 @@ const GenerateSpidermapTest = ({ ...props }) => {
     distanceBetweenX = endX - startX
     cp1.x = startX + (distanceBetweenX * cpStartThreshX)
     cp2.x = startX + (distanceBetweenX * cpEndThreshX)
-    cp1.x += bendX
-    cp2.x += bendX
-    // if (startX > endX) {
-    // } else {
-    //   cp1.x -= bendX
-    //   cp2.x -= bendX
-    // }
+    if (startX > endX) {
+      cp1.x += bendX
+      cp2.x += bendX
+    } else {
+      cp1.x -= bendX
+      cp2.x -= bendX
+    }
 
     distanceBetweenY = endY - startY
     cp1.y = startY + (distanceBetweenY * cpStartThreshY)
@@ -225,7 +225,12 @@ const GenerateSpidermapTest = ({ ...props }) => {
     // let multiplier = 50
     let path = `
       M ${innerWidth/2}, ${innerWidth/2}
-      L ${ loc.longitude < selectedOriginSpidermap.longitude ? 0 : innerWidth }, ${ (50 * _i) }
+      L ${ loc.longitude < selectedOriginSpidermap.longitude ? 0 : innerWidth },
+        ${
+          groupName != 'one' && groupName != 'two'
+          ? ((innerWidth/selectedDestinationsSpidermap.length) * _i) * 2.75
+          : ((innerWidth/selectedDestinationsSpidermap.length) * _i) * 5
+        }
     `;
     let point = intersect(getProperRing(groupName), path)[0]
     let { cp1, cp2 } = calcPath(point.x, point.y, groupName)
@@ -236,16 +241,18 @@ const GenerateSpidermapTest = ({ ...props }) => {
               fill={'none'}
               stroke={'#006CC4'}
               strokeWidth={2}
-              d={`
+              d={
+                /*`
                 M ${innerWidth/2},${innerWidth/2}
                 L ${point.x},${point.y}
+              `*/
               `
-              /*`
                 M ${innerWidth/2}, ${innerWidth/2}
                 C ${cp1.x},${cp1.y}
                   ${cp2.x},${cp2.y}
-                  ${point.x},${point.y}`
-              */}>
+                  ${point.x},${point.y}
+              `
+              }>
             </path>
             <circle
               ref={mapDotRefs.current[_i]}
@@ -257,7 +264,8 @@ const GenerateSpidermapTest = ({ ...props }) => {
             <text
               ref={destinationTextRefs.current[_i]}
               style={{
-                fontSize: '.65rem'
+                textAlign: 'center',
+                fontSize: '.5rem'
               }}
               x={
                 point.x < (innerWidth/2)
@@ -270,7 +278,11 @@ const GenerateSpidermapTest = ({ ...props }) => {
                 :
                   (point.x + 10)
               }
-              y={point.y}>
+              y={
+                selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
+                ? point.y + destinationTextRefs.current[_i].current.getBBox().height/2
+                : 0
+              }>
               {loc.city}, {loc.code}
             </text>
           </g>
