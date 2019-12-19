@@ -15,7 +15,7 @@ import MyFiles from './components/Pages/MyFiles'
 import MyMaps from './components/Pages/MyMaps'
 import GlobalMaps from './components/Pages/GlobalMaps'
 import GenerateSpidermapTest from './components/Pages/GenerateSpidermapTest'
-import { WINDOW_RESIZE, RESIZE_ADDED } from './constants/constants'
+import { WINDOW_RESIZE, RESIZE_ADDED, RERENDER_HACK } from './constants/constants'
 
 const App = ({ ...props }) => {
 
@@ -25,16 +25,25 @@ const App = ({ ...props }) => {
 
   const resizeListenerAdded = useSelector(state => state.resizeListenerAdded)
 
+  const resizedW = () => {
+    dispatch({ type: WINDOW_RESIZE, payload: { innerWidth, innerHeight } })
+    dispatch({ type: RERENDER_HACK, payload: true })
+    setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 5)
+  }
+
+  let resizeTimeout
+
   useEffect(() => {
     if (resizeListenerAdded == false) {
       dispatch({ type: RESIZE_ADDED })
       dispatch({ type: WINDOW_RESIZE, payload: { innerWidth, innerHeight } })
       window.addEventListener('resize', () => {
-        dispatch({ type: WINDOW_RESIZE, payload: { innerWidth, innerHeight } })
+        clearTimeout(resizeTimeout)
+        resizeTimeout = setTimeout(resizedW, 100)
       })
     }
   }, [])
-
+  
   return (<>
     <Router>
       <Switch>

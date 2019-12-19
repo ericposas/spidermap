@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, createRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getUser } from '../../sessionStore'
-import { SET_ALL_CODES } from '../../constants/constants'
+import { SET_ALL_CODES, RERENDER_HACK } from '../../constants/constants'
 import intersect from 'path-intersection'
 import axios from 'axios'
 
@@ -36,7 +36,9 @@ const GenerateSpidermapTest = ({ ...props }) => {
 
   const svgRef = useRef()
 
-  const [rerenderHack, setRerenderHack] = useState(false)
+  const rerenderHack = useSelector(state => state.rerenderHack)
+
+  // const [rerenderHack, setRerenderHack] = useState(false)
 
   // const destinations = useSelector(state => state.selectedDestinationsSpidermap)
 
@@ -139,17 +141,17 @@ const GenerateSpidermapTest = ({ ...props }) => {
     distanceBetweenX = endX - startX
     cp1.x = startX + (distanceBetweenX * cpStartThreshX)
     cp2.x = startX + (distanceBetweenX * cpEndThreshX)
-    if (startX > endX) {
-      cp1.x += bendX
-      cp2.x += bendX
-    } else {
-      cp1.x -= bendX
-      cp2.x -= bendX
-    }
+    cp1.x += bendX
+    cp2.x += bendX
+    // if (startX > endX) {
+    // } else {
+    //   cp1.x -= bendX
+    //   cp2.x -= bendX
+    // }
 
     distanceBetweenY = endY - startY
-    cp1.y = startY + (distanceBetweenY * cpStartThreshY) - bendY
-    cp2.y = startY + (distanceBetweenY * cpEndThreshY) - bendY
+    cp1.y = startY + (distanceBetweenY * cpStartThreshY)
+    cp2.y = startY + (distanceBetweenY * cpEndThreshY)
 
     return {
       cp1, cp2
@@ -157,9 +159,16 @@ const GenerateSpidermapTest = ({ ...props }) => {
 
   }
 
-  const calcYRadial = (groupArray, _i) => ((((innerWidth * 2)/(groupArray.length * 2)) * _i) - (innerWidth/4))
+  const calcYRadial1 = (groupArray, _i) => ((((innerWidth * 2)/(groupArray.length * 2)) * _i) - (innerWidth/4))
 
-  const calcYRadialExtra = (groupArray, _i) => ((((innerWidth * 4)/(groupArray.length * 2)) * _i) - (innerWidth * .65))
+  const calcYRadial2 = (groupArray, _i) => ((((innerWidth * 8)/(groupArray.length * 2)) * _i) - innerWidth)
+
+  const calcYRadialMult = (groupArray, _i, mult) => {
+    let full = (innerWidth * mult)
+    return ((full/(groupArray.length * 2)) * _i) - (full/8)
+  }
+
+  // const calcYRadial1 = (groupArray, _i) => (((innerWidth/groupArray.length) * _i))
 
   const drawLinesFromCenter = (groupName, groupArray, loc, _i) => {
     let fifthRingPath = `
@@ -213,9 +222,10 @@ const GenerateSpidermapTest = ({ ...props }) => {
           return firstRingPath
       }
     }
+    // let multiplier = 50
     let path = `
       M ${innerWidth/2}, ${innerWidth/2}
-      L ${ loc.longitude < selectedOriginSpidermap.longitude ? 0 : innerWidth }, ${calcYRadialExtra(groupArray, _i)}
+      L ${ loc.longitude < selectedOriginSpidermap.longitude ? 0 : innerWidth }, ${ (50 * _i) }
     `;
     let point = intersect(getProperRing(groupName), path)[0]
     let { cp1, cp2 } = calcPath(point.x, point.y, groupName)
@@ -227,11 +237,15 @@ const GenerateSpidermapTest = ({ ...props }) => {
               stroke={'#006CC4'}
               strokeWidth={2}
               d={`
+                M ${innerWidth/2},${innerWidth/2}
+                L ${point.x},${point.y}
+              `
+              /*`
                 M ${innerWidth/2}, ${innerWidth/2}
                 C ${cp1.x},${cp1.y}
                   ${cp2.x},${cp2.y}
                   ${point.x},${point.y}`
-              }>
+              */}>
             </path>
             <circle
               ref={mapDotRefs.current[_i]}
@@ -354,7 +368,8 @@ const GenerateSpidermapTest = ({ ...props }) => {
   useEffect(() => {
     if (selectedDestinationsSpidermap.length != 0) {
       setSpidermapCodes(sortCodesForSpidermap(selectedDestinationsSpidermap))
-      setTimeout(() => setRerenderHack(true), 1)
+      dispatch({ type: RERENDER_HACK, payload: true })
+      setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 1)
     } else {
       props.history.push('/spidermap')
     }
