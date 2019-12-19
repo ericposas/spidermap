@@ -446,8 +446,18 @@ const GenerateSpidermapTest = ({ ...props }) => {
               cx={innerWidth/2}
               cy={innerWidth/2}>
             </circle>
+            <rect
+              fill={'#fff'}
+              x={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().x - 2 : 0) }
+              y={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().y - 3 : 0) }
+              width={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().width + 4 : 0) }
+              height={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().height + 4 : 0) }>
+            </rect>
             <text
               ref={originTextRef}
+              style={{
+                fontWeight: 'bolder'
+              }}
               x={ (originTextRef && originTextRef.current ? innerWidth/2 - originTextRef.current.getBBox().width/2 : 0) }
               y={ (originTextRef && originTextRef.current ? innerWidth/2 - originTextRef.current.getBBox().height * 1.5 : 0) }>
               {selectedOriginSpidermap && selectedOriginSpidermap.city},&nbsp;
