@@ -4,6 +4,8 @@ import { REMOVE_A_DESTINATION_LISTVIEW } from '../../constants/listview'
 
 const DestinationListViewElement = ({ ...props }) => {
 
+  const [hilite, setHilite] = useState(false)
+
   const dispatch = useDispatch()
 
   const removeElementHandler = () => {
@@ -16,11 +18,18 @@ const DestinationListViewElement = ({ ...props }) => {
     <>
     <div>
       <div style={{
-            display:'inline-block'
+            display:'inline-block',
+            color: hilite ? '#fff' : '#777',
+            backgroundColor: hilite ? '#ccc' : '#fff',
           }}>
         {props.destinationObject.code} - {props.destinationObject.city} - {props.destinationObject.region} &nbsp;
       </div>
-      <div className='x-button' style={{display:'inline-block'}} onClick={removeElementHandler}>
+      <div
+        className='x-button'
+        style={{ display:'inline-block', float: 'right', marginRight: '4px' }}
+        onClick={removeElementHandler}
+        onMouseOver={() => setHilite(true)}
+        onMouseOut={() => setHilite(false)}>
         <div className='x-button-x-symbol'>&#10005;</div>
       </div>
     </div>

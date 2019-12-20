@@ -186,7 +186,7 @@ const GeneratePointmap = ({ ...props }) => {
     )
 
   }
-  
+
   return (<>
     { downloadingPDF ? <div className='white-backing'></div> : null }
     <div className='row'>
@@ -196,9 +196,9 @@ const GeneratePointmap = ({ ...props }) => {
         id='map-content'
         className='col-med pdf-content'
         style={{
-          transform: downloadingPDF ? `scale(${550/innerHeight})` : '',
           height:'100vh',
           backgroundColor: '#fff',
+          transform: downloadingPDF ? `scale(${550/innerHeight})` : '',
         }}>
         <ChangeAllLabelsMenu
           showChangeAllLabelsMenu={showChangeAllLabelsMenu}

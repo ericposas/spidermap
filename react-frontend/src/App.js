@@ -43,7 +43,7 @@ const App = ({ ...props }) => {
       })
     }
   }, [])
-  
+
   return (<>
     <Router>
       <Switch>
@@ -57,7 +57,7 @@ const App = ({ ...props }) => {
         <Route path='/my-maps' component={MyMaps}/>
         <Route path='/global-maps' component={GlobalMaps}/>
         <Route path='/generate-listview' component={GenerateListView}/>
-        <Route path='/generate-spidermap' component={GenerateSpidermapTest}/>
+        <Route path='/generate-spidermap' component={GenerateSpidermap}/>
         <Route path='/generate-pointmap' component={GeneratePointmap}/>
         <Route path='/listview' component={ListView}/>
         <Route path='/pointmap' component={Pointmap}/>

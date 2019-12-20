@@ -2,7 +2,23 @@ import React, { useEffect, useState, useRef, createRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getUser } from '../../sessionStore'
+import UserLeftSidePanel from '../Views/UserLeftSidePanel'
+import DownloadImagePanel from '../Views/DownloadAndSavePanel'
+import ChangeAllLabelsMenu from '../Menus/ChangeAllLabelsMenu'
+import MapContextMenu from '../Menus/MapContextMenu'
+import { CSSTransition } from 'react-transition-group'
 import { SET_ALL_CODES, RERENDER_HACK } from '../../constants/constants'
+import {
+  SET_LABEL_POSITION_SPIDERMAP, SET_LABEL_DISPLAY_TYPE_SPIDERMAP,
+  SET_ALL_LABEL_POSITIONS_SPIDERMAP, SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP,
+} from '../../constants/spidermap'
+import {
+  svgBgColor, svgMargin,
+  originDotSize, originDotColor, originCircleColor,
+  originCircleSize, originLabelFontSize,
+  destinationDotColor, destinationLabelFontSize, destinationDotSize,
+  pathStrokeColor, pathStrokeThickness
+} from '../../mapSettings.config'
 import intersect from 'path-intersection'
 import axios from 'axios'
 
@@ -17,6 +33,24 @@ const GenerateSpidermapTest = ({ ...props }) => {
   }
 
   const dispatch = useDispatch()
+
+  const displayMapBG = useSelector(state => state.displayMapBG)
+
+  const timezoneLatLongs = useSelector(state => state.timezoneLatLongs)
+
+  const [listedLegalLines, setListedLegalLines] = useState([])
+
+  const [showContextMenu, setShowContextMenu] = useState(false)
+
+  const [contextMenuPosition, setContextMenuPosition] = useState({})
+
+  const [contextMenuProps, setContextMenuProps] = useState({})
+
+  const [showChangeAllLabelsMenu, setShowChangeAllLabelsMenu] = useState(false)
+
+  const labelPositions = useSelector(state => state.spidermap_labelPositions)
+
+  const labelDisplayTypes = useSelector(state => state.spidermap_labelDisplayTypes)
 
   const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
 
@@ -35,6 +69,43 @@ const GenerateSpidermapTest = ({ ...props }) => {
   const svgRef = useRef()
 
   const rerenderHack = useSelector(state => state.rerenderHack)
+
+  const columnDivRef = useRef()
+
+  // const userLeftPanelRef = useRef()
+
+  // const dlImagePanelRef = useRef()
+
+  const changeAllLabelPositions = e => {
+    let val = e.target.value
+    let obj = {}
+    let codes = destinations.concat(origin)
+                  .map(loc => loc.code)
+    codes.forEach(code => obj[code] = { position: val })
+    dispatch({ type: SET_ALL_LABEL_POSITIONS_SPIDERMAP, payload: obj })
+  }
+
+  const changeAllLabelDisplayTypes = e => {
+    let val = e.target.value
+    let obj = {}
+    let codes = destinations.concat(origin)
+                  .map(loc => loc.code)
+    codes.forEach(code => obj[code] = { displayType: val })
+    dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP, payload: obj })
+    dispatch({ type: RERENDER_HACK, payload: true })
+    setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 5)
+  }
+
+  const calcInnerWidth = () => {
+    return (
+      innerWidth - (
+        userLeftPanelRef && userLeftPanelRef.current &&
+        dlImagePanelRef && dlImagePanelRef.current
+        ? (parseInt(getComputedStyle(dlImagePanelRef.current).getPropertyValue('width')) + parseInt(getComputedStyle(dlImagePanelRef.current).getPropertyValue('width')))
+        : 0
+      )
+    )
+  }
 
   const sortCodesForSpidermap = data => {
 
@@ -291,62 +362,78 @@ const GenerateSpidermapTest = ({ ...props }) => {
 
   return (
     <>
+      <div className='white-backing'></div>
+      {/*<div className='white-backing'></div>
       <div
-        id='map-content'
-        className='col-med pdf-content'
-        style={{
-          height:'100vh', backgroundColor: '#fff',
-        }}>
-        <svg
-          ref={svgRef}
+        className='row'
+        style={{ backgroundColor: '#fff', position: 'absolute' }}>
+        <UserLeftSidePanel/>
+        <DownloadImagePanel type='spidermap' label='Spider Map'/>
+        <div
+          id='map-content'
+          ref={columnDivRef}
+          className='col-med pdf-content'
           style={{
-            top: 0, bottom: 0,
-            left: 0, right: 0,
-            position: 'absolute',
-            backgroundColor:'#fff',
-          }}
-          width={innerWidth}
-          height={innerWidth}>
-          <g>
-            {
-              spidermapCodes && (
-                Object.keys(spidermapCodes).map(group => {
-                  return spidermapCodes[group].map((loc, _i) => drawLinesFromCenter(group, spidermapCodes[group], loc, _i, i))
-                })
-              )
-            }
-            <circle
-              r={10}
-              fill={'#000'}
-              stroke={'#000'}
-              cx={innerWidth/2}
-              cy={innerWidth/2}>
-            </circle>
-            <rect
-              fill={'#fff'}
-              x={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().x - 2 : 0) }
-              y={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().y - 3 : 0) }
-              width={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().width + 4 : 0) }
-              height={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().height + 4 : 0) }>
-            </rect>
-            <text
-              ref={originTextRef}
-              style={{
-                fontWeight: 'bolder'
-              }}
-              x={ (originTextRef && originTextRef.current ? innerWidth/2 - originTextRef.current.getBBox().width/2 : 0) }
-              y={ (originTextRef && originTextRef.current ? innerWidth/2 - originTextRef.current.getBBox().height * 1.5 : 0) }>
-              {selectedOriginSpidermap && selectedOriginSpidermap.city},&nbsp;
-              {selectedOriginSpidermap && selectedOriginSpidermap.code}
-            </text>
-            {
-              rerenderHack
-              ? <div></div>
-              : null
-            }
-          </g>
-        </svg>
-      </div>
+            height:'100vh',
+            position: 'relative',
+            backgroundColor: '#fff',
+            boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
+          }}>
+          <ChangeAllLabelsMenu
+            showChangeAllLabelsMenu={showChangeAllLabelsMenu}
+            setShowChangeAllLabelsMenu={setShowChangeAllLabelsMenu}
+            changeAllLabelPositions={changeAllLabelPositions}
+            changeAllLabelDisplayTypes={changeAllLabelDisplayTypes}/>
+        </div>
+      </div>*/}
+      <svg
+        ref={svgRef}
+        style={{
+          position: 'absolute',
+          top: 0, bottom: 0, left: 0, right: 0,
+          backgroundColor: displayMapBG ? '#fff' : 'rgba(0, 0, 0, 0)',
+        }}
+        width={innerWidth}
+        height={innerWidth}>
+        <g>
+          {
+            spidermapCodes && (
+              Object.keys(spidermapCodes).map(group => {
+                return spidermapCodes[group].map((loc, _i) => drawLinesFromCenter(group, spidermapCodes[group], loc, _i, i))
+              })
+            )
+          }
+          <circle
+            r={10}
+            fill={'#000'}
+            stroke={'#000'}
+            cx={innerWidth/2}
+            cy={innerWidth/2}>
+          </circle>
+          <rect
+            fill={'#fff'}
+            x={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().x - 2 : 0) }
+            y={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().y - 3 : 0) }
+            width={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().width + 4 : 0) }
+            height={ (originTextRef && originTextRef.current ? originTextRef.current.getBBox().height + 4 : 0) }>
+          </rect>
+          <text
+            ref={originTextRef}
+            style={{
+              fontWeight: 'bolder'
+            }}
+            x={ (originTextRef && originTextRef.current ? innerWidth/2 - originTextRef.current.getBBox().width/2 : 0) }
+            y={ (originTextRef && originTextRef.current ? innerWidth/2 - originTextRef.current.getBBox().height * 1.5 : 0) }>
+            {selectedOriginSpidermap && selectedOriginSpidermap.city},&nbsp;
+            {selectedOriginSpidermap && selectedOriginSpidermap.code}
+          </text>
+          {
+            rerenderHack
+            ? <div></div>
+            : null
+          }
+        </g>
+      </svg>
     </>
   )
 

@@ -47,13 +47,13 @@ const UserLeftSidePanel = ({ ...props }) => {
           <br/><br/>
           <div style={{
               fontWeight: 'lighter', textAlign: 'center',
-              fontSize:'1.5rem', color:'#777'
+              fontSize:'1.5rem', color:'#777', margin: '0 0 0 20px'
             }}>
             Welcome
           </div>
           <div style={{
               fontWeight: 'lighter', textAlign: 'center',
-              color:'#37acf4'
+              color:'#37acf4', margin: '0 0 0 20px'
             }}>
             {
               checkAuth()
@@ -73,7 +73,8 @@ const UserLeftSidePanel = ({ ...props }) => {
             }}
             style={{
               color: '#777', textAlign: 'center',
-              cursor: 'pointer', fontSize: '.85rem'
+              cursor: 'pointer', fontSize: '.85rem',
+              margin: '0 0 0 20px'
             }}>Log out</div>
           <br/>
           <div style={{

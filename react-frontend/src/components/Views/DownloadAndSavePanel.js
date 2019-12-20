@@ -37,6 +37,8 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const [resolution, setResolution] = useState(2)
 
+  const [resolutionPixels, setResolutionPixels] = useState()
+
   const exportResolution = useSelector(state => state.exportResolution)
 
   const windowSize = useSelector(state => state.windowSize)
@@ -287,7 +289,7 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const getButtonsContainerBottom = () => (
     downloadSaveButtonsContainerRef && downloadSaveButtonsContainerRef.current
-    ? (parseInt(getComputedStyle(downloadSaveButtonsContainerRef.current, null).getPropertyValue('height')) * (fileType && type != 'listview' && (fileType == 'PNG' || fileType == 'JPG') ? .575 : .75)) + 'px'
+    ? (parseInt(getComputedStyle(downloadSaveButtonsContainerRef.current, null).getPropertyValue('height')) * (fileType && type != 'listview' && (fileType == 'PNG' || fileType == 'JPG') ? .75 : .95)) + 'px'
     : 0
   )
 
@@ -340,8 +342,15 @@ const DownloadImagePanel = ({ ...props }) => {
           position: windowSize && windowSize.innerHeight > 600 ? 'relative' : '',
         }}>
         <div
-          style={{ margin: '50% 0 0 0', padding: '0 10% 0 15%' }}>
-          <div className='map-type-title'>
+          style={{
+            margin: type == 'listview' || type == 'spidermap' ? '70% 0 0 0' : '54% 0 0 0',
+            padding: '0 10% 0 15%'
+          }}>
+          <div
+            className='map-type-title'
+            style={{
+              padding: '0 0 17.5% 0'
+            }}>
             Export<br/>
             {props.label}
           </div>
@@ -388,7 +397,12 @@ const DownloadImagePanel = ({ ...props }) => {
             <DropdownGraphicStyle overrideStyle={{}}>{fileType}</DropdownGraphicStyle>
             <select
               style={{ opacity: '0.001' }}
-              onClick={() => setButtonsContainerBottom(getButtonsContainerBottom())}
+              onClick={() => {
+                setButtonsContainerBottom(getButtonsContainerBottom())
+                if (document.getElementById('map-content')) {
+                  setResolutionPixels(parseInt(getComputedStyle(document.getElementById('map-content')).getPropertyValue('width')))
+                }
+              }}
               onChange={e => {
                 setFileType(e.target.value)
                 setButtonsContainerBottom(getButtonsContainerBottom())
@@ -403,19 +417,24 @@ const DownloadImagePanel = ({ ...props }) => {
               ?
                 (<>
                   <div>Select resolution:</div>
-                  <DropdownGraphicStyle overrideStyle={{}}>{resolution}</DropdownGraphicStyle>
+                  <DropdownGraphicStyle overrideStyle={{}}>{resolution}x - {resolutionPixels*resolution}px</DropdownGraphicStyle>
                   <select
                     style={{ opacity: '0.001' }}
                     defaultValue={resolution}
-                    onClick={() => setButtonsContainerBottom(getButtonsContainerBottom())}
+                    onClick={() => {
+                      setButtonsContainerBottom(getButtonsContainerBottom())
+                      if (document.getElementById('map-content')) {
+                        setResolutionPixels(parseInt(getComputedStyle(document.getElementById('map-content')).getPropertyValue('width')))
+                      }
+                    }}
                     onChange={e => {
                       setResolution(e.target.value)
                       // dispatch({ type: EXPORT_RESOLUTION, payload: e.target.value })
                       setButtonsContainerBottom(getButtonsContainerBottom())
                     }}>
-                    <option value='1'>1x</option>
-                    <option value='2'>2x</option>
-                    <option value='3'>3x</option>
+                    <option value='1'>1x &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value='2'>2x &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    <option value='3'>3x &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
                   </select>
                 </>)
               : null

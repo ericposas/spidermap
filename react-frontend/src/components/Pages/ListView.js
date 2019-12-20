@@ -20,6 +20,8 @@ const ListView = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
+  const allCodes = useSelector(state => state.allCodesData)
+
   const lastLocation = useSelector(state => state.lastLocation)
 
   const selectedOriginListView = useSelector(state => state.selectedOriginListView)
@@ -98,12 +100,19 @@ const ListView = ({ ...props }) => {
               </div>
             </div>
             <br/>
-            <span style={{ position: 'absolute', left: '10%', margin: 'auto', width: '100px', marginTop: '5%' }}>
+            <span style={{ position: 'absolute', left: '10%', margin: 'auto', width: '100px', marginTop: 0 }}>
               <DropdownGraphicStyle overrideStyle={{ fontSize: '1.5rem' }}>
                 {
-                  !selectedOriginListView
-                  ? <>Origin Airport</>
-                : selectedOriginListView.city
+                  allCodes
+                  ?
+                    <>
+                    {
+                      !selectedOriginListView
+                      ? <>Select Origin Airport</>
+                    : selectedOriginListView.city
+                    }
+                    </>
+                  : <>Loading data...</>
                 }
               </DropdownGraphicStyle>
             </span>

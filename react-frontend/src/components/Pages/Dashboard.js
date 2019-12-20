@@ -225,7 +225,7 @@ const Dashboard = ({ ...props }) => {
           <div
             className={`col-med panel-style`}
             style={{
-              width:'300px', height: '100vh',
+              width:'450px', height: '100vh',
               cursor: 'pointer'
             }}
             onClick={() => props.history.push('/spidermap')}>
@@ -233,9 +233,9 @@ const Dashboard = ({ ...props }) => {
               className='subtitle'
               style={{
                 color: '#ccc', margin: '50% 0 20% 10%',
-                fontWeight: 'lighter',
+                fontWeight: 'lighter', paddingRight: '30px'
               }}>
-              { SPIDERMAP }
+              { 'Spider Map' }
             </div>
             <div
               className='map-type-icon-container'
@@ -254,9 +254,9 @@ const Dashboard = ({ ...props }) => {
                   color: '#999', fontWeight: 'lighter',
                   margin: '180px 0 0 20px',
                 }}>
-                { SPIDERMAP }
+                {/* 'Spider Map' */}
                 <div style={{ fontSize: '.6rem' }}>
-                  Description here.
+                  {/*Description here.*/}
                 </div>
               </div>
             </div>
@@ -270,8 +270,8 @@ const Dashboard = ({ ...props }) => {
           <div
             className={`col-med panel-style`}
             style={{
-              width:'300px', height: '100vh',
-              cursor: 'pointer'
+              width:'450px', height: '100vh',
+              cursor: 'pointer', paddingRight: '10px'
             }}
             onClick={() => props.history.push('/pointmap')}>
             <div
@@ -280,7 +280,7 @@ const Dashboard = ({ ...props }) => {
                 color: '#ccc', margin: '50% 0 20% 10%',
                 fontWeight: 'lighter',
               }}>
-              { POINTMAP }
+              { 'Point-to-Point Map' }
             </div>
             <div
               className='map-type-icon-container'
@@ -298,9 +298,9 @@ const Dashboard = ({ ...props }) => {
                   color: '#999', fontWeight: 'lighter',
                   margin: '180px 0 0 20px',
                 }}>
-                { POINTMAP }
+                {/* 'Point-to-Point Map' */}
                 <div style={{ fontSize: '.6rem' }}>
-                  Description here.
+                  {/*Description here.*/}
                 </div>
               </div>
             </div>
@@ -314,8 +314,8 @@ const Dashboard = ({ ...props }) => {
           <div
             className={`col-med panel-style`}
             style={{
-              width:'300px', height: '100vh',
-              cursor: 'pointer'
+              width:'450px', height: '100vh',
+              cursor: 'pointer', paddingRight: '20px'
             }}
             onClick={() => props.history.push('/listview')}>
             <div
@@ -324,7 +324,7 @@ const Dashboard = ({ ...props }) => {
                 color: '#ccc', margin: '50% 0 20% 10%',
                 fontWeight: 'lighter',
               }}>
-              { LISTVIEW }
+              { 'List View' }
             </div>
             <div
               className='map-type-icon-container'
@@ -342,9 +342,9 @@ const Dashboard = ({ ...props }) => {
                   color: '#999', fontWeight: 'lighter',
                   margin: '180px 0 0 20px',
                 }}>
-                { LISTVIEW }
+                {/* 'List View' */}
                 <div style={{ fontSize: '.6rem' }}>
-                  Description here.
+                  {/*Description here.*/}
                 </div>
               </div>
             </div>

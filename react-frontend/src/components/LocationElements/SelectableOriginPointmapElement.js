@@ -98,7 +98,7 @@ const SelectableOriginPointmapElement = ({ ...props }) => {
             : <span>&nbsp;&#91;0&#93;</span>
           }
         </div>
-        <div style={{ display: 'inline-block' }}
+        <div style={{ display: 'inline-block', float: 'right', marginRight: '4px' }}
              className='x-button'
              onClick={removeElementHandler}>
           <div className='x-button-x-symbol'>

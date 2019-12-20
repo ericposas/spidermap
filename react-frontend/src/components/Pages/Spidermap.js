@@ -119,7 +119,7 @@ const Spidermap = ({ ...props }) => {
               </div>
             </div>
             <br/>
-            <span style={{ position: 'absolute', left: '10%', margin: 'auto', width: '100px', marginTop: '5%' }}>
+            <span style={{ position: 'absolute', left: '10%', margin: 'auto', width: '100px', marginTop: 0 }}>
               <DropdownGraphicStyle overrideStyle={{ fontSize: '1.5rem' }}>
                 {
                   allCodes
@@ -127,7 +127,7 @@ const Spidermap = ({ ...props }) => {
                     <>
                     {
                       !selectedOriginSpidermap
-                      ? <>Origin Airport</>
+                      ? <>Select Origin Airport</>
                       : selectedOriginSpidermap.city
                     }
                     </>
