@@ -8,9 +8,7 @@ import axios from 'axios'
 
 const GenerateSpidermapTest = ({ ...props }) => {
 
-  // let i = 0
-
-  // const pathsRef = useRef(destinations.map(() => createRef()))
+  let i = 0
 
   const sortFunction = (a, b) => {
     if (a.latitude < b.latitude) return 1
@@ -20,15 +18,19 @@ const GenerateSpidermapTest = ({ ...props }) => {
 
   const dispatch = useDispatch()
 
-  // const allCodes = useSelector(state => state.allCodesData)
-
   const selectedOriginSpidermap = useSelector(state => state.selectedOriginSpidermap)
 
   const selectedDestinationsSpidermap = useSelector(state => state.selectedDestinationsSpidermap.sort(sortFunction))
 
-  const destinationTextRefs = useRef(selectedDestinationsSpidermap.sort(sortFunction).map(() => createRef()))
+  const dotRefs = useRef(selectedDestinationsSpidermap.map(() => createRef()))
 
-  const mapDotRefs = useRef(selectedDestinationsSpidermap.sort(sortFunction).map(() => createRef()))
+  const textRefs = useRef(selectedDestinationsSpidermap.map(() => createRef()))
+
+  const pathRefs = useRef(selectedDestinationsSpidermap.map(() => createRef()))
+
+  // const destinationTextRefs = useRef(selectedDestinationsSpidermap.sort(sortFunction).map(() => createRef()))
+
+  // const mapDotRefs = useRef(selectedDestinationsSpidermap.sort(sortFunction).map(() => createRef()))
 
   const [spidermapCodes, setSpidermapCodes] = useState(null)
 
@@ -37,10 +39,6 @@ const GenerateSpidermapTest = ({ ...props }) => {
   const svgRef = useRef()
 
   const rerenderHack = useSelector(state => state.rerenderHack)
-
-  // const [rerenderHack, setRerenderHack] = useState(false)
-
-  // const destinations = useSelector(state => state.selectedDestinationsSpidermap)
 
   const sortCodesForSpidermap = data => {
 
@@ -80,18 +78,12 @@ const GenerateSpidermapTest = ({ ...props }) => {
 
     })
 
-    // firstRing = firstRing.sort(sortFunction)
-    // secondRing = secondRing.sort(sortFunction)
-    // thirdRing = thirdRing.sort(sortFunction)
-    // fourthRing = fourthRing.sort(sortFunction)
-    // fifthRing = fifthRing.sort(sortFunction)
-
     return {
-      'one': firstRing,
-      'two': secondRing,
-      'three': thirdRing,
-      'four': fourthRing,
       'five': fifthRing,
+      'four': fourthRing,
+      'three': thirdRing,
+      'two': secondRing,
+      'one': firstRing,
     }
 
   }
@@ -103,36 +95,36 @@ const GenerateSpidermapTest = ({ ...props }) => {
     let distanceBetweenX, distanceBetweenY
     let bendX = (
       groupName == 'five'
-      ? 25
+      ? 50
       :
         groupName == 'four'
-        ? 15
+        ? 35
         :
           groupName == 'three'
-          ? 10
+          ? 20
           :
             groupName == 'two'
-            ? 5
+            ? 15
             :
               groupName == 'one'
-              ? 2
+              ? 10
               : 0
     )
     let bendY = (
       groupName == 'five'
-      ? innerWidth * .03
+      ? innerWidth * .04
       :
         groupName == 'four'
-        ? innerWidth * .02
+        ? innerWidth * .0275
         :
           groupName == 'three'
-          ? innerWidth * .01
+          ? innerWidth * .015
           :
             groupName == 'two'
-            ? innerWidth * .005
+            ? innerWidth * .01
             :
               groupName == 'one'
-              ? innerWidth * .0025
+              ? innerWidth * .005
               : innerWidth * .00
     )
     let cpStartThreshX = .25, cpEndThreshX = .75
@@ -150,8 +142,8 @@ const GenerateSpidermapTest = ({ ...props }) => {
     }
 
     distanceBetweenY = endY - startY
-    cp1.y = startY + (distanceBetweenY * cpStartThreshY)
-    cp2.y = startY + (distanceBetweenY * cpEndThreshY)
+    cp1.y = startY + (distanceBetweenY * cpStartThreshY) - bendY
+    cp2.y = startY + (distanceBetweenY * cpEndThreshY) - bendY
 
     return {
       cp1, cp2
@@ -159,18 +151,7 @@ const GenerateSpidermapTest = ({ ...props }) => {
 
   }
 
-  const calcYRadial1 = (groupArray, _i) => ((((innerWidth * 2)/(groupArray.length * 2)) * _i) - (innerWidth/4))
-
-  const calcYRadial2 = (groupArray, _i) => ((((innerWidth * 8)/(groupArray.length * 2)) * _i) - innerWidth)
-
-  const calcYRadialMult = (groupArray, _i, mult) => {
-    let full = (innerWidth * mult)
-    return ((full/(groupArray.length * 2)) * _i) - (full/8)
-  }
-
-  // const calcYRadial1 = (groupArray, _i) => (((innerWidth/groupArray.length) * _i))
-
-  const drawLinesFromCenter = (groupName, groupArray, loc, _i) => {
+  const drawLinesFromCenter = (groupName, groupArray, loc, _i, i) => {
     let fifthRingPath = `
       M ${innerWidth/2}, ${innerWidth/2}
       m -${innerWidth * .375}, 0
@@ -222,66 +203,79 @@ const GenerateSpidermapTest = ({ ...props }) => {
           return firstRingPath
       }
     }
-    // let multiplier = 50
+
     let path = `
       M ${innerWidth/2}, ${innerWidth/2}
       L ${ loc.longitude < selectedOriginSpidermap.longitude ? 0 : innerWidth },
         ${
           groupName != 'one' && groupName != 'two'
-          ? ((innerWidth/selectedDestinationsSpidermap.length) * _i) * 2.75
-          : ((innerWidth/selectedDestinationsSpidermap.length) * _i) * 5
+          ? (((innerWidth/selectedDestinationsSpidermap.length) * _i) * 2.75) - (((innerWidth/selectedDestinationsSpidermap.length) * _i) * .75)
+          : (((innerWidth/selectedDestinationsSpidermap.length) * _i) * 10)
         }
     `;
     let point = intersect(getProperRing(groupName), path)[0]
     let { cp1, cp2 } = calcPath(point.x, point.y, groupName)
-
+    
     return (
           <g key={`path-ring-${groupName}-${_i}`}>
             <path
+              id={`${loc.city}-path`}
+              ref={pathRefs[i]}
               fill={'none'}
               stroke={'#006CC4'}
               strokeWidth={2}
-              d={
-                /*`
-                M ${innerWidth/2},${innerWidth/2}
-                L ${point.x},${point.y}
-              `*/
-              `
+              d={`
                 M ${innerWidth/2}, ${innerWidth/2}
                 C ${cp1.x},${cp1.y}
                   ${cp2.x},${cp2.y}
                   ${point.x},${point.y}
-              `
-              }>
+              `}>
             </path>
+            {
+              /*
+              <rect
+                fill={'#fff'}
+                width={50}
+                height={10}
+                x={
+                  point.x < (innerWidth/2) ? point.x - 50 : point.x
+                }
+                y={point.y}>
+              </rect>
+              */
+            }
             <circle
-              ref={mapDotRefs.current[_i]}
+              id={`${loc.city}-dot`}
+              ref={dotRefs[i]}
               r={5}
               cx={point.x}
               cy={point.y}
               fill={'#000'}>
             </circle>
             <text
-              ref={destinationTextRefs.current[_i]}
+              id={`${loc.city}-text`}
+              ref={textRefs[i]}
               style={{
                 textAlign: 'center',
-                fontSize: '.5rem'
+                fontSize: '.3rem'
               }}
               x={
                 point.x < (innerWidth/2)
                 ?
                   point.x - (
-                    selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                    ? (destinationTextRefs.current[_i].current.getBBox().width + 10)
+                    selectedDestinationsSpidermap && textRefs[_i] && textRefs[_i].current
+                    ? (textRefs[_i].getBBox().width + 10)
                     : 0
                   )
                 :
                   (point.x + 10)
               }
               y={
-                selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-                ? point.y + destinationTextRefs.current[_i].current.getBBox().height/2
-                : 0
+                point.y < (innerWidth/2)
+                ?
+                  point.y - 1
+                :
+                  point.y + 5
               }>
               {loc.city}, {loc.code}
             </text>
@@ -289,96 +283,9 @@ const GenerateSpidermapTest = ({ ...props }) => {
         )
   }
 
-  // <rect
-  //   fill={'red'}
-  //   x={(
-  //     selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-  //     ? destinationTextRefs.current[_i].current.getBBox().x
-  //     : 0
-  //   )}
-  //   y={(
-  //     selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-  //     ? destinationTextRefs.current[_i].current.getBBox().y
-  //     : 0
-  //   )}
-  //   width={(
-  //     selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-  //     ? destinationTextRefs.current[_i].current.getBBox().width
-  //     : 0
-  //   )}
-  //   height={(
-  //     selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current
-  //     ? destinationTextRefs.current[_i].current.getBBox().height
-  //     : 0
-  //   )}>
-  // </rect>
-
-  // const mapByLongitudeGrouping = (groupName, groupArray, _i) => {
-  //   switch (groupName) {
-  //     case 'left3':
-  //       return (
-  //         <g>
-  //           <circle
-  //             key={'left3-grouping-'+_i}
-  //             r={2}
-  //             cx={10}
-  //             cy={(innerWidth * .005) * _i}
-  //             fill={'red'}>
-  //           </circle>
-  //         </g>
-  //       )
-  //       break;
-  //     case 'left2':
-  //       return (
-  //         <g>
-  //           <circle
-  //             key={'left2-grouping'+_i}
-  //             r={2}
-  //             cx={100}
-  //             cy={(innerWidth * .005) * _i}
-  //             fill={'red'}>
-  //           </circle>
-  //         </g>
-  //       )
-  //       break;
-  //     case 'left1':
-  //       return (
-  //         <g>
-  //           <circle
-  //             key={'left1-grouping'+_i}
-  //             r={2}
-  //             cx={200}
-  //             cy={(innerWidth * .005) * _i}
-  //             fill={'red'}>
-  //           </circle>
-  //         </g>
-  //       )
-  //       break;
-  //     default:
-  //       return (
-  //         <g>
-  //           <circle
-  //             key={'default-grouping'+_i}
-  //             r={2}
-  //             cx={10}
-  //             cy={20}
-  //             fill={'red'}>
-  //           </circle>
-  //         </g>
-  //       )
-  //   }
-  // }
-
-  // const getRef = _i => {
-  //   if (selectedDestinationsSpidermap && destinationTextRefs.current && destinationTextRefs.current[_i] && destinationTextRefs.current[_i].current) {
-  //     return destinationTextRefs.current[_i].current
-  //   } else {
-  //     console.log('cannot find ref')
-  //   }
-  // }
-
   useEffect(() => {
     if (selectedDestinationsSpidermap.length != 0) {
+      // i = 0
       setSpidermapCodes(sortCodesForSpidermap(selectedDestinationsSpidermap))
       dispatch({ type: RERENDER_HACK, payload: true })
       setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 1)
@@ -406,63 +313,13 @@ const GenerateSpidermapTest = ({ ...props }) => {
           width={innerWidth}
           height={innerWidth}>
           <g>
-            {/*<path
-              fill={'none'}
-              stroke={'#000'}
-              strokeWidth={'1'}
-              d={`
-                M ${innerWidth/2}, ${innerWidth/2}
-                m -${innerWidth * .3}, 0
-                a ${innerWidth * .3},${innerWidth * .3} 0 1,0 ${innerWidth * .6},0
-                a ${innerWidth * .3},${innerWidth * .3} 0 1,0 -${innerWidth * .6},0
-              `}>
-            </path>
-            <path
-              fill={'none'}
-              stroke={'#000'}
-              strokeWidth={'1'}
-              d={`
-                M ${innerWidth/2}, ${innerWidth/2}
-                m -${innerWidth * .2}, 0
-                a ${innerWidth * .2},${innerWidth * .2} 0 1,0 ${innerWidth * .4},0
-                a ${innerWidth * .2},${innerWidth * .2} 0 1,0 -${innerWidth * .4},0
-              `}>
-            </path>
-            <path
-              fill={'none'}
-              stroke={'#000'}
-              strokeWidth={'1'}
-              d={`
-                M ${innerWidth/2}, ${innerWidth/2}
-                m -${innerWidth * .15}, 0
-                a ${innerWidth * .15},${innerWidth * .15} 0 1,0 ${innerWidth * .3},0
-                a ${innerWidth * .15},${innerWidth * .15} 0 1,0 -${innerWidth * .3},0
-              `}>
-            </path>
-            <path
-              fill={'none'}
-              stroke={'#000'}
-              strokeWidth={'1'}
-              d={`
-                M ${innerWidth/2}, ${innerWidth/2}
-                m -${innerWidth * .1}, 0
-                a ${innerWidth * .1},${innerWidth * .1} 0 1,0 ${innerWidth * .2},0
-                a ${innerWidth * .1},${innerWidth * .1} 0 1,0 -${innerWidth * .2},0
-              `}>
-            </path>*/}
-            {/*}<circle
-              r={innerWidth * .35}
-              stroke={'#000'}
-              fill={'none'}
-              cx={innerWidth/2}
-              cy={innerWidth/2}>
-              </circle>*/}
             {
               spidermapCodes && (
                 Object.keys(spidermapCodes).map(group => {
-                  // i++
-                  // return spidermapCodes[group].map((loc, i) => mapByLongitudeGrouping(group, spidermapCodes[group], i))
-                  return spidermapCodes[group].map((loc, _i) => drawLinesFromCenter(group, spidermapCodes[group], loc, _i))
+                  return spidermapCodes[group].map((loc, _i) => {
+                    i++
+                    return drawLinesFromCenter(group, spidermapCodes[group], loc, _i, i)
+                  })
                 })
               )
             }
@@ -497,6 +354,21 @@ const GenerateSpidermapTest = ({ ...props }) => {
             }
           </g>
         </svg>
+        {
+          spidermapCodes && Object.keys(spidermapCodes).map(group => {
+            return spidermapCodes[group].map((loc, _i) => {
+              return (
+                <div
+                  style={{
+                    position: 'absolute',
+                    // transform: `translate(${}, ${})`
+                  }}>
+                  { loc.city }
+                </div>
+              )
+            })
+          })
+        }
       </div>
     </>
   )
