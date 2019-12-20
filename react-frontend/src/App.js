@@ -58,6 +58,7 @@ const App = ({ ...props }) => {
         <Route path='/global-maps' component={GlobalMaps}/>
         <Route path='/generate-listview' component={GenerateListView}/>
         <Route path='/generate-spidermap' component={GenerateSpidermap}/>
+        <Route path='/generate-spidermap-test' component={GenerateSpidermapTest}/>
         <Route path='/generate-pointmap' component={GeneratePointmap}/>
         <Route path='/listview' component={ListView}/>
         <Route path='/pointmap' component={Pointmap}/>
