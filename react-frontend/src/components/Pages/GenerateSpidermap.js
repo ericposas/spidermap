@@ -15,6 +15,7 @@ import ChangeAllLabelsMenu from '../Menus/ChangeAllLabelsMenu'
 import MapContextMenu from '../Menus/MapContextMenu'
 import mapSettings from '../../mapSettings.config'
 import { CSSTransition } from 'react-transition-group'
+import intersect from 'path-intersection'
 import axios from 'axios'
 
 const GenerateSpidermap = ({ ...props }) => {
@@ -33,6 +34,8 @@ const GenerateSpidermap = ({ ...props }) => {
       whiteBoxUnderLabelCount = -1
   let labelAdjustX = 2,
       labelAdjustY = 2
+
+  let points = {}
 
   const dispatch = useDispatch()
 
@@ -112,6 +115,20 @@ const GenerateSpidermap = ({ ...props }) => {
     }
   }, [])
 
+  const calcCenter = () => {
+    return {
+      x: ((svgMargin + (innerHeight * 1.15))/2),
+      y: ((svgMargin + (innerHeight - svgMargin))/2),
+    }
+  }
+
+  const getGraphDimensions = () => {
+    return {
+      w: (svgMargin + (innerHeight * 1.15)),
+      h: (svgMargin + (innerHeight - svgMargin))
+    }
+  }
+
   const getX = long => {
     if (!longs.includes(long)) {
       let arr = destinations.map(ap => timezoneLatLongs[ap.timezone].longitude)
@@ -121,7 +138,7 @@ const GenerateSpidermap = ({ ...props }) => {
     }
     linearScaleX = d3.scaleLinear()
                      .domain([longs[0], longs[longs.length-1]])
-                     .range([svgMargin, (innerHeight * 1.15)])
+                     .range([(svgMargin/2), ((innerHeight * 1.15)/2)])
 
     return linearScaleX(long)
   }
@@ -136,10 +153,17 @@ const GenerateSpidermap = ({ ...props }) => {
     }
     linearScaleY = d3.scaleLinear()
                      .domain([(lats[0] * -.5), lats.reduce((a, b) => a + b)])
-                     .range([svgMargin, innerHeight - svgMargin])
+                     .range([(svgMargin/2), ((innerHeight - svgMargin)/2)])
     // the below evenly spaces Y values according to timezone
     return linearScaleY(((lats.reduce((a, b) => a + b) / lats.length)) * lats.indexOf(lat))
   }
+
+  let ringOne = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .225}, 0
+    a ${getGraphDimensions().w * .225},${getGraphDimensions().w * .225} 0 1,0 ${getGraphDimensions().w * .45},0
+    a ${getGraphDimensions().w * .225},${getGraphDimensions().w * .225} 0 1,0 -${getGraphDimensions().w * .45},0
+  `
 
   const calcPath = (ap, i) => {
     let cp1 = {}, cp2 = {}
@@ -150,16 +174,20 @@ const GenerateSpidermap = ({ ...props }) => {
     let cpStartThreshX = .25, cpEndThreshX = .75
     let cpStartThreshY = .25, cpEndThreshY = .75
 
-    startX = getX(timezoneLatLongs[ap.timezone].longitude)
-    endX = getX(timezoneLatLongs[origin.timezone].longitude)
+    startX = getX(ap.longitude) * 2
+    endX = calcCenter().x
     distanceBetweenX = endX - startX
     cp1.x = startX + (distanceBetweenX * cpStartThreshX)
     cp2.x = startX + (distanceBetweenX * cpEndThreshX)
     if (startX > endX) { cp1.x -= bendX; cp2.x -= bendX }
     else { cp1.x += bendX; cp2.x += bendX }
 
-    startY = getY(ap.latitude)
-    endY = getY(origin.latitude)
+    startY = (
+      ap.latitude < origin.latitude
+      ? innerHeight + (i * 10)
+      : 0 - (i * 10)
+    )
+    endY = calcCenter().y
     distanceBetweenY = endY - startY
     cp1.y = startY + (distanceBetweenY * cpStartThreshY) - bendY
     cp2.y = startY + (distanceBetweenY * cpEndThreshY) - bendY
@@ -169,14 +197,27 @@ const GenerateSpidermap = ({ ...props }) => {
     // <circle fill='#e100ff' r='2' cx={cp2.x} cy={cp2.y}></circle>
     pathCount++
 
+    let path = `
+      M ${startX},${startY}
+      L ${endX}, ${endY}
+    `
+    let point = intersect(path, ringOne)[0]
+    console.log(point)
+    points[ap.code] = point
+
     return (
       <g>
-        <path id={`${origin.code}-to-${ap.code}-path`} ref={ pathsRef.current[pathCount] }
+        <path
+          id={`${origin.code}-to-${ap.code}-path`}
+          ref={ pathsRef.current[pathCount] }
           d={
+              /*
               `M ${startX},${startY}
                C ${cp1.x},${cp1.y}
                  ${cp2.x},${cp2.y}
                  ${endX},${endY}`
+              */
+              path
             }
           strokeWidth={pathStrokeThickness}
           stroke={pathStrokeColor}
@@ -234,14 +275,14 @@ const GenerateSpidermap = ({ ...props }) => {
                   <g>
                   <circle
                     r={destinationDotSize}
-                    cx={getX(timezoneLatLongs[ap.timezone].longitude)}
-                    cy={getY(ap.latitude)}
+                    cx={ points[ap.code].x }
+                    cy={ points[ap.code].y }
                     fill={destinationDotColor}></circle>
                   <text
                     id={`destination-${ap.code}-label`}
                     ref={labelsRef.current[labelCount++]}
                     x={
-                        getX(timezoneLatLongs[ap.timezone].longitude) + (
+                        points[ap.code].x + (
                           labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
                           ?
                             labelPositions[ap.code].position == 'right'
@@ -261,7 +302,7 @@ const GenerateSpidermap = ({ ...props }) => {
                         )
                       }
                     y={
-                      getY(ap.latitude) + (
+                      points[ap.code].y + (
                         labelPositions && labelPositions[ap.code]
                         ?
                           labelPositions[ap.code].position == 'right'
@@ -320,7 +361,7 @@ const GenerateSpidermap = ({ ...props }) => {
                     id={`destination-${ap.code}-white-box-under-label`}
                     ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
                     x={
-                        getX(timezoneLatLongs[ap.timezone].longitude) + (
+                        points[ap.code].x + (
                           labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
                           ?
                             labelPositions[ap.code].position == 'right'
@@ -340,7 +381,7 @@ const GenerateSpidermap = ({ ...props }) => {
                         )
                       }
                     y={
-                      getY(ap.latitude) + (
+                      points[ap.code].y + (
                         labelPositions && labelPositions[ap.code]
                         ?
                           labelPositions[ap.code].position == 'right'
@@ -373,7 +414,7 @@ const GenerateSpidermap = ({ ...props }) => {
                     <text
                       id={`destination-${ap.code}-label-double`}
                       x={
-                          getX(timezoneLatLongs[ap.timezone].longitude) + (
+                          points[ap.code].x + (
                             labelPositions && labelPositions[ap.code]  && document.getElementById(`destination-${ap.code}-label`)
                             ?
                               labelPositions[ap.code].position == 'right'
@@ -393,7 +434,7 @@ const GenerateSpidermap = ({ ...props }) => {
                           )
                         }
                       y={
-                        getY(ap.latitude) + (
+                        points[ap.code].y + (
                           labelPositions && labelPositions[ap.code]
                           ?
                             labelPositions[ap.code].position == 'right'
@@ -447,8 +488,8 @@ const GenerateSpidermap = ({ ...props }) => {
                     </text>
                     <rect
                       style={{ cursor: 'pointer' }}
-                      x={getX(timezoneLatLongs[ap.timezone].longitude) - 7}
-                      y={getY(ap.latitude) - 7}
+                      x={ points[ap.code].x - 7 }
+                      y={ points[ap.code].y - 7 }
                       width='14'
                       height='14'
                       fill='rgba(0,0,0,0)'
@@ -457,7 +498,7 @@ const GenerateSpidermap = ({ ...props }) => {
                       setContextMenuProps({
                         title: ap.code
                       })
-                      setContextMenuPosition({ x: getX(timezoneLatLongs[ap.timezone].longitude)+20, y: getY(ap.latitude)-100 })
+                      setContextMenuPosition({ x: points[ap.code].x + 20, y: points[ap.code].y - 100 })
                       setShowContextMenu(true)
                     }}>
                     </rect>
@@ -472,18 +513,18 @@ const GenerateSpidermap = ({ ...props }) => {
             (<>
               <g>
               <circle r={originDotSize}
-                      cx={getX(timezoneLatLongs[origin.timezone].longitude)}
-                      cy={getY(origin.latitude)}
+                      cx={calcCenter().x}
+                      cy={calcCenter().y}
                       fill={originDotColor}></circle>
               <circle r={originCircleSize}
-                      cx={getX(timezoneLatLongs[origin.timezone].longitude)}
-                      cy={getY(origin.latitude)}
+                      cx={calcCenter().x}
+                      cy={calcCenter().y}
                       fill='none'
                       stroke={originCircleColor}></circle>
-                        <text
+                    <text
                           id={`origin-${origin.code}-label`}
                           x={
-                              getX(timezoneLatLongs[origin.timezone].longitude) + (
+                              calcCenter().x + (
                                 labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
                                 ?
                                   labelPositions[origin.code].position == 'right'
@@ -503,7 +544,7 @@ const GenerateSpidermap = ({ ...props }) => {
                               )
                             }
                           y={
-                            getY(origin.latitude) + (
+                            calcCenter().y + (
                               labelPositions && labelPositions[origin.code]
                               ?
                                 labelPositions[origin.code].position == 'right'
@@ -562,7 +603,7 @@ const GenerateSpidermap = ({ ...props }) => {
                           id={`origin-${origin.code}-white-box-under-label`}
                           ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
                           x={
-                              getX(timezoneLatLongs[origin.timezone].longitude) + (
+                              calcCenter().x + (
                                 labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
                                 ?
                                   labelPositions[origin.code].position == 'right'
@@ -582,7 +623,7 @@ const GenerateSpidermap = ({ ...props }) => {
                               )
                             }
                           y={
-                            getY(origin.latitude) + (
+                            calcCenter().y + (
                               labelPositions && labelPositions[origin.code]
                               ?
                                 labelPositions[origin.code].position == 'right'
@@ -619,7 +660,7 @@ const GenerateSpidermap = ({ ...props }) => {
                           <text
                             id={`origin-${origin.code}-label-double`}
                             x={
-                                getX(timezoneLatLongs[origin.timezone].longitude) + (
+                                calcCenter().x + (
                                   labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
                                   ?
                                     labelPositions[origin.code].position == 'right'
@@ -639,7 +680,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                 )
                               }
                             y={
-                              getY(origin.latitude) + (
+                              calcCenter().y + (
                                 labelPositions && labelPositions[origin.code]
                                 ?
                                   labelPositions[origin.code].position == 'right'
@@ -693,8 +734,8 @@ const GenerateSpidermap = ({ ...props }) => {
                           </text>
                           <rect
                             style={{ cursor: 'pointer' }}
-                            x={getX(timezoneLatLongs[origin.timezone].longitude) - 7}
-                            y={getY(origin.latitude) - 7}
+                            x={calcCenter().x - 7}
+                            y={calcCenter().y - 7}
                             width='14'
                             height='14'
                             fill='rgba(0,0,0,0)'
@@ -703,12 +744,24 @@ const GenerateSpidermap = ({ ...props }) => {
                             setContextMenuProps({
                               title: origin.code
                             })
-                            setContextMenuPosition({ x: getX(timezoneLatLongs[origin.timezone].longitude)+20, y: getY(origin.latitude)-100 })
+                            setContextMenuPosition({ x: calcCenter().x + 20, y: calcCenter().y - 100 })
                             setShowContextMenu(true)
                           }}></rect>
               </g>
             </>)
             : null
+          }
+          {
+            <g>
+              <path
+                style={{
+                  pointerEvents: 'none'
+                }}
+                fill={'none'}
+                stroke={'#000'}
+                d={ ringOne }>
+              </path>
+            </g>
           }
           {
             listedLegalLines.map((line, i) => {
