@@ -302,13 +302,13 @@ const GenerateSpidermap = ({ ...props }) => {
       L ${endX}, ${endY}
     `
     let point = intersect(linearPath, ring)[0]
-
+    
     distanceBetweenX = point.x - center.x
     cp1.x = center.x + (distanceBetweenX * cpStartThreshX)
     cp2.x = center.x + (distanceBetweenX * cpEndThreshX)
     if (center.x > point.x) { cp1.x += bendX; cp2.x += bendX }
     else { cp1.x -= bendX; cp2.x -= bendX }
-    
+
     distanceBetweenY = point.y - center.y
     cp1.y = center.y + (distanceBetweenY * cpStartThreshY) - bendY
     cp2.y = center.y + (distanceBetweenY * cpEndThreshY) - bendY
@@ -386,6 +386,16 @@ const GenerateSpidermap = ({ ...props }) => {
                 <Fragment key={ap.code}>
                   <g>
                   <circle
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      setContextMenuProps({
+                        title: ap.code
+                      })
+                      setContextMenuPosition({ x: points[ap.code].x + 20, y: points[ap.code].y - 100 })
+                      setShowContextMenu(true)
+                    }}
                     r={destinationDotSize}
                     cx={ points[ap.code].x }
                     cy={ points[ap.code].y }
@@ -435,7 +445,6 @@ const GenerateSpidermap = ({ ...props }) => {
                     }
                     style={{
                       textAlign: 'center',
-                      pointerEvents: 'none'
                     }}
                     fontSize={destinationLabelFontSize}>
                       {
@@ -467,11 +476,18 @@ const GenerateSpidermap = ({ ...props }) => {
                       }
                   </text>
                   <rect
-                    style={{
-                      pointerEvents: 'none', zIndex: -1
-                    }}
                     id={`destination-${ap.code}-white-box-under-label`}
                     ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
+                    onClick={() => {
+                      setContextMenuProps({
+                        title: ap.code
+                      })
+                      setContextMenuPosition({ x: points[ap.code].x + 20, y: points[ap.code].y - 100 })
+                      setShowContextMenu(true)
+                    }}
+                    style={{
+                      cursor: 'pointer',
+                    }}
                     x={
                         points[ap.code].x + (
                           labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
@@ -522,9 +538,17 @@ const GenerateSpidermap = ({ ...props }) => {
                       ? document.getElementById(`destination-${ap.code}-label`).getBBox().height
                       : 12
                     }
-                    fill='#fff'></rect>
+                    fill='#fff'>
+                    </rect>
                     <text
                       id={`destination-${ap.code}-label-double`}
+                      onClick={() => {
+                        setContextMenuProps({
+                          title: ap.code
+                        })
+                        setContextMenuPosition({ x: points[ap.code].x + 20, y: points[ap.code].y - 100 })
+                        setShowContextMenu(true)
+                      }}
                       x={
                           points[ap.code].x + (
                             labelPositions && labelPositions[ap.code]  && document.getElementById(`destination-${ap.code}-label`)
@@ -566,8 +590,7 @@ const GenerateSpidermap = ({ ...props }) => {
                         )
                       }
                       style={{
-                        textAlign: 'center',
-                        pointerEvents: 'none'
+                        textAlign: 'center', cursor: 'pointer',
                       }}
                       fontSize={destinationLabelFontSize}>
                         {
@@ -598,7 +621,7 @@ const GenerateSpidermap = ({ ...props }) => {
                              ${ap.code}`
                         }
                     </text>
-                    <rect
+                    {/*<rect
                       style={{ cursor: 'pointer' }}
                       x={ points[ap.code].x - 7 }
                       y={ points[ap.code].y - 7 }
@@ -613,7 +636,7 @@ const GenerateSpidermap = ({ ...props }) => {
                       setContextMenuPosition({ x: points[ap.code].x + 20, y: points[ap.code].y - 100 })
                       setShowContextMenu(true)
                     }}>
-                    </rect>
+                    </rect>*/}
                   </g>
                 </Fragment>
               ))
