@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import DownloadImagePanel from '../Views/DownloadAndSavePanel'
-import { SET_TIMEZONE_LATLONGS } from '../../constants/constants'
+import { SET_TIMEZONE_LATLONGS, RERENDER_HACK } from '../../constants/constants'
 import {
   SET_LABEL_POSITION_SPIDERMAP, SET_LABEL_DISPLAY_TYPE_SPIDERMAP,
   SET_ALL_LABEL_POSITIONS_SPIDERMAP, SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP,
@@ -69,6 +69,10 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const labelDisplayTypes = useSelector(state => state.spidermap_labelDisplayTypes)
 
+  const exportFileType = useSelector(state => state.exportFileType)
+
+  const rerenderHack = useSelector(state => state.rerenderHack)
+
   const changeAllLabelPositions = e => {
     let val = e.target.value
     let obj = {}
@@ -99,8 +103,8 @@ const GenerateSpidermap = ({ ...props }) => {
       legal = legal.filter((item, i) => i == legal.indexOf(item))
       setListedLegalLines(legal)
       // hack to re-render svg data
-      setShowContextMenu(true)
-      setTimeout(() => setShowContextMenu(false), 5)
+      dispatch({ type: RERENDER_HACK, payload: true })
+      setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 5)
       // load timezone data
       if (!timezoneLatLongs) {
         axios.get('/timezones', { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
@@ -108,8 +112,8 @@ const GenerateSpidermap = ({ ...props }) => {
                console.log(result.data[0].all)
                dispatch({ type: SET_TIMEZONE_LATLONGS, payload: result.data[0].all })
                // hack to re-render svg data
-               setShowContextMenu(true)
-               setTimeout(() => setShowContextMenu(false), 5)
+               dispatch({ type: RERENDER_HACK, payload: true })
+               setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 5)
              })
       }
     }
@@ -257,25 +261,43 @@ const GenerateSpidermap = ({ ...props }) => {
     let cpStartThreshY = .3, cpEndThreshY = .7
     let bendX = (
       ring == ringOne
-      ? 5
+      ? 2
       :
         ring == ringTwo
-        ? 10
+        ? 6
         :
           ring == ringThree
-          ? 15
-          : 20
+          ? 10
+          :
+            ring == ringFour
+            ? 14
+            :
+              ring == ringFive
+              ? 20
+              :
+                ring == ringSix
+                ? 32
+                : 38
       )
     let bendY = (
       ring == ringOne
-      ? 15
+      ? 2
       :
         ring == ringTwo
-        ? 20
+        ? 6
         :
           ring == ringThree
-          ? 25
-          : 30
+          ? 10
+          :
+            ring == ringFour
+            ? 14
+            :
+              ring == ringFive
+              ? 20
+              :
+                ring == ringSix
+                ? 32
+                : 38
       )
 
     // startX = calcCenter().x + getX(ap.longitude)
@@ -302,7 +324,7 @@ const GenerateSpidermap = ({ ...props }) => {
       L ${endX}, ${endY}
     `
     let point = intersect(linearPath, ring)[0]
-    
+
     distanceBetweenX = point.x - center.x
     cp1.x = center.x + (distanceBetweenX * cpStartThreshX)
     cp2.x = center.x + (distanceBetweenX * cpEndThreshX)
@@ -487,6 +509,7 @@ const GenerateSpidermap = ({ ...props }) => {
                     }}
                     style={{
                       cursor: 'pointer',
+                      // opacity: exportFileType == 'PNG' ? 0 : 1
                     }}
                     x={
                         points[ap.code].x + (
@@ -530,7 +553,7 @@ const GenerateSpidermap = ({ ...props }) => {
                     }
                     width={
                       document.getElementById(`destination-${ap.code}-label`) && document.getElementById(`destination-${ap.code}-label`).getBBox
-                      ? document.getElementById(`destination-${ap.code}-label`).getBBox().width
+                      ? document.getElementById(`destination-${ap.code}-label`).getBBox().width + 5
                       : 100
                     }
                     height={
@@ -538,7 +561,9 @@ const GenerateSpidermap = ({ ...props }) => {
                       ? document.getElementById(`destination-${ap.code}-label`).getBBox().height
                       : 12
                     }
-                    fill='#fff'>
+                    fill={ /*exportFileType == 'PNG' ? 'rgba(0,0,0,0)' : '#fff'*/
+                      '#fff'
+                    }>
                     </rect>
                     <text
                       id={`destination-${ap.code}-label-double`}
@@ -780,7 +805,7 @@ const GenerateSpidermap = ({ ...props }) => {
                           width={
                             document.getElementById(`origin-${origin.code}-label`)
                             ?
-                              document.getElementById(`origin-${origin.code}-label`).getBBox().width
+                              document.getElementById(`origin-${origin.code}-label`).getBBox().width + 5
                             :
                               100
                           }
@@ -963,6 +988,11 @@ const GenerateSpidermap = ({ ...props }) => {
                 )
               }
             })
+          }
+          {
+            rerenderHack
+            ? <></>
+            : null
           }
         </svg>
         <MapContextMenu

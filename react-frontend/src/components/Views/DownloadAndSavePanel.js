@@ -12,7 +12,6 @@ import {
 import {
   DOWNLOADED_PDF,
   DOWNLOADING_PDF,
-  SELECTED_FILE_TYPE,
   LAST_LOCATION,
   SAVING_FILE,
   FILE_SAVED,
@@ -20,6 +19,7 @@ import {
   DISPLAY_MAP_BG,
   HIDE_MAP_BG,
   EXPORT_RESOLUTION,
+  SELECTED_FILE_TYPE,
 } from '../../constants/constants'
 import { checkAuth, getUser } from '../../sessionStore'
 import DropdownGraphicStyle from '../Dropdowns/DropdownGraphicStyle'
@@ -38,6 +38,8 @@ const DownloadImagePanel = ({ ...props }) => {
   const [resolution, setResolution] = useState(2)
 
   const [resolutionPixels, setResolutionPixels] = useState()
+
+  const exportFileType = useSelector(state => state.exportFileType)
 
   const exportResolution = useSelector(state => state.exportResolution)
 
@@ -405,6 +407,7 @@ const DownloadImagePanel = ({ ...props }) => {
               }}
               onChange={e => {
                 setFileType(e.target.value)
+                dispatch({ type: SELECTED_FILE_TYPE, payload: e.target.value })
                 setButtonsContainerBottom(getButtonsContainerBottom())
               }}>
               { type != 'listview' ? <option value='SVG'>SVG</option> : null }
