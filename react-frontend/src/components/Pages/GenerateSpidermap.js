@@ -107,7 +107,7 @@ const GenerateSpidermap = ({ ...props }) => {
         if (!labelPositions || !labelPositions[loc.code] || !labelPositions[loc.code].position) {
           dispatch({ type: SET_LABEL_POSITION_SPIDERMAP, which: loc.code, position: 'right' })
         }
-        if (labelDisplayTypes && (!labelDisplayTypes[loc.code] || !labelDisplayTypes[loc.code].position)) {
+        if (labelDisplayTypes && (!labelDisplayTypes[loc.code] || !labelDisplayTypes[loc.code].displayType)) {
           dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: loc.code, position: 'city-code' })
         }
       })
@@ -332,41 +332,48 @@ const GenerateSpidermap = ({ ...props }) => {
       M ${startX},${startY}
       L ${endX}, ${endY}
     `
-    let point = intersect(linearPath, ring)[0]
 
-    distanceBetweenX = point.x - center.x
-    cp1.x = center.x + (distanceBetweenX * cpStartThreshX)
-    cp2.x = center.x + (distanceBetweenX * cpEndThreshX)
-    if (center.x > point.x) { cp1.x += bendX; cp2.x += bendX }
-    else { cp1.x -= bendX; cp2.x -= bendX }
+    if (!points[ap.code]) {
+      let point = intersect(linearPath, ring)[0]
 
-    distanceBetweenY = point.y - center.y
-    cp1.y = center.y + (distanceBetweenY * cpStartThreshY) - bendY
-    cp2.y = center.y + (distanceBetweenY * cpEndThreshY) - bendY
-    // if (calcCenter().y > point.y) { cp1.y += bendY; cp2.y += bendY }
-    // else { cp1.y -= bendY; cp2.y -= bendY }
+      distanceBetweenX = point.x - center.x
+      cp1.x = center.x + (distanceBetweenX * cpStartThreshX)
+      cp2.x = center.x + (distanceBetweenX * cpEndThreshX)
+      if (center.x > point.x) { cp1.x += bendX; cp2.x += bendX }
+      else { cp1.x -= bendX; cp2.x -= bendX }
 
-    console.log(point)
-    points[ap.code] = point
+      distanceBetweenY = point.y - center.y
+      cp1.y = center.y + (distanceBetweenY * cpStartThreshY) - bendY
+      cp2.y = center.y + (distanceBetweenY * cpEndThreshY) - bendY
+      // if (calcCenter().y > point.y) { cp1.y += bendY; cp2.y += bendY }
+      // else { cp1.y -= bendY; cp2.y -= bendY }
 
-    return (
-      <g>
-        <path
-          id={`${origin.code}-to-${ap.code}-path`}
-          ref={ pathsRef.current[pathCount] }
-          d={
-            `
+      // console.log(point)
+      points[ap.code] = point
+
+      return (
+        <g>
+          <path
+            id={`${origin.code}-to-${ap.code}-path`}
+            ref={ pathsRef.current[pathCount] }
+            d={
+              `
               M ${center.x},${center.y}
               C ${cp1.x},${cp1.y}
-                ${cp2.x},${cp2.y}
-                ${point.x},${point.y}
-            `
-          }
-          strokeWidth={pathStrokeThickness}
-          stroke={pathStrokeColor}
-          fill='none'></path>
-      </g>
-    )
+              ${cp2.x},${cp2.y}
+              ${point.x},${point.y}
+              `
+            }
+            strokeWidth={pathStrokeThickness}
+            stroke={pathStrokeColor}
+            fill='none'></path>
+        </g>
+      )
+
+    } else {
+      return (<></>)
+    }
+
 
   }
 
@@ -408,7 +415,11 @@ const GenerateSpidermap = ({ ...props }) => {
             opacity='0'></rect>
           {
             destinations
-            ? destinations.map((ap, i) => (<Fragment key={'path'+i}>{calcPath(ap, i)}</Fragment>)) : null
+            ? destinations.map((ap, i) => (
+                <Fragment key={'path'+i}>
+                  { calcPath(ap, i) }
+                </Fragment>)
+              ) : null
           }
           {
             destinations
@@ -683,7 +694,7 @@ const GenerateSpidermap = ({ ...props }) => {
               <circle r={originCircleSize}
                       cx={calcCenter().x}
                       cy={calcCenter().y}
-                      fill='none'
+                      fill={'#000'}
                       stroke={originCircleColor}></circle>
                     <text
                           id={`origin-${origin.code}-label`}
@@ -774,7 +785,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                       ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
                                       :
                                         labelPositions[origin.code].position == 'top'
-                                        ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .25)
+                                        ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
                                         : 0
                                 : 10
                               )
