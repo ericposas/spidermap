@@ -160,48 +160,161 @@ const GenerateSpidermap = ({ ...props }) => {
 
   let ringOne = `
     M ${calcCenter().x}, ${calcCenter().y}
-    m -${getGraphDimensions().w * .225}, 0
-    a ${getGraphDimensions().w * .225},${getGraphDimensions().w * .225} 0 1,0 ${getGraphDimensions().w * .45},0
-    a ${getGraphDimensions().w * .225},${getGraphDimensions().w * .225} 0 1,0 -${getGraphDimensions().w * .45},0
+    m -${getGraphDimensions().w * .05}, 0
+    a ${getGraphDimensions().w * .05},${getGraphDimensions().w * .05} 0 1,0 ${getGraphDimensions().w * .1},0
+    a ${getGraphDimensions().w * .05},${getGraphDimensions().w * .05} 0 1,0 -${getGraphDimensions().w * .1},0
+  `
+  let ringTwo = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .1}, 0
+    a ${getGraphDimensions().w * .1},${getGraphDimensions().w * .1} 0 1,0 ${getGraphDimensions().w * .2},0
+    a ${getGraphDimensions().w * .1},${getGraphDimensions().w * .1} 0 1,0 -${getGraphDimensions().w * .2},0
+  `
+  let ringThree = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .15}, 0
+    a ${getGraphDimensions().w * .15},${getGraphDimensions().w * .15} 0 1,0 ${getGraphDimensions().w * .3},0
+    a ${getGraphDimensions().w * .15},${getGraphDimensions().w * .15} 0 1,0 -${getGraphDimensions().w * .3},0
+  `
+  let ringFour = `
+  M ${calcCenter().x}, ${calcCenter().y}
+  m -${getGraphDimensions().w * .2}, 0
+  a ${getGraphDimensions().w * .2},${getGraphDimensions().w * .2} 0 1,0 ${getGraphDimensions().w * .4},0
+  a ${getGraphDimensions().w * .2},${getGraphDimensions().w * .2} 0 1,0 -${getGraphDimensions().w * .4},0
+  `
+  let ringFive = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .25}, 0
+    a ${getGraphDimensions().w * .25},${getGraphDimensions().w * .25} 0 1,0 ${getGraphDimensions().w * .5},0
+    a ${getGraphDimensions().w * .25},${getGraphDimensions().w * .25} 0 1,0 -${getGraphDimensions().w * .5},0
+  `
+  let ringSix = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .3}, 0
+    a ${getGraphDimensions().w * .3},${getGraphDimensions().w * .3} 0 1,0 ${getGraphDimensions().w * .6},0
+    a ${getGraphDimensions().w * .3},${getGraphDimensions().w * .3} 0 1,0 -${getGraphDimensions().w * .6},0
+  `
+  let ringSeven = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .35}, 0
+    a ${getGraphDimensions().w * .35},${getGraphDimensions().w * .35} 0 1,0 ${getGraphDimensions().w * .7},0
+    a ${getGraphDimensions().w * .35},${getGraphDimensions().w * .35} 0 1,0 -${getGraphDimensions().w * .7},0
   `
 
+  const getRingBasedOnLat = (origin, ap) => {
+    if ((origin.longitude - ap.longitude) < -25 && (origin.longitude - ap.longitude) > -300) {
+      return ringSeven
+    }
+    if ((origin.longitude - ap.longitude) < -20 && (origin.longitude - ap.longitude) > -25) {
+      return ringSix
+    }
+    if ((origin.longitude - ap.longitude) < -15 && (origin.longitude - ap.longitude) > -20) {
+      return ringFive
+    }
+    if ((origin.longitude - ap.longitude) < -10 && (origin.longitude - ap.longitude) > -15) {
+      return ringFour
+    }
+    if ((origin.longitude - ap.longitude) < -5 && (origin.longitude - ap.longitude) > -10) {
+      return ringThree
+    }
+    if ((origin.longitude - ap.longitude) < -2 && (origin.longitude - ap.longitude) > -5) {
+      return ringTwo
+    }
+    if ((origin.longitude - ap.longitude) < 0 && (origin.longitude - ap.longitude) > -2) {
+      return ringOne
+    }
+    if ((origin.longitude - ap.longitude) > 0 && (origin.longitude - ap.longitude) < 2) {
+      return ringOne
+    }
+    if ((origin.longitude - ap.longitude) > 2 && (origin.longitude - ap.longitude) < 5) {
+      return ringTwo
+    }
+    if ((origin.longitude - ap.longitude) > 5 && (origin.longitude - ap.longitude) < 10) {
+      return ringThree
+    }
+    if ((origin.longitude - ap.longitude) > 10 && (origin.longitude - ap.longitude) < 15) {
+      return ringFour
+    }
+    if ((origin.longitude - ap.longitude) > 15 && (origin.longitude - ap.longitude) < 20) {
+      return ringFive
+    }
+    if ((origin.longitude - ap.longitude) > 20 && (origin.longitude - ap.longitude) < 25) {
+      return ringSix
+    }
+    if ((origin.longitude - ap.longitude) > 25 && (origin.longitude - ap.longitude) < 300) {
+      return ringSeven
+    }
+  }
+
   const calcPath = (ap, i) => {
+    let get_x = getX(ap.longitude)
+    let center = calcCenter()
+    let ring = getRingBasedOnLat(origin, ap)
     let cp1 = {}, cp2 = {}
     let startX, endX, distanceBetweenX
     let startY, endY, distanceBetweenY
-    let bendX = 20
-    let bendY = 30
-    let cpStartThreshX = .25, cpEndThreshX = .75
-    let cpStartThreshY = .25, cpEndThreshY = .75
+    let cpStartThreshX = .3, cpEndThreshX = .7
+    let cpStartThreshY = .3, cpEndThreshY = .7
+    let bendX = (
+      ring == ringOne
+      ? 5
+      :
+        ring == ringTwo
+        ? 10
+        :
+          ring == ringThree
+          ? 15
+          : 20
+      )
+    let bendY = (
+      ring == ringOne
+      ? 15
+      :
+        ring == ringTwo
+        ? 20
+        :
+          ring == ringThree
+          ? 25
+          : 30
+      )
 
-    startX = getX(ap.longitude) * 2
-    endX = calcCenter().x
-    distanceBetweenX = endX - startX
-    cp1.x = startX + (distanceBetweenX * cpStartThreshX)
-    cp2.x = startX + (distanceBetweenX * cpEndThreshX)
-    if (startX > endX) { cp1.x -= bendX; cp2.x -= bendX }
-    else { cp1.x += bendX; cp2.x += bendX }
-
+    // startX = calcCenter().x + getX(ap.longitude)
+    startX = (
+      ap.longitude < origin.longitude
+      ? ((center.x + get_x) * -10)
+      : ((center.x + get_x) * 10)
+    )
+    endX = center.x
     startY = (
       ap.latitude < origin.latitude
-      ? innerHeight + (i * 10)
-      : 0 - (i * 10)
+      ? ((i * (innerHeight/destinations.length)) * 20)
+      : ((i * (innerHeight/destinations.length)) * -20)
     )
-    endY = calcCenter().y
-    distanceBetweenY = endY - startY
-    cp1.y = startY + (distanceBetweenY * cpStartThreshY) - bendY
-    cp2.y = startY + (distanceBetweenY * cpEndThreshY) - bendY
+    endY = center.y
 
     // debug circles
     // <circle fill='#0000ff' r='2' cx={cp1.x} cy={cp1.y}></circle>
     // <circle fill='#e100ff' r='2' cx={cp2.x} cy={cp2.y}></circle>
     pathCount++
 
-    let path = `
+    let linearPath = `
       M ${startX},${startY}
       L ${endX}, ${endY}
     `
-    let point = intersect(path, ringOne)[0]
+    let point = intersect(linearPath, ring)[0]
+
+    distanceBetweenX = point.x - center.x
+    cp1.x = center.x + (distanceBetweenX * cpStartThreshX)
+    cp2.x = center.x + (distanceBetweenX * cpEndThreshX)
+    if (center.x > point.x) { cp1.x += bendX; cp2.x += bendX }
+    else { cp1.x -= bendX; cp2.x -= bendX }
+    
+    distanceBetweenY = point.y - center.y
+    cp1.y = center.y + (distanceBetweenY * cpStartThreshY) - bendY
+    cp2.y = center.y + (distanceBetweenY * cpEndThreshY) - bendY
+    // if (calcCenter().y > point.y) { cp1.y += bendY; cp2.y += bendY }
+    // else { cp1.y -= bendY; cp2.y -= bendY }
+
     console.log(point)
     points[ap.code] = point
 
@@ -211,14 +324,13 @@ const GenerateSpidermap = ({ ...props }) => {
           id={`${origin.code}-to-${ap.code}-path`}
           ref={ pathsRef.current[pathCount] }
           d={
-              /*
-              `M ${startX},${startY}
-               C ${cp1.x},${cp1.y}
-                 ${cp2.x},${cp2.y}
-                 ${endX},${endY}`
-              */
-              path
-            }
+            `
+              M ${center.x},${center.y}
+              C ${cp1.x},${cp1.y}
+                ${cp2.x},${cp2.y}
+                ${point.x},${point.y}
+            `
+          }
           strokeWidth={pathStrokeThickness}
           stroke={pathStrokeColor}
           fill='none'></path>
@@ -751,7 +863,7 @@ const GenerateSpidermap = ({ ...props }) => {
             </>)
             : null
           }
-          {
+          {/*
             <g>
               <path
                 style={{
@@ -761,8 +873,56 @@ const GenerateSpidermap = ({ ...props }) => {
                 stroke={'#000'}
                 d={ ringOne }>
               </path>
+              <path
+                style={{
+                  pointerEvents: 'none'
+                }}
+                fill={'none'}
+                stroke={'#000'}
+                d={ ringTwo }>
+              </path>
+              <path
+                style={{
+                  pointerEvents: 'none'
+                }}
+                fill={'none'}
+                stroke={'#000'}
+                d={ ringThree }>
+              </path>
+              <path
+                style={{
+                  pointerEvents: 'none'
+                }}
+                fill={'none'}
+                stroke={'#000'}
+                d={ ringFour }>
+              </path>
+              <path
+                style={{
+                  pointerEvents: 'none'
+                }}
+                fill={'none'}
+                stroke={'#000'}
+                d={ ringFive }>
+              </path>
+              <path
+                style={{
+                  pointerEvents: 'none'
+                }}
+                fill={'none'}
+                stroke={'#000'}
+                d={ ringSix }>
+              </path>
+              <path
+                style={{
+                  pointerEvents: 'none'
+                }}
+                fill={'none'}
+                stroke={'#000'}
+                d={ ringSeven }>
+              </path>
             </g>
-          }
+          */}
           {
             listedLegalLines.map((line, i) => {
               if (line) {
