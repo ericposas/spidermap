@@ -89,8 +89,9 @@ const GenerateSpidermap = ({ ...props }) => {
                   .map(loc => loc.code)
     codes.forEach(code => obj[code] = { displayType: val })
     dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP, payload: obj })
-    setShowContextMenu(true)
-    setTimeout(() => setShowContextMenu(false), 5)
+    // hack to re-render svg data
+    dispatch({ type: RERENDER_HACK, payload: true })
+    setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 50)
   }
 
   useEffect(() => {
@@ -102,6 +103,14 @@ const GenerateSpidermap = ({ ...props }) => {
       let legal = destinations.concat(origin).map(item => { if (item && item.legal) return item.legal })
       legal = legal.filter((item, i) => i == legal.indexOf(item))
       setListedLegalLines(legal)
+      destinations.concat(origin).forEach(loc => {
+        if (!labelPositions || !labelPositions[loc.code] || !labelPositions[loc.code].position) {
+          dispatch({ type: SET_LABEL_POSITION_SPIDERMAP, which: loc.code, position: 'right' })
+        }
+        if (labelDisplayTypes && (!labelDisplayTypes[loc.code] || !labelDisplayTypes[loc.code].position)) {
+          dispatch({ type: SET_LABEL_DISPLAY_TYPE_SPIDERMAP, which: loc.code, position: 'city-code' })
+        }
+      })
       // hack to re-render svg data
       dispatch({ type: RERENDER_HACK, payload: true })
       setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 5)
@@ -251,7 +260,7 @@ const GenerateSpidermap = ({ ...props }) => {
   }
 
   const calcPath = (ap, i) => {
-    let get_x = getX(ap.longitude)
+    let get_x = ap.longitude < -85 ? getX(-60) : getX(ap.longitude)
     let center = calcCenter()
     let ring = getRingBasedOnLat(origin, ap)
     let cp1 = {}, cp2 = {}
@@ -447,28 +456,29 @@ const GenerateSpidermap = ({ ...props }) => {
                       }
                     y={
                       points[ap.code].y + (
-                        labelPositions && labelPositions[ap.code]
+                        labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
                         ?
-                          labelPositions[ap.code].position == 'right'
-                          ? 3
+                          labelPositions[ap.code].position == 'bottom'
+                          ? (document.getElementById(`destination-${ap.code}-label`).getBBox().height)
                           :
-                            labelPositions[ap.code].position == 'left'
-                            ? 3
-                            :
-                              labelPositions[ap.code].position == 'bottom'
-                              ? 15
-                              :
-                                labelPositions[ap.code].position == 'top'
-                                ? -9
-                                : 0
-
-                        : 3
+                            labelPositions[ap.code].position == 'top'
+                            ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().height * .5)
+                            : (document.getElementById(`destination-${ap.code}-label`).getBBox().height * .25)
+                        : 0
                       )
                     }
                     style={{
                       textAlign: 'center',
                     }}
-                    fontSize={destinationLabelFontSize}>
+                    fontSize={
+                      destinations.length > 50
+                      ? '.5rem'
+                      :
+                        destinations.length > 100
+                        ? '.35rem'
+                        :
+                          '.75rem'
+                    }>
                       {
                         labelDisplayTypes && labelDisplayTypes[ap.code]
                         ?
@@ -533,22 +543,15 @@ const GenerateSpidermap = ({ ...props }) => {
                       }
                     y={
                       points[ap.code].y + (
-                        labelPositions && labelPositions[ap.code]
+                        labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
                         ?
-                          labelPositions[ap.code].position == 'right'
-                          ? -4
+                          labelPositions[ap.code].position == 'bottom'
+                          ? (document.getElementById(`destination-${ap.code}-label`).getBBox().height * .2)
                           :
-                            labelPositions[ap.code].position == 'left'
-                            ? -4
-                            :
-                              labelPositions[ap.code].position == 'bottom'
-                              ? 8
-                              :
-                                labelPositions[ap.code].position == 'top'
-                                ? -16
-                                : 0
-
-                        : -4
+                            labelPositions[ap.code].position == 'top'
+                            ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().height * 1.25)
+                            : -(document.getElementById(`destination-${ap.code}-label`).getBBox().height * .5)
+                        : 0
                       )
                     }
                     width={
@@ -576,7 +579,7 @@ const GenerateSpidermap = ({ ...props }) => {
                       }}
                       x={
                           points[ap.code].x + (
-                            labelPositions && labelPositions[ap.code]  && document.getElementById(`destination-${ap.code}-label`)
+                            labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
                             ?
                               labelPositions[ap.code].position == 'right'
                               ? 10
@@ -596,28 +599,29 @@ const GenerateSpidermap = ({ ...props }) => {
                         }
                       y={
                         points[ap.code].y + (
-                          labelPositions && labelPositions[ap.code]
+                          labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
                           ?
-                            labelPositions[ap.code].position == 'right'
-                            ? 3
+                            labelPositions[ap.code].position == 'bottom'
+                            ? (document.getElementById(`destination-${ap.code}-label`).getBBox().height)
                             :
-                              labelPositions[ap.code].position == 'left'
-                              ? 3
-                              :
-                                labelPositions[ap.code].position == 'bottom'
-                                ? 15
-                                :
-                                  labelPositions[ap.code].position == 'top'
-                                  ? -9
-                                  : 0
-
-                          : 3
+                              labelPositions[ap.code].position == 'top'
+                              ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().height * .5)
+                              : (document.getElementById(`destination-${ap.code}-label`).getBBox().height * .25)
+                          : 0
                         )
                       }
                       style={{
                         textAlign: 'center', cursor: 'pointer',
                       }}
-                      fontSize={destinationLabelFontSize}>
+                      fontSize={
+                        destinations.length > 50
+                        ? '.5rem'
+                        :
+                          destinations.length > 100
+                          ? '.35rem'
+                          :
+                            '.75rem'
+                      }>
                         {
                           labelDisplayTypes && labelDisplayTypes[ap.code]
                           ?
@@ -691,7 +695,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                   ? 10
                                   :
                                     labelPositions[origin.code].position == 'left'
-                                    ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width + 10)
+                                    ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width + 14)
                                     :
                                       labelPositions[origin.code].position == 'bottom'
                                       ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
@@ -705,22 +709,16 @@ const GenerateSpidermap = ({ ...props }) => {
                             }
                           y={
                             calcCenter().y + (
-                              labelPositions && labelPositions[origin.code]
+                              labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
                               ?
-                                labelPositions[origin.code].position == 'right'
-                                ? 3
+                                labelPositions[origin.code].position == 'bottom'
+                                ? (document.getElementById(`origin-${origin.code}-label`).getBBox().height + 5)
                                 :
-                                  labelPositions[origin.code].position == 'left'
-                                  ? 3
+                                  labelPositions[origin.code].position == 'top'
+                                  ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().height * .5)
                                   :
-                                    labelPositions[origin.code].position == 'bottom'
-                                    ? 15
-                                    :
-                                      labelPositions[origin.code].position == 'top'
-                                      ? -9
-                                      : 0
-
-                              : 3
+                                    (document.getElementById(`origin-${origin.code}-label`).getBBox().height * .25)
+                              : 0
                             )
                           }
                           style={{
@@ -770,36 +768,29 @@ const GenerateSpidermap = ({ ...props }) => {
                                   ? 10
                                   :
                                     labelPositions[origin.code].position == 'left'
-                                    ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width + 10)
+                                    ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width + 14)
                                     :
                                       labelPositions[origin.code].position == 'bottom'
                                       ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
                                       :
                                         labelPositions[origin.code].position == 'top'
-                                        ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                        ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .25)
                                         : 0
-
                                 : 10
                               )
                             }
                           y={
                             calcCenter().y + (
-                              labelPositions && labelPositions[origin.code]
+                              labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
                               ?
-                                labelPositions[origin.code].position == 'right'
-                                ? -5
+                                labelPositions[origin.code].position == 'bottom'
+                                ? (document.getElementById(`origin-${origin.code}-label`).getBBox().height * .5) - 2
                                 :
-                                  labelPositions[origin.code].position == 'left'
-                                  ? -5
+                                  labelPositions[origin.code].position == 'top'
+                                  ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().height * 1.35)
                                   :
-                                    labelPositions[origin.code].position == 'bottom'
-                                    ? 8
-                                    :
-                                      labelPositions[origin.code].position == 'top'
-                                      ? -17
-                                      : 0
-
-                              : -5
+                                    -(document.getElementById(`origin-${origin.code}-label`).getBBox().height * .5) - 2
+                              : 0
                             )
                           }
                           width={
@@ -827,7 +818,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                     ? 10
                                     :
                                       labelPositions[origin.code].position == 'left'
-                                      ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width + 10)
+                                      ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width + 14)
                                       :
                                         labelPositions[origin.code].position == 'bottom'
                                         ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
@@ -841,22 +832,16 @@ const GenerateSpidermap = ({ ...props }) => {
                               }
                             y={
                               calcCenter().y + (
-                                labelPositions && labelPositions[origin.code]
+                                labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
                                 ?
-                                  labelPositions[origin.code].position == 'right'
-                                  ? 3
+                                  labelPositions[origin.code].position == 'bottom'
+                                  ? (document.getElementById(`origin-${origin.code}-label`).getBBox().height + 5)
                                   :
-                                    labelPositions[origin.code].position == 'left'
-                                    ? 3
+                                    labelPositions[origin.code].position == 'top'
+                                    ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().height * .5)
                                     :
-                                      labelPositions[origin.code].position == 'bottom'
-                                      ? 15
-                                      :
-                                        labelPositions[origin.code].position == 'top'
-                                        ? -9
-                                        : 0
-
-                                : 3
+                                      (document.getElementById(`origin-${origin.code}-label`).getBBox().height * .25)
+                                : 0
                               )
                             }
                             style={{

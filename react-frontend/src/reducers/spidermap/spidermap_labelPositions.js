@@ -3,7 +3,7 @@ import {
   SET_ALL_LABEL_POSITIONS_SPIDERMAP,
 } from '../../constants/spidermap'
 
-const spidermap_labelPositions = (state = {}, action) => {
+const spidermap_labelPositions = (state = null, action) => {
 
   switch (action.type) {
     case SET_LABEL_POSITION_SPIDERMAP:

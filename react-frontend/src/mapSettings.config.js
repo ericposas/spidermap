@@ -8,8 +8,8 @@ export default {
   originCircleColor: '#000',
   originDotSize: 4,
   originCircleSize: 6,
-  originLabelFontSize: '9px',
+  originLabelFontSize: '1.25rem',
   destinationDotColor: '#000',
-  destinationLabelFontSize: '8px',
+  // destinationLabelFontSize: '8px',
   destinationDotSize: 3,
 }

@@ -3,7 +3,7 @@ import {
   SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP,
 } from '../../constants/spidermap'
 
-const spidermap_labelDisplayTypes = (state = {}, action) => {
+const spidermap_labelDisplayTypes = (state = null, action) => {
 
   switch (action.type) {
     case SET_LABEL_DISPLAY_TYPE_SPIDERMAP:
