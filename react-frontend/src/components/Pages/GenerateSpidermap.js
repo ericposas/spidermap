@@ -691,11 +691,22 @@ const GenerateSpidermap = ({ ...props }) => {
                       cx={calcCenter().x}
                       cy={calcCenter().y}
                       fill={originDotColor}></circle>
-              <circle r={originCircleSize}
-                      cx={calcCenter().x}
-                      cy={calcCenter().y}
-                      fill={'#000'}
-                      stroke={originCircleColor}></circle>
+              <circle
+                style={{
+                  cursor: 'pointer'
+                }}
+                onClick={() => {
+                  setContextMenuProps({
+                    title: origin.code
+                  })
+                  setContextMenuPosition({ x: calcCenter().x + 20, y: calcCenter().y - 100 })
+                  setShowContextMenu(true)
+                }}
+                r={originCircleSize}
+                cx={calcCenter().x}
+                cy={calcCenter().y}
+                fill={'#000'}
+                stroke={originCircleColor}></circle>
                     <text
                           id={`origin-${origin.code}-label`}
                           x={
@@ -766,8 +777,15 @@ const GenerateSpidermap = ({ ...props }) => {
                             }
                         </text>
                         <rect
+                          onClick={() => {
+                            setContextMenuProps({
+                              title: origin.code
+                            })
+                            setContextMenuPosition({ x: calcCenter().x + 20, y: calcCenter().y - 100 })
+                            setShowContextMenu(true)
+                          }}
                           style={{
-                            pointerEvents: 'none', zIndex: -1
+                            cursor: 'pointer'
                           }}
                           id={`origin-${origin.code}-white-box-under-label`}
                           ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
@@ -821,6 +839,13 @@ const GenerateSpidermap = ({ ...props }) => {
                           fill='#fff'></rect>
                           <text
                             id={`origin-${origin.code}-label-double`}
+                            onClick={() => {
+                              setContextMenuProps({
+                                title: origin.code
+                              })
+                              setContextMenuPosition({ x: calcCenter().x + 20, y: calcCenter().y - 100 })
+                              setShowContextMenu(true)
+                            }}
                             x={
                                 calcCenter().x + (
                                   labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
@@ -856,8 +881,9 @@ const GenerateSpidermap = ({ ...props }) => {
                               )
                             }
                             style={{
-                              textAlign: 'center', pointerEvents: 'none',
-                              fontWeight: 'bold'
+                              textAlign: 'center',
+                              fontWeight: 'bold',
+                              cursor: 'pointer'
                             }}
                             fontSize={originLabelFontSize}>
                               {
@@ -888,7 +914,7 @@ const GenerateSpidermap = ({ ...props }) => {
                                    ${origin.code}`
                               }
                           </text>
-                          <rect
+                          {/*<rect
                             style={{ cursor: 'pointer' }}
                             x={calcCenter().x - 7}
                             y={calcCenter().y - 7}
@@ -902,7 +928,7 @@ const GenerateSpidermap = ({ ...props }) => {
                             })
                             setContextMenuPosition({ x: calcCenter().x + 20, y: calcCenter().y - 100 })
                             setShowContextMenu(true)
-                          }}></rect>
+                          }}></rect>*/}
               </g>
             </>)
             : null
