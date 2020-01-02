@@ -195,17 +195,17 @@ const GenerateListView = ({ ...props }) => {
           style={{
             borderLeft: downloadingPDF ? 'none' : '1px solid #ccc'
           }}>
-          {/*<div className='listview-logo-container'></div>*/}
           <div className='listview-title-content'>
-            {/*<img className='listview-logo' src='./img/aa-logo.png'/>*/}
             <div className='listview-origin-title'>{ origin ? origin.code : '' }</div>
-            <div className='listview-origin-title-divider'>
-              <div className='listview-origin-title-divider-inner'>
-                |
-              </div>
-            </div>
             <div className='listview-origin-subtitle'>
-              <div className='listview-origin-subtitle-inner'>
+              <div
+                className='listview-origin-subtitle-inner'>
+                <div
+                  style={{
+                    borderLeft: '2px solid #777', height: '100px', position: 'absolute',
+                    marginTop: '-20px', marginLeft: '-30px'
+                  }}>
+                </div>
                 &nbsp;&nbsp;Direct&nbsp;flights&nbsp;to&nbsp;and&nbsp;from<br/>
                 &nbsp;&nbsp;{
                   origin
@@ -214,11 +214,11 @@ const GenerateListView = ({ ...props }) => {
                     {
                       exportFileType == 'PDF'
                       ? origin.city.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span className='listview-origin-region'>{item}</span>{ i < (origin.city.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
-                      : origin.city
+                      : <span className='listview-origin-region'>{origin.city}</span>
                     }
                     </>
                   : ''
-                }&nbsp;,&nbsp;
+                },&nbsp;
                 {
                   origin
                   ?
@@ -226,15 +226,13 @@ const GenerateListView = ({ ...props }) => {
                     {
                       exportFileType == 'PDF'
                       ? origin.region.split(/(?=[A-Z])/).map((item,i) => (<Fragment key={item+'-span'}><span className='listview-origin-region'>{item}</span>{ i < (origin.region.split(/(?=[A-Z])/).length-1) ? <span>&nbsp;</span> : '' }</Fragment>))
-                      : origin.region
+                      : <span className='listview-origin-region'>{origin.region}</span>
                     }
                     </>
                   : ''
                 }
               </div>
             </div>
-            <br/>
-            <br/>
           </div>
           <div className='listview-main-content'>
             <div className='row'>
