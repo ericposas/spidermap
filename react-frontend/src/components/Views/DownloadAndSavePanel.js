@@ -295,6 +295,43 @@ const DownloadImagePanel = ({ ...props }) => {
     : 0
   )
 
+  const getCSV = (csv, fileTitle) => {
+    var exportedFilename = fileTitle + '.csv' || 'export.csv';
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    if (navigator.msSaveBlob) { // IE 10+
+        navigator.msSaveBlob(blob, exportedFilename);
+    } else {
+        var link = document.createElement("a");
+        if (link.download !== undefined) { // feature detection
+            // Browsers that support HTML5 download attribute
+            var url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", exportedFilename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+  }
+
+  const downloadCSV = () => {
+    let csv = [], fileTitle
+    type == 'listview' ? csv.push(selectedOriginListView.code) : csv.push(selectedOriginSpidermap.code)
+    type == 'listview' ? selectedDestinationsListView.forEach(dest => csv.push(dest.code)) : selectedDestinationsSpidermap.forEach(dest => csv.push(dest.code))
+    type == 'listview' ? fileTitle = 'listview' : fileTitle = 'spidermap'
+    getCSV('origin, destinations...\n' + csv, fileTitle)
+  }
+
+  const downloadCSVPointmap = () => {
+    let csv = Object.keys(selectedDestinationsPointmap).map(idx => {
+      return [idx].concat(selectedDestinationsPointmap[idx].map(_idx => _idx.code))
+    })
+    let string = ''
+    csv.forEach(list => string += '\n'+list.join(','))
+    getCSV('origins, destinations...\n'+string, 'pointmap')
+  }
+
   useEffect(() => {
     if (type == 'listview') {
       setFileType('PNG')
@@ -379,6 +416,11 @@ const DownloadImagePanel = ({ ...props }) => {
               props.history.push(`/global-maps`)
             }}>
             To Global Maps
+          </div>
+          <div
+            className='my-map-option'
+            onClick={type == 'listview' || type == 'spidermap' ? downloadCSV : downloadCSVPointmap}>
+            Download CSV
           </div>
           <br/>
           <div

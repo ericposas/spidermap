@@ -59,24 +59,26 @@ const UploadForm = ({ ...props }) => {
       data.forEach((arr, i) => {
         let originCodes = []
         let tmp = [], tmpObjArr = []
-        arr.forEach((item, i) => {
-          if (item != arr[0]) tmp.push(item)
-        })
-        tmp.forEach(item => {
-          options.forEach(option => {
-            if (item.trim() == option.code && item.trim() != arr[0].trim()) {
-              tmpObjArr.push(option)
-            }
+        if (arr[0] != 'origins') {
+          arr.forEach((item, i) => {
+            if (item != arr[0]) tmp.push(item)
           })
-        })
-        originCodes.push(arr[0].trim())
-        originCodes.forEach(origin => {
-          options.forEach(option => {
-            if (origin.trim() == option.code) {
-              origins.push(option)
-            }
+          tmp.forEach(item => {
+            options.forEach(option => {
+              if (item.trim() == option.code && item.trim() != arr[0].trim()) {
+                tmpObjArr.push(option)
+              }
+            })
           })
-        })
+          originCodes.push(arr[0].trim())
+          originCodes.forEach(origin => {
+            options.forEach(option => {
+              if (origin.trim() == option.code) {
+                origins.push(option)
+              }
+            })
+          })
+        }
         dataObj[arr[0].trim()] = tmpObjArr
       })
 
@@ -110,7 +112,7 @@ const UploadForm = ({ ...props }) => {
 
     let origin
     let destinations = []
-    if (data[1]) {
+    if (data[1] && data[0][0] != 'origin') {
       console.log('incorrect csv format for spidermap')
       setShowIncorrectFormat('spidermap')
       dispatch({ type: SHOW_UPLOADING_CSV_NOTIFICATION, payload: false })
@@ -118,9 +120,11 @@ const UploadForm = ({ ...props }) => {
         setShowIncorrectFormat(null)
       }, 2000)
     } else {
+      console.log(data[0][0])
+      let startIdx = data[0][0] == 'origin' ? 1 : 0
       // process csv entries
-      let _data = data[0].map(item => item.trim())
-      _data = _data.filter((item, i) => _data.indexOf(_data[0]) != i)
+      let _data = data[startIdx].map(item => item.trim())
+      // _data = _data.filter((item, i) => _data.indexOf(_data[0]) != i)
       options.forEach(option => {
         _data.forEach(datum => {
           if (option.code == _data[0]) origin = option
