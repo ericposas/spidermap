@@ -9,11 +9,23 @@
   border: 1px solid #888;
 }
 
+.delete-confirm-text,
+.delete-decline-text {
+  color: #37ACF4;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.delete-confirm-text:hover,
+.delete-decline-text:hover {
+  color: #76c4f2;
+}
+
 .modal-confirm-delete {
   display: block;
   position: absolute;
-  width: 50%;
-  height: 40%;
+  width: 40%;
+  height: 30%;
   margin: auto;
   left: 0; right: 0;
   top: 0; bottom: 0;

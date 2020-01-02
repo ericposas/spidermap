@@ -3,7 +3,7 @@ import {
   SET_ALL_LABEL_POSITIONS_POINTMAP,
 } from '../../constants/pointmap'
 
-const pointmap_labelPositions = (state = {}, action) => {
+const pointmap_labelPositions = (state = null, action) => {
 
   switch (action.type) {
     case SET_LABEL_POSITION_POINTMAP:

@@ -262,13 +262,13 @@ const GlobalMaps = ({ ...props }) => {
               onClick={()=>{}}
               className='modal-confirm-yes-no-button-container'>
               <div>Are you sure that you want to delete this map? <span style={{opacity:0}}>{ mapIdToDelete }</span></div>
-              <button
-              className='button-plain button-decline'
-              onClick={() => setConfirmDeleteModal(false)} style={{ display:'inline-block' }}>Nevermind.</button>
+              <div
+              className='delete-decline-text'
+              onClick={() => setConfirmDeleteModal(false)} style={{ display:'inline-block' }}>Nevermind.</div>
               <span style={{ paddingRight: '10px' }}></span>
-              <button
-              className='button-plain button-confirm'
-              onClick={crudDelete} style={{ display:'inline-block' }}>Confirm.</button>
+              <div
+              className='delete-confirm-text'
+              onClick={crudDelete} style={{ display:'inline-block' }}>Confirm.</div>
             </div>
           </div>
         </div>
@@ -431,21 +431,26 @@ const GlobalMaps = ({ ...props }) => {
                             }
                             </div>
                           </div>
-                          <div
-                            className='x-button x-button-map-tile'
-                            style={{
-                              top: 0, right: '24px',
-                              position: 'absolute',
-                              zIndex: '10',
-                              width: '10px',
-                            }}
-                            onClick={() => deleteMap(myMaps[i].id)}>
-                            <div
-                              style={{ zIndex: '10' }}
-                              className='x-button-x-symbol-map-tile'>
-                              &#10006;
-                            </div>
-                          </div>
+                          {
+                            getUser().user.isadmin == true
+                            ?
+                              <div
+                                className='x-button x-button-map-tile'
+                                style={{
+                                  top: 0, right: '24px',
+                                  position: 'absolute',
+                                  zIndex: '10',
+                                  width: '10px',
+                                }}
+                                onClick={() => deleteMap(globalMaps[i].id)}>
+                                <div
+                                  style={{ zIndex: '10' }}
+                                  className='x-button-x-symbol-map-tile'>
+                                  &#10006;
+                                </div>
+                              </div>
+                            : null
+                          }
                         </div>
                     </Fragment>
                   )

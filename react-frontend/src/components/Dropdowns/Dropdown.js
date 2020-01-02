@@ -78,7 +78,8 @@ const Dropdown = ({ ...props }) => {
       if (!allCodesData) {
         let result = await axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
         let sorted = result.data
-          .map(ap => ap.code).sort((a,b) => {
+          .map(ap => ap.code)
+          .sort((a,b) => {
             if (a < b) return -1
             if (a > b) return 1
             return 0
@@ -322,7 +323,13 @@ const Dropdown = ({ ...props }) => {
                         multiple={ 'multiple' }>
                         <option></option>
                         {
-                          options.filter(opt => {
+                          options
+                          .sort((a,b) => {
+                            if (a < b) return -1
+                            if (a > b) return 1
+                            return 0
+                          })
+                          .filter(opt => {
                             if (type == 'code' && (opt.props.children.props.children.join('').toLowerCase().indexOf(_filter) > -1 ||
                                                    opt.props.children.props.children.join('').toUpperCase().indexOf(_filter) > -1 ||
                                                    opt.props.children.props.children.join('').indexOf(_filter) > -1)) {
@@ -330,10 +337,6 @@ const Dropdown = ({ ...props }) => {
                             } else if (type == 'category' && opt.props.children.props.value.toLowerCase().indexOf(_filter) > -1) {
                               return opt
                             }
-                          }).sort((a,b) => {
-                            if (a < b) return -1
-                            if (a > b) return 1
-                            return 0
                           })
                         }
                       </select>

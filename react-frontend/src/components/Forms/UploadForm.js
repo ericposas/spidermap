@@ -290,7 +290,8 @@ const UploadForm = ({ ...props }) => {
           <br/>
           <input
             style={{
-              opacity: '0.001'
+              opacity: '0.001',
+              cursor: 'pointer'
             }}
             type='file'
             name='files'
