@@ -60,7 +60,7 @@ const ChangeAllLabelsMenu = ({ ...props }) => {
                 onChange={props.changeAllLabelDisplayTypes}>
                 <option></option>
                 <option value='city-and-code'>City, Code</option>
-                <option value='full'>Full</option>
+                <option value='airport'>Airport</option>
                 <option value='region'>Region</option>
                 <option value='city'>City</option>
                 <option value='code'>Code</option>

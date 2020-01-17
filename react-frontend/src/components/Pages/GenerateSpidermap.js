@@ -502,10 +502,8 @@ const GenerateSpidermap = ({ ...props }) => {
                               labelDisplayTypes[ap.code].displayType == 'region'
                               ? ap.region
                               :
-                                labelDisplayTypes[ap.code].displayType == 'full'
-                                ? `${ap.code},
-                                   ${ap.city},
-                                   ${ap.region}`
+                                labelDisplayTypes[ap.code].displayType == 'airport'
+                                ? `${ap.fullname}`
                                 :
                                   labelDisplayTypes[ap.code].displayType == 'city-and-code'
                                   ?
@@ -645,10 +643,8 @@ const GenerateSpidermap = ({ ...props }) => {
                                 labelDisplayTypes[ap.code].displayType == 'region'
                                 ? ap.region
                                 :
-                                  labelDisplayTypes[ap.code].displayType == 'full'
-                                  ? `${ap.code},
-                                     ${ap.city},
-                                     ${ap.region}`
+                                  labelDisplayTypes[ap.code].displayType == 'airport'
+                                  ? `${ap.fullname}`
                                   :
                                     labelDisplayTypes[ap.code].displayType == 'city-and-code'
                                     ?
@@ -760,10 +756,8 @@ const GenerateSpidermap = ({ ...props }) => {
                                     labelDisplayTypes[origin.code].displayType == 'region'
                                     ? origin.region
                                     :
-                                      labelDisplayTypes[origin.code].displayType == 'full'
-                                      ? `${origin.code},
-                                         ${origin.city},
-                                         ${origin.region}`
+                                      labelDisplayTypes[origin.code].displayType == 'airport'
+                                      ? `${origin.fullname}`
                                       :
                                         labelDisplayTypes[origin.code].displayType == 'city-and-code'
                                         ?
@@ -898,10 +892,8 @@ const GenerateSpidermap = ({ ...props }) => {
                                       labelDisplayTypes[origin.code].displayType == 'region'
                                       ? origin.region
                                       :
-                                        labelDisplayTypes[origin.code].displayType == 'full'
-                                        ? `${origin.code},
-                                           ${origin.city},
-                                           ${origin.region}`
+                                        labelDisplayTypes[origin.code].displayType == 'airport'
+                                        ? `${origin.fullname}`
                                         :
                                           labelDisplayTypes[origin.code].displayType == 'city-and-code'
                                           ?

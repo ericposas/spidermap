@@ -119,34 +119,80 @@ const Dropdown = ({ ...props }) => {
         let result = await axios.get(`/airports/byCode`, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
         dispatch({ type: SET_ALL_CODES, payload: result.data })
         // get category fields, then sort alphabetically
-        let categories = result.data.map(ap => ap.category).sort((a,b) => {
+        let categories = []
+        result.data.forEach((ap) => {
+            ap.categories.split(',')
+              .forEach((item, i) => {
+                categories.push(item.trim())
+              })
+        })
+        categories = categories.sort((a,b) => {
           if (a < b) return -1
           if (a > b) return 1
           return 0
         })
-        result.data.forEach(ap => {
-          if (!apPerCategory[ap.category]) apPerCategory[ap.category] = []
-          apPerCategory[ap.category].push(ap)
+        categories = categories.filter((cat, idx) => idx == categories.indexOf(cat))
+        result.data.forEach((ap, i) => {
+          categories.forEach((category, i) => {
+            // console.log(categories, category)
+            let arr = ap.categories.split(',').map(item => item.trim())
+            if (arr.includes(category)) {
+              // console.log(category)
+              if (!apPerCategory[category]) apPerCategory[category] = []
+              apPerCategory[category].push(ap)
+            }
+          })
         })
+        // categories = categories.filter((cat, idx) => idx == categories.indexOf(cat))
+        // console.log(categories)
+        // result.data.forEach(ap => {
+        //   if (!apPerCategory[ap.category]) apPerCategory[ap.category] = []
+        //   apPerCategory[ap.category].push(ap)
+        // })
+
         setAirportsPerCategory(apPerCategory) // setting default after data load
         // display categories in options dropdown
-        let filteredCategories = categories.filter((c, i) => categories.indexOf(c) == i)
-        let options = filteredCategories.map(item => <Fragment key={item}><option value={item}>{item}</option></Fragment>)
+        // let filteredCategories = categories.filter((c, i) => categories.indexOf(c) == i)
+        let options = categories.map(item => <Fragment key={item}><option value={item}>{item}</option></Fragment>)
         setOptions(options)
       } else {
-        let categories = allCodesData.map(ap => ap.category).sort((a,b) => {
+        let categories = []
+        allCodesData.forEach((ap) => {
+            ap.categories.split(',')
+              .forEach((item, i) => {
+                categories.push(item.trim())
+              })
+        })
+        categories = categories.sort((a,b) => {
           if (a < b) return -1
           if (a > b) return 1
           return 0
         })
-        allCodesData.forEach(ap => {
-          if (!apPerCategory[ap.category]) apPerCategory[ap.category] = []
-          apPerCategory[ap.category].push(ap)
+        categories = categories.filter((cat, idx) => idx == categories.indexOf(cat))
+        allCodesData.forEach((ap, i) => {
+          categories.forEach((category, i) => {
+            let arr = ap.categories.split(',').map(item => item.trim())
+            if (arr.includes(category)) {
+              if (!apPerCategory[category]) apPerCategory[category] = []
+              apPerCategory[category].push(ap)
+            }
+          })
         })
+        // apPerCategory[category] = apPerCategory[category].filter((item, idx) => idx == apPerCategory[category].indexOf(item))
+        console.log(apPerCategory)
+        // let categories = allCodesData.map(ap => ap.category).sort((a,b) => {
+        //   if (a < b) return -1
+        //   if (a > b) return 1
+        //   return 0
+        // })
+        // allCodesData.forEach(ap => {
+        //   if (!apPerCategory[ap.category]) apPerCategory[ap.category] = []
+        //   apPerCategory[ap.category].push(ap)
+        // })
         setAirportsPerCategory(apPerCategory) // setting default after data load
         // display categories in options dropdown
-        let filteredCategories = categories.filter((c, i) => categories.indexOf(c) == i)
-        let options = filteredCategories.map(item => <Fragment key={item}><option value={item}>{item}</option></Fragment>)
+        // let filteredCategories = categories.filter((c, i) => categories.indexOf(c) == i)
+        let options = categories.map(item => <Fragment key={item}><option value={item}>{item}</option></Fragment>)
         setOptions(options)
       }
     } catch (e) {
@@ -155,7 +201,10 @@ const Dropdown = ({ ...props }) => {
   }
 
   const dispatchProperOutputType = (item, value, property, outputType) => {
-    if (item[property] == value) {
+    // console.log(item, property, value)
+    // console.log('item[property]: ' + item[property], 'value: ' + value);
+    // console.log(property, value)
+    if (item[property] == value || typeof property == 'object') {
       if (outputType == 'listview-origin') {
         dispatch({ type: SET_ORIGIN_LISTVIEW, payload: item })
       }
@@ -195,8 +244,10 @@ const Dropdown = ({ ...props }) => {
 
   const setCategorySelection = (value, outputType) => {
     let category = airportsPerCategory[value]
+    // console.log(category)
     category.forEach(item => {
-      dispatchProperOutputType(item, value, 'category', outputType)
+      // console.log(item, value, item[value])
+      dispatchProperOutputType(item, value, item, outputType)
     })
   }
 
@@ -220,6 +271,7 @@ const Dropdown = ({ ...props }) => {
       })
     }
     else if (type == 'category') {
+      // console.log(values)
       values.forEach(val => {
         setCategorySelection(val, props.output)
       })
@@ -334,8 +386,10 @@ const Dropdown = ({ ...props }) => {
                                                    opt.props.children.props.children.join('').toUpperCase().indexOf(_filter) > -1 ||
                                                    opt.props.children.props.children.join('').indexOf(_filter) > -1)) {
                               return opt
-                            } else if (type == 'category' && opt.props.children.props.value.toLowerCase().indexOf(_filter) > -1) {
+                            } else if (type == 'category' && opt.key.toLowerCase().indexOf(_filter) > -1) {
+                              // console.log(opt)
                               return opt
+                               // && opt.props.children.props.value.toLowerCase().indexOf(_filter) > -1
                             }
                           })
                         }

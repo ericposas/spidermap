@@ -344,10 +344,8 @@ const GeneratePointmap = ({ ...props }) => {
                                   labelDisplayTypes[ap.code].displayType == 'region'
                                   ? ap.region
                                   :
-                                    labelDisplayTypes[ap.code].displayType == 'full'
-                                    ? `${ap.code},
-                                       ${ap.city},
-                                       ${ap.region}`
+                                    labelDisplayTypes[ap.code].displayType == 'airport'
+                                    ? `${ap.fullname}`
                                     :
                                       labelDisplayTypes[ap.code].displayType == 'city-and-code'
                                       ?
@@ -493,10 +491,8 @@ const GeneratePointmap = ({ ...props }) => {
                                     labelDisplayTypes[ap.code].displayType == 'region'
                                     ? ap.region
                                     :
-                                      labelDisplayTypes[ap.code].displayType == 'full'
-                                      ? `${ap.code},
-                                         ${ap.city},
-                                         ${ap.region}`
+                                      labelDisplayTypes[ap.code].displayType == 'airport'
+                                      ? `${ap.fullname}`
                                       :
                                         labelDisplayTypes[ap.code].displayType == 'city-and-code'
                                         ?
@@ -573,10 +569,8 @@ const GeneratePointmap = ({ ...props }) => {
                               labelDisplayTypes[ap.code].displayType == 'region'
                               ? ap.region
                               :
-                                labelDisplayTypes[ap.code].displayType == 'full'
-                                ? `${ap.code},
-                                   ${ap.city},
-                                   ${ap.region}`
+                                labelDisplayTypes[ap.code].displayType == 'airport'
+                                ? `${ap.fullname}`
                                 :
                                   labelDisplayTypes[ap.code].displayType == 'city-and-code'
                                   ?
@@ -703,10 +697,8 @@ const GeneratePointmap = ({ ...props }) => {
                                 labelDisplayTypes[ap.code].displayType == 'region'
                                 ? ap.region
                                 :
-                                  labelDisplayTypes[ap.code].displayType == 'full'
-                                  ? `${ap.code},
-                                     ${ap.city},
-                                     ${ap.region}`
+                                  labelDisplayTypes[ap.code].displayType == 'airport'
+                                  ? `${ap.fullname}`
                                   :
                                     labelDisplayTypes[ap.code].displayType == 'city-and-code'
                                     ?

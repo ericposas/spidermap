@@ -53,11 +53,11 @@ const MapContextMenu = ({ ...props }) => {
     <div className='context-menu-label-display-type-option'
       onClick={
         () => {
-          dispatch({ type: props.labelDisplayTypeAction, which: props.contextMenuProps.title, displayType: 'full' })
+          dispatch({ type: props.labelDisplayTypeAction, which: props.contextMenuProps.title, displayType: 'airport' })
           props.setShowContextMenu(false)
           setTimeout(() => props.setShowContextMenu(true), 5)
         }
-      }>Full</div>
+      }>Airport</div>
     <div className='context-menu-label-display-type-option'
       onClick={
         () => {
