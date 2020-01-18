@@ -143,66 +143,238 @@ const GenerateSpidermap = ({ ...props }) => {
   }
 
   const getX = long => {
+    if (!longs.includes(long)) {
+      let arr = destinations.map(ap => timezoneLatLongs[ap.timezone].longitude)
+      longs = longs.concat(arr)
+      longs = longs.concat(timezoneLatLongs[origin.timezone].longitude)
+      longs.sort((a, b) => a - b)
+    }
+    linearScaleX = d3.scaleLinear()
+                     .domain([longs[0], longs[longs.length-1]])
+                     .range([(svgMargin/2), ((innerHeight * 1.15)/2)])
 
+    return linearScaleX(long)
   }
 
   const getY = lat => {
+    if (!lats.includes(lat)) {
+      let arr = destinations.map(ap => ap.latitude)
+      lats = lats.concat(arr)
+      lats = lats.concat(origin.latitude)
+      // lats = lats.map()
+      lats.sort((a, b) => b - a)
+    }
+    linearScaleY = d3.scaleLinear()
+                     .domain([(lats[0] * -.5), lats.reduce((a, b) => a + b)])
+                     .range([(svgMargin/2), ((innerHeight - svgMargin)/2)])
+    // the below evenly spaces Y values according to timezone
+    return linearScaleY(((lats.reduce((a, b) => a + b) / lats.length)) * lats.indexOf(lat))
+  }
 
+  let ringOne = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .05}, 0
+    a ${getGraphDimensions().w * .05},${getGraphDimensions().w * .05} 0 1,0 ${getGraphDimensions().w * .1},0
+    a ${getGraphDimensions().w * .05},${getGraphDimensions().w * .05} 0 1,0 -${getGraphDimensions().w * .1},0
+  `
+  let ringTwo = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .1}, 0
+    a ${getGraphDimensions().w * .1},${getGraphDimensions().w * .1} 0 1,0 ${getGraphDimensions().w * .2},0
+    a ${getGraphDimensions().w * .1},${getGraphDimensions().w * .1} 0 1,0 -${getGraphDimensions().w * .2},0
+  `
+  let ringThree = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .15}, 0
+    a ${getGraphDimensions().w * .15},${getGraphDimensions().w * .15} 0 1,0 ${getGraphDimensions().w * .3},0
+    a ${getGraphDimensions().w * .15},${getGraphDimensions().w * .15} 0 1,0 -${getGraphDimensions().w * .3},0
+  `
+  let ringFour = `
+  M ${calcCenter().x}, ${calcCenter().y}
+  m -${getGraphDimensions().w * .2}, 0
+  a ${getGraphDimensions().w * .2},${getGraphDimensions().w * .2} 0 1,0 ${getGraphDimensions().w * .4},0
+  a ${getGraphDimensions().w * .2},${getGraphDimensions().w * .2} 0 1,0 -${getGraphDimensions().w * .4},0
+  `
+  let ringFive = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .25}, 0
+    a ${getGraphDimensions().w * .25},${getGraphDimensions().w * .25} 0 1,0 ${getGraphDimensions().w * .5},0
+    a ${getGraphDimensions().w * .25},${getGraphDimensions().w * .25} 0 1,0 -${getGraphDimensions().w * .5},0
+  `
+  let ringSix = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .3}, 0
+    a ${getGraphDimensions().w * .3},${getGraphDimensions().w * .3} 0 1,0 ${getGraphDimensions().w * .6},0
+    a ${getGraphDimensions().w * .3},${getGraphDimensions().w * .3} 0 1,0 -${getGraphDimensions().w * .6},0
+  `
+  let ringSeven = `
+    M ${calcCenter().x}, ${calcCenter().y}
+    m -${getGraphDimensions().w * .35}, 0
+    a ${getGraphDimensions().w * .35},${getGraphDimensions().w * .35} 0 1,0 ${getGraphDimensions().w * .7},0
+    a ${getGraphDimensions().w * .35},${getGraphDimensions().w * .35} 0 1,0 -${getGraphDimensions().w * .7},0
+  `
+
+  const getRingBasedOnLat = (origin, ap) => {
+    if ((origin.longitude - ap.longitude) < -25 && (origin.longitude - ap.longitude) > -300) {
+      return ringSeven
+    }
+    if ((origin.longitude - ap.longitude) < -20 && (origin.longitude - ap.longitude) > -25) {
+      return ringSix
+    }
+    if ((origin.longitude - ap.longitude) < -15 && (origin.longitude - ap.longitude) > -20) {
+      return ringFive
+    }
+    if ((origin.longitude - ap.longitude) < -10 && (origin.longitude - ap.longitude) > -15) {
+      return ringFour
+    }
+    if ((origin.longitude - ap.longitude) < -5 && (origin.longitude - ap.longitude) > -10) {
+      return ringThree
+    }
+    if ((origin.longitude - ap.longitude) < -2 && (origin.longitude - ap.longitude) > -5) {
+      return ringTwo
+    }
+    if ((origin.longitude - ap.longitude) < 0 && (origin.longitude - ap.longitude) > -2) {
+      return ringOne
+    }
+    if ((origin.longitude - ap.longitude) > 0 && (origin.longitude - ap.longitude) < 2) {
+      return ringOne
+    }
+    if ((origin.longitude - ap.longitude) > 2 && (origin.longitude - ap.longitude) < 5) {
+      return ringTwo
+    }
+    if ((origin.longitude - ap.longitude) > 5 && (origin.longitude - ap.longitude) < 10) {
+      return ringThree
+    }
+    if ((origin.longitude - ap.longitude) > 10 && (origin.longitude - ap.longitude) < 15) {
+      return ringFour
+    }
+    if ((origin.longitude - ap.longitude) > 15 && (origin.longitude - ap.longitude) < 20) {
+      return ringFive
+    }
+    if ((origin.longitude - ap.longitude) > 20 && (origin.longitude - ap.longitude) < 25) {
+      return ringSix
+    }
+    if ((origin.longitude - ap.longitude) > 25 && (origin.longitude - ap.longitude) < 300) {
+      return ringSeven
+    }
   }
 
   const calcPath = (ap, i) => {
-    // let get_x = ap.longitude < -85 ? getX(-60) : getX(ap.longitude)
+    let get_x = ap.longitude < -85 ? getX(-60) : getX(ap.longitude)
     let center = calcCenter()
-    // let ring = getRingBasedOnLat(origin, ap)
-    // let cp1 = {
-    //
-    // },
-    // cp2 = {
-    //
-    // }
-    // let startX, endX, distanceBetweenX
-    // let startY, endY, distanceBetweenY
+    let ring = getRingBasedOnLat(origin, ap)
+    let cp1 = {}, cp2 = {}
+    let startX, endX, distanceBetweenX
+    let startY, endY, distanceBetweenY
     let cpStartThreshX = .3, cpEndThreshX = .7
     let cpStartThreshY = .3, cpEndThreshY = .7
-    let bendX, bendY
+    let bendX = (
+      ring == ringOne
+      ? 2
+      :
+        ring == ringTwo
+        ? 6
+        :
+          ring == ringThree
+          ? 10
+          :
+            ring == ringFour
+            ? 14
+            :
+              ring == ringFive
+              ? 20
+              :
+                ring == ringSix
+                ? 32
+                : 38
+      )
+    let bendY = (
+      ring == ringOne
+      ? 2
+      :
+        ring == ringTwo
+        ? 6
+        :
+          ring == ringThree
+          ? 10
+          :
+            ring == ringFour
+            ? 14
+            :
+              ring == ringFive
+              ? 20
+              :
+                ring == ringSix
+                ? 32
+                : 38
+      )
 
+    // startX = calcCenter().x + getX(ap.longitude)
+
+    // prev
+    // startX = (
+    //   ap.longitude < origin.longitude
+    //   ? ((center.x + get_x) * -10)
+    //   : ((center.x + get_x) * 10)
+    // )
+    // endX = center.x
+    // startY = (
+    //   ap.latitude < origin.latitude
+    //   ? ((i * (innerHeight/destinations.length)) * 20)
+    //   : ((i * (innerHeight/destinations.length)) * -20)
+    // )
+    // endY = center.y
+
+    // debug circles
+    // <circle fill='#0000ff' r='2' cx={cp1.x} cy={cp1.y}></circle>
+    // <circle fill='#e100ff' r='2' cx={cp2.x} cy={cp2.y}></circle>
     pathCount++
 
-    let angle = 360/destinations.length * pathCount
-    // angle = (angle == Infinity ? 1 : angle)
+    let linearPath = `
+      M ${startX},${startY}
+      L ${endX}, ${endY}
+    `
 
-    return (
-      <g
-        transform={
-        `rotate(${angle}, ${center.x}, ${center.y})`
-        }>
-        <path
-          id={`${origin.code}-to-${ap.code}-path`}
-          ref={ pathsRef.current[pathCount] }
-          d={
-            `
-            M ${center.x},${center.y}
-            C ${center.x},${0}
-            ${center.x},${0}
-            ${center.x},${150}
-            `
-          }
-          strokeWidth={pathStrokeThickness}
-          stroke={pathStrokeColor}
-          fill='none'>
-        </path>
-        <circle
-          r={destinationDotSize}
-          cx={center.x}
-          cy={
-            innerHeight < 800
-            ? 60 - ((800 - innerHeight)*.05)
-            : 60
-          }
-          fill={destinationDotColor}>
-        </circle>
-      </g>
-    )
+    if (!points[ap.code]) {
+      let point = intersect(linearPath, ring)[0]
+
+      distanceBetweenX = point.x - center.x
+      cp1.x = center.x + (distanceBetweenX * cpStartThreshX)
+      cp2.x = center.x + (distanceBetweenX * cpEndThreshX)
+      if (center.x > point.x) { cp1.x += bendX; cp2.x += bendX }
+      else { cp1.x -= bendX; cp2.x -= bendX }
+
+      distanceBetweenY = point.y - center.y
+      cp1.y = center.y + (distanceBetweenY * cpStartThreshY) - bendY
+      cp2.y = center.y + (distanceBetweenY * cpEndThreshY) - bendY
+      // if (calcCenter().y > point.y) { cp1.y += bendY; cp2.y += bendY }
+      // else { cp1.y -= bendY; cp2.y -= bendY }
+
+      // console.log(point)
+      points[ap.code] = point
+
+      return (
+        <g>
+          <path
+            id={`${origin.code}-to-${ap.code}-path`}
+            ref={ pathsRef.current[pathCount] }
+            d={
+              `
+              M ${center.x},${center.y}
+              C ${cp1.x},${cp1.y}
+              ${cp2.x},${cp2.y}
+              ${point.x},${point.y}
+              `
+            }
+            strokeWidth={pathStrokeThickness}
+            stroke={pathStrokeColor}
+            fill='none'></path>
+        </g>
+      )
+
+    } else {
+      return (<></>)
+    }
 
 
   }
@@ -261,14 +433,56 @@ const GenerateSpidermap = ({ ...props }) => {
                     style={{
                       cursor: 'pointer',
                     }}
-                    onClick={()=>{}}
+                    onClick={() => {
+                      setContextMenuProps({
+                        title: ap.code
+                      })
+                      setContextMenuPosition({ x: points[ap.code].x + 20, y: points[ap.code].y - 100 })
+                      setShowContextMenu(true)
+                    }}
                     r={destinationDotSize}
-
+                    cx={ points[ap.code].x }
+                    cy={ points[ap.code].y }
                     fill={destinationDotColor}></circle>
                   <text
                     id={`destination-${ap.code}-label`}
                     ref={labelsRef.current[labelCount++]}
-                    style={{ textAlign: 'center' }}
+                    x={
+                        points[ap.code].x + (
+                          labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
+                          ?
+                            labelPositions[ap.code].position == 'right'
+                            ? 10
+                            :
+                              labelPositions[ap.code].position == 'left'
+                              ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width + 10)
+                              :
+                                labelPositions[ap.code].position == 'bottom'
+                                ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                :
+                                  labelPositions[ap.code].position == 'top'
+                                  ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                  : 0
+
+                          : 10
+                        )
+                      }
+                    y={
+                      points[ap.code].y + (
+                        labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
+                        ?
+                          labelPositions[ap.code].position == 'bottom'
+                          ? (document.getElementById(`destination-${ap.code}-label`).getBBox().height)
+                          :
+                            labelPositions[ap.code].position == 'top'
+                            ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().height * .5)
+                            : (document.getElementById(`destination-${ap.code}-label`).getBBox().height * .25)
+                        : 0
+                      )
+                    }
+                    style={{
+                      textAlign: 'center',
+                    }}
                     fontSize={
                       destinations.length > 50
                       ? '.5rem'
@@ -307,9 +521,50 @@ const GenerateSpidermap = ({ ...props }) => {
                   <rect
                     id={`destination-${ap.code}-white-box-under-label`}
                     ref={whiteBoxUnderLabelsRef.current[whiteBoxUnderLabelCount++]}
-                    onClick={()=>{}}
-                    style={{ cursor: 'pointer' }}
+                    onClick={() => {
+                      setContextMenuProps({
+                        title: ap.code
+                      })
+                      setContextMenuPosition({ x: points[ap.code].x + 20, y: points[ap.code].y - 100 })
+                      setShowContextMenu(true)
+                    }}
+                    style={{
+                      cursor: 'pointer',
+                      // opacity: exportFileType == 'PNG' ? 0 : 1
+                    }}
+                    x={
+                        points[ap.code].x + (
+                          labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
+                          ?
+                            labelPositions[ap.code].position == 'right'
+                            ? 10
+                            :
+                              labelPositions[ap.code].position == 'left'
+                              ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width + 10)
+                              :
+                                labelPositions[ap.code].position == 'bottom'
+                                ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                :
+                                  labelPositions[ap.code].position == 'top'
+                                  ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                  : 0
 
+                          : 10
+                        )
+                      }
+                    y={
+                      points[ap.code].y + (
+                        labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
+                        ?
+                          labelPositions[ap.code].position == 'bottom'
+                          ? (document.getElementById(`destination-${ap.code}-label`).getBBox().height * .2)
+                          :
+                            labelPositions[ap.code].position == 'top'
+                            ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().height * 1.25)
+                            : -(document.getElementById(`destination-${ap.code}-label`).getBBox().height * .5)
+                        : 0
+                      )
+                    }
                     width={
                       document.getElementById(`destination-${ap.code}-label`) && document.getElementById(`destination-${ap.code}-label`).getBBox
                       ? document.getElementById(`destination-${ap.code}-label`).getBBox().width + 5
@@ -326,8 +581,49 @@ const GenerateSpidermap = ({ ...props }) => {
                     </rect>
                     <text
                       id={`destination-${ap.code}-label-double`}
-                      onClick={()=>{}}
-                      style={{ textAlign: 'center', cursor: 'pointer' }}
+                      onClick={() => {
+                        setContextMenuProps({
+                          title: ap.code
+                        })
+                        setContextMenuPosition({ x: points[ap.code].x + 20, y: points[ap.code].y - 100 })
+                        setShowContextMenu(true)
+                      }}
+                      x={
+                          points[ap.code].x + (
+                            labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
+                            ?
+                              labelPositions[ap.code].position == 'right'
+                              ? 10
+                              :
+                                labelPositions[ap.code].position == 'left'
+                                ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width + 10)
+                                :
+                                  labelPositions[ap.code].position == 'bottom'
+                                  ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                  :
+                                    labelPositions[ap.code].position == 'top'
+                                    ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().width * .5)
+                                    : 0
+
+                            : 10
+                          )
+                        }
+                      y={
+                        points[ap.code].y + (
+                          labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
+                          ?
+                            labelPositions[ap.code].position == 'bottom'
+                            ? (document.getElementById(`destination-${ap.code}-label`).getBBox().height)
+                            :
+                              labelPositions[ap.code].position == 'top'
+                              ? -(document.getElementById(`destination-${ap.code}-label`).getBBox().height * .5)
+                              : (document.getElementById(`destination-${ap.code}-label`).getBBox().height * .25)
+                          : 0
+                        )
+                      }
+                      style={{
+                        textAlign: 'center', cursor: 'pointer',
+                      }}
                       fontSize={
                         destinations.length > 50
                         ? '.5rem'
@@ -363,6 +659,22 @@ const GenerateSpidermap = ({ ...props }) => {
                              ${ap.code}`
                         }
                     </text>
+                    {/*<rect
+                      style={{ cursor: 'pointer' }}
+                      x={ points[ap.code].x - 7 }
+                      y={ points[ap.code].y - 7 }
+                      width='14'
+                      height='14'
+                      fill='rgba(0,0,0,0)'
+                      opacity='0'
+                      onClick={() => {
+                      setContextMenuProps({
+                        title: ap.code
+                      })
+                      setContextMenuPosition({ x: points[ap.code].x + 20, y: points[ap.code].y - 100 })
+                      setShowContextMenu(true)
+                    }}>
+                    </rect>*/}
                   </g>
                 </Fragment>
               ))
