@@ -1,7 +1,6 @@
 # Spidermap Application for American Airlines
 
 ## To do:
-  - Add bend or curve to the spidermap paths
   - Add interactivity/labels to the spidermap dots
 
 

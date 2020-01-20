@@ -169,7 +169,14 @@ const GenerateSpidermap = ({ ...props }) => {
     pathCount++
 
     let angle = 360/destinations.length * pathCount
+    let pointY = 50
     // angle = (angle == Infinity ? 1 : angle)
+
+    // if (pathsRef.current && pathsRef.current[pathCount] && pathsRef.current[pathCount].current) {
+    //   console.log(
+    //     pathsRef.current[pathCount].current.getPointAtLength(100)
+    //   )
+    // }
 
     return (
       <g
@@ -181,12 +188,19 @@ const GenerateSpidermap = ({ ...props }) => {
           ref={ pathsRef.current[pathCount] }
           d={
             `
+            M ${center.x}, ${center.y}
+            C ${center.x * .9}, ${center.y * .7}
+              ${center.x * .9}, ${center.y * .3}
+              ${center.x}, ${pointY}
+            `
+            /*
+            `
             M ${center.x},${center.y}
             C ${center.x},${0}
             ${center.x},${0}
             ${center.x},${150}
             `
-          }
+          */}
           strokeWidth={pathStrokeThickness}
           stroke={pathStrokeColor}
           fill='none'>
@@ -195,9 +209,12 @@ const GenerateSpidermap = ({ ...props }) => {
           r={destinationDotSize}
           cx={center.x}
           cy={
+            pointY
+            /*
             innerHeight < 800
             ? 60 - ((800 - innerHeight)*.05)
             : 60
+            */
           }
           fill={destinationDotColor}>
         </circle>
