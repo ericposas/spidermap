@@ -1,11 +1,9 @@
 # Spidermap Application for American Airlines
 
 ## To do:
-  - Prevent adding of duplicate react object (with same key -- aka location or destination)
-    - this happens when two categories host the same location
   - Add bend or curve to the spidermap paths
   - Add interactivity/labels to the spidermap dots
-  
+
 
 #### Tech Stack:
   - Lightsail ec2 compute instance

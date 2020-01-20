@@ -39,6 +39,8 @@ const Dropdown = ({ ...props }) => {
 
   const [options, setOptions] = useState([])
 
+  // const [chosenCategories, setChosenCategories] = useState([])
+
   const [airportsPerCategory, setAirportsPerCategory] = useState({})
 
   const [values, setValues] = useState([])
@@ -62,6 +64,8 @@ const Dropdown = ({ ...props }) => {
   const allCodesData = useSelector(state => state.allCodesData)
 
   const [_filter, setFilter] = useState('')
+
+  let chosenCategories = []
 
   useEffect(() => {
     if (checkAuth()) {
@@ -179,7 +183,7 @@ const Dropdown = ({ ...props }) => {
           })
         })
         // apPerCategory[category] = apPerCategory[category].filter((item, idx) => idx == apPerCategory[category].indexOf(item))
-        console.log(apPerCategory)
+        // console.log(apPerCategory)
         // let categories = allCodesData.map(ap => ap.category).sort((a,b) => {
         //   if (a < b) return -1
         //   if (a > b) return 1
@@ -204,7 +208,7 @@ const Dropdown = ({ ...props }) => {
     // console.log(item, property, value)
     // console.log('item[property]: ' + item[property], 'value: ' + value);
     // console.log(property, value)
-    if (item[property] == value || typeof property == 'object') {
+    if (item[property] == value || (value == null && typeof property == 'object')) {
       if (outputType == 'listview-origin') {
         dispatch({ type: SET_ORIGIN_LISTVIEW, payload: item })
       }
@@ -242,14 +246,13 @@ const Dropdown = ({ ...props }) => {
     })
   }
 
-  const setCategorySelection = (value, outputType) => {
-    let category = airportsPerCategory[value]
-    // console.log(category)
-    category.forEach(item => {
-      // console.log(item, value, item[value])
-      dispatchProperOutputType(item, value, item, outputType)
-    })
-  }
+  // const setCategorySelection = (value, outputType) => {
+  //   let category = airportsPerCategory[value]
+  //   category.forEach(item => {
+  //     chosenCategories = chosenCategories.concat(item)
+  //     chosenCategories = chosenCategories.filter((_item, idx) => idx == chosenCategories.indexOf(_item))
+  //   })
+  // }
 
   const setOptionsValues = e => {
     let { selectedOptions } = e.target
@@ -271,9 +274,17 @@ const Dropdown = ({ ...props }) => {
       })
     }
     else if (type == 'category') {
-      // console.log(values)
       values.forEach(val => {
-        setCategorySelection(val, props.output)
+        // setCategorySelection(val, props.output)
+        let category = airportsPerCategory[val]
+        category.forEach(item => {
+          chosenCategories = chosenCategories.concat(item)
+          chosenCategories = chosenCategories.filter((_item, idx) => idx == chosenCategories.indexOf(_item))
+        })
+      })
+      // setTimeout(() => {
+      chosenCategories.forEach(item => {
+        dispatchProperOutputType(item, null, item, props.output)
       })
     }
   }
