@@ -253,11 +253,17 @@ const DownloadImagePanel = ({ ...props }) => {
     }
   }
 
+  const alphaSort = (a,b) => {
+    if (a < b) return -1
+    if (a > b) return 1
+    return 0
+  }
+
   const saveListingPointmap = (global = false) => {
     if (selectedDestinationsPointmap) {
       let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
       let arr = Object.keys(selectedDestinationsPointmap).map(idx => {
-        return [idx].concat(selectedDestinationsPointmap[idx].map(_idx => _idx.code))
+        return [idx].concat(selectedDestinationsPointmap[idx].map(_idx => _idx.code)).sort(alphaSort)
       })
       setSavingMapToDB(true)
       axios.post(endpoint, { belongsto: getUser().user._id, type: type, labels: JSON.stringify({ positions: pointmap_labelPositions, displayTypes: pointmap_labelDisplayTypes }), locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
@@ -276,6 +282,7 @@ const DownloadImagePanel = ({ ...props }) => {
       let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
       type == 'listview' ? arr.push(selectedOriginListView.code) : arr.push(selectedOriginSpidermap.code)
       type == 'listview' ? selectedDestinationsListView.forEach(dest => arr.push(dest.code)) : selectedDestinationsSpidermap.forEach(dest => arr.push(dest.code))
+      arr.sort(alphaSort)
       setSavingMapToDB(true)
       axios.post(endpoint, { belongsto: getUser().user._id, type: type, labels: JSON.stringify({ positions: spidermap_labelPositions, displayTypes: spidermap_labelDisplayTypes }), locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
            .then(response => {

@@ -22,6 +22,8 @@ import {
   HIDE_DESTINATION_PANEL_POINTMAP,
   CLEAR_ORIGIN_LOCATIONS_POINTMAP,
   SET_DESTINATION_LOCATIONS_POINTMAP_AT_ONCE,
+  SET_ALL_LABEL_POSITIONS_POINTMAP,
+  SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP
 } from '../../constants/pointmap'
 import { CSSTransition } from 'react-transition-group'
 
@@ -86,6 +88,8 @@ const Pointmap = ({ ...props }) => {
       dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_ORIGINS_POINTMAP })
       dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_POINTMAP })
       dispatch({ type: HIDE_DESTINATION_PANEL_POINTMAP })
+      dispatch({ type: SET_ALL_LABEL_POSITIONS_POINTMAP, payload: {} })
+      dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP, payload: {} })
     })
   }
 

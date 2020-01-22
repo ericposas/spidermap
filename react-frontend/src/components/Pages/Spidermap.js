@@ -16,6 +16,8 @@ import {
   REMOVE_ALL_DESTINATIONS_SPIDERMAP,
   HIDE_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP,
   HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP,
+  SET_ALL_LABEL_POSITIONS_SPIDERMAP,
+  SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP
 } from '../../constants/spidermap'
 import { SET_TIMEZONE_LATLONGS } from '../../constants/constants'
 import { CSSTransition } from 'react-transition-group'
@@ -73,9 +75,11 @@ const Spidermap = ({ ...props }) => {
       dispatch({ type: SET_ORIGIN_SPIDERMAP, payload: null })
       dispatch({ type: CLEAR_ORIGIN_SPIDERMAP })
       dispatch({ type: REMOVE_ALL_DESTINATIONS_SPIDERMAP })
+      dispatch({ type: SET_ALL_LABEL_POSITIONS_SPIDERMAP, payload: {} })
+      dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP, payload: {} })
     })
   }
-
+  
   useEffect(() => {
     if (!checkAuth()) setTimeout(() => props.history.push('/'))
     else {

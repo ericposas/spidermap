@@ -284,6 +284,15 @@ const GenerateSpidermap = ({ ...props }) => {
           style={{
             'pointerEvents': 'none'
           }}
+          fontSize={
+            destinations.length > 50
+            ? '.5rem'
+            :
+              destinations.length > 100
+              ? '.35rem'
+              :
+                '.75rem'
+          }
           x={
             center.x + (
               labelPositions && labelPositions[ap.code] && document.getElementById(`destination-${ap.code}-label`)
