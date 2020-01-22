@@ -1,7 +1,7 @@
 # Spidermap Application for American Airlines
 
 ## To do:
-  - Add interactivity/labels to the spidermap dots
+  - Update order (alpha sort) of saved spidermap locations
 
 
 #### Tech Stack:
