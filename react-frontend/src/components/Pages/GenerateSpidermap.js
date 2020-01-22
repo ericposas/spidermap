@@ -162,6 +162,20 @@ const GenerateSpidermap = ({ ...props }) => {
     }
   }
 
+  const calcContextMenuPos = (e, code, center) => {
+    let x = e.clientX - svg_map_area.current.getBoundingClientRect().left
+    let xPos = x < center.x ? x - 100 : x - 200
+    let yPos = e.clientY < center.y ? e.clientY + 20 : e.clientY - 200
+    setContextMenuProps({
+      title: code
+    })
+    setContextMenuPosition({
+      x: xPos,
+      y: yPos
+    })
+    setShowContextMenu(true)
+  }
+
   const calcPath = (ap, i) => {
     let center = calcCenter()
     let cpStartThreshX = .3, cpEndThreshX = .7
@@ -196,21 +210,7 @@ const GenerateSpidermap = ({ ...props }) => {
         <circle
           id={`${origin.code}-to-${ap.code}-dot`}
           ref={ circlesRef.current[pathCount] }
-          onClick={
-            e => {
-              setContextMenuProps({
-                title: ap.code
-              })
-              setContextMenuPosition({
-                x: e.clientX - svg_map_area.current.getBoundingClientRect().left + 20,
-                y: e.clientY - 100
-              })
-              setShowContextMenu(true)
-              // if (circlesRef.current && circlesRef.current[pathCount] && circlesRef.current[pathCount].current) {
-              //   circlesRef.current[pathCount].current.getBoundingClientRect()
-              // }
-            }
-          }
+          onClick={e => calcContextMenuPos(e, ap.code, center)}
           r={destinationDotSize}
           cx={center.x}
           cy={pointY}
@@ -222,18 +222,7 @@ const GenerateSpidermap = ({ ...props }) => {
           transform={
             `rotate(${-angle}, ${center.x}, ${pointY})`
           }
-          onClick={
-            e => {
-              setContextMenuProps({
-                title: ap.code
-              })
-              setContextMenuPosition({
-                x: e.clientX - svg_map_area.current.getBoundingClientRect().left,
-                y: e.clientY - 100
-              })
-              setShowContextMenu(true)
-            }
-          }
+          onClick={e => calcContextMenuPos(e, ap.code, center)}
           style={{
             cursor: 'pointer',
             opacity:
