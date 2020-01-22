@@ -2,7 +2,7 @@
 
 ## To do:
   - Update order (alpha sort) of saved spidermap locations
-
+  - Use system fonts when exporting jpg/png image
 
 #### Tech Stack:
   - Lightsail ec2 compute instance
