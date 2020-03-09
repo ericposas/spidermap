@@ -513,16 +513,16 @@ const GenerateSpidermap = ({ ...props }) => {
                                 labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
                                 ?
                                   labelPositions[origin.code].position == 'right'
-                                  ? 10
+                                  ? 8
                                   :
                                     labelPositions[origin.code].position == 'left'
-                                    ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width + 14)
+                                    ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width + 19)
                                     :
                                       labelPositions[origin.code].position == 'bottom'
-                                      ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                      ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .51)
                                       :
                                         labelPositions[origin.code].position == 'top'
-                                        ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .5)
+                                        ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().width * .55)
                                         : 0
                                 : 10
                               )
@@ -532,26 +532,26 @@ const GenerateSpidermap = ({ ...props }) => {
                               labelPositions && labelPositions[origin.code] && document.getElementById(`origin-${origin.code}-label`)
                               ?
                                 labelPositions[origin.code].position == 'bottom'
-                                ? (document.getElementById(`origin-${origin.code}-label`).getBBox().height * .5) - 2
+                                ? (document.getElementById(`origin-${origin.code}-label`).getBBox().height * .5) - 3
                                 :
                                   labelPositions[origin.code].position == 'top'
-                                  ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().height * 1.35)
+                                  ? -(document.getElementById(`origin-${origin.code}-label`).getBBox().height * 1.5)
                                   :
-                                    -(document.getElementById(`origin-${origin.code}-label`).getBBox().height * .5) - 2
+                                    -(document.getElementById(`origin-${origin.code}-label`).getBBox().height * .5) - 4
                               : 0
                             )
                           }
                           width={
                             document.getElementById(`origin-${origin.code}-label`)
                             ?
-                              document.getElementById(`origin-${origin.code}-label`).getBBox().width + 5
+                              document.getElementById(`origin-${origin.code}-label`).getBBox().width + 8
                             :
                               100
                           }
                           height={
                             document.getElementById(`origin-${origin.code}-label`)
                             ?
-                              document.getElementById(`origin-${origin.code}-label`).getBBox().height
+                              document.getElementById(`origin-${origin.code}-label`).getBBox().height + 4
                             :
                               12
                           }
