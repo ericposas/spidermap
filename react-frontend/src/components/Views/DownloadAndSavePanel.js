@@ -69,6 +69,14 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const spidermap_labelDisplayTypes = useSelector(state => state.spidermap_labelDisplayTypes)
 
+  const spidermap_renderType = useSelector(state => state.spidermap_renderType)
+
+  const spidermap_distLimit = useSelector(state => state.spidermap_distLimit)
+
+  const spidermap_angleAdjustment = useSelector(state => state.spidermap_angleAdjustment)
+
+  const spidermap_currentlyEditing = useSelector(state => state.spidermap_currentlyEditing)
+
   const [savingMapToDB, setSavingMapToDB] = useState(false)
 
   const [showSavedMapToDB_Notification, setShowSavedMapToDB_Notification] = useState(false)
@@ -277,6 +285,25 @@ const DownloadImagePanel = ({ ...props }) => {
   }
 
   const saveListing = (global = false) => {
+    const postNewMap = (endpoint, arr) => {
+      axios.post(endpoint, {
+          belongsto: getUser().user._id,
+          type: type,
+          labels: JSON.stringify({ positions: spidermap_labelPositions, displayTypes: spidermap_labelDisplayTypes }),
+          locations: JSON.stringify(arr),
+          distlimit: spidermap_distLimit,
+          angleadjust: spidermap_angleAdjustment,
+          rendertype: spidermap_renderType
+        },
+          { headers: { 'Authorization': `Bearer ${getUser().jwt}` }
+        })
+           .then(response => {
+             setSavingMapToDB(false)
+             setShowSavedMapToDB_Notification(true)
+             setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
+           })
+           .catch(err => console.log(err))
+    }
     if (selectedOriginSpidermap || selectedOriginListView) {
       let arr = []
       let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
@@ -284,13 +311,32 @@ const DownloadImagePanel = ({ ...props }) => {
       type == 'listview' ? selectedDestinationsListView.forEach(dest => arr.push(dest.code)) : selectedDestinationsSpidermap.forEach(dest => arr.push(dest.code))
       arr.sort(alphaSort)
       setSavingMapToDB(true)
-      axios.post(endpoint, { belongsto: getUser().user._id, type: type, labels: JSON.stringify({ positions: spidermap_labelPositions, displayTypes: spidermap_labelDisplayTypes }), locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-           .then(response => {
-             setSavingMapToDB(false)
-             setShowSavedMapToDB_Notification(true)
-             setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
-           })
-           .catch(err => console.log(err))
+      if (spidermap_currentlyEditing) {
+        axios.put(endpoint+spidermap_currentlyEditing,
+          {
+            belongsto: getUser().user._id,
+            type: type,
+            labels: JSON.stringify({ positions: spidermap_labelPositions, displayTypes: spidermap_labelDisplayTypes }),
+            locations: JSON.stringify(arr),
+            distlimit: spidermap_distLimit,
+            angleadjust: spidermap_angleAdjustment,
+            rendertype: spidermap_renderType
+          },
+          { headers: { 'Authorization': `Bearer ${getUser().jwt}` }
+        })
+        .then(response => {
+          setSavingMapToDB(false)
+          setShowSavedMapToDB_Notification(true)
+          setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
+        })
+        .catch(err => {
+          // if error updating, try to post a new entry
+          console.log(err)
+          postNewMap(endpoint, arr)
+        })
+      } else {
+        postNewMap(endpoint, arr)
+      }
     }
   }
 

@@ -1,5 +1,6 @@
 import * as d3 from 'd3'
 import './generate-map.scss'
+import geodist from 'geodist'
 import url from '../../url'
 import { getUser } from '../../sessionStore'
 import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
@@ -10,6 +11,8 @@ import { SET_TIMEZONE_LATLONGS, RERENDER_HACK } from '../../constants/constants'
 import {
   SET_LABEL_POSITION_SPIDERMAP, SET_LABEL_DISPLAY_TYPE_SPIDERMAP,
   SET_ALL_LABEL_POSITIONS_SPIDERMAP, SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP,
+  SET_DESTINATION_LOCATIONS_SPIDERMAP,
+  SET_SPIDERMAP_DISTLIMIT, SET_SPIDERMAP_RENDERTYPE, SET_SPIDERMAP_ANGLEADJUST,
 } from '../../constants/spidermap'
 import ChangeAllLabelsMenu from '../Menus/ChangeAllLabelsMenu'
 import MapContextMenu from '../Menus/MapContextMenu'
@@ -32,8 +35,11 @@ const GenerateSpidermap = ({ ...props }) => {
   let pathCount = -1,
       labelCount = -1,
       whiteBoxUnderLabelCount = -1
+  let longPaths = -1, shortPaths = -1
   let labelAdjustX = 2,
       labelAdjustY = 2
+  // let shortPathsCalculated = false
+  // let distLimit = 2000
 
   let points = {}
 
@@ -42,6 +48,15 @@ const GenerateSpidermap = ({ ...props }) => {
   const origin = useSelector(state => state.selectedOriginSpidermap)
 
   const destinations = useSelector(state => state.selectedDestinationsSpidermap)
+
+  // const [distLimit, setDistLimit] = useState(2000)
+  const distLimit = useSelector(state => state.spidermap_distLimit)
+
+  // const [renderType, setRenderType] = useState('single-ring')
+  const renderType = useSelector(state => state.spidermap_renderType)
+
+  // const [angleAdjustment, setAngleAdjustment] = useState(1.0)
+  const angleAdjustment = useSelector(state => state.spidermap_angleAdjustment)
 
   const downloadingPDF = useSelector(state => state.downloadPDFStatus)
 
@@ -181,11 +196,40 @@ const GenerateSpidermap = ({ ...props }) => {
     let cpStartThreshX = .3, cpEndThreshX = .7
     let cpStartThreshY = .3, cpEndThreshY = .7
     let bendX, bendY
+    let orig = { lat: origin.latitude, lon: origin.longitude }
+    let dest = { lat: ap.latitude, lon: ap.longitude }
+    let distance = geodist(orig, dest)
+    let pointY, xcurve1, xcurve2, ycurve1, ycurve2
+    let angle
 
     pathCount++
 
-    let angle = 360/destinations.length * pathCount
-    let pointY = 50
+    if (renderType == 'double-ring') {
+      if (distance > distLimit) {
+        pointY = 50
+        xcurve1 = .85
+        xcurve2 = .85
+        ycurve1 = .75
+        ycurve2 = .6
+        longPaths++
+        angle = (360/destinations.length * pathCount) + angleAdjustment
+      } else {
+        pointY = 150
+        xcurve1 = .9
+        xcurve2 = .9
+        ycurve1 = .8
+        ycurve2 = .6
+        shortPaths++
+        angle = (360/destinations.length * pathCount)
+      }
+    } else {
+      pointY = 50
+      xcurve1 = .85
+      xcurve2 = .85
+      ycurve1 = .75
+      ycurve2 = .6
+      angle = (360/destinations.length * pathCount)
+    }
 
     return (
       <g
@@ -198,8 +242,8 @@ const GenerateSpidermap = ({ ...props }) => {
           d={
             `
             M ${center.x}, ${center.y}
-            C ${center.x * .9}, ${center.y * .7}
-              ${center.x * .9}, ${center.y * .3}
+            C ${center.x * xcurve1}, ${center.y * ycurve1}
+              ${center.x * xcurve2}, ${center.y * ycurve2}
               ${center.x}, ${pointY}
             `
           }
@@ -372,6 +416,70 @@ const GenerateSpidermap = ({ ...props }) => {
           height:'100vh',
           backgroundColor: '#fff',
         }}>
+        <div
+          style={{ position: 'absolute', border: '1px solid #ccc', }}
+          >
+          <div
+            style={{
+              cursor: 'pointer',
+              fontSize: '10px',
+              padding: '0 4px 0 4px',
+            }}
+            onClick={() => {
+              if (renderType == 'single-ring') dispatch({ type: SET_SPIDERMAP_RENDERTYPE, payload: 'double-ring' })
+              else dispatch({ type: SET_SPIDERMAP_RENDERTYPE, payload: 'single-ring' })
+            }}
+            >
+            Toggle render type: {renderType}
+          </div>
+          {
+            renderType == 'double-ring'
+            ? <div
+                style={{ float: 'left' }}
+                >
+                <div
+                  style={{ fontSize: '10px', padding: '0 4px 0 4px' }}>
+                    Set distance threshhold for inner-ring:
+                </div>
+                <input type='text' value={distLimit} onChange={e => dispatch({ type: SET_SPIDERMAP_DISTLIMIT, payload: e.target.value })}/>
+              </div>
+            : null
+          }
+          {
+            renderType == 'double-ring'
+            ? <div>
+                <div
+                  style={{ fontSize: '10px', padding: '0 4px 0 4px' }}>
+                    Adjust angle of outer ring
+                </div>
+              <div>
+              <div
+                style={{
+                  display: 'inline-block',
+                  userSelect: 'none',
+                  cursor: 'pointer',
+                  border: '1px solid #ccc',
+                  textAlign: 'center',
+                  width: '25px',
+                }}
+                onClick={() => dispatch({ type: SET_SPIDERMAP_ANGLEADJUST, payload: (angleAdjustment + 1) }) }
+                >+</div>
+              <div
+                style={{
+                  display: 'inline-block',
+                  userSelect: 'none',
+                  cursor: 'pointer',
+                  border: '1px solid #ccc',
+                  textAlign: 'center',
+                  width: '25px',
+                }}
+                onClick={() => dispatch({ type: SET_SPIDERMAP_ANGLEADJUST, payload: (angleAdjustment - 1) })}
+                >-</div>
+            </div>
+          </div>
+          : null
+        }
+        </div>
         <ChangeAllLabelsMenu
           showChangeAllLabelsMenu={showChangeAllLabelsMenu}
           setShowChangeAllLabelsMenu={setShowChangeAllLabelsMenu}
@@ -397,11 +505,12 @@ const GenerateSpidermap = ({ ...props }) => {
             opacity='0'></rect>
           {
             destinations
-            ? destinations.map((ap, i) => (
-                <Fragment key={'path'+i}>
-                  { calcPath(ap, i) }
-                </Fragment>)
-              ) : null
+            ? destinations
+                .map((ap, i) => (
+                  <Fragment key={'path'+i}>
+                    { calcPath(ap, i) }
+                  </Fragment>)
+                ) : null
           }
           {
             origin

@@ -21,6 +21,8 @@
     "d3-hierarchy": "^1.1.8",
     "dom-to-image": "^2.6.0",
     "file-saver": "^2.0.2",
+    "geo-distance": "^0.2.0",
+    "geodist": "^0.2.1",
     "gsap": "^3.0.1",
     "html2canvas": "^1.0.0-rc.5",
     "html2pdf.js": "^0.9.1",

@@ -41,9 +41,12 @@ import resizeListenerAdded from './resizeListenerAdded'
 import rerenderHack from './rerenderHack'
 import spidermap_labelDisplayTypes from './spidermap/spidermap_labelDisplayTypes'
 import spidermap_labelPositions from './spidermap/spidermap_labelPositions'
+import spidermap_angleAdjustment from './spidermap/spidermap_angleAdjustment'
+import spidermap_distLimit from './spidermap/spidermap_distLimit'
+import spidermap_renderType from './spidermap/spidermap_renderType'
+import spidermap_currentlyEditing from './spidermap/spidermap_currentlyEditing'
 import pointmap_labelDisplayTypes from './pointmap/pointmap_labelDisplayTypes'
 import pointmap_labelPositions from './pointmap/pointmap_labelPositions'
-
 
 const rootReducer = combineReducers({
   windowSize,
@@ -67,6 +70,7 @@ const rootReducer = combineReducers({
   spidermap_selectByCategoryDestinations, spidermap_selectBy_DestinationsVisibility,
   spidermap_destinationPanelVisibility,
   spidermap_labelPositions, spidermap_labelDisplayTypes,
+  spidermap_renderType, spidermap_angleAdjustment, spidermap_distLimit, spidermap_currentlyEditing,
   selectedMenuItem,
   listviewRendering, listviewPrinting,
   downloadPDFStatus,
