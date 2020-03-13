@@ -23,6 +23,18 @@
     },
     "belongsto": {
       "type": "string"
+    },
+    "rendertype": {
+      "type": "string"
+    },
+    "distlimit": {
+      "type": "integer"
+    },
+    "angleadjust": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }

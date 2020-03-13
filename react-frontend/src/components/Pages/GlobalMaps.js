@@ -16,6 +16,10 @@ import {
   SET_DESTINATION_LOCATIONS_SPIDERMAP,
   SET_ALL_LABEL_POSITIONS_SPIDERMAP,
   SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP,
+  SET_SPIDERMAP_DISTLIMIT,
+  SET_SPIDERMAP_RENDERTYPE,
+  SET_SPIDERMAP_ANGLEADJUST,
+  SET_SPIDERMAP_CURRENTLY_EDITING,
 } from '../../constants/spidermap'
 import {
   CLEAR_ORIGIN_LOCATIONS_POINTMAP,
@@ -197,23 +201,27 @@ const GlobalMaps = ({ ...props }) => {
     props.history.push('/generate-listview')
   }
 
-  const setLabels = (type, data) => {
+  const setLabels = (type, data, otherData) => {
     switch (type) {
       case 'spidermap':
-        setLabelsAndPositionsSpidermap(data)
+        setLabelsAndPositionsSpidermap(data, otherData)
         break;
       case 'pointmap':
         setLabelsAndPositionsPointmap(data)
         break;
       default:
-        setLabelsAndPositionsSpidermap(data)
+        setLabelsAndPositionsSpidermap(data, otherData)
     }
   }
 
-  const setLabelsAndPositionsSpidermap = (data) => {
+  const setLabelsAndPositionsSpidermap = (data, otherData) => {
     batch(() => {
       dispatch({ type: SET_ALL_LABEL_POSITIONS_SPIDERMAP, payload: data.positions })
       dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP, payload: data.displayTypes })
+      dispatch({ type: SET_SPIDERMAP_DISTLIMIT, payload: otherData.distlimit })
+      dispatch({ type: SET_SPIDERMAP_RENDERTYPE, payload: otherData.rendertype })
+      dispatch({ type: SET_SPIDERMAP_ANGLEADJUST, payload: otherData.angleadjust })
+      dispatch({ type: SET_SPIDERMAP_CURRENTLY_EDITING, payload: { name: otherData.name, id: otherData.id } })
     })
   }
 
@@ -304,7 +312,17 @@ const GlobalMaps = ({ ...props }) => {
                         <div
                           onClick={() => {
                             createMap(globalMaps[i].type, JSON.parse(globalMaps[i].locations))
-                            setLabels(globalMaps[i].type, JSON.parse(globalMaps[i].labels))
+                            setLabels(
+                              globalMaps[i].type,
+                              JSON.parse(globalMaps[i].labels),
+                              {
+                                id: globalMaps[i]._id,
+                                name: globalMaps[i].name || '',
+                                distlimit: globalMaps[i].distlimit,
+                                angleadjust: globalMaps[i].angleadjust,
+                                rendertype: globalMaps[i].rendertype
+                              }
+                            )
                           }}
                           className='my-map-tile map-tile'>
                           <div

@@ -32,6 +32,9 @@
     },
     "distlimit": {
       "type": "integer"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }

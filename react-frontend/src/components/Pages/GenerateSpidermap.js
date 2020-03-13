@@ -112,15 +112,13 @@ const GenerateSpidermap = ({ ...props }) => {
     dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP, payload: obj })
     // hack to re-render svg data
     dispatch({ type: RERENDER_HACK, payload: true })
-    setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 50)
+    setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 100)
   }
 
   useEffect(() => {
     if (origin == null) {
       props.history.push('/spidermap')
     } else {
-      // pathsRef.current.forEach(path => console.log(path))
-      // labelsRef.current.forEach(label => console.log(label))
       let legal = destinations.concat(origin).map(item => { if (item && item.legal) return item.legal })
       legal = legal.filter((item, i) => i == legal.indexOf(item))
       setListedLegalLines(legal)
@@ -138,31 +136,10 @@ const GenerateSpidermap = ({ ...props }) => {
       })
       // hack to re-render svg data
       dispatch({ type: RERENDER_HACK, payload: true })
-      setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 5)
-      // load timezone data
-      if (!timezoneLatLongs) {
-        axios.get('/timezones', { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-             .then(result => {
-               // console.log(result.data[0].all)
-               dispatch({ type: SET_TIMEZONE_LATLONGS, payload: result.data[0].all })
-               // hack to re-render svg data
-               dispatch({ type: RERENDER_HACK, payload: true })
-               setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 5)
-             })
-      }
-      // whiteBoxUnderLabelsRef.current.forEach((item, i) => {
-      //   const checkClick = () => {
-      //     if (document.getElementById(item.current.id)) {
-      //       document.getElementById(item.current.id)
-      //     } else {
-      //       setTimeout(checkClick, 1000)
-      //     }
-      //   }
-      //   if (item.current) checkClick()
-      // })
+      setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 200)
     }
   }, [])
-
+  
   const calcCenter = () => {
     return {
       x: ((svgMargin + (innerHeight * 1.15))/2),
@@ -328,6 +305,7 @@ const GenerateSpidermap = ({ ...props }) => {
           style={{
             'pointerEvents': 'none'
           }}
+          fontFamily='AmericanSans'
           fontSize={
             destinations.length > 50
             ? '.5rem'
@@ -494,6 +472,7 @@ const GenerateSpidermap = ({ ...props }) => {
             backgroundColor: displayMapBG ? svgBgColor : 'rgba(0, 0, 0, 0)',
             boxShadow: 'inset 10px 0 10px -10px rgba(0,0,0,0.2)',
           }}>
+
           <rect
             onClick={() => {
               setShowContextMenu(false)
@@ -577,6 +556,7 @@ const GenerateSpidermap = ({ ...props }) => {
                             textAlign: 'center', pointerEvents: 'none',
                             fontWeight: 'bold'
                           }}
+                          fontFamily='AmericanSans'
                           fontSize={originLabelFontSize}>
                             {
                               labelDisplayTypes && labelDisplayTypes[origin.code]
@@ -711,8 +691,10 @@ const GenerateSpidermap = ({ ...props }) => {
                             style={{
                               textAlign: 'center',
                               fontWeight: 'bold',
-                              cursor: 'pointer'
+                              cursor: 'pointer',
+                              fontSize: originLabelFontSize
                             }}
+                            fontFamily='AmericanSans'
                             fontSize={originLabelFontSize}>
                               {
                                 labelDisplayTypes && labelDisplayTypes[origin.code]

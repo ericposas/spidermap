@@ -221,7 +221,7 @@ const MyMaps = ({ ...props }) => {
       dispatch({ type: SET_SPIDERMAP_DISTLIMIT, payload: otherData.distlimit })
       dispatch({ type: SET_SPIDERMAP_RENDERTYPE, payload: otherData.rendertype })
       dispatch({ type: SET_SPIDERMAP_ANGLEADJUST, payload: otherData.angleadjust })
-      dispatch({ type: SET_SPIDERMAP_CURRENTLY_EDITING, payload: otherData.id })
+      dispatch({ type: SET_SPIDERMAP_CURRENTLY_EDITING, payload: { name: otherData.name, id: otherData.id } })
     })
   }
 
@@ -315,7 +315,13 @@ const MyMaps = ({ ...props }) => {
                               setLabels(
                                 myMaps[i].type,
                                 JSON.parse(myMaps[i].labels),
-                                { id: myMaps[i]._id, distlimit: myMaps[i].distlimit, angleadjust: myMaps[i].angleadjust, rendertype: myMaps[i].rendertype }
+                                {
+                                  id: myMaps[i]._id,
+                                  name: myMaps[i].name || '',
+                                  distlimit: myMaps[i].distlimit,
+                                  angleadjust: myMaps[i].angleadjust,
+                                  rendertype: myMaps[i].rendertype
+                                }
                               )
                             }}
                             className='my-map-tile map-tile'>
@@ -324,7 +330,14 @@ const MyMaps = ({ ...props }) => {
                                 textAlign: 'left',
                                 padding: '8px 0 0 12px',
                               }}
-                              className='map-tile-type-title'>{ myMaps[i].type.toUpperCase() }</div>
+                              className='map-tile-type-title'>
+                                { myMaps[i].type.toUpperCase() + ': ' }
+                                <div>
+                                  {(myMaps[i].name || 'map not labeled')}
+                                  <br/>
+                                  <br/>
+                                </div>
+                            </div>
                             <div
                               className='map-tile-data-container'
                               style={{

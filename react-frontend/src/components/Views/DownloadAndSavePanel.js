@@ -39,6 +39,8 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const [resolutionPixels, setResolutionPixels] = useState()
 
+  const [mapName, setMapName] = useState('Not labeled')
+
   const exportFileType = useSelector(state => state.exportFileType)
 
   const exportResolution = useSelector(state => state.exportResolution)
@@ -289,6 +291,7 @@ const DownloadImagePanel = ({ ...props }) => {
       axios.post(endpoint, {
           belongsto: getUser().user._id,
           type: type,
+          name: mapName,
           labels: JSON.stringify({ positions: spidermap_labelPositions, displayTypes: spidermap_labelDisplayTypes }),
           locations: JSON.stringify(arr),
           distlimit: spidermap_distLimit,
@@ -309,13 +312,14 @@ const DownloadImagePanel = ({ ...props }) => {
       let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
       type == 'listview' ? arr.push(selectedOriginListView.code) : arr.push(selectedOriginSpidermap.code)
       type == 'listview' ? selectedDestinationsListView.forEach(dest => arr.push(dest.code)) : selectedDestinationsSpidermap.forEach(dest => arr.push(dest.code))
-      arr.sort(alphaSort)
+      // arr.sort(alphaSort)
       setSavingMapToDB(true)
       if (spidermap_currentlyEditing) {
-        axios.put(endpoint+spidermap_currentlyEditing,
+        axios.put(endpoint+spidermap_currentlyEditing.id,
           {
             belongsto: getUser().user._id,
             type: type,
+            name: mapName,
             labels: JSON.stringify({ positions: spidermap_labelPositions, displayTypes: spidermap_labelDisplayTypes }),
             locations: JSON.stringify(arr),
             distlimit: spidermap_distLimit,
@@ -398,6 +402,13 @@ const DownloadImagePanel = ({ ...props }) => {
     window.onafterprint = null
     window.onafterprint = () => dispatch({ type: NOT_PRINTING_LISTVIEW })
     setButtonsContainerBottom(getButtonsContainerBottom())
+  }, [])
+
+  useEffect(() => {
+    if (spidermap_currentlyEditing) {
+      // console.log(spidermap_currentlyEditing)
+      setMapName(spidermap_currentlyEditing.name)
+    }
   }, [])
 
   return (<>
@@ -545,6 +556,15 @@ const DownloadImagePanel = ({ ...props }) => {
               onClick={handleDownload}>
               Download {fileType}
             </button>
+            <br/>
+            <br/>
+            <input
+              placeholder='enter a map label'
+              type='text'
+              value={mapName}
+              onChange={e => setMapName(e.target.value)}
+              />
+            <br/>
             <br/>
             <button
               className='button-generic'
