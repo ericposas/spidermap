@@ -7,7 +7,7 @@ import React, { useState, useEffect, useRef, createRef, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import UserLeftSidePanel from '../Views/UserLeftSidePanel'
 import DownloadImagePanel from '../Views/DownloadAndSavePanel'
-import { SET_TIMEZONE_LATLONGS, RERENDER_HACK } from '../../constants/constants'
+import { RERENDER_HACK } from '../../constants/constants'
 import {
   SET_LABEL_POSITION_SPIDERMAP, SET_LABEL_DISPLAY_TYPE_SPIDERMAP,
   SET_ALL_LABEL_POSITIONS_SPIDERMAP, SET_ALL_LABEL_DISPLAY_TYPES_SPIDERMAP,
@@ -70,7 +70,7 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const displayMapBG = useSelector(state => state.displayMapBG)
 
-  const timezoneLatLongs = useSelector(state => state.timezoneLatLongs)
+  // const timezoneLatLongs = useSelector(state => state.timezoneLatLongs)
 
   const [listedLegalLines, setListedLegalLines] = useState([])
 
@@ -139,7 +139,7 @@ const GenerateSpidermap = ({ ...props }) => {
       setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 200)
     }
   }, [])
-  
+
   const calcCenter = () => {
     return {
       x: ((svgMargin + (innerHeight * 1.15))/2),
@@ -380,10 +380,8 @@ const GenerateSpidermap = ({ ...props }) => {
 
   }
 
-  return (<>
-    {
-      timezoneLatLongs
-      ?
+  return (
+    <>
     <div className='row'>
       <UserLeftSidePanel/>
       <DownloadImagePanel type='spidermap' label='Spider Map'/>
@@ -760,8 +758,6 @@ const GenerateSpidermap = ({ ...props }) => {
           />
       </div>
     </div>
-    : null
-  }
   </>)
 
 }

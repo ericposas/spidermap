@@ -8,6 +8,7 @@ import {
   REMOVE_ALL_DESTINATIONS_LISTVIEW,
   SET_ORIGIN_LISTVIEW,
   SET_DESTINATION_LOCATIONS_LISTVIEW,
+  SET_LISTVIEW_CURRENTLY_EDITING
 } from '../../constants/listview'
 import {
   REMOVE_ORIGIN_SPIDERMAP,
@@ -210,6 +211,9 @@ const MyMaps = ({ ...props }) => {
       case 'pointmap':
         setLabelsAndPositionsPointmap(data, otherData)
         break;
+      case 'listview':
+        dispatch({ type: SET_LISTVIEW_CURRENTLY_EDITING, payload: { name: otherData.name, id: otherData.id } })
+        break;
       default:
         setLabelsAndPositionsSpidermap(data, otherData)
     }
@@ -313,10 +317,10 @@ const MyMaps = ({ ...props }) => {
                       <div style={{ position: 'relative' }}>
                           <div
                             onClick={() => {
-                              createMap(myMaps[i].type, JSON.parse(myMaps[i].locations))
+                              createMap(myMaps[i].type, myMaps[i].locations ? JSON.parse(myMaps[i].locations) : [])
                               setLabels(
                                 myMaps[i].type,
-                                JSON.parse(myMaps[i].labels),
+                                myMaps[i].labels ? JSON.parse(myMaps[i].labels) : null,
                                 {
                                   id: myMaps[i]._id,
                                   name: myMaps[i].name || '',
@@ -357,7 +361,7 @@ const MyMaps = ({ ...props }) => {
                                 }}>
                                   Origin: <br/>
                                   <div style={{ fontSize: '1.35rem' }}>
-                                    { JSON.parse(myMaps[i].locations)[0] }
+                                    { myMaps[i].locations ? JSON.parse(myMaps[i].locations)[0] : null }
                                   </div>
                                 </div>
                               : null
@@ -371,6 +375,8 @@ const MyMaps = ({ ...props }) => {
                                     display: 'inline-block',
                                   }}> Destinations:<br/>
                                     {
+                                      myMaps[i].locations
+                                      ?
                                       JSON.parse(myMaps[i].locations).map((item, _i) => {
                                         if (_i != 0) {
                                           return (
@@ -394,9 +400,12 @@ const MyMaps = ({ ...props }) => {
                                           )
                                         }
                                       })
+                                      : null
                                     }
                                 </div>
                               :
+                                myMaps[i].locations
+                                ?
                                 JSON.parse(myMaps[i].locations).map((destArr, _i) => {
                                   return (
                                     <div
@@ -455,6 +464,7 @@ const MyMaps = ({ ...props }) => {
                                     </div>
                                   )
                               })
+                              : null
                             }
                             </div>
                           </div>

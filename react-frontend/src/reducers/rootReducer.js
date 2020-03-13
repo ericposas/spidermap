@@ -6,6 +6,7 @@ import listview_selectBy_DestinationsVisibility from './listview/listview_select
 import listview_selectByCategoryDestinations from './listview/listview_selectByCategoryDestinations'
 import listview_selectByCodeDestinations from './listview/listview_selectByCodeDestinations'
 import listview_destinationPanelVisibility from './listview/listview_destinationPanelVisibility'
+import listview_currentlyEditing from './listview/listview_currentlyEditing'
 import selectedOriginSpidermap from './spidermap/selectedOriginSpidermap'
 import selectedDestinationsSpidermap from './spidermap/selectedDestinationsSpidermap'
 import spidermap_selectBy_DestinationsVisibility from './spidermap/spidermap_selectBy_DestinationsVisibility'
@@ -77,6 +78,7 @@ const rootReducer = combineReducers({
   editingMapName,
   selectedMenuItem,
   listviewRendering, listviewPrinting,
+  listview_currentlyEditing,
   downloadPDFStatus,
   exportFileType,
   exportResolution,

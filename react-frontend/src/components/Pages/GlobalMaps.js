@@ -8,6 +8,7 @@ import {
   REMOVE_ALL_DESTINATIONS_LISTVIEW,
   SET_ORIGIN_LISTVIEW,
   SET_DESTINATION_LOCATIONS_LISTVIEW,
+  SET_LISTVIEW_CURRENTLY_EDITING
 } from '../../constants/listview'
 import {
   REMOVE_ORIGIN_SPIDERMAP,
@@ -27,6 +28,7 @@ import {
   SET_ORIGIN_LOCATIONS_POINTMAP,
   SET_ALL_LABEL_POSITIONS_POINTMAP,
   SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP,
+  SET_POINTMAP_CURRENTLY_EDITING
 } from '../../constants/pointmap'
 import {
   SET_ALL_CODES,
@@ -207,7 +209,10 @@ const GlobalMaps = ({ ...props }) => {
         setLabelsAndPositionsSpidermap(data, otherData)
         break;
       case 'pointmap':
-        setLabelsAndPositionsPointmap(data)
+        setLabelsAndPositionsPointmap(data, otherData)
+        break;
+      case 'listview':
+        dispatch({ type: SET_LISTVIEW_CURRENTLY_EDITING, payload: { name: otherData.name, id: otherData.id } })
         break;
       default:
         setLabelsAndPositionsSpidermap(data, otherData)
@@ -229,6 +234,7 @@ const GlobalMaps = ({ ...props }) => {
     batch(() => {
       dispatch({ type: SET_ALL_LABEL_POSITIONS_POINTMAP, payload: data.positions })
       dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP, payload: data.displayTypes })
+      dispatch({ type: SET_POINTMAP_CURRENTLY_EDITING, payload: { name: otherData.name, id: otherData.id } })
     })
   }
 
@@ -318,9 +324,9 @@ const GlobalMaps = ({ ...props }) => {
                               {
                                 id: globalMaps[i]._id,
                                 name: globalMaps[i].name || '',
-                                distlimit: globalMaps[i].distlimit,
-                                angleadjust: globalMaps[i].angleadjust,
-                                rendertype: globalMaps[i].rendertype
+                                distlimit: globalMaps[i].distlimit || null,
+                                angleadjust: globalMaps[i].angleadjust || null,
+                                rendertype: globalMaps[i].rendertype || null
                               }
                             )
                           }}

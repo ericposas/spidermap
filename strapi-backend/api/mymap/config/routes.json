@@ -23,8 +23,8 @@
     },
     {
       "method": "GET",
-      "path": "/mymaps/:id",
-      "handler": "Mymap.findOne",
+      "path": "/mymaps/:mapname",
+      "handler": "Mymap.findByMapName",
       "config": {
         "policies": []
       }

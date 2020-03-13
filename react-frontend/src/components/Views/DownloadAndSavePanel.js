@@ -65,6 +65,8 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const listviewRendering = useSelector(state => state.listviewRendering)
 
+  const listview_currentlyEditing = useSelector(state => state.listview_currentlyEditing)
+
   const pointmap_labelPositions = useSelector(state => state.pointmap_labelPositions)
 
   const pointmap_labelDisplayTypes = useSelector(state => state.pointmap_labelDisplayTypes)
@@ -271,25 +273,26 @@ const DownloadImagePanel = ({ ...props }) => {
     return 0
   }
 
-  const saveListingPointmap = (global = false) => {
+  const savePointmap = (global = false) => {
     const postNewPointmap = (endpoint, arr) => {
-      axios.post(endpoint,
-        {
-          belongsto: getUser().user._id,
-          type: type,
-          name: mapName,
-          labels: JSON.stringify({ positions: pointmap_labelPositions, displayTypes: pointmap_labelDisplayTypes }),
-          locations: JSON.stringify(arr)
-        },
-        {
-          headers: { 'Authorization': `Bearer ${getUser().jwt}` }
-        })
-        .then(response => {
-           setSavingMapToDB(false)
-           setShowSavedMapToDB_Notification(true)
-           setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
-         })
-         .catch(err => console.log(err))
+      axios
+        .post(endpoint,
+          {
+            belongsto: getUser().user._id,
+            type: type,
+            name: mapName,
+            labels: JSON.stringify({ positions: pointmap_labelPositions, displayTypes: pointmap_labelDisplayTypes }),
+            locations: JSON.stringify(arr)
+          },
+          {
+            headers: { 'Authorization': `Bearer ${getUser().jwt}` }
+          })
+          .then(response => {
+            setSavingMapToDB(false)
+            setShowSavedMapToDB_Notification(true)
+            setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
+          })
+          .catch(err => console.log(err))
     }
     if (selectedDestinationsPointmap) {
       let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
@@ -297,8 +300,10 @@ const DownloadImagePanel = ({ ...props }) => {
         return [idx].concat(selectedDestinationsPointmap[idx].map(_idx => _idx.code))
       })
       setSavingMapToDB(true)
-      axios
-        .put(endpoint+pointmap_currentlyEditing.id,
+      if (pointmap_currentlyEditing) {
+        dispatch({ type: SET_MAP_NAME, payload: mapName })
+        axios
+        .put(endpoint + pointmap_currentlyEditing.id,
           {
             belongsto: getUser().user._id,
             type: type,
@@ -317,10 +322,69 @@ const DownloadImagePanel = ({ ...props }) => {
           .catch(err => {
             postNewPointmap(endpoint, arr)
           })
+      }
     }
   }
 
-  const saveListing = (global = false) => {
+  const saveListview = (global = false) => {
+    const postNewListview = (endpoint, arr) => {
+      axios.post(endpoint, {
+          belongsto: getUser().user._id,
+          type: type,
+          name: mapName,
+          labels: null,
+          locations: JSON.stringify(arr),
+          distlimit: null,
+          angleadjust: null,
+          rendertype: null
+        },
+          { headers: { 'Authorization': `Bearer ${getUser().jwt}` }
+        })
+           .then(response => {
+             setSavingMapToDB(false)
+             setShowSavedMapToDB_Notification(true)
+             setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
+           })
+           .catch(err => console.log(err))
+    }
+    if (selectedOriginListView) {
+      let arr = []
+      let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
+      arr.push(selectedOriginListView.code)
+      selectedDestinationsListView.forEach(dest => arr.push(dest.code))
+      setSavingMapToDB(true)
+      if (listview_currentlyEditing) {
+        dispatch({ type: SET_MAP_NAME, payload: mapName })
+        axios.put(endpoint + listview_currentlyEditing.id,
+          {
+            belongsto: getUser().user._id,
+            type: type,
+            name: mapName,
+            labels: null,
+            locations: JSON.stringify(arr),
+            distlimit: null,
+            angleadjust: null,
+            rendertype: null
+          },
+          { headers: { 'Authorization': `Bearer ${getUser().jwt}` }
+        })
+        .then(response => {
+          setSavingMapToDB(false)
+          setShowSavedMapToDB_Notification(true)
+          setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
+        })
+        .catch(err => {
+          // if error updating, try to post a new entry
+          console.log(err)
+          postNewListview(endpoint, arr)
+        })
+      } else {
+        postNewListview(endpoint, arr)
+      }
+    }
+  }
+
+  const saveSpidermap = (global = false) => {
     const postNewMap = (endpoint, arr) => {
       axios.post(endpoint, {
           belongsto: getUser().user._id,
@@ -341,15 +405,16 @@ const DownloadImagePanel = ({ ...props }) => {
            })
            .catch(err => console.log(err))
     }
-    if (selectedOriginSpidermap || selectedOriginListView) {
+    if (selectedOriginSpidermap) {
       let arr = []
       let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
-      type == 'listview' ? arr.push(selectedOriginListView.code) : arr.push(selectedOriginSpidermap.code)
-      type == 'listview' ? selectedDestinationsListView.forEach(dest => arr.push(dest.code)) : selectedDestinationsSpidermap.forEach(dest => arr.push(dest.code))
+      arr.push(selectedOriginSpidermap.code)
+      selectedDestinationsSpidermap.forEach(dest => arr.push(dest.code))
       // arr.sort(alphaSort)
       setSavingMapToDB(true)
       if (spidermap_currentlyEditing) {
-        axios.put(endpoint+spidermap_currentlyEditing.id,
+        dispatch({ type: SET_MAP_NAME, payload: mapName })
+        axios.put(endpoint + spidermap_currentlyEditing.id,
           {
             belongsto: getUser().user._id,
             type: type,
@@ -439,25 +504,42 @@ const DownloadImagePanel = ({ ...props }) => {
   }, [])
 
   useEffect(() => {
-    if (spidermap_currentlyEditing) {
-      // setMapName(spidermap_currentlyEditing.name)
-      dispatch({
-        type: SET_MAP_NAME,
-        payload: spidermap_currentlyEditing.name
-      })
+    let global = getUser().user.isadmin == true ? true : false
+    let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
+
+    if (spidermap_currentlyEditing && type == 'spidermap') {
+      // dispatch({ type: SET_MAP_NAME, payload: spidermap_currentlyEditing.name })
+      axios.get(endpoint, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+        .then(data => {
+          let map = data.data.find(datum => (
+            datum._id == spidermap_currentlyEditing.id
+          ))
+          dispatch({ type: SET_MAP_NAME, payload: map.name ? map.name : '' })
+        })
+        .catch(err => console.log(err))
     } else
-    if (pointmap_currentlyEditing) {
-      // setMapName(pointmap_currentlyEditing.name)
-      dispatch({
-        type: SET_MAP_NAME,
-        payload: pointmap_currentlyEditing.name
-      })
+    if (pointmap_currentlyEditing && type == 'pointmap') {
+      // dispatch({ type: SET_MAP_NAME, payload: pointmap_currentlyEditing.name })
+      axios.get(endpoint, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+        .then(data => {
+          let map = data.data.find(datum => (
+            datum._id == pointmap_currentlyEditing.id
+          ))
+          dispatch({ type: SET_MAP_NAME, payload: map.name ? map.name : '' })
+        })
+        .catch(err => console.log(err))
+    } else
+    if (listview_currentlyEditing && type == 'listview') {
+      axios.get(endpoint, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
+        .then(data => {
+          let map = data.data.find(datum => (
+            datum._id == listview_currentlyEditing.id
+          ))
+          dispatch({ type: SET_MAP_NAME, payload: map.name ? map.name : '' })
+        })
+        .catch(err => console.log(err))
     } else {
-      // setMapName('')
-      dispatch({
-        type: SET_MAP_NAME,
-        payload: ''
-      })
+      dispatch({ type: SET_MAP_NAME, payload: '' })
     }
   }, [])
 
@@ -619,7 +701,15 @@ const DownloadImagePanel = ({ ...props }) => {
             <button
               className='button-generic'
               style={{ backgroundColor: '#006CC4' }}
-              onClick={type == 'listview' || type == 'spidermap' ? saveListing : saveListingPointmap}>
+              onClick={
+                type == 'listview'
+                ? () => saveListview()
+                :
+                  type == 'spidermap'
+                  ? () => saveSpidermap()
+                  : () => savePointmap()
+              }
+              >
               <span>Save Map</span>
             </button>
             <br/>
@@ -628,12 +718,16 @@ const DownloadImagePanel = ({ ...props }) => {
               ?
               (<button
                 className='button-generic'
+                style={{ backgroundColor: '#004b84' }}
                 onClick={
-                  type == 'listview' || type == 'spidermap'
-                  ? () => saveListing(true)
-                  : () => saveListingPointmap(true)
+                  type == 'listview'
+                  ? () => saveListview(true)
+                  :
+                    type == 'spidermap'
+                    ? () => saveSpidermap(true)
+                    : () => savePointmap(true)
                 }
-                style={{ backgroundColor: '#004b84' }}>
+                >
                 <span>Save Global</span>
               </button>)
               : null

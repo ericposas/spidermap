@@ -14,6 +14,7 @@
     "axios": "^0.19.0",
     "csv-parse": "^4.6.5",
     "csv-reader": "^1.0.3",
+    "mongoose": "^5.9.4",
     "read-blob": "^1.1.0",
     "strapi": "3.0.0-beta.17.3",
     "strapi-admin": "3.0.0-beta.17.3",
