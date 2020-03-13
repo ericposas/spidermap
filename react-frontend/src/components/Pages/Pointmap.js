@@ -71,7 +71,7 @@ const Pointmap = ({ ...props }) => {
 
   const handleGenerateMapClick = () => {
     if (Object.keys(selectedDestinationsPointmap).length > 0) {
-      dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
+      // dispatch({ type: LAST_LOCATION, payload: 'pointmap' })
       props.history.push('/generate-pointmap')
     }
   }

@@ -66,7 +66,7 @@ const Spidermap = ({ ...props }) => {
 
   const handleGenerateMapClick = () => {
     if (selectedDestinationsSpidermap.length > 0) {
-      dispatch({ type: LAST_LOCATION, payload: 'spidermap' })
+      // dispatch({ type: LAST_LOCATION, payload: 'spidermap' })
       dispatch({ type: HIDE_SELECT_BY_CODE_DESTINATIONS_SPIDERMAP })
       dispatch({ type: HIDE_SELECT_BY_CATEGORY_OR_CODE_PANEL_DESTINATIONS_SPIDERMAP })
       props.history.push('/generate-spidermap')

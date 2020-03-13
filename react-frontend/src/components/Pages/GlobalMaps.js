@@ -230,7 +230,7 @@ const GlobalMaps = ({ ...props }) => {
     })
   }
 
-  const setLabelsAndPositionsPointmap = (data) => {
+  const setLabelsAndPositionsPointmap = (data, otherData) => {
     batch(() => {
       dispatch({ type: SET_ALL_LABEL_POSITIONS_POINTMAP, payload: data.positions })
       dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP, payload: data.displayTypes })
@@ -317,10 +317,10 @@ const GlobalMaps = ({ ...props }) => {
                       <div style={{ position: 'relative' }}>
                         <div
                           onClick={() => {
-                            createMap(globalMaps[i].type, JSON.parse(globalMaps[i].locations))
+                            createMap(globalMaps[i].type, globalMaps[i].locations ? JSON.parse(globalMaps[i].locations) : [])
                             setLabels(
                               globalMaps[i].type,
-                              JSON.parse(globalMaps[i].labels),
+                              globalMaps[i].labels ? JSON.parse(globalMaps[i].labels) : null,
                               {
                                 id: globalMaps[i]._id,
                                 name: globalMaps[i].name || '',
@@ -336,7 +336,14 @@ const GlobalMaps = ({ ...props }) => {
                               textAlign: 'left',
                               padding: '8px 0 0 12px',
                             }}
-                            className='map-tile-type-title'>{ globalMaps[i].type.toUpperCase() }</div>
+                            className='map-tile-type-title'>
+                              { globalMaps[i].type.toUpperCase() }
+                              <div>
+                                {(globalMaps[i].name || 'map not labeled')}
+                                <br/>
+                                <br/>
+                              </div>
+                          </div>
                           <div
                             className='map-tile-data-container'
                             style={{
@@ -354,7 +361,7 @@ const GlobalMaps = ({ ...props }) => {
                               }}>
                                 Origin: <br/>
                                 <div style={{ fontSize: '1.35rem' }}>
-                                  { JSON.parse(globalMaps[i].locations)[0] }
+                                  { globalMaps[i].locations ? JSON.parse(globalMaps[i].locations)[0] : null }
                                 </div>
                               </div>
                             : null
@@ -368,6 +375,8 @@ const GlobalMaps = ({ ...props }) => {
                                   display: 'inline-block',
                                 }}> Destinations:<br/>
                                   {
+                                    globalMaps[i].locations
+                                    ?
                                     JSON.parse(globalMaps[i].locations).map((item, _i) => {
                                       if (_i != 0) {
                                         return (
@@ -391,13 +400,16 @@ const GlobalMaps = ({ ...props }) => {
                                         )
                                       }
                                     })
+                                    : null
                                   }
                               </div>
                             :
+                                globalMaps[i].locations
+                                ?
                                 JSON.parse(globalMaps[i].locations).map((destArr, _i) => {
                                     return (
                                       <div
-                                        key={'pointmap-tile-'+destArr[_i]}
+                                        key={'pointmap-tile-'+destArr[_i]+_i}
                                         style={{
                                           textAlign: 'left',
                                         }}>
@@ -452,6 +464,7 @@ const GlobalMaps = ({ ...props }) => {
                                     </div>
                                   )
                                 })
+                                : null
                             }
                             </div>
                           </div>

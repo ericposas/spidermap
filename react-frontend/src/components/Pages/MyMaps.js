@@ -409,7 +409,7 @@ const MyMaps = ({ ...props }) => {
                                 JSON.parse(myMaps[i].locations).map((destArr, _i) => {
                                   return (
                                     <div
-                                      key={'pointmap-tile-'+destArr[_i]}
+                                      key={'pointmap-tile-'+destArr[_i]+_i}
                                       style={{
                                         textAlign: 'left',
                                       }}>

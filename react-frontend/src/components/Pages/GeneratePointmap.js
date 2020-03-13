@@ -323,6 +323,7 @@ const GeneratePointmap = ({ ...props }) => {
                             ? 0
                             : 1
                         }}
+                        fontFamily='AmericanSans'
                         fontSize={
                           destinations.length > 50
                           ? '.5rem'
@@ -470,6 +471,7 @@ const GeneratePointmap = ({ ...props }) => {
                               ? 0
                               : 1
                           }}
+                          fontFamily='AmericanSans'
                           fontSize={
                             destinations.length > 50
                             ? '.5rem'
@@ -555,7 +557,10 @@ const GeneratePointmap = ({ ...props }) => {
                     }
                     style={{
                       textAlign: 'center',
+                      fontSize: originLabelFontSize,
+                      fontWeight: 'bold'
                     }}
+                    fontFamily='AmericanSans'
                     fontSize={originLabelFontSize}>
                       {
                         labelDisplayTypes && labelDisplayTypes[ap.code]
@@ -682,8 +687,12 @@ const GeneratePointmap = ({ ...props }) => {
                         )
                       }
                       style={{
-                        textAlign: 'center', cursor: 'pointer',
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                        fontSize: originLabelFontSize,
+                        fontWeight: 'bold'
                       }}
+                      fontFamily='AmericanSans'
                       fontSize={originLabelFontSize}>
                         {
                           labelDisplayTypes && labelDisplayTypes[ap.code]

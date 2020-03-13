@@ -15,12 +15,14 @@ const BackButton = ({ ...props }) => {
     let path = props.history.location.pathname
     path = path.substr(1, path.length)
     dispatch({ type: CLEAR_SELECTED_MENU_ITEM })
-    if (path != `${lastLocation}`) {
-      dispatch({ type: LAST_LOCATION, payload: path })
-      props.history.push(`/${lastLocation}`)
-    }
+    // if (path != `${lastLocation}`) {
+      // dispatch({ type: LAST_LOCATION, payload: path })
+      // props.history.push(`/${lastLocation}`)
+      // props.history.goBack()
+    // }
+    props.history.goBack()
   }
-  
+
   return (
     <>
       <button className='button-plain button-back'

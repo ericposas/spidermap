@@ -91,6 +91,8 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const [buttonsContainerBottom, setButtonsContainerBottom] = useState(0)
 
+  const lastLocation = useSelector(state => state.lastLocation)
+
   const handleDownload = () => {
     switch (fileType) {
       case 'PDF':
@@ -385,6 +387,7 @@ const DownloadImagePanel = ({ ...props }) => {
   }
 
   const saveSpidermap = (global = false) => {
+    console.log(global)
     const postNewMap = (endpoint, arr) => {
       axios.post(endpoint, {
           belongsto: getUser().user._id,
@@ -447,7 +450,7 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const getButtonsContainerBottom = () => (
     downloadSaveButtonsContainerRef && downloadSaveButtonsContainerRef.current
-    ? (parseInt(getComputedStyle(downloadSaveButtonsContainerRef.current, null).getPropertyValue('height')) * (fileType && type != 'listview' && (fileType == 'PNG' || fileType == 'JPG') ? .75 : .95)) + 'px'
+    ? (parseInt(getComputedStyle(downloadSaveButtonsContainerRef.current, null).getPropertyValue('height')) * (fileType && type != 'listview' && (fileType == 'PNG' || fileType == 'JPG') ? .45 : .7)) + 'px'
     : 0
   )
 
@@ -504,9 +507,7 @@ const DownloadImagePanel = ({ ...props }) => {
   }, [])
 
   useEffect(() => {
-    let global = getUser().user.isadmin == true ? true : false
-    let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
-
+    let endpoint = lastLocation == 'global-maps' ? '/globalmaps/' : '/mymaps/'
     if (spidermap_currentlyEditing && type == 'spidermap') {
       // dispatch({ type: SET_MAP_NAME, payload: spidermap_currentlyEditing.name })
       axios.get(endpoint, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
@@ -514,7 +515,16 @@ const DownloadImagePanel = ({ ...props }) => {
           let map = data.data.find(datum => (
             datum._id == spidermap_currentlyEditing.id
           ))
-          dispatch({ type: SET_MAP_NAME, payload: map.name ? map.name : '' })
+          dispatch({
+            type: SET_MAP_NAME, payload: (
+              map && map.name
+              ? map.name
+              :
+                spidermap_currentlyEditing.name
+                ? spidermap_currentlyEditing.name
+                : ''
+            )
+          })
         })
         .catch(err => console.log(err))
     } else
@@ -525,7 +535,7 @@ const DownloadImagePanel = ({ ...props }) => {
           let map = data.data.find(datum => (
             datum._id == pointmap_currentlyEditing.id
           ))
-          dispatch({ type: SET_MAP_NAME, payload: map.name ? map.name : '' })
+          dispatch({ type: SET_MAP_NAME, payload: map && map.name ? map.name : '' })
         })
         .catch(err => console.log(err))
     } else
@@ -535,7 +545,7 @@ const DownloadImagePanel = ({ ...props }) => {
           let map = data.data.find(datum => (
             datum._id == listview_currentlyEditing.id
           ))
-          dispatch({ type: SET_MAP_NAME, payload: map.name ? map.name : '' })
+          dispatch({ type: SET_MAP_NAME, payload: map && map.name ? map.name : '' })
         })
         .catch(err => console.log(err))
     } else {
@@ -592,7 +602,24 @@ const DownloadImagePanel = ({ ...props }) => {
           <div
             className='my-map-option'
             onClick={() => {
-              dispatch({ type: LAST_LOCATION, payload: `generate-${type}` })
+              dispatch({
+                type: SET_MAP_NAME,
+                payload: (
+                  mapName
+                  ? mapName
+                  :
+                    spidermap_currentlyEditing && type == 'spidermap'
+                    ? spidermap_currentlyEditing.name
+                    :
+                      pointmap_currentlyEditing && type == 'pointmap'
+                      ? pointmap_currentlyEditing.name
+                      :
+                        listview_currentlyEditing && type == 'listview'
+                        ? listview_currentlyEditing.name
+                        : ''
+                )
+              })
+              // dispatch({ type: LAST_LOCATION, payload: `generate-${type}` })
               props.history.push(`/${type}`)
             }}>
             <>Edit This {type != 'listview' ? 'Map' : 'List' }</>
@@ -600,7 +627,7 @@ const DownloadImagePanel = ({ ...props }) => {
           <div
             className='my-map-option'
             onClick={() => {
-              dispatch({ type: LAST_LOCATION, payload: `generate-${type}` })
+              // dispatch({ type: LAST_LOCATION, payload: `generate-${type}` })
               props.history.push(`/my-maps`)
             }}>
             To My Saved Maps
@@ -608,7 +635,7 @@ const DownloadImagePanel = ({ ...props }) => {
           <div
             className='my-map-option'
             onClick={() => {
-              dispatch({ type: LAST_LOCATION, payload: `generate-${type}` })
+              // dispatch({ type: LAST_LOCATION, payload: `generate-${type}` })
               props.history.push(`/global-maps`)
             }}>
             To Global Maps
