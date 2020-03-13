@@ -47,6 +47,8 @@ import spidermap_renderType from './spidermap/spidermap_renderType'
 import spidermap_currentlyEditing from './spidermap/spidermap_currentlyEditing'
 import pointmap_labelDisplayTypes from './pointmap/pointmap_labelDisplayTypes'
 import pointmap_labelPositions from './pointmap/pointmap_labelPositions'
+import pointmap_currentlyEditing from './pointmap/pointmap_currentlyEditing'
+import editingMapName from './editingMapName'
 
 const rootReducer = combineReducers({
   windowSize,
@@ -65,12 +67,14 @@ const rootReducer = combineReducers({
   pointmap_selectBy_DestinationsVisibility, pointmap_selectBy_OriginsVisibility,
   pointmap_destinationPanelVisibility,
   pointmap_labelPositions, pointmap_labelDisplayTypes,
+  pointmap_currentlyEditing,
   selectedOriginSpidermap,
   selectedDestinationsSpidermap, spidermap_selectByCodeDestinations,
   spidermap_selectByCategoryDestinations, spidermap_selectBy_DestinationsVisibility,
   spidermap_destinationPanelVisibility,
   spidermap_labelPositions, spidermap_labelDisplayTypes,
   spidermap_renderType, spidermap_angleAdjustment, spidermap_distLimit, spidermap_currentlyEditing,
+  editingMapName,
   selectedMenuItem,
   listviewRendering, listviewPrinting,
   downloadPDFStatus,

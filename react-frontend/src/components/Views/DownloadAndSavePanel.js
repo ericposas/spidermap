@@ -20,6 +20,7 @@ import {
   HIDE_MAP_BG,
   EXPORT_RESOLUTION,
   SELECTED_FILE_TYPE,
+  SET_MAP_NAME
 } from '../../constants/constants'
 import { checkAuth, getUser } from '../../sessionStore'
 import DropdownGraphicStyle from '../Dropdowns/DropdownGraphicStyle'
@@ -39,7 +40,8 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const [resolutionPixels, setResolutionPixels] = useState()
 
-  const [mapName, setMapName] = useState('Not labeled')
+  // const [mapName, setMapName] = useState('Not labeled')
+  const mapName = useSelector(state => state.editingMapName)
 
   const exportFileType = useSelector(state => state.exportFileType)
 
@@ -66,6 +68,8 @@ const DownloadImagePanel = ({ ...props }) => {
   const pointmap_labelPositions = useSelector(state => state.pointmap_labelPositions)
 
   const pointmap_labelDisplayTypes = useSelector(state => state.pointmap_labelDisplayTypes)
+
+  const pointmap_currentlyEditing = useSelector(state => state.pointmap_currentlyEditing)
 
   const spidermap_labelPositions = useSelector(state => state.spidermap_labelPositions)
 
@@ -230,8 +234,6 @@ const DownloadImagePanel = ({ ...props }) => {
 
   const downloadListviewImage = (ext) => {
     batch(() => {
-      // if (ext == 'png') dispatch({ type: HIDE_MAP_BG })
-      // else dispatch({ type: DISPLAY_MAP_BG })
       dispatch({ type: LISTVIEW_RENDERING })
       dispatch({ type: SAVING_FILE })
     })
@@ -270,19 +272,51 @@ const DownloadImagePanel = ({ ...props }) => {
   }
 
   const saveListingPointmap = (global = false) => {
+    const postNewPointmap = (endpoint, arr) => {
+      axios.post(endpoint,
+        {
+          belongsto: getUser().user._id,
+          type: type,
+          name: mapName,
+          labels: JSON.stringify({ positions: pointmap_labelPositions, displayTypes: pointmap_labelDisplayTypes }),
+          locations: JSON.stringify(arr)
+        },
+        {
+          headers: { 'Authorization': `Bearer ${getUser().jwt}` }
+        })
+        .then(response => {
+           setSavingMapToDB(false)
+           setShowSavedMapToDB_Notification(true)
+           setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
+         })
+         .catch(err => console.log(err))
+    }
     if (selectedDestinationsPointmap) {
       let endpoint = global == true ? '/globalmaps/' : '/mymaps/'
       let arr = Object.keys(selectedDestinationsPointmap).map(idx => {
-        return [idx].concat(selectedDestinationsPointmap[idx].map(_idx => _idx.code)).sort(alphaSort)
+        return [idx].concat(selectedDestinationsPointmap[idx].map(_idx => _idx.code))
       })
       setSavingMapToDB(true)
-      axios.post(endpoint, { belongsto: getUser().user._id, type: type, labels: JSON.stringify({ positions: pointmap_labelPositions, displayTypes: pointmap_labelDisplayTypes }), locations: JSON.stringify(arr) }, { headers: { 'Authorization': `Bearer ${getUser().jwt}` } })
-           .then(response => {
-             setSavingMapToDB(false)
-             setShowSavedMapToDB_Notification(true)
-             setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
-           })
-           .catch(err => console.log(err))
+      axios
+        .put(endpoint+pointmap_currentlyEditing.id,
+          {
+            belongsto: getUser().user._id,
+            type: type,
+            name: mapName,
+            labels: JSON.stringify({ positions: pointmap_labelPositions, displayTypes: pointmap_labelDisplayTypes }),
+            locations: JSON.stringify(arr)
+          },
+          {
+            headers: { 'Authorization': `Bearer ${getUser().jwt}` }
+          })
+          .then(response => {
+            setSavingMapToDB(false)
+            setShowSavedMapToDB_Notification(true)
+            setTimeout(() => setShowSavedMapToDB_Notification(false), 500)
+          })
+          .catch(err => {
+            postNewPointmap(endpoint, arr)
+          })
     }
   }
 
@@ -406,8 +440,24 @@ const DownloadImagePanel = ({ ...props }) => {
 
   useEffect(() => {
     if (spidermap_currentlyEditing) {
-      // console.log(spidermap_currentlyEditing)
-      setMapName(spidermap_currentlyEditing.name)
+      // setMapName(spidermap_currentlyEditing.name)
+      dispatch({
+        type: SET_MAP_NAME,
+        payload: spidermap_currentlyEditing.name
+      })
+    } else
+    if (pointmap_currentlyEditing) {
+      // setMapName(pointmap_currentlyEditing.name)
+      dispatch({
+        type: SET_MAP_NAME,
+        payload: pointmap_currentlyEditing.name
+      })
+    } else {
+      // setMapName('')
+      dispatch({
+        type: SET_MAP_NAME,
+        payload: ''
+      })
     }
   }, [])
 
@@ -562,7 +612,7 @@ const DownloadImagePanel = ({ ...props }) => {
               placeholder='enter a map label'
               type='text'
               value={mapName}
-              onChange={e => setMapName(e.target.value)}
+              onChange={ e => dispatch({ type: SET_MAP_NAME, payload: e.target.value }) }
               />
             <br/>
             <br/>

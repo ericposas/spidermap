@@ -27,6 +27,7 @@ import {
   SET_ORIGIN_LOCATIONS_POINTMAP,
   SET_ALL_LABEL_POSITIONS_POINTMAP,
   SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP,
+  SET_POINTMAP_CURRENTLY_EDITING
 } from '../../constants/pointmap'
 import {
   SET_ALL_CODES,
@@ -207,7 +208,7 @@ const MyMaps = ({ ...props }) => {
         setLabelsAndPositionsSpidermap(data, otherData)
         break;
       case 'pointmap':
-        setLabelsAndPositionsPointmap(data)
+        setLabelsAndPositionsPointmap(data, otherData)
         break;
       default:
         setLabelsAndPositionsSpidermap(data, otherData)
@@ -225,10 +226,11 @@ const MyMaps = ({ ...props }) => {
     })
   }
 
-  const setLabelsAndPositionsPointmap = (data) => {
+  const setLabelsAndPositionsPointmap = (data, otherData) => {
     batch(() => {
       dispatch({ type: SET_ALL_LABEL_POSITIONS_POINTMAP, payload: data.positions })
       dispatch({ type: SET_ALL_LABEL_DISPLAY_TYPES_POINTMAP, payload: data.displayTypes })
+      dispatch({ type: SET_POINTMAP_CURRENTLY_EDITING, payload: { name: otherData.name, id: otherData.id } })
     })
   }
 
@@ -318,9 +320,9 @@ const MyMaps = ({ ...props }) => {
                                 {
                                   id: myMaps[i]._id,
                                   name: myMaps[i].name || '',
-                                  distlimit: myMaps[i].distlimit,
-                                  angleadjust: myMaps[i].angleadjust,
-                                  rendertype: myMaps[i].rendertype
+                                  distlimit: myMaps[i].distlimit || null,
+                                  angleadjust: myMaps[i].angleadjust || null,
+                                  rendertype: myMaps[i].rendertype || null
                                 }
                               )
                             }}
