@@ -1,6 +1,10 @@
 $grey: #999;
 $blue: #006CC4;
 
+html {
+  outline: none;
+}
+
 // hide pdf print out date and url title
 // @page { size: auto;  margin: 0mm; }
 @media print {
@@ -82,7 +86,34 @@ select {
 
 input {
   border: none;
+  outline: none;
   border-bottom: 1px solid #777;
+}
+
+*:focus,
+*::selection,
+input:focus,
+select:focus,
+input::selection,
+select::selection {
+  outline: none;
+  user-select: none;
+}
+
+button,
+button::selection,
+button:focus {
+  outline: none;
+}
+
+div,
+div::selection,
+div:focus {
+  outline: none;
+}
+
+.add-edit-button {
+  user-select: none;
 }
 
 .filter {
