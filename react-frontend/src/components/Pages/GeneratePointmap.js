@@ -217,6 +217,7 @@ const GeneratePointmap = ({ ...props }) => {
         className='col-med pdf-content'
         style={{
           height:'100vh',
+          position: 'relative',
           backgroundColor: '#fff',
           transform: downloadingPDF ? `scale(${550/innerHeight})` : '',
         }}>

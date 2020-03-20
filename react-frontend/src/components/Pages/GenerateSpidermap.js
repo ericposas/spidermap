@@ -20,6 +20,7 @@ import mapSettings from '../../mapSettings.config'
 import { CSSTransition } from 'react-transition-group'
 import intersect from 'path-intersection'
 import axios from 'axios'
+import arrow from '../../images/down-arrow.png'
 
 const GenerateSpidermap = ({ ...props }) => {
 
@@ -94,6 +95,8 @@ const GenerateSpidermap = ({ ...props }) => {
 
   const leftPanelsRef = useRef()
 
+  const ringTypeToggleMenuRef = useRef()
+
   const changeAllLabelPositions = e => {
     let val = e.target.value
     let obj = {}
@@ -139,6 +142,10 @@ const GenerateSpidermap = ({ ...props }) => {
       setTimeout(() => dispatch({ type: RERENDER_HACK, payload: false }), 200)
     }
   }, [])
+
+  // useEffect(() => {
+  //
+  // }, [])
 
   const calcCenter = () => {
     return {
@@ -390,23 +397,54 @@ const GenerateSpidermap = ({ ...props }) => {
         className='col-med pdf-content'
         style={{
           height:'100vh',
+          position: 'relative',
           backgroundColor: '#fff',
         }}>
         <div
-          style={{ position: 'absolute', border: '1px solid #ccc', }}
+          ref={ringTypeToggleMenuRef}
+          style={{
+            marginLeft: '10px',
+            position: 'absolute',
+            cursor: 'pointer'
+          }}
           >
           <div
-            style={{
-              cursor: 'pointer',
-              fontSize: '10px',
-              padding: '0 4px 0 4px',
-            }}
             onClick={() => {
               if (renderType == 'single-ring') dispatch({ type: SET_SPIDERMAP_RENDERTYPE, payload: 'double-ring' })
               else dispatch({ type: SET_SPIDERMAP_RENDERTYPE, payload: 'single-ring' })
             }}
             >
-            Toggle render type: {renderType}
+            <div
+              style={{
+                cursor: 'pointer',
+                fontSize: '1rem',
+                padding: '4px 4px 0 4px',
+                display: 'inline-block'
+              }}
+              >
+              Ring type: {
+                renderType == 'single-ring'
+                ? 'Single'
+                :
+                renderType == 'double-ring'
+                ? 'Double'
+                : 'Default'
+              }
+            </div>
+            <img
+              src={arrow}
+              style={{
+                width: '14px',
+                display: 'inline-block',
+                transform: (
+                  renderType != 'double-ring'
+                  ? 'rotate(180deg)'
+                  : 'rotate(0deg)'
+                ),
+                marginTop: '-3px',
+                marginLeft: '6px'
+              }}
+              />
           </div>
           {
             renderType == 'double-ring'
@@ -417,7 +455,14 @@ const GenerateSpidermap = ({ ...props }) => {
                   style={{ fontSize: '10px', padding: '0 4px 0 4px' }}>
                     Set distance threshhold for inner-ring:
                 </div>
-                <input type='text' value={distLimit} onChange={e => dispatch({ type: SET_SPIDERMAP_DISTLIMIT, payload: e.target.value })}/>
+                <input
+                  type='text'
+                  style={{
+                    backgroundColor: 'rgba(0,0,0,0)'
+                  }}
+                  value={distLimit}
+                  onChange={e => dispatch({ type: SET_SPIDERMAP_DISTLIMIT, payload: e.target.value })}
+                  />
               </div>
             : null
           }
@@ -425,11 +470,12 @@ const GenerateSpidermap = ({ ...props }) => {
             renderType == 'double-ring'
             ? <div>
                 <div
-                  style={{ fontSize: '10px', padding: '0 4px 0 4px' }}>
+                  style={{ fontSize: '12px', padding: '0 4px 0 4px' }}>
                     Adjust angle of outer ring
                 </div>
               <div>
               <div
+                className='spidermap-ring-adjust-minus'
                 style={{
                   display: 'inline-block',
                   userSelect: 'none',
@@ -437,26 +483,38 @@ const GenerateSpidermap = ({ ...props }) => {
                   border: '1px solid #ccc',
                   textAlign: 'center',
                   width: '25px',
-                }}
-                onClick={() => dispatch({ type: SET_SPIDERMAP_ANGLEADJUST, payload: (angleAdjustment + 1) }) }
-                >+</div>
-              <div
-                style={{
-                  display: 'inline-block',
-                  userSelect: 'none',
-                  cursor: 'pointer',
-                  border: '1px solid #ccc',
-                  textAlign: 'center',
-                  width: '25px',
+                  borderRadius: '20px'
                 }}
                 onClick={() => dispatch({ type: SET_SPIDERMAP_ANGLEADJUST, payload: (angleAdjustment - 1) })}
                 >-</div>
+              <div
+                className='spidermap-ring-adjust-plus'
+                style={{
+                  display: 'inline-block',
+                  userSelect: 'none',
+                  cursor: 'pointer',
+                  border: '1px solid #ccc',
+                  textAlign: 'center',
+                  width: '25px',
+                  borderRadius: '20px',
+                  leftMargin: '10px'
+                }}
+                onClick={() => dispatch({ type: SET_SPIDERMAP_ANGLEADJUST, payload: (angleAdjustment + 1) }) }
+                >+</div>
             </div>
           </div>
           : null
         }
         </div>
         <ChangeAllLabelsMenu
+          leftMargin={
+            renderType == 'single-ring'
+            ? '150px'
+            :
+              renderType == 'double-ring'
+              ? '175px'
+              : '155px'
+          }
           showChangeAllLabelsMenu={showChangeAllLabelsMenu}
           setShowChangeAllLabelsMenu={setShowChangeAllLabelsMenu}
           changeAllLabelPositions={changeAllLabelPositions}

@@ -1,43 +1,86 @@
 import React, { useState } from 'react'
 import DropdownGraphicStyle from '../Dropdowns/DropdownGraphicStyle'
+import arrow from '../../images/down-arrow.png'
 
 const ChangeAllLabelsMenu = ({ ...props }) => {
-
+  let labelText = 'Change all labels'
+  const divRef = React.useRef()
   return (
-    <div style={{
-        position: 'absolute', right: 0,
-        border: props.showChangeAllLabelsMenu ? '1px solid #999' : 'none', backgroundColor: '#fff',
+    <div
+      ref={divRef}
+      style={{
+        position: 'absolute',
+        left: props.leftMargin ? props.leftMargin : 0,
+        // left: (
+        //   props.leftMargin && divRef && divRef.current
+        //   ? getComputedStyle(divRef.current).getPropertyValue('width')
+        //   : 0
+        // ),
+        // border: props.showChangeAllLabelsMenu ? '1px solid #999' : 'none', backgroundColor: '#fff',
         borderRadius: '2px', padding: '4px 10px 0 10px'
       }}>
       {
         props.showChangeAllLabelsMenu
         ?
           <div
-            onClick={() => props.setShowChangeAllLabelsMenu(false)}
             style={{
-              textDecoration: 'underline', cursor: 'pointer',
-              backgroundColor: '#fff', fontSize: '.6rem',
-              float: 'right'
+              cursor: 'pointer',
+              // textDecoration: 'underline',
+              backgroundColor: '#fff',
+              fontSize: '1rem',
+              // float: 'right'
             }}>
-            <div>collapse menu</div>
+            <div
+              onClick={() => props.setShowChangeAllLabelsMenu(false)}
+              >
+              <div
+                style={{ display: 'inline-block' }}
+                >
+                {labelText}
+              </div>
+              <img
+                src={arrow}
+                style={{
+                  display: 'inline-block', width: '14px',
+                  transform: 'rotate(180deg)', marginTop: '-3px',
+                  marginLeft: '8px'
+                }}
+                />
+            </div>
           </div>
         :
           <div
-            onClick={() => props.setShowChangeAllLabelsMenu(true)}
             style={{
-              textDecoration: 'underline', cursor: 'pointer',
-              backgroundColor: '#fff', fontSize: '.6rem',
+              // textDecoration: 'underline',
+              backgroundColor: 'rgba(0,0,0,0)',
+              cursor: 'pointer',
+              fontSize: '1rem',
             }}>
-            <div>change all labels</div>
+            <div
+              onClick={() => props.setShowChangeAllLabelsMenu(true)}
+              >
+              <div
+                style={{ display: 'inline-block' }}
+                >
+                {labelText}
+              </div>
+              <img
+                src={arrow}
+                style={{
+                  display: 'inline-block', width: '14px',
+                  marginTop: '-3px', marginLeft: '8px'
+                }}
+                />
+            </div>
           </div>
       }
-      <div style={{ display: 'inline-block', position: 'relative' }}>
+      <div style={{ position: 'relative' }}>
         {
           props.showChangeAllLabelsMenu
           ?
           <>
-            <div style={{ color: '#555', fontWeight: 'lighter' }}>Change all labels</div>
-            <div style={{ display: 'inline-block', marginRight: '20px' }}>
+            {/*<div style={{ color: '#555', fontWeight: 'lighter' }}>Change all labels</div>*/}
+            <div style={{ display: 'inline-block' }}>
               <DropdownGraphicStyle>Position</DropdownGraphicStyle>
               <select
                 style={{
@@ -51,7 +94,7 @@ const ChangeAllLabelsMenu = ({ ...props }) => {
                 <option value='left'>Left</option>
               </select>
             </div>
-            <div style={{ display: 'inline-block' }}>
+            <div style={{ display: 'inline-block', paddingLeft: '14px' }}>
               <DropdownGraphicStyle>Display</DropdownGraphicStyle>
               <select
                 style={{

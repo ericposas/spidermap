@@ -112,6 +112,11 @@ div:focus {
   outline: none;
 }
 
+.spidermap-ring-adjust-minus:hover,
+.spidermap-ring-adjust-plus:hover {
+  transform: scale(1.05);
+}
+
 .add-edit-button {
   user-select: none;
 }
