@@ -18,3 +18,4 @@
 
 #### CI/CD workflow:
   - in progress / learning
+  - git push looks to restart strapi app successfully!
