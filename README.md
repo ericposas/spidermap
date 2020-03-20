@@ -17,6 +17,4 @@
   - Pending / TBD
 
 #### CI/CD workflow:
-  - in progress / learning
-  - git push looks to restart strapi app successfully!
-  - try to pull in ./restart-spidermap script..
+  - now pulls latest git master and restarts pm2 process
