@@ -23,12 +23,12 @@ jobs:
     - uses: actions/checkout@v2
 
     # Runs a single command using the runners shell
-    - name: ls -a via ssh
+    - name: ssh restart app
       uses: fifsky/ssh-action@master
-        with:
-          command: |
-            cd /tmp
-            ls -a
+      with:
+        command: |
+          cd ~/spidermap/strapi-backend
+          ./restart-spidermap
         host: ${{ secrets.SPIDERMAP_HOST_IP }}
         user: ubuntu
         key: ${{ secrets.s5d_default_us_east_2_pem }}
