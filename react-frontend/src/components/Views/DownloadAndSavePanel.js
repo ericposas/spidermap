@@ -649,40 +649,46 @@ const DownloadImagePanel = ({ ...props }) => {
           <div
             ref={downloadSaveButtonsContainerRef}
             style={{
-              margin: 'auto',
+              // margin: '0 0 0 20px',
               position: 'absolute',
-              backgroundColor: '#fff',
-              border: windowSize && windowSize.innerHeight > 600 ? 'none' : '1px solid #ccc',
+              backgroundColor: windowSize.innerHeight > 600 ? 'rgba(0,0,0,0)' : '#fff',
+              borderRadius: windowSize && windowSize.innerHeight > 600 ? 0 : '3px',
+              // border: windowSize && windowSize.innerHeight > 600 ? 'none' : '1px solid #ccc',
               padding: windowSize && windowSize.innerHeight > 600 ? 0 : '20px',
               left: windowSize && windowSize.innerHeight > 600 ? 0 : 'auto',
               right: 0,
-              // right: windowSize && windowSize.innerHeight > 600 ? 0 : -windowSize.innerWidth,
-              width: '150px',
+              width: '200px',
               bottom: windowSize && windowSize.innerHeight > 600 ? buttonsContainerBottom : 0,
             }}>
-            <div>Select file type:</div>
-            <DropdownGraphicStyle overrideStyle={{}}>{fileType}</DropdownGraphicStyle>
-            <select
-              style={{ opacity: '0.001' }}
-              onClick={() => {
-                setButtonsContainerBottom(getButtonsContainerBottom())
-                if (document.getElementById('map-content')) {
-                  setResolutionPixels(parseInt(getComputedStyle(document.getElementById('map-content')).getPropertyValue('width')))
-                }
+            <div
+              style={{
+                backgroundColor: '#fff',
+                marginLeft: windowSize.innerHeight > 600 ? '45px' : 0
               }}
-              onChange={e => {
-                setFileType(e.target.value)
-                dispatch({ type: SELECTED_FILE_TYPE, payload: e.target.value })
-                setButtonsContainerBottom(getButtonsContainerBottom())
-              }}>
-              { type != 'listview' ? <option value='SVG'>SVG</option> : null }
-              <option value='PNG'>PNG</option>
-              <option value='JPG'>JPG</option>
-              { type == 'listview' ? <option value='PDF'>PDF</option> : null }
-            </select>
-            {
-              (fileType == 'PNG' || fileType == 'JPG') && type != 'listview'
-              ?
+              >
+              <div>Select file type:</div>
+              <DropdownGraphicStyle overrideStyle={{}}>{fileType}</DropdownGraphicStyle>
+              <select
+                style={{ opacity: '0.001' }}
+                onClick={() => {
+                  setButtonsContainerBottom(getButtonsContainerBottom())
+                  if (document.getElementById('map-content')) {
+                    setResolutionPixels(parseInt(getComputedStyle(document.getElementById('map-content')).getPropertyValue('width')))
+                  }
+                }}
+                onChange={e => {
+                  setFileType(e.target.value)
+                  dispatch({ type: SELECTED_FILE_TYPE, payload: e.target.value })
+                  setButtonsContainerBottom(getButtonsContainerBottom())
+                }}>
+                { type != 'listview' ? <option value='SVG'>SVG</option> : null }
+                <option value='PNG'>PNG</option>
+                <option value='JPG'>JPG</option>
+                { type == 'listview' ? <option value='PDF'>PDF</option> : null }
+              </select>
+              {
+                (fileType == 'PNG' || fileType == 'JPG') && type != 'listview'
+                ?
                 (<>
                   <div>Select resolution:</div>
                   <DropdownGraphicStyle overrideStyle={{}}>{resolution}x - {resolutionPixels*resolution}px</DropdownGraphicStyle>
@@ -704,61 +710,62 @@ const DownloadImagePanel = ({ ...props }) => {
                     <option value='2'>2x &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
                     <option value='3'>3x &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
                   </select>
-                </>)
-              : null
-            }
-            <br/>
-            <br/>
-            <button
-              className='download-button button-generic'
-              style={{ backgroundColor: 'red' }}
-              onClick={handleDownload}>
-              Download {fileType}
-            </button>
-            <br/>
-            <br/>
-            <input
-              placeholder='enter a map label'
-              type='text'
-              value={mapName}
-              onChange={ e => dispatch({ type: SET_MAP_NAME, payload: e.target.value }) }
-              />
-            <br/>
-            <br/>
-            <button
-              className='button-generic'
-              style={{ backgroundColor: '#006CC4' }}
-              onClick={
-                type == 'listview'
-                ? () => saveListview()
-                :
-                  type == 'spidermap'
-                  ? () => saveSpidermap()
-                  : () => savePointmap()
-              }
-              >
-              <span>Save Map</span>
-            </button>
-            <br/>
-            {
-              getUser().user.isadmin == true
-              ?
-              (<button
-                className='button-generic'
-                style={{ backgroundColor: '#004b84' }}
-                onClick={
-                  type == 'listview'
-                  ? () => saveListview(true)
-                  :
-                    type == 'spidermap'
-                    ? () => saveSpidermap(true)
-                    : () => savePointmap(true)
+                  </>)
+                  : null
                 }
-                >
-                <span>Save Global</span>
-              </button>)
-              : null
-            }
+                <br/>
+                <br/>
+                <button
+                  className='download-button button-generic'
+                  style={{ backgroundColor: 'red' }}
+                  onClick={handleDownload}>
+                  Download {fileType}
+                </button>
+                <br/>
+                <br/>
+                <input
+                  placeholder='enter a map label'
+                  type='text'
+                  value={mapName}
+                  onChange={ e => dispatch({ type: SET_MAP_NAME, payload: e.target.value }) }
+                  />
+                <br/>
+                <br/>
+                <button
+                  className='button-generic'
+                  style={{ backgroundColor: '#006CC4' }}
+                  onClick={
+                    type == 'listview'
+                    ? () => saveListview()
+                    :
+                    type == 'spidermap'
+                    ? () => saveSpidermap()
+                    : () => savePointmap()
+                  }
+                  >
+                  <span>Save Map</span>
+                </button>
+                <br/>
+                {
+                  getUser().user.isadmin == true
+                  ?
+                  (<button
+                    className='button-generic'
+                    style={{ backgroundColor: '#004b84' }}
+                    onClick={
+                      type == 'listview'
+                      ? () => saveListview(true)
+                      :
+                      type == 'spidermap'
+                      ? () => saveSpidermap(true)
+                      : () => savePointmap(true)
+                    }
+                    >
+                    <span>Save Global</span>
+                  </button>)
+                  : null
+                }
+            </div>
           </div>
         </div>
       </div>
