@@ -15,3 +15,6 @@
 
 #### Scaling:
   - Pending / TBD
+
+#### CI/CD workflow:
+  - in progress / learning
